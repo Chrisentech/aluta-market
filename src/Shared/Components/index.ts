@@ -1,4 +1,3 @@
-import Loader from "./Loader/Loader"
+import Loader from "./Loader/Loader";
 
-
-export {Loader}
+export { Loader };

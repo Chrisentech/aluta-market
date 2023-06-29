@@ -1,4 +1,3 @@
-
 import styled, { keyframes } from "styled-components";
 
 // Keyframes for loader animation
@@ -14,8 +13,8 @@ const bounceAnimation = keyframes`
 // Styled Component for Loader Container
 export const LoaderContainer = styled.span`
   display: inline-block;
-  z-index:10000;
-  position:relative
+  z-index: 10000;
+  position: relative;
 `;
 
 // Styled Component for Loader Ball
@@ -35,5 +34,4 @@ export const LoaderBall = styled.span`
   &:nth-child(3) {
     animation-delay: 250ms;
   }
-`
-
+`;
