@@ -36,9 +36,6 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   return <Component />;
 };
 
-const Hello: React.FC = () => {
-  return <div>HI</div>;
-};
 
 const LoginPage: React.FC = () => {
   return <div>Login</div>;
