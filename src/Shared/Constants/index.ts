@@ -17,3 +17,5 @@ export const ROUTE = {
   REMOVEPRODUCT: "/product/remove",
   EDITPRODUCT: "/product/edit",
 };
+
+export const IMAGE={}

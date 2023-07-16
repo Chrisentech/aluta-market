@@ -1,7 +1,7 @@
 import { APIRequestType } from "./Interfaces";
-import useApi from "./Shared/Hooks/useApi";
+import API from "./Shared/Hooks/useApi";
 
-const API = <T>(
+const createAPI = <T>(
   url: string,
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH",
   data?: T
@@ -12,7 +12,16 @@ const API = <T>(
     data,
   };
 
-  return useApi<T>(options);
+  const api: any = API<T>(options);
+  api
+    .then((resp: any) => {
+      return resp;
+    })
+    .catch((err: any) => {
+      return err;
+    });
+
+  // return api;
 };
 
-export default API;
+export default createAPI;

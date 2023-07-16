@@ -11,7 +11,7 @@ const useApi = <T,>(options: APIRequestType): APIResponseType<T> => {
   const [interceptor, setInterceptor]:any = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const axiosInstance = async () => {
       setIsLoading(true);
 
       try {
@@ -41,7 +41,6 @@ const useApi = <T,>(options: APIRequestType): APIResponseType<T> => {
         } else if (method === "DELETE") {
           response = await axios.delete<T>(url);
         }
-
         setData(response.data);
       } catch (error) {
         setError(error);
@@ -50,7 +49,7 @@ const useApi = <T,>(options: APIRequestType): APIResponseType<T> => {
       }
     };
 
-    fetchData();
+    axiosInstance();
 
     // Clean up the interceptor when the component unmounts
     return () => {

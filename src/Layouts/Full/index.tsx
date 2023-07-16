@@ -1,12 +1,17 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { Wrapper } from "./full.style";
 import { Loader } from "../../Shared/Components";
 
-const Screen: React.FC = (props: any) => {
+interface IScreenProps{
+  loading:boolean,
+  children:ReactNode
+}
+
+const Screen: React.FC<IScreenProps> = ({loading,children}) => {
   
-  return <Wrapper loading={props.loading}>
-   {props.loading && <Loader/>}
-    {props.children}
+  return <Wrapper loading={loading}>
+   {loading && <Loader/>}
+    {children}
     </Wrapper>;
 };
 
