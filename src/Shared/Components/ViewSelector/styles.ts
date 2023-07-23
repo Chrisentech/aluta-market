@@ -125,7 +125,10 @@ export const WishCard = styled.div`
   position: absolute;
   right: 20px;
 `;
-export const GridWrapper = styled.div<{ gap: string; itemPerGrid: number }>`
+export const GridWrapper = styled.div<{
+  gap: string | undefined;
+  itemPerGrid: number;
+}>`
   width: 100%;
   padding: 20px;
   margin: auto;

@@ -7,10 +7,9 @@ interface IScreenProps {
   children: ReactNode;
 }
 
-const Screen: React.FC<IScreenProps> = ({ loading, children }) => {
+const Screen: React.FC<IScreenProps> = ({ children }) => {
   return (
     <Wrapper>
-      {loading && <Loader />}
       {children}
     </Wrapper>
   );

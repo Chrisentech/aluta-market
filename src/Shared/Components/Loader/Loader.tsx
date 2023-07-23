@@ -1,12 +1,15 @@
-import { LoaderBall, LoaderContainer } from "./loader.style";
+import { LoaderBall,Flex, LoaderContainer } from "./loader.style";
 
 const Loader = () => {
   return (
-    <LoaderContainer>
-      <LoaderBall />
-      <LoaderBall />
-      <LoaderBall />
-    </LoaderContainer>
+    <Flex>
+      <LoaderContainer>
+        <LoaderBall />
+        <LoaderBall />
+        <LoaderBall />
+      </LoaderContainer>
+      <p>Loading...</p>
+    </Flex>
   );
 };
 

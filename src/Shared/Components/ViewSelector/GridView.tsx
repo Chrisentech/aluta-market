@@ -13,12 +13,15 @@ import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import usePagination from "../../Hooks/usePagination.tsx";
 import { phone } from "../../../assets/index.tsx";
 
-const GridView: React.FC<{ gap: string; type: string }> = ({ gap, type }) => {
-  const [addToWishList, setAddToWishList] = useState(false);
+const GridView: React.FC<{ gap?: string; type?: string }> = ({ gap, type }) => {
+  const [addToWishList, _] = useState(false);
   const { currentPage, goToPage, nextPage, prevPage } = usePagination(3);
+  if (type==="productGrid"){
+    return <></>
+  }
   return (
     <>
-      <GridWrapper gap={gap} itemPerGrid={3}>
+      <GridWrapper gap={gap} itemPerGrid={3} >
         {Array(6)
           .fill("*")
           .map((_, index) => {

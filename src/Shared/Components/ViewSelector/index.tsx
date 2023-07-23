@@ -8,8 +8,8 @@ import GridView from "./GridView.tsx";
 // }
 interface IVeiw {
   mode: string;
-  type?: string;
-  gap?: string;
+  type?: string | undefined;
+  gap?: string | undefined;
 }
 const View: React.FC<IVeiw> = ({ mode, type, gap }) => {
   return (

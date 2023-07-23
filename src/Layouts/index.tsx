@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import useLayoutHook from "../Shared/Hooks/useLayout";
-import { Navbar } from "../Shared/Components";
+import { Loader, Navbar } from "../Shared/Components";
 
 type ILayout = "blank" | "full" | "dashboard";
 
@@ -37,6 +37,9 @@ const Layout: React.FC<LayoutProps> = ({
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  if(state){
+    return <Loader/>
+  }
   return (
     <Fragment>
       <Navbar scrolled={scrolled} isMobile={isMobile} />

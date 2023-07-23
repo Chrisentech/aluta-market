@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { AppColors } from "../../Shared/Constants";
 
-export const Wrapper = styled.div<{ loading: boolean }>`
+export const Wrapper = styled.div`
   background: #f7fafc;
   display: flex;
   position: relative;

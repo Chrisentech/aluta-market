@@ -12,11 +12,29 @@ const bounceAnimation = keyframes`
 
 // Styled Component for Loader Container
 export const LoaderContainer = styled.span`
-  display: inline-block;
-  z-index: 10000;
-  position: relative;
+  // display: flex;
+  // justify-content: center;
+  // z-index: 1000000;
+  // position: relative;
+  // background: red;height:100%;
+  // width: 100%;
+  // align-items: center;
 `;
 
+export const Flex = styled.div`
+  display: flex;
+  flex-direction: column;
+  z-index: 1000000;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: #1a17185c;
+  justify-content: center;
+  align-items: center;
+  p {
+    color: #fff;
+  }
+`;
 // Styled Component for Loader Ball
 export const LoaderBall = styled.span`
   display: inline-block;

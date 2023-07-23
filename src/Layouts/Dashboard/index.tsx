@@ -9,13 +9,11 @@ import {PiGridFourFill} from "react-icons/pi"
 import {FaUser} from "react-icons/fa"
 import {MdLock} from "react-icons/md"
 interface IScreenProps {
-  loading: boolean;
   children: ReactNode;
 }
-const Screen: React.FC<IScreenProps> = ({ loading, children }) => {
+const Screen: React.FC<IScreenProps> = ({ children }) => {
   return (
-    <Wrapper loading={loading}>
-      {loading && <Loader />}
+    <Wrapper>
       <Sidebar>
         <SidebarMenu>
           <SidebarMenuLinks active={true}>

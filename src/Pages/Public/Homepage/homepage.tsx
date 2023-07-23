@@ -17,18 +17,19 @@ const Screen: React.FC = () => {
   // if (error) {
   //   return <div>Error: {error}</div>;
   // }
+  console.log(data,error)
 
   return (
     <Home>
-      <div style={{ width: 900, margin: "30px auto" }}>
-        <View mode="grid" />
+      <div style={{ width: 1200, margin: "30px auto" }}>
+        <View mode="list" />
       </div>
     </Home>
   );
 };
 
 const HomePage = () => {
-  const { loading } = useSelector((store: any) => store.products);
+  // const { loading } = useSelector((store: any) => store.products);
   return <Layout layout={"full"} component={Screen} state={false} />;
 };
 

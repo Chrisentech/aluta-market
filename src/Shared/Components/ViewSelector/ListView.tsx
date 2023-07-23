@@ -17,7 +17,7 @@ import { truncateText } from "../../Utils/helperFunctions.ts";
 import { phone } from "../../../assets/index.tsx";
 import usePagination from "../../Hooks/usePagination.tsx";
 
-const ListView: React.FC<{ gap: string; type: string }> = ({ gap, type }) => {
+const ListView: React.FC<{ gap?: string; type?: string }> = ({ gap, type }) => {
     const [addToWishList,setAddToWishList] = useState(false)
     const { currentPage, goToPage, nextPage, prevPage } =
       usePagination(3);
