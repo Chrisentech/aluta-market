@@ -8,14 +8,12 @@ interface LayoutProps {
   layout: ILayout;
   component: React.ComponentType<any>;
   state: boolean;
-  mode?: string;
 }
 
 const Layout: React.FC<LayoutProps> = ({
   layout,
   component: Component,
   state,
-  mode,
 }) => {
   const Screen = useLayoutHook(layout, state,<Component />);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
