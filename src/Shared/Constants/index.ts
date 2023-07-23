@@ -18,4 +18,25 @@ export const ROUTE = {
   EDITPRODUCT: "/product/edit",
 };
 
-export const IMAGE={}
+export const BreakPoints = {
+  xs: "max-width:576px", //For phones
+  small: "min-width:576px", 
+  medium: "min-width:768px",
+  large: "min-width:992px",
+  xl: "min-width:1200px",
+  xxl: "min-width:1400px",
+};
+
+export const AppColors = {
+  brandColor: "",
+  brandBackgroundColor: "",
+  brandGray: "#bdc4cd",
+  brandOrange: "#ff001f",
+  brandPink: "rgba(250, 52, 52, 0.1)",
+  brandYellow: "#ff9017",
+};
+
+export const AppDetails = {
+  title:"Aluta Market",
+  tokenExpiryTime:"5min",
+}

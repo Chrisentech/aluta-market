@@ -1,12 +1,19 @@
-import React from "react"
+import React, { ReactNode } from "react"
 import { Wrapper } from "./blank.style"
+import { Loader } from "../../Shared/Components";
 
-const Screen:React.FC = (props:any)=>{
-return (
-    <Wrapper>
-        {props.children}
-    </Wrapper>
-)
+interface IScreenProps {
+  loading: boolean;
+  children: ReactNode;
 }
+
+const Screen: React.FC<IScreenProps> = ({ loading, children }) => {
+  return (
+    <Wrapper>
+      {loading && <Loader />}
+      {children}
+    </Wrapper>
+  );
+};
 
 export default Screen

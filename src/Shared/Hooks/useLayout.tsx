@@ -11,11 +11,11 @@ const useLayoutHook = (layout: string, state:boolean, Component?: React.ReactNod
   useEffect(() => {
     // Define your logic to determine the screen based on layout
     if (layout === "blank") {
-      setScreen(<BlankScreen />);
+      setScreen(<BlankScreen loading={state}>{Component}</BlankScreen>);
     } else if (layout === "full") {
       setScreen(<FullScreen loading={state}>{Component}</FullScreen>);
     } else {
-      setScreen(<DashboardScreen />);
+      setScreen(<DashboardScreen loading={state}>{Component}</DashboardScreen>);
     }
   }, [layout,state]);
 

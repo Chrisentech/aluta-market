@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { Wrapper } from "./full.style";
-import { Loader } from "../../Shared/Components";
+import { Loader,Footer } from "../../Shared/Components";
 
 interface IScreenProps{
   loading:boolean,
@@ -12,6 +12,7 @@ const Screen: React.FC<IScreenProps> = ({loading,children}) => {
   return <Wrapper loading={loading}>
    {loading && <Loader/>}
     {children}
+    <Footer/>
     </Wrapper>;
 };
 

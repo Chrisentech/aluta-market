@@ -1,12 +1,17 @@
 import { createGlobalStyle } from "styled-components";
+import { AppColors } from "./Constants";
 
 const GlobalStyle = createGlobalStyle`
   /* Global CSS styles */
+  *{margin: 0;
+    padding: 0;
+    // box-sizing:border-box
+  }
   body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    background:#0000001A;
+    background:#fff;
     color:#002;
   }
 
@@ -15,7 +20,11 @@ const GlobalStyle = createGlobalStyle`
     color:inherit
   }
   li,ol{
-    list-style:unset
+    list-style:none !important
+  }
+  button:disabled{
+    background:${AppColors.brandGray};
+    cursor:not-allowed
   }
 `;
 

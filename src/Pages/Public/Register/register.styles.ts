@@ -1,0 +1,262 @@
+import { Field } from "formik";
+import styled from "styled-components";
+import { AppColors, BreakPoints } from "../../../Shared/Constants";
+
+export const Container = styled.div`
+  width: 100%;
+  height: calc(100vh - 95px);
+  display: flex;
+  position: absolute;
+  top: 80px;
+`;
+
+export const RightPanel = styled.div`
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+ 
+`;
+export const FirstScreen = styled.div<{ userType: string }>`
+  transition: 0.9s ease;
+  position: absolute;
+  top: 130px;
+  transform: ${(props:any) =>
+    props.userType !== "seller" ? "translateY(0vh)" : "translateY(-220vh)"};
+  //   display: ${(props:any) => (props.userType !== "seller" ? "block" : "none")};
+`;
+export const SecondScreen = styled.div<{ userType: string }>`
+  position: absolute;
+  top: 130px;
+  transition: 0.9s ease;
+  // display: ${(props:any) => (props.userType !== "seller" ? "none" : "block")};
+  transform: ${(props:any) =>
+    props.userType !== "seller" ? "translateY(-220vh)" : "translateY(0vh)"};
+`;
+export const LeftPanel = styled.div`
+  width: 50%;
+  //   background:red;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .back {
+    top: -83px;
+    left: -100px;
+    position: absolute;
+    font-size: 32px;
+    color: ${AppColors.brandGray};
+    cursor: pointer;
+  }
+  .option {
+    align-items: center;
+    display: flex;
+    gap: 20px;
+    p {
+      color: var(--gray-500, #8b96a5);
+      text-align: center;
+      font-family: Inter;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 24px; /* 200% */
+      letter-spacing: -0.24px;
+    }
+    .line {
+      width: 45%;
+      height: 2px;
+      background: #e0e5f2;
+    }
+  }
+  form {
+    width: 450px;
+    position: relative;
+    @media (${BreakPoints.xs}) {
+      width: 95%;
+    }
+    p,
+    a {
+      font-feature-settings: "clig" off, "liga" off;
+      font-family: Inter;
+      font-size: 14px;
+      font-style: normal;
+      color: #505050;
+      font-weight: 700;
+      line-height: normal;
+      text-align: center;
+    }
+    a {
+      color: #ff001f;
+    }
+    .googleSignin {
+      background-color: #007bff;
+      padding: 8px !important;
+      border: none;
+      cursor: pointer;
+      box-shadow: none !important;
+      width: 100%;
+      margin: 20px 0;
+      border-radius: 6px !important;
+      background: ${AppColors.brandPink} !important;
+      justify-content: center;
+      div {
+        background: transparent !important;
+      }
+      span {
+        color: #505050 !important;
+        font-family: Inter;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500 !important;
+        text-align: center;
+        line-height: 20px; /* 142.857% */
+        letter-spacing: -0.28px;
+      }
+    }
+  }
+`;
+export const Heading = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  h2 {
+    color: ${AppColors.brandOrange};
+    text-align: center;
+    font-feature-settings: "clig" off, "liga" off;
+    /* Title-H2 */
+    font-family: Inter;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin: 0;
+    letter-spacing: -0.2px;
+  }
+  p {
+    color: var(--dark, #1c1c1c);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.2px;
+    margin: 0 0 10px 0;
+  }
+`;
+
+export const FormControl = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  svg {
+    position: absolute;
+    right: 20px;
+    top: 56px;
+    cursor: pointer;
+    transition: 0.5s ease;
+  }
+  .check {
+    margin: -10px 0;
+  }
+`;
+
+export const Label = styled.label`
+  color: #505050;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  span {
+    color: ${AppColors.brandOrange};
+  }
+`;
+
+export const Input = styled(Field)<{
+  error: boolean;
+  type: string;
+  readOnly?: boolean;
+}>`
+  width: ${(props:any) =>
+    props.type === "checkbox" ? "unset" : "calc(100% -  40px)"};
+  padding: 20px;
+  border-radius: 10px;
+  color: ${(props:any) => (props.readOnly ? `${AppColors.brandColor}` : "inherit")};
+  background: ${(props:any) => (props.readOnly ? "#bdc4cd" : "#f7fafc")};
+  border: ${(props:any) => (props.error ? "1px solid red" : "0")};
+  outline: 0;
+  margin: 5px 0px 20px 0;
+  cursor: ${(props:any) => (props.readOnly ? `not-allowed` : "inherit")};
+`;
+export const Select = styled.select<{ error: boolean; type: string }>`
+  width: ${(props:any) => (props.type === "checkbox" ? "unset" : "100%")};
+  padding: 20px;
+  cursor: pointer;
+  border-radius: 10px;
+  background: #f7fafc;
+  border: ${(props:any) => (props.error ? "1px solid red" : "0")};
+  outline: 0;
+  margin: 5px 0px 10px 0;
+  position: relative;
+  display: inline-block;
+  &::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100px; /* Adjust this value as needed */
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid black; /* Adjust the color as needed */
+  pointer-events: none;
+  margin-top: -2.5px; /* Half of the border-top width to center the arrow */
+`;
+
+export const ErrorMessageWrapper = styled.div`
+  color: red;
+  margin-bottom: 8px;
+`;
+
+export const SubmitButton = styled.button`
+  background-color: #007bff;
+  color: #fff;
+  padding: 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin: 10px 0;
+  border-radius: 10px;
+  background: var(
+    --primary-gradient,
+    linear-gradient(180deg, #ff7612 0%, #ff001f 100%)
+  );
+  color: var(--white, #fff);
+  text-align: center;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+`;
+
+export const Trademark = styled.p`
+  color: ${AppColors.brandGray};
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px; /* 171.429% */
+  letter-spacing: -0.28px;
+  // position:absolute;
+  // bottom:0px
+`;

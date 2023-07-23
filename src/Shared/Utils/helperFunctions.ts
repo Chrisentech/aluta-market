@@ -1,3 +1,4 @@
+import * as JWT from "jsonwebtoken"
 export function debounce(func: Function, delay: number) {
   let timeoutId: number;
 
@@ -142,3 +143,13 @@ export function create_UUID(): string {
 }
 
 
+// export const isTokenExpired = (token:string) => {
+//   try {
+//     const decodedToken = JWT(token);
+//     const currentTime = Date.now() / 1000; // Convert to seconds
+//     return decodedToken.exp < currentTime;
+//   } catch (error) {
+//     // Handle decoding errors (e.g., invalid token format)
+//     return true;
+//   }
+// };

@@ -1,17 +1,19 @@
 import React from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { ROUTE } from "../Shared/Constants";
-import HomePage from "../Pages/Public/Homepage/homepage";
+import { Homepage, Loginpage ,Registerpage} from "../Pages/Public";
+import { DashboardPage } from "../Pages/Private";
 
 const Router: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={ROUTE.HOME} element={<HomePage/>} />
-        <Route path={ROUTE.LOGIN} element={<LoginPage />} />
+        <Route path={ROUTE.HOME} element={<Homepage />} />
+        <Route path={ROUTE.LOGIN} element={<Loginpage />} />
+        <Route path={ROUTE.REGISTER} element={<Registerpage />} />
         <Route
           path={ROUTE.BUYER_DASHBOARD}
-          element={<PrivateRoute component={Dashboard} authRoute  />}
+          element={<PrivateRoute component={DashboardPage} authRoute />}
         />
       </Routes>
     </BrowserRouter>
@@ -34,15 +36,6 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   }
 
   return <Component />;
-};
-
-
-const LoginPage: React.FC = () => {
-  return <div>Login</div>;
-};
-
-const Dashboard: React.FC = () => {
-  return <div>Hello Dashboard</div>;
 };
 
 export default Router;
