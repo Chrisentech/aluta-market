@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react"
 import { Wrapper } from "./blank.style"
-import { Loader } from "../../Shared/Components";
+// import { Loader } from "../../Shared/Components";
 
 interface IScreenProps {
   loading: boolean;

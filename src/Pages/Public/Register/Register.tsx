@@ -11,7 +11,7 @@ import {
   Heading,
   FirstScreen,
   SecondScreen,
-  Trademark,
+  // Trademark,
 } from "./register.styles";
 import React, { useState } from "react";
 import Layout from "../../../Layouts";

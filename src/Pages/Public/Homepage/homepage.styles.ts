@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { AppColors } from "../../../Shared/Constants";
+// import { AppColors } from "../../../Shared/Constants";
 
 export const Home = styled.section`
   min-height: 50vh;

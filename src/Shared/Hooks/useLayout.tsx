@@ -6,7 +6,6 @@ import DashboardScreen from "../../Layouts/Dashboard";
 const useLayoutHook = (
   layout: string,
   state: boolean,
-  mode?: string | undefined,
   Component?: React.ReactNode
 ) => {
   const [screen, setScreen] = useState<React.ReactNode | null>(null);
@@ -18,7 +17,7 @@ const useLayoutHook = (
     } else if (layout === "full") {
       setScreen(<FullScreen>{Component}</FullScreen>);
     } else {
-      setScreen(<DashboardScreen mode={mode}>{Component}</DashboardScreen>);
+      setScreen(<DashboardScreen>{Component}</DashboardScreen>);
     }
   }, [layout, state]);
 

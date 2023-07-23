@@ -14,9 +14,8 @@ import { FaUser } from "react-icons/fa";
 import { MdLock } from "react-icons/md";
 interface IScreenProps {
   children: ReactNode;
-  mode: string | undefined;
 }
-const Screen: React.FC<IScreenProps> = ({ children, mode }) => {
+const Screen: React.FC<IScreenProps> = ({ children }) => {
   return (
     <Wrapper>
       <Sidebar>
