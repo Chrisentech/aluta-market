@@ -17,7 +17,7 @@ const Layout: React.FC<LayoutProps> = ({
   state,
   mode,
 }) => {
-  const Screen = useLayoutHook(layout, state, mode, <Component />);
+  const Screen = useLayoutHook(layout, state,<Component />);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [scrolled, setScrolled] = useState(false);
 
@@ -44,7 +44,7 @@ const Layout: React.FC<LayoutProps> = ({
   }
   return (
     <Fragment>
-      <Navbar scrolled={scrolled} isMobile={isMobile} mode={mode} />
+      <Navbar scrolled={scrolled} isMobile={isMobile} />
       {Screen}
     </Fragment>
   );
