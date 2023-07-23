@@ -1,17 +1,22 @@
 import React, { ReactNode } from "react";
-import {NavLink} from "react-router-dom"
-import { Wrapper, Sidebar, SidebarMenu, SidebarMenuLinks } from "./dashboard.style";
-import {Loader} from "../../Shared/Components"
-import {BiSolidHome} from "react-icons/bi"
-import {BsCart3} from  "react-icons/bs"
-import {FiBarChart2} from "react-icons/fi"
-import {PiGridFourFill} from "react-icons/pi"
-import {FaUser} from "react-icons/fa"
-import {MdLock} from "react-icons/md"
+import { NavLink } from "react-router-dom";
+import {
+  Wrapper,
+  Sidebar,
+  SidebarMenu,
+  SidebarMenuLinks,
+} from "./dashboard.style";
+import { BiSolidHome } from "react-icons/bi";
+import { BsCart3 } from "react-icons/bs";
+import { FiBarChart2 } from "react-icons/fi";
+import { PiGridFourFill } from "react-icons/pi";
+import { FaUser } from "react-icons/fa";
+import { MdLock } from "react-icons/md";
 interface IScreenProps {
   children: ReactNode;
+  mode: string | undefined;
 }
-const Screen: React.FC<IScreenProps> = ({ children }) => {
+const Screen: React.FC<IScreenProps> = ({ children, mode }) => {
   return (
     <Wrapper>
       <Sidebar>

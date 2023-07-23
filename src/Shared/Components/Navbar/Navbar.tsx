@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Wrapper,
   Menu,
@@ -72,9 +72,12 @@ const MobileNavbar: React.FC<{ scrolled: boolean }> = ({ scrolled }) => {
 };
 
 // Desktop Navbar Component
-const DesktopNavbar: React.FC<{ scrolled: boolean }> = ({ scrolled }) => {
+const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
+  scrolled,
+  mode,
+}) => {
   return (
-    <Container scrolled={scrolled}>
+    <Container scrolled={scrolled} mode={mode}>
       <Wrapper>
         {/* Logo */}
         <NavLink className="logo" to={ROUTE.HOME}>
@@ -115,11 +118,15 @@ const DesktopNavbar: React.FC<{ scrolled: boolean }> = ({ scrolled }) => {
 };
 
 // Main Navbar Component
-const Navbar: React.FC<{ isMobile :boolean,scrolled:boolean}> = ({ scrolled, isMobile }) => {
+const Navbar: React.FC<{
+  isMobile: boolean;
+  scrolled: boolean;
+  mode?: string;
+}> = ({ scrolled, isMobile, mode }) => {
   if (isMobile) {
     return <MobileNavbar scrolled={scrolled} />;
   }
-  return <DesktopNavbar scrolled={scrolled} />;
+  return <DesktopNavbar scrolled={scrolled} mode={mode} />;
 };
 
 export default Navbar;

@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
   background: #f7fafc;
   display: flex;
   position: relative;
-
+  min-height: 100vh;
   main {
     width: 90%;
     display: flex;
@@ -17,12 +17,13 @@ export const Wrapper = styled.div`
 `;
 
 export const Sidebar = styled.section`
-  postion: fixed;
+  position: fixed;
   height: calc(100vh - 160px);
   background: #fff;
   margin-top: 3px;
   width: 280px;
   padding-top: 60px;
+  // top:180px;
 `;
 export const SidebarMenu = styled.ul``;
 export const SidebarMenuLinks = styled.li<{ active?: boolean }>`

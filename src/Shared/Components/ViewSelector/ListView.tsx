@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import {
   ListWrapper,
   ProductCard,
@@ -11,21 +11,28 @@ import {
 } from "./styles.ts";
 import { Card, Pagination, Rating } from "../index.ts";
 import { PiDotOutlineFill } from "react-icons/pi";
-import { AiOutlineHeart,AiFillHeart } from "react-icons/ai";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { AppColors } from "../../Constants/index.ts";
 import { truncateText } from "../../Utils/helperFunctions.ts";
 import { phone } from "../../../assets/index.tsx";
 import usePagination from "../../Hooks/usePagination.tsx";
 
 const ListView: React.FC<{ gap?: string; type?: string }> = ({ gap, type }) => {
-    const [addToWishList,setAddToWishList] = useState(false)
-    const { currentPage, goToPage, nextPage, prevPage } =
-      usePagination(3);
+  const [wishList, setWishList] = useState<number[]>([]);
+  const { currentPage, goToPage, nextPage, prevPage } = usePagination(3);
+  const handleAddtoWishList = (id: number) => {
+    if (wishList.includes(id)) {
+      setWishList(wishList.filter((el) => el !== id));
+    } else {
+      setWishList([...wishList, id]);
+    }
+  };
+  console.log(type)
   return (
     <ListWrapper gap={gap}>
       {Array(6)
         .fill("*")
-        .map((_, index) => {
+        .map((_, index: number) => {
           return (
             <Card
               key={index}
@@ -36,10 +43,7 @@ const ListView: React.FC<{ gap?: string; type?: string }> = ({ gap, type }) => {
             >
               <ProductCard>
                 <ProductImage>
-                  <img
-                    src={phone}
-                    alt=""
-                  />
+                  <img src={phone} alt="" />
                 </ProductImage>
                 <ProductDetails>
                   <h1>Canon Camera EOS 2000, Black 10x zoom</h1>
@@ -66,10 +70,18 @@ const ListView: React.FC<{ gap?: string; type?: string }> = ({ gap, type }) => {
                   <ViewButton to="#">View Details</ViewButton>
                 </ProductDetails>
                 <WishCard>
-                  {addToWishList ? (
-                    <AiOutlineHeart color="#FA3434" size="26px" />
+                  {wishList.includes(index + 1) ? (
+                    <AiFillHeart
+                      color="#FA3434"
+                      size="26px"
+                      onClick={() => handleAddtoWishList(index + 1)}
+                    />
                   ) : (
-                    <AiFillHeart color="#FA3434" size="26px" />
+                    <AiOutlineHeart
+                      color="#FA3434"
+                      size="26px"
+                      onClick={() => handleAddtoWishList(index + 1)}
+                    />
                   )}
                 </WishCard>
               </ProductCard>

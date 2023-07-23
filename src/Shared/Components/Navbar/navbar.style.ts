@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { AppColors, BreakPoints } from "../../Constants";
 
-export const Container = styled.div<{ scrolled?: boolean }>`
+export const Container = styled.div<{ scrolled?: boolean; mode?: string }>`
   position: fixed;
   width: 100%;
   background-color: ${(props: any) =>
-    props.scrolled ? "#fff" : "transparent"};
+    props.scrolled || props.mode === "dashboard" ? "#fff" : "transparent"};
   box-shadow: ${(props: any) =>
     props.scrolled ? `0 2px 4px ${AppColors.brandGray}` : "none"};
   transition: background-color 0.3s, box-shadow 0.3s;

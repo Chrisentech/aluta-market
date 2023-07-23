@@ -3,9 +3,12 @@ import BlankScreen from "../../Layouts/Blank";
 import FullScreen from "../../Layouts/Full";
 import DashboardScreen from "../../Layouts/Dashboard";
 
-
-
-const useLayoutHook = (layout: string, state:boolean, Component?: React.ReactNode) => {
+const useLayoutHook = (
+  layout: string,
+  state: boolean,
+  mode?: string | undefined,
+  Component?: React.ReactNode
+) => {
   const [screen, setScreen] = useState<React.ReactNode | null>(null);
 
   useEffect(() => {
@@ -13,13 +16,13 @@ const useLayoutHook = (layout: string, state:boolean, Component?: React.ReactNod
     if (layout === "blank") {
       setScreen(<BlankScreen loading={state}>{Component}</BlankScreen>);
     } else if (layout === "full") {
-      setScreen(<FullScreen loading={state}>{Component}</FullScreen>);
+      setScreen(<FullScreen>{Component}</FullScreen>);
     } else {
-      setScreen(<DashboardScreen loading={state}>{Component}</DashboardScreen>);
+      setScreen(<DashboardScreen mode={mode}>{Component}</DashboardScreen>);
     }
-  }, [layout,state]);
+  }, [layout, state]);
 
-  return screen ;
+  return screen;
 };
 
 export default useLayoutHook;

@@ -8,14 +8,16 @@ interface LayoutProps {
   layout: ILayout;
   component: React.ComponentType<any>;
   state: boolean;
+  mode?: string;
 }
 
 const Layout: React.FC<LayoutProps> = ({
   layout,
   component: Component,
   state,
+  mode,
 }) => {
-  const Screen = useLayoutHook(layout, state, <Component />);
+  const Screen = useLayoutHook(layout, state, mode, <Component />);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [scrolled, setScrolled] = useState(false);
 
@@ -37,12 +39,12 @@ const Layout: React.FC<LayoutProps> = ({
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  if(state){
-    return <Loader/>
+  if (state) {
+    return <Loader />;
   }
   return (
     <Fragment>
-      <Navbar scrolled={scrolled} isMobile={isMobile} />
+      <Navbar scrolled={scrolled} isMobile={isMobile} mode={mode} />
       {Screen}
     </Fragment>
   );
