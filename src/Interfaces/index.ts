@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
 
-export interface APIRequestType<any> {
+export interface APIRequestType {
   url: string;
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
-  data?:any;
+  data?: any;
 }
 
 export interface APIResponseType<T> {
@@ -56,11 +56,11 @@ export interface TableRowProps {
 export interface IProductProps {
   name: string;
   price: number;
-  slug?:string;
+  slug?: string;
   discount: number;
   category: string;
   subcategory: string;
   description: string;
-  id?:string;
+  id?: string;
   option: [];
 }
