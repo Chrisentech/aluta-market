@@ -283,6 +283,7 @@ const CustomField: React.FC<{
   padding,
   offset,
   margin,
+  onChange,
 }) => {
   const [field, meta] = useField(name);
   const inputHasError = meta?.error?.length;
