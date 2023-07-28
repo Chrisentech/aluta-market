@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
 
-export interface APIRequestType<T> {
+export interface APIRequestType<any> {
   url: string;
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
-  data?: T | null;
+  data?:any;
 }
 
 export interface APIResponseType<T> {
