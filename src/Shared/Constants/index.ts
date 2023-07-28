@@ -11,6 +11,7 @@ export const ROUTE = {
   FORGOT: "/auth/forgot-password/",
   TWOFA: "/auth/two-fa/setup/",
   CHECKOUT: "/checkout/",
+  PRODUCTVIEW: "/product/view",
 
   //Seller Routes
   SELLER_NEWPRODUCT: "/seller/product/new",
@@ -18,7 +19,7 @@ export const ROUTE = {
   SELLER_DASHBOARD: "/seller/dashboard/",
   SELLER_PRODUCTS: "/seller/products/",
   SELLER_PAYMENT: "/seller/payment/",
-  SELLER_PAYMENT_REG:"/seller/payment/reg",
+  SELLER_PAYMENT_REG: "/seller/payment/reg",
   REMOVEPRODUCT: "/product/remove",
   EDITPRODUCT: "/product/edit",
 };

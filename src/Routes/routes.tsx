@@ -10,6 +10,7 @@ import {
   AddNewProducts,
   SellerPayment,
   PaymentRegScreen,
+  ProductView,
 } from "../Pages/Private";
 
 const Router: React.FC = () => {
@@ -45,7 +46,12 @@ const Router: React.FC = () => {
         />
 
         <Route
-          path={ROUTE.SELLER_PAYMENT_REG+"/:step"}
+          path={ROUTE.PRODUCTVIEW}
+          element={<PrivateRoute component={ProductView} authRoute />}
+        />
+
+        <Route
+          path={ROUTE.SELLER_PAYMENT_REG + "/:step"}
           element={<PrivateRoute component={PaymentRegScreen} authRoute />}
         />
       </Routes>
