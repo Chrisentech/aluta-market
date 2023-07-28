@@ -36,6 +36,7 @@ Card.defaultProps = {
   height: 100,
   borderRadius: 4,
   background: "white",
+  onHover:true,
 };
 
 export default Card;

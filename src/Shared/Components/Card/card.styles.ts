@@ -9,7 +9,7 @@ export const Container = styled.div<ICardInterface>`
   padding: ${({ padding }) => (padding ? padding : "20px")};
   transition: 0.6s ease;
   position: relative;
-  cursor: pointer;
+  cursor: pointer !important;
   box-shadow: ${({ hasBoxShadow }) =>
     hasBoxShadow ? " rgba(149, 157, 165, 0.2) 0px 8px 24px;" : ""};
   &:hover {

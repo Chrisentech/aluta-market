@@ -6,7 +6,7 @@ import GlobalStyle from "./Shared/Globalstyles";
 import { Games } from "./Shared/Games";
 
 const App: React.FC = () => {
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [isOnline, setIsOnline] = useState(true);
   useEffect(() => {
     const handleOnlineStatus = () => {
       setIsOnline(true);
@@ -28,7 +28,6 @@ const App: React.FC = () => {
     <>
       <GlobalStyle />
       {isOnline ? <Router /> : <Games />}
-     
     </>
   );
 };

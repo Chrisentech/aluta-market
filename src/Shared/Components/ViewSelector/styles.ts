@@ -13,29 +13,15 @@ export const ListWrapper = styled.div<{ gap?: string | undefined }>`
 export const ProductCard = styled.div<{ view?: string }>`
   gap: 40px;
   display: flex;
-  flex-direction: ${({ view }) => (view==="grid" ? "column" : "row")};
+  flex-direction: ${({ view }) => (view === "grid" ? "column" : "row")};
 `;
-export const ProductImage = styled.div<{ view?: string }>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
- 
-  height: 200px;
-  padding-bottom: ${({ view }) => (view === "grid" ? "30px" : "")};
-  border-bottom: ${({ view }) => (view === "grid" ? "1px solid #EFF2F4" : "")};
-  img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-  }
-`;
+
 
 export const ProductDetails = styled.div<{ view?: string }>`
   flex: 0.8;
   bacground: red;
   height: 60px;
- 
+
   h1 {
     color: ${({ view }) => (view === "grid" ? "#606060" : "#1c1c1c")};
     font-feature-settings: "clig" off, "liga" off;
@@ -127,13 +113,14 @@ export const WishCard = styled.div`
 `;
 export const GridWrapper = styled.div<{
   gap: string | undefined;
-  itemPerGrid: number;
+  itempergrid: number;
+  type?: string;
 }>`
   width: 100%;
-  padding: 20px;
+  padding: ${({ type }) => (type === "productGrid" ? "20px 0" : "20px")};
   margin: auto;
   display: grid;
   gap: ${({ gap }) => (gap ? gap : "10px")};
-  grid-template-columns: ${({ itemPerGrid }) =>
-    itemPerGrid ? `repeat(${itemPerGrid},1fr)` : "repeat(3,1fr)"};
+  grid-template-columns: ${({ itempergrid }) =>
+    itempergrid ? `repeat(${itempergrid},1fr)` : "repeat(3,1fr)"};
 `;

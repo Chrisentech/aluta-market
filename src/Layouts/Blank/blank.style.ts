@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-position:absolute;
+// position:absolute;
 top:80px
 `;

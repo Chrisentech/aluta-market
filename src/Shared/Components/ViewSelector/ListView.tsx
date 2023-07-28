@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import {
   ListWrapper,
   ProductCard,
-  ProductImage,
   ProductDetails,
   ProductDescr,
   ProductFlex,
   WishCard,
   ViewButton,
 } from "./styles.ts";
-import { Card, Pagination, Rating } from "../index.ts";
+import { Card, ImageCard, Pagination, Rating } from "../index.ts";
 import { PiDotOutlineFill } from "react-icons/pi";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { AppColors } from "../../Constants/index.ts";
@@ -17,7 +16,8 @@ import { truncateText } from "../../Utils/helperFunctions.ts";
 import { phone } from "../../../assets/index.tsx";
 import usePagination from "../../Hooks/usePagination.tsx";
 
-const ListView: React.FC<{ gap?: string; type?: string }> = ({ gap, type }) => {
+  
+const ListView: React.FC<{ gap?: string; type?: string,className?:string }> = ({ gap, type,className }) => {
   const [wishList, setWishList] = useState<number[]>([]);
   const { currentPage, goToPage, nextPage, prevPage } = usePagination(3);
   const handleAddtoWishList = (id: number) => {
@@ -27,9 +27,8 @@ const ListView: React.FC<{ gap?: string; type?: string }> = ({ gap, type }) => {
       setWishList([...wishList, id]);
     }
   };
-  console.log(type)
   return (
-    <ListWrapper gap={gap}>
+    <ListWrapper gap={gap} className={className}>
       {Array(6)
         .fill("*")
         .map((_, index: number) => {
@@ -40,11 +39,10 @@ const ListView: React.FC<{ gap?: string; type?: string }> = ({ gap, type }) => {
               hasBoxShadow={true}
               height="200px"
               onHover
+              className="card"
             >
               <ProductCard>
-                <ProductImage>
-                  <img src={phone} alt="" />
-                </ProductImage>
+                <ImageCard view="list" src={phone} />
                 <ProductDetails>
                   <h1>Canon Camera EOS 2000, Black 10x zoom</h1>
                   <div className="price">

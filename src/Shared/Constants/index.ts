@@ -13,14 +13,19 @@ export const ROUTE = {
   CHECKOUT: "/checkout/",
 
   //Seller Routes
-  ADDPRODUCT: "/product/add",
+  SELLER_NEWPRODUCT: "/seller/product/new",
+  SELLER_ADDPRODUCT: "/seller/product/add",
+  SELLER_DASHBOARD: "/seller/dashboard/",
+  SELLER_PRODUCTS: "/seller/products/",
+  SELLER_PAYMENT: "/seller/payment/",
+  SELLER_PAYMENT_REG:"/seller/payment/reg",
   REMOVEPRODUCT: "/product/remove",
   EDITPRODUCT: "/product/edit",
 };
 
 export const BreakPoints = {
   xs: "max-width:576px", //For phones
-  small: "min-width:576px", 
+  small: "min-width:576px",
   medium: "min-width:768px",
   large: "min-width:992px",
   xl: "min-width:1200px",
@@ -37,6 +42,6 @@ export const AppColors = {
 };
 
 export const AppDetails = {
-  title:"Aluta Market",
-  tokenExpiryTime:"5min",
-}
+  title: "Aluta Market",
+  tokenExpiryTime: "5min",
+};

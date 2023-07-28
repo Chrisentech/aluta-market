@@ -1,21 +1,27 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { ReactNode, Fragment, useEffect, useState } from "react";
 import useLayoutHook from "../Shared/Hooks/useLayout";
-import { Loader, Navbar } from "../Shared/Components";
+import { Loader, Navbar, Popup } from "../Shared/Components";
 
 type ILayout = "blank" | "full" | "dashboard";
 
-interface LayoutProps {
+interface LayoutProps<T> {
   layout: ILayout;
-  component: React.ComponentType<any>;
+  component: React.ComponentType<T>;
   state: boolean;
+  showModal?: boolean;
+  popUpContent?: ReactNode;
+  modalWidth?: string;
 }
 
-const Layout: React.FC<LayoutProps> = ({
+const Layout: React.FC<LayoutProps<any>> = ({
   layout,
   component: Component,
   state,
+  showModal,
+  modalWidth,
+  popUpContent,
 }) => {
-  const Screen = useLayoutHook(layout, state,<Component />);
+  const Screen = useLayoutHook(layout, state, <Component />);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [scrolled, setScrolled] = useState(false);
 
@@ -41,11 +47,21 @@ const Layout: React.FC<LayoutProps> = ({
     return <Loader />;
   }
   return (
-    <Fragment>
-      <Navbar scrolled={scrolled} isMobile={isMobile} />
-      {Screen}
-    </Fragment>
+    <>
+      <Popup show={showModal} width={modalWidth} className="popup">
+        {popUpContent}
+      </Popup>
+      <Fragment>
+        <Navbar scrolled={scrolled} isMobile={isMobile} />
+        {Screen}
+      </Fragment>
+    </>
   );
+};
+
+Layout.defaultProps = {
+  showModal: false,
+  modalWidth: "500px",
 };
 
 export default Layout;

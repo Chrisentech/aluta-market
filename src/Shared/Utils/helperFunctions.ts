@@ -106,13 +106,13 @@ export const calculateShippingCost = (
   return totalWeight * shippingRate;
 };
 
-// export const generateOrderNumber = (): string => {
-//   const timestamp = Date.now().toString();
-//   const randomDigits = Math.floor(Math.random() * 1000)
-//     .toString()
-//     .padStart(3, "0");
-//   return `Am${timestamp}${randomDigits}`;
-// };
+export const generateOrderNumber = (): string => {
+  const timestamp = Date.now().toString();
+  const randomDigits = Math.floor(Math.random() * 1000)
+    .toString()
+    .padStart(3, "0");
+  return `Am${timestamp}${randomDigits}`;
+};
 
 export const truncateText = (text: string, maxLength: number): string => {
   if (text.length <= maxLength) return text;
@@ -121,9 +121,9 @@ export const truncateText = (text: string, maxLength: number): string => {
 
 export function numberWithCommas(x: number | string): string {
   if (x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/d, ",");
   }
-  return ""
+  return "";
 }
 
 export function formatMessageTimestamp(timestamp: number): string {
@@ -141,7 +141,6 @@ export function create_UUID(): string {
   });
   return uuid;
 }
-
 
 // export const isTokenExpired = (token:string) => {
 //   try {

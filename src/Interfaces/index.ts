@@ -1,14 +1,14 @@
 import { ReactNode } from "react";
 
-export interface APIRequestType {
+export interface APIRequestType<T> {
   url: string;
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
-  data?: any;
+  data?: T | null;
 }
 
 export interface APIResponseType<T> {
   data: T | null;
-  error: any;
+  error: string | null;
   isLoading: boolean;
 }
 
@@ -37,7 +37,7 @@ export interface ICardInterface {
   hasBoxShadow?: boolean;
   background?: string;
   className?: string;
-  onHover:boolean;
+  onHover?: boolean;
   padding?: string | number;
   children: ReactNode;
 }
@@ -48,4 +48,19 @@ export interface PaginationProps {
   goToPage: (pageNumber: number) => void;
   nextPage: () => void;
   prevPage: () => void;
+}
+export interface TableRowProps {
+  isHeader?: boolean;
+}
+
+export interface IProductProps {
+  name: string;
+  price: number;
+  slug?:string;
+  discount: number;
+  category: string;
+  subcategory: string;
+  description: string;
+  id?:string;
+  option: [];
 }

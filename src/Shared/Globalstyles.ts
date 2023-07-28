@@ -13,8 +13,9 @@ const GlobalStyle = createGlobalStyle`
     font-family: sans-serif;
     background:#fff;
     color:#002;
+    transition:0.6s ease;
+    scroll:smooth
   }
-
   a{
     text-decoration:unset;
     color:inherit

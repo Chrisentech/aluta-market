@@ -1,8 +1,16 @@
 import React from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { ROUTE } from "../Shared/Constants";
-import { Homepage, Loginpage ,Registerpage} from "../Pages/Public";
-import { DashboardPage } from "../Pages/Private";
+import { Homepage, Loginpage, Registerpage } from "../Pages/Public";
+import {
+  BuyerDashboard,
+  SellerDashboard,
+  SellerProducts,
+  NewSellerProduct,
+  AddNewProducts,
+  SellerPayment,
+  PaymentRegScreen,
+} from "../Pages/Private";
 
 const Router: React.FC = () => {
   return (
@@ -13,7 +21,32 @@ const Router: React.FC = () => {
         <Route path={ROUTE.REGISTER} element={<Registerpage />} />
         <Route
           path={ROUTE.BUYER_DASHBOARD}
-          element={<PrivateRoute component={DashboardPage} authRoute />}
+          element={<PrivateRoute component={BuyerDashboard} authRoute />}
+        />
+        <Route
+          path={ROUTE.SELLER_DASHBOARD}
+          element={<PrivateRoute component={SellerDashboard} authRoute />}
+        />
+        <Route
+          path={ROUTE.SELLER_PRODUCTS}
+          element={<PrivateRoute component={SellerProducts} authRoute />}
+        />
+        <Route
+          path={ROUTE.SELLER_NEWPRODUCT}
+          element={<PrivateRoute component={NewSellerProduct} authRoute />}
+        />
+        <Route
+          path={ROUTE.SELLER_ADDPRODUCT}
+          element={<PrivateRoute component={AddNewProducts} authRoute />}
+        />
+        <Route
+          path={ROUTE.SELLER_PAYMENT}
+          element={<PrivateRoute component={SellerPayment} authRoute />}
+        />
+
+        <Route
+          path={ROUTE.SELLER_PAYMENT_REG+"/:step"}
+          element={<PrivateRoute component={PaymentRegScreen} authRoute />}
         />
       </Routes>
     </BrowserRouter>
