@@ -22,18 +22,18 @@ const initialValues = {
   dob: "",
 };
 
-const validateIDCard = (value: any) => {
-  if (!value) {
-    return "ID card is required";
-  }
+// const validateIDCard = (value: any) => {
+//   if (!value) {
+//     return "ID card is required";
+//   }
 
-  const allowedExtensions = /\.(jpg|jpeg|png|gif|pdf)$/i;
-  if (!allowedExtensions.test(value.name)) {
-    return "ID card must be an image or PDF";
-  }
+//   const allowedExtensions = /\.(jpg|jpeg|png|gif|pdf)$/i;
+//   if (!allowedExtensions.test(value.name)) {
+//     return "ID card must be an image or PDF";
+//   }
 
-  return true;
-};
+//   return true;
+// };
 
 const validIdTypes = [
   "nin",
@@ -63,9 +63,9 @@ const Screen: React.FC = () => {
       .oneOf(validIdTypes, "Invalid ID type")
       .required("ID type is required"),
     idNumber: yup.string().required("ID number is required"),
-    ID: yup
-      .mixed() // Use .mixed() to allow custom validation
-      .test("file-type", true, validateIDCard), // Use the custom validation function
+    // ID: yup
+    //   .mixed() // Use .mixed() to allow custom validation
+    //   .test("file-type", true, validateIDCard), // Use the custom validation function
   });
 
   const validationSchema = yup.lazy((values) =>

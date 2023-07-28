@@ -7,12 +7,14 @@ import { useNavigate } from "react-router-dom";
 import { ROUTE } from "../../../../../Shared/Constants";
 
 const Screen: React.FC = () => {
-  const [files, setFiles] = useState<FileList | null>(null);
+  const [files, setFiles] = useState<File[] | null>(null);
   const hiddenInputRef = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles: any = e.target.files;
-    setFiles(Array.from(selectedFiles)); // Handle the selected files here
+    const selectedFiles = e.target.files;
+    if (selectedFiles) {
+      setFiles(Array.from(selectedFiles)); // Convert FileList to an array
+    }
   };
 
   const handleUploadClick = () => {

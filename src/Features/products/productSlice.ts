@@ -26,7 +26,7 @@ export const productSlice = createSlice({
 });
 
 // Export the action creators
-export const { setProducts, setProduct } = productSlice.actions;
+export const actions = productSlice.actions;
 
 // Define the types for the selectors
 export const selectProducts = (state: RootState): IProductProps[] =>

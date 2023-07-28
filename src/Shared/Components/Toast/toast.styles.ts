@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 // Styling for the toast container
 export const ToastContainer = styled.div<{

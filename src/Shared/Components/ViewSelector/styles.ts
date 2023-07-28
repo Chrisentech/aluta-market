@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 export const Container = styled.div``;
 
-export const ListWrapper = styled.div<{ gap?: string | undefined }>`
+export const ListWrapper = styled.div<{ gap?: string | undefined ,type?:string| undefined}>`
   width: 100%;
   display: flex;
   gap: ${({ gap }) => (gap ? gap : "5px")};
