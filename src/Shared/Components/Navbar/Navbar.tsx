@@ -18,6 +18,7 @@ import { ROUTE } from "../../Constants";
 import { BiUser } from "react-icons/bi";
 import { RxCross2 } from "react-icons/rx";
 import { ImUser } from "react-icons/im";
+import { logo } from "../../../assets";
 
 // Sidebar Component
 const SideBar: React.FC<{ show: boolean; onClose: () => void }> = ({
@@ -57,7 +58,9 @@ const MobileNavbar: React.FC<{ scrolled: boolean }> = ({ scrolled }) => {
           <Flex>
             {/* Hamburger menu to toggle the Sidebar */}
             <GiHamburgerMenu size={26} onClick={handleToggleSidebar} />
-            <div className="logo">Brand</div>
+            <div className="logo">
+              <img width={"150"} src={logo} alt="logo" />
+            </div>
           </Flex>
           <Flex>
             <BsCart3 size={26} />
@@ -81,7 +84,8 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
       <Wrapper>
         {/* Logo */}
         <NavLink className="logo" to={ROUTE.HOME}>
-          Brand
+                      <img width={"150"} src={logo} alt="logo" />
+
         </NavLink>
         {/* Search container */}
         <SearchContainer>

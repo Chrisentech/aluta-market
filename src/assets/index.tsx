@@ -7,3 +7,4 @@ export { default as watch } from "./watch.png";
 export { default as headset } from "./headset.png";
 export { default as wallet } from "./wallet.png";
 export { default as cloth } from "./cloth.jpg";
+export { default as logo } from "./logo.png";
