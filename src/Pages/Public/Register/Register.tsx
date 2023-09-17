@@ -19,7 +19,8 @@ import { Formik, Form, useField } from "formik";
 import * as yup from "yup";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
-import { GoogleLogin } from "react-google-login";
+// import { GoogleLogin } from "react-google-login";
+import { GoogleLogin} from '@react-oauth/google';
 import { RegisterFormValues } from "../../../Interfaces";
 import { ROUTE } from "../../../Shared/Constants";
 import { generateSlug } from "../../../Shared/Utils/helperFunctions";
@@ -51,7 +52,7 @@ const validationSchema = yup.object().shape({
     ),
 });
 
-const responseGoogle = (response: any) => {
+const responseGoogle = (response: any | void) => {
   console.log(response);
 };
 
@@ -146,13 +147,18 @@ const Screen: React.FC = () => {
                 <p>or</p>
                 <span className="line"></span>
               </div>
-              <GoogleLogin
+              {/* <GoogleLogin
                 clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
                 buttonText="Create account with Google"
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle}
                 cookiePolicy={"single_host_origin"}
                 className="googleSignin"
+              /> */}
+              <GoogleLogin 
+                  onSuccess={responseGoogle}
+                  onError={() => (responseGoogle)}
+                  // cookiePolicy={"single_host_origin"}
               />
               <p>
                 Already have an account?{" "}
@@ -252,7 +258,7 @@ const CustomField: React.FC<{
   readOnly?: boolean;
 }> = ({ name, type, defaultText, options, value, readOnly, onChange }) => {
   const [field, meta] = useField(name);
-  const inputHasError = meta?.error?.length;
+  const inputHasError = meta?.error?.length ? true : false;
   if (type === "select") {
     return (
       <>

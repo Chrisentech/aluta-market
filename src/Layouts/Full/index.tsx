@@ -3,16 +3,18 @@ import { Wrapper } from "./full.style";
 import { Footer } from "../../Shared/Components";
 
 interface IScreenProps{
-  children:ReactNode,
+  children: ReactNode,
 }
 
 const Screen: React.FC<IScreenProps> = ({children}) => {
+
   
-  
-  return <Wrapper>
-    {children}
-    <Footer/>
-    </Wrapper>;
+  return (
+    <Wrapper>
+      {children}
+      <Footer/>
+    </Wrapper>
+  )
 };
 
 export default Screen;

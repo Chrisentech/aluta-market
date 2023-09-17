@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { ROUTE } from "../Shared/Constants";
-import { Homepage, Loginpage, Registerpage } from "../Pages/Public";
+import { Homepage, Loginpage, Registerpage, SearchPage } from "../Pages/Public";
 import {
   BuyerDashboard,
   SellerDashboard,
@@ -18,6 +18,7 @@ const Router: React.FC = () => {
     <BrowserRouter>
       <Routes>
         <Route path={ROUTE.HOME} element={<Homepage />} />
+        <Route path={ROUTE.SEARCH} element={<SearchPage />} />
         <Route path={ROUTE.LOGIN} element={<Loginpage />} />
         <Route path={ROUTE.REGISTER} element={<Registerpage />} />
         <Route

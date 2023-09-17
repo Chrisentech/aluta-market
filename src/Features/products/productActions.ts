@@ -10,7 +10,7 @@ import {
 import { selectProducts, actions, selectProduct } from "./productSlice";
 import { IProductProps } from "../../Interfaces";
 
-//https://www.youtube.com/watch?v=qmCAnvE_KAU
+// https://www.youtube.com/watch?v=qmCAnvE_KAU
 
 export default function useProducts() {
   const dispatch = useDispatch();

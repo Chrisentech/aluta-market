@@ -18,7 +18,7 @@ const GridView: React.FC<{
   itempergrid?: any;
   className?:string
   gridItems?: any[];
-}> = ({ gap, type, itempergrid, className,gridItems }) => {
+}> = ({ gap, type, itempergrid, className, gridItems }) => {
   const [addToWishList, _] = useState(false);
   const { currentPage, goToPage, nextPage, prevPage } = usePagination(3);
   if (type === "productGrid") {

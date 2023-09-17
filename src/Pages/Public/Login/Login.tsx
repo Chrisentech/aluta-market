@@ -16,7 +16,8 @@ import * as yup from "yup";
 import { marketLogo } from "../../../assets";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
-import { GoogleLogin } from "react-google-login";
+// import { GoogleLogin } from "react-google-login";
+import { GoogleLogin} from '@react-oauth/google';
 import { LoginFormValues } from "../../../Interfaces";
 import { ROUTE } from "../../../Shared/Constants";
 
@@ -36,7 +37,7 @@ const validationSchema = yup.object().shape({
     ),
 });
 
-const responseGoogle = (response: any) => {
+const responseGoogle = (response?: any) => {
   console.log(response);
 };
 
@@ -89,13 +90,17 @@ const Screen: React.FC = () => {
             <p>or</p>
             <span className="line"></span>
           </div>
-          <GoogleLogin
+          {/* <GoogleLogin
             clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
             buttonText="Sign in with Google"
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
             cookiePolicy={"single_host_origin"}
             className="googleSignin"
+          /> */}
+          <GoogleLogin 
+              onSuccess={responseGoogle}
+              onError={responseGoogle}
           />
         </Form>
       </Formik>
@@ -108,7 +113,7 @@ const CustomField: React.FC<{
   checked?:boolean
 }> = ({ name, type ,checked}) => {
   const [field, meta] = useField(name);
-  const inputHasError = meta?.error?.length;
+  const inputHasError = meta?.error?.length ? true : false;
 
   if (type === "checkbox") {
     return <CustomCheckbox checked={checked} type={type} />;

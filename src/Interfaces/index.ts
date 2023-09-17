@@ -64,3 +64,15 @@ export interface IProductProps {
   id?: string;
   option: [];
 }
+
+export interface IProductGridProps {
+  column?: number;
+  row?: number;
+  cardWidth?: number | string;
+  cardHeight?: number | string;
+  className?: string;
+  image?: string;
+  alt?: string;
+  background?: string;
+  children?: ReactNode;
+}

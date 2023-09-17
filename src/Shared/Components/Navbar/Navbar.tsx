@@ -133,4 +133,4 @@ const Navbar: React.FC<{
   return <DesktopNavbar scrolled={scrolled} mode={mode} />;
 };
 
-export default Navbar;
+export {Navbar, SideBar};

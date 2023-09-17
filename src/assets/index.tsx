@@ -8,3 +8,7 @@ export { default as headset } from "./headset.png";
 export { default as wallet } from "./wallet.png";
 export { default as cloth } from "./cloth.jpg";
 export { default as logo } from "./logo.png";
+export { default as banner } from './banner.png'
+export { default as image202 } from './image102.png'
+export { default as image26 } from './image26.png'
+export { default as image104 } from './image104.png'

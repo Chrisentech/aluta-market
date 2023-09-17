@@ -2,6 +2,7 @@ export const ROUTE = {
   //Buyer Routes
   HOME: "/",
   BUYER_DASHBOARD: "/buyer/dashboard/",
+  SEARCH: "/search/:query",
   CART: "/product/cart/",
   ADDRESS: "/address/",
   WISHLIST: "/product/wishlist/",

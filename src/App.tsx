@@ -4,6 +4,7 @@ import "./App.css";
 import React, { useState, useEffect } from "react";
 import GlobalStyle from "./Shared/Globalstyles";
 import { Games } from "./Shared/Games";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const App: React.FC = () => {
   const [isOnline, setIsOnline] = useState(true);
@@ -26,8 +27,10 @@ const App: React.FC = () => {
   }, []);
   return (
     <>
-      <GlobalStyle />
-      {isOnline ? <Router /> : <Games />}
+    <GoogleOAuthProvider clientId={import.meta.env.REACT_APP_GOOGLE_API_TOKEN as string}>
+        <GlobalStyle />
+        {isOnline ? <Router /> : <Games />}
+    </GoogleOAuthProvider>
     </>
   );
 };
