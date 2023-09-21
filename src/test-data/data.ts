@@ -1,3 +1,5 @@
+import { image1, image2, image3, image4, image5 } from "./product-info img"
+
 export const categories = [
     {
         title: 'Stationaries and Textbooks',
@@ -31,4 +33,8 @@ export const categories = [
         title: 'Skills and Services',
         image: ''
     }
+]
+
+export const ProductImages = [
+    image1, image2, image3, image4, image5, image1
 ]

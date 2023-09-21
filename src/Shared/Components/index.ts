@@ -15,6 +15,8 @@ import Button from "./Button/Button"
 import Timer from "./Timer/Timer"
 import ProductGrid from "./ProductGrid/ProductGrid";
 import FilterMenu from "./FilterMenu/FilterMenu";
+import Breadcrumb from "./Breadcrumb/Breadcrumb";
+import ProductCarousel from "./Carousel/ProductCarousel";
 export {
   Loader,
   Navbar,
@@ -34,4 +36,6 @@ export {
   Timer,
   ProductGrid,
   FilterMenu,
+  Breadcrumb,
+  ProductCarousel,
 };
