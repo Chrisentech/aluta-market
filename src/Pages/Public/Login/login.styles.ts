@@ -88,11 +88,11 @@ export const Heading = styled.div`
     font-feature-settings: "clig" off, "liga" off;
     /* Title-H2 */
     font-family: Inter;
-    font-size: 32px;
+    font-size: 32px !important;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-    margin: 0;
+    margin: 10px 0;
     letter-spacing: -0.2px;
   }
   p {
@@ -105,6 +105,10 @@ export const Heading = styled.div`
     line-height: normal;
     letter-spacing: -0.2px;
     margin: 0 0 20px 0;
+  }
+  .content{
+    width:78%;
+    margin:auto
   }
 `;
 
@@ -155,10 +159,10 @@ export const ErrorMessageWrapper = styled.div`
   margin-bottom: 8px;
 `;
 
-export const SubmitButton = styled.button`
+export const SubmitButton = styled.button<{ loading?: boolean; }>`
   background-color: #007bff;
   color: #fff;
-  padding: 20px;
+  padding: ${(props) => (props.loading ? "7px" : "20px")};
   border: none;
   cursor: pointer;
   width: 100%;
@@ -240,3 +244,28 @@ export const CustomCheckbox = styled.input.attrs({ type: "checkbox" })`
     display: block;
   }
 `;
+export const Modal = styled.div`
+.label{
+  display:flex;
+  justify-content:space-between;
+  margin:20px 0
+}
+img{
+  display:flex;
+  justify-content:center;
+  tex-align-center
+}
+.gray{
+  background:#EFF2F4;
+  padding:18px;
+  border-radius:  20px 0 0 20px;
+  margin-top:-15px
+} svg{
+  position:unset !important;
+  color:${AppColors.brandGray}
+}
+input{
+  border-radius:   0  20px 20px 0;
+
+}
+`

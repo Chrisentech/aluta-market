@@ -7,14 +7,14 @@ export const Wrapper = styled.div`
   position: relative;
   min-height: 100vh;
   main {
-    width: calc(100% - 280px);
+    width: calc(100% - 250px);
     // display: flex;
     // justify-content: center;
     // align-items: center;
     // flex-direction: column;
     padding: 30px;
     margin: 100px auto 30px auto;
-    margin-left: 271.5px;
+    margin-left: 251.5px;
   }
 `;
 
@@ -23,7 +23,7 @@ export const Sidebar = styled.section`
   height: 100vh;
   background: #fff;
   margin-top: 50px;
-  width: 280px;
+  width: 250px;
   padding-top: 60px;
 
   .avatar {

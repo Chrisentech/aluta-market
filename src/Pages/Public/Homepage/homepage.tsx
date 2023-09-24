@@ -16,8 +16,11 @@ import { categories } from "../../../test-data";
 import { Card, Button, Timer, ProductGrid } from "../../../Shared/Components";
 import { image26, image104 } from "../../../assets";
 import {MdOutlineInventory2} from 'react-icons/md';
+import { useNavigate } from "react-router-dom";
+import { ROUTE } from "../../../Shared/Constants";
 
 const Screen: React.FC = () => {
+  const nav = useNavigate()
   return (
     <Home>
       <Hero>
@@ -57,8 +60,8 @@ const Screen: React.FC = () => {
               <p>hi user <br/>let's get</p>
             </div>
             <div className="bottom">
-              <Button width={150} height={30} padding={10} gap={10} background="linear-gradient(180deg, #FF7612 0%, #FF001F 100%)" color="#ffffff">Join now</Button>
-              <Button width={150} height={30} padding={10} gap={10} background="#ffffff" color="#fa3434">Log in</Button>
+              <Button onClick={()=>nav(ROUTE.REGISTER)} width={150} height={30} padding={10} gap={10} background="linear-gradient(180deg, #FF7612 0%, #FF001F 100%)" color="#ffffff">Join now</Button>
+              <Button onClick={()=>nav(ROUTE.LOGIN)} width={150} height={30} padding={10} gap={10} background="#ffffff" color="#fa3434">Log in</Button>
             </div>
           </Card>
           <Card

@@ -19,7 +19,8 @@ export const Hero = styled.section`
   align-items: center;
   font-family: Inter;
   font-weight: 400;
-  width: 1180px;
+  width: 90%;
+  margin: 25px auto;
   height: 400px;
   background: #FFF;
   border: 1px solid var(--gray-300);
@@ -109,7 +110,8 @@ export const Offers = styled.div`
   display: flex;
   flex-direction: row;
   margin: auto;
-  width: 1180px;
+  width: 90%;
+  margin: 25px auto;
   height: 240px;
   background: #fff;
   border: 1px solid #dee2e7;
@@ -178,7 +180,8 @@ export const Offers = styled.div`
 export const GridContainer = styled.div`  
   box-sizing: border-box;
   margin: 20px auto;
-  width: 1180px;
+  width: 90%;
+  margin: 25px auto;
   height: 254px;
   border: solid 1px #dee2e7;
   display: grid;
@@ -246,7 +249,8 @@ export const ProductRequestForm = styled.div`
   box-sizing: border-box;
   font-family: inter;
   position: relative;
-  width: 1180px;
+  width: 90%;
+  margin: 25px auto;
   height: 446px;
   margin: 20px auto;
   transition: background-size 5s ease;
@@ -368,7 +372,8 @@ export const FormContainer = styled.form`
 
 export const Services = styled.form`
   box-sizing: border-box;
-  width: 1180px;
+  width: 90%;
+  margin: 25px auto;
   margin: 30px auto;
   display: flex;
   flex-direction: row;
@@ -437,7 +442,8 @@ export const Divider = styled.div<{ color?: string }>`
 `;
 
 export const Header1 = styled.h2`
-  width: 1180px;
+  width: 90%;
+  margin: 25px auto;
    margin: 30px auto;
 `;
 

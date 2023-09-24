@@ -14,6 +14,7 @@ interface IButtonInterface {
     onHover?: boolean;
     padding?: string | number;
     children: ReactNode;
+    onClick?:any
 }
 
 const Button: React.FC<IButtonInterface> = ({
@@ -27,6 +28,7 @@ const Button: React.FC<IButtonInterface> = ({
   background,
   onHover,
   className,
+  onClick,
   padding,
   children,
 }) => {
@@ -44,6 +46,7 @@ const Button: React.FC<IButtonInterface> = ({
       background={background}
       className={className}
       onHover={onHover}
+      onClick={onClick}
       padding={typeof padding === "number" ? padding + "px" : padding}
     >
       {children}
