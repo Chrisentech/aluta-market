@@ -19,6 +19,7 @@ import { BiUser } from "react-icons/bi";
 import { RxCross2 } from "react-icons/rx";
 import { ImUser } from "react-icons/im";
 import { logo } from "../../../assets";
+import { categories } from "../../../test-data";
 
 // Sidebar Component
 const SideBar: React.FC<{ show: boolean; onClose: () => void }> = ({
@@ -94,6 +95,9 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
             <option selected disabled value="">
               All Category
             </option>
+            {categories.map((category,i)=>{
+              return <option key={i}>{category.title}</option>
+            })}
           </select>
           <button type="submit">Search</button>
         </SearchContainer>

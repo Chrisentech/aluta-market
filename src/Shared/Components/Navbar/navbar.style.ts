@@ -42,6 +42,12 @@ export const SearchContainer = styled.form`
     padding: 12px;
     width: 70%;
     border-radius: 6px;
+      font-family: Inter;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    color: ${AppColors.brandGray} !important;
   }
   select {
     background: transparent;
@@ -52,8 +58,17 @@ export const SearchContainer = styled.form`
     cursor: pointer;
     width: 15%;
     padding-right: 15px;
+      font-size: 12px;
     color: ${AppColors.brandGray} !important;
-    font-weight: 700;
+    // font-weight: 700;
+    option{
+      font-family: Inter;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      color:black !important;
+    }
   }
   button {
     flex: 1;

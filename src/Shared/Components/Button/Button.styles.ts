@@ -20,6 +20,7 @@ export const Container = styled.button<IButtonInterface>`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  cursor:pointer;
   align-items: center;
   gap: ${({ gap }) => (gap ? gap : "10px")};
   width: ${({ width }) => (width ? width : "150px")};

@@ -4,7 +4,8 @@ import { IProductGridProps } from '../../../Interfaces';
 export const Container = styled.div<IProductGridProps>`
   box-sizing: border-box;
   display: grid;
-  width: 1180px;
+  width: 90%;
+  margin: 25px auto;
   grid-template-columns: ${({ column }) => (column ? 'repeat(' + column + ', 1fr)' : 'repeat(5, 1fr)')} ;
   grid-template-rows: ${({ row }) => (row ? 'repeat(' + row + ', 1fr)' : 'repeat(2, 1fr)')} ;
   grid-row-gap: 20px;
