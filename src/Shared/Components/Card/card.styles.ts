@@ -10,6 +10,7 @@ export const Container = styled.div<ICardInterface>`
   transition: 0.6s ease;
   position: relative;
   cursor: pointer !important;
+  overflow: hidden;
   box-shadow: ${({ hasBoxShadow }) =>
     hasBoxShadow ? " rgba(149, 157, 165, 0.2) 0px 8px 24px;" : ""};
   &:hover {
@@ -18,3 +19,16 @@ export const Container = styled.div<ICardInterface>`
     transform: translateY(-1px);
   }
 `;
+
+// Wish Card Styles
+
+export const WishWrapper = styled.div<{boxShadow?: boolean}>`
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: ${({ boxShadow }) => boxShadow ? "rgba(0, 0, 0, 0.14) 0px 3px 8px" : "none"};
+  cursor: pointer;
+`;
+
+

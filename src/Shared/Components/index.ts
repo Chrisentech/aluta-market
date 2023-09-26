@@ -17,6 +17,9 @@ import ProductGrid from "./ProductGrid/ProductGrid";
 import FilterMenu from "./FilterMenu/FilterMenu";
 import Breadcrumb from "./Breadcrumb/Breadcrumb";
 import ProductCarousel from "./Carousel/ProductCarousel";
+import Reviews from "./Review/Review";
+import WishCard from "./Card/WishCard";
+import { ColorList } from "./Carousel/ProductCarousel";
 export {
   Loader,
   Navbar,
@@ -38,4 +41,7 @@ export {
   FilterMenu,
   Breadcrumb,
   ProductCarousel,
+  Reviews,
+  WishCard,
+  ColorList
 };

@@ -7,49 +7,67 @@ const categories: string[] = ['Mobile Accessories', 'Electronics', 'Smartphones'
 const features: string[] = ['Metallic', 'Plastic', '8GB RAM', 'Super Power', 'Large Memory'];
 const condition: string[] = ['Any', 'Refurbished', 'Fairly Used', 'New']
 
-const Dropdown: React.FC<{ category: string; options: string[]; radio?: boolean }> = ({ category, options, radio }) => {
+const Dropdown: React.FC<{ 
+  category: string; 
+  options: string[]; 
+  checkbox?: boolean; 
+  onOptionChange?: (category: string, selectedOptions: string[]) => void 
+}> = ({ category, options, checkbox, onOptionChange }) => {
     const [isOpen, setIsOpen] = useState<boolean>(true);
-    const [selectedOption, setSelectedOption] = useState<string>('');
+    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   
     const toggleDropdown = () => {
       setIsOpen(!isOpen);
     };
   
     const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setSelectedOption(event.target.value);
-      setIsOpen(false); 
+      const optionValue = event.target.value;
+    
+      if (selectedOptions.includes(optionValue)) {
+        setSelectedOptions(selectedOptions.filter((option) => option !== optionValue));
+      } else {
+        setSelectedOptions([...selectedOptions, optionValue]);
+      }
+
+      if (onOptionChange) onOptionChange(category, selectedOptions);
+    
     };
   
     return (
       <DropdownContainer>
         <div className="heading" onClick={toggleDropdown}>
-          {category} <span>{isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}</span>
+          <span>{category}</span><span>{isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}</span>
         </div>
         <OptionsContainer className='body' isOpen={isOpen}>
           {options.map((option) => (
             <div className='list' key={option}>
-              {radio ? (<input
-                type="radio"
-                id={option}
-                name={category}
-                value={option}
-                checked={selectedOption === option}
-                onChange={handleOptionChange}
-              />) : <p>{option}</p>}
+              {checkbox ? (
+              <label className='option'>
+                <input
+                  type="checkbox"
+                  id={option}
+                  name={category}
+                  value={option}
+                  checked={selectedOptions.includes(option)}
+                  onChange={handleOptionChange}
+                />
+                <span className="custom"></span>
+                {option}
+              </label>) : <p className="option">{option}</p>}
             </div>
           ))}
-          <p>see all</p>
+          <span className='see-all'>see all</span>
         </OptionsContainer>
       </DropdownContainer>
     );
 };
   
-const FilterMenu: React.FC = () => {
+const FilterMenu: React.FC<{onOptionChange?: (category: string, selectedOptions: string[]) => void}> = ({ onOptionChange }) => {
 return (
     <>
-        <Dropdown category='Category' options={categories} />
-        <Dropdown category='brands' options={brands} />
-        <Dropdown category='Features' options={features} />
+        <Dropdown category='Category' options={categories} onOptionChange={onOptionChange}/>
+        <Dropdown category='brands' options={brands} checkbox onOptionChange={onOptionChange}/>
+        <Dropdown category='Features' options={features} checkbox onOptionChange={onOptionChange}/>
     </>
 )
 }

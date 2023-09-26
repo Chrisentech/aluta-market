@@ -27,6 +27,8 @@ const View: React.FC<IVeiw> = ({ mode, type,className ,gap, gridItems, itempergr
           itempergrid={itempergrid}
           gridItems={gridItems}
           className={className}
+          cardType="type1"
+          showPagination
         />
       )}
     </Container>
