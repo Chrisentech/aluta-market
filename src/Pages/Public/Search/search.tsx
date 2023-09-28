@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import Layout from '../../../Layouts';
-import { Container, Filters, MainView, Page, SelectIcon, Selector, Sidebar, Wrapper } from './search.styles';
+import { Container, FilterTag, Filters, MainView, Page, SelectIcon, Selector, Sidebar, Wrapper } from './search.styles';
 import { Breadcrumb, FilterMenu, View } from '../../../Shared/Components';
 import { BiSolidGridAlt } from 'react-icons/bi';
 import { PiListFill } from 'react-icons/pi';
-
 
 const Screen: React.FC = () => {
     const [mode, setMode] = useState<string>('grid')
@@ -59,7 +58,9 @@ const Screen: React.FC = () => {
                             </div>
                         </Selector>
                         <Filters>
-                            {/* {map} */}
+                            {Object.entries(filters).map(([category, filter]) => (
+                                <FilterTag>{filter}</FilterTag>
+                            ))}
                         </Filters>
                         <View 
                             className="view" mode={mode} 

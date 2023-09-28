@@ -78,3 +78,7 @@ export const SelectIcon = styled.button<{active: boolean}>`
     cursor: pointer;
     background: ${({ active }) => active ? "#EFF2F4" : '#fff' };
 `;
+
+export const FilterTag = styled.span`
+
+`;

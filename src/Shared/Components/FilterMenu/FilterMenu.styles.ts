@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import { check } from '../../../assets';
 
-// Styled components
+export const FilterContainer = styled.div`
+  width: 230px;
+`;
+
 export const DropdownContainer = styled.div`
     border-top: 1px solid #DEE2E7;
-    width: 230px;
     font-family: inter;
     padding: 10px 0 20px 0;
     

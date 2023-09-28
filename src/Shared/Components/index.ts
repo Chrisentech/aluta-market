@@ -20,6 +20,7 @@ import ProductCarousel from "./Carousel/ProductCarousel";
 import Reviews from "./Review/Review";
 import WishCard from "./Card/WishCard";
 import { ColorList } from "./Carousel/ProductCarousel";
+import RangeSlider from "./RangeSlider/RangeSlider";
 export {
   Loader,
   Navbar,
@@ -43,5 +44,6 @@ export {
   ProductCarousel,
   Reviews,
   WishCard,
-  ColorList
+  ColorList,
+  RangeSlider,
 };
