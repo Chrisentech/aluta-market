@@ -15,6 +15,7 @@ import Button from "./Button/Button"
 import Timer from "./Timer/Timer"
 import ProductGrid from "./ProductGrid/ProductGrid";
 import FilterMenu from "./FilterMenu/FilterMenu";
+import Badge from "./Badge/Badge"
 export {
   Loader,
   Navbar,
@@ -22,6 +23,7 @@ export {
   Dropdown,
   Footer,
   Card,
+  Badge,
   ImageCard,
   Table,
   View,

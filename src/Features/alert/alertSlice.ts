@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface AlertState {
   message: string;
-  status: "success" | "pending" | "failed" | "";
+  status: "success" | "pending" | "error" | "";
 }
 
 const initialState: AlertState = {
@@ -15,19 +15,25 @@ const alertSlice = createSlice({
   initialState,
   reducers: {
     alertSuccess: (state, { payload }) => {
-      state.status = "failed";
+      state.status = "success";
       state.message = payload;
     },
-    alertFailed: (state, { payload }) => {
+    alertError: (state, { payload }) => {
       state.message = payload;
-      state.status = "failed";
+      state.status = "error";
     },
     alertPending: (state) => {
       state.message = "";
+      state.status = "pending";
+    },
+    clearAlert: (state) => {
+      state.message = "";
+      state.status = "";
     },
   },
 });
 
-export const { alertSuccess, alertFailed, alertPending } = alertSlice.actions;
+export const { alertSuccess, alertError, alertPending, clearAlert } =
+  alertSlice.actions;
 
 export default alertSlice.reducer;

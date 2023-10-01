@@ -96,6 +96,7 @@ export const IconWrapper = styled.div`
   align-items: center;
   color: #bdc4cd;
   margin: 0 10px;
+  position:relative;
   cursor: pointer;
   svg {
     cursor: pointer;

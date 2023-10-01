@@ -20,6 +20,7 @@ import { RxCross2 } from "react-icons/rx";
 import { ImUser } from "react-icons/im";
 import { logo } from "../../../assets";
 import { categories } from "../../../test-data";
+import { Badge } from "..";
 
 // Sidebar Component
 const SideBar: React.FC<{ show: boolean; onClose: () => void }> = ({
@@ -31,7 +32,6 @@ const SideBar: React.FC<{ show: boolean; onClose: () => void }> = ({
       <RxCross2 size={26} className="dismiss" onClick={onClose} />
       <div className="title">
         <div>
-          {" "}
           <ImUser size={26} />
           <span>Aluko Opeyemi</span>
         </div>
@@ -85,8 +85,7 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
       <Wrapper>
         {/* Logo */}
         <NavLink className="logo" to={ROUTE.HOME}>
-                      <img width={"150"} src={logo} alt="logo" />
-
+          <img width={"150"} src={logo} alt="logo" />
         </NavLink>
         {/* Search container */}
         <SearchContainer>
@@ -95,8 +94,8 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
             <option selected disabled value="">
               All Category
             </option>
-            {categories.map((category,i)=>{
-              return <option key={i}>{category.title}</option>
+            {categories.map((category, i) => {
+              return <option key={i}>{category.title}</option>;
             })}
           </select>
           <button type="submit">Search</button>
@@ -108,6 +107,8 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
             <label>Profile</label>
           </IconWrapper>
           <IconWrapper>
+            <Badge count={4} />
+
             <MdMessage color="#BDC4CD" />
             <label>Message</label>
           </IconWrapper>
@@ -116,6 +117,7 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
             <label>Orders</label>
           </IconWrapper>
           <IconWrapper>
+            <Badge count={4} />
             <BsFillCartFill color="#BDC4CD" />
             <label>My cart</label>
           </IconWrapper>

@@ -196,7 +196,7 @@ export const Input = styled(Field)<{
   margin: 5px 0px 20px 0;
   cursor: ${(props:any) => (props.readOnly ? `not-allowed` : "inherit")};
 `;
-export const Select = styled.select<{ error: boolean; type: string }>`
+export const Select = styled(Field)<{ error: boolean; type: string }>`
   width: ${(props:any) => (props.type === "checkbox" ? "unset" : "100%")};
   padding: 20px;
   cursor: pointer;

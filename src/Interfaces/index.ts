@@ -18,13 +18,24 @@ export interface RegisterFormValues {
   fullname: string;
   phone: string;
   campus: string;
-  category: string;
-  storeUrl?: string;
-  storeDescription?: string;
-  storeAddress?: string;
-  havePhysicalAddress?: string;
+  usertype: string;
+  avatar?: string;
+  stores?: any;
+  active?: boolean;
 }
 
+export interface IVerifyOTPProps{
+  phone:string
+  email:string
+  code:string
+}
+
+export interface ICartProps {
+items:any,
+total:number,
+user:number,
+id?:number,
+}
 export interface LoginFormValues {
   email: string;
   password: string;
