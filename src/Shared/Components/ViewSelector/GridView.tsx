@@ -1,80 +1,111 @@
-import React, { useState } from "react";
 import {
   GridWrapper,
   ProductCard,
   ProductDetails,
   ProductFlex,
-  WishCard,
 } from "./styles.ts";
-import { Card, Pagination, ImageCard, Rating } from "../index.ts";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-
+import { Card, Pagination, ImageCard, Rating, WishCard } from "../index.ts";
 import usePagination from "../../Hooks/usePagination.tsx";
-import { phone } from "../../../assets/index.tsx";
+import { image34, phone } from "../../../assets/index.tsx";
 
-const GridView: React.FC<{
+
+interface IGridProps {
   gap?: string;
   type?: string;
   itempergrid?: any;
   className?:string
   gridItems?: any[];
-}> = ({ gap, type, itempergrid, className, gridItems }) => {
-  const [addToWishList, _] = useState(false);
+  cardType?: string;
+  showPagination?: boolean;
+  background?: string;
+} 
+
+const GridView: React.FC<IGridProps> = ({ 
+  gap, 
+  type, 
+  itempergrid, 
+  className, 
+  gridItems, 
+  cardType, 
+  showPagination, 
+  background,
+}) => {
   const { currentPage, goToPage, nextPage, prevPage } = usePagination(3);
   if (type === "productGrid") {
     return (
       <>
         <GridWrapper gap={gap} itempergrid={itempergrid} className={className}>
-          {Array(6)
-            .fill("*")
+          {Array(gridItems?.length)
+            .fill(null)
             .map((_, index) => {
               return (
-                <Card
-                  key={index}
-                  width="100%"
-                  hasBoxShadow={true}
-                  height="200px"
-                  onHover
-                  className="card"
-                >
-                  <ProductCard view="grid">
-                    <ImageCard view="grid" src={phone} />
+                (cardType === "type1") ? 
+                  <Card
+                    key={index}
+                    width="100%"
+                    hasBoxShadow={true}
+                    height="200px"
+                    onHover
+                    className="card"
+                  >
+                    <ProductCard view="grid">
+                      <ImageCard view="grid" src={phone} />
 
-                    <ProductDetails view="grid">
-                      <div className="flex">
-                        <div className="price">
-                          <span>&#8358;80,000</span>
-                          <span>&#8358;92,000</span>
+                      <ProductDetails view="grid">
+                        <div className="flex">
+                          <div className="price">
+                            <span>&#8358;80,000</span>
+                            <span>&#8358;92,000</span>
+                          </div>
+                        <WishCard />
                         </div>
-                        <WishCard>
-                          {!addToWishList ? (
-                            <AiOutlineHeart color="#FA3434" size="26px" />
-                          ) : (
-                            <AiFillHeart color="#FA3434" size="26px" />
-                          )}
-                        </WishCard>
-                      </div>
-                      <ProductFlex>
-                        <div>
-                          <Rating numberOfRates={7.5} />
-                          <span className="rating">7.5</span>
-                        </div>
-                      </ProductFlex>
+                        <ProductFlex>
+                          <div>
+                            <Rating numberOfRates={7.5} />
+                            <span className="rating">7.5</span>
+                          </div>
+                        </ProductFlex>
 
-                      <h1>Canon Camera EOS 2000, Black 10x zoom</h1>
-                    </ProductDetails>
-                  </ProductCard>
-                </Card>
+                        <h1>Canon Camera EOS 2000, Black 10x zoom</h1>
+                      </ProductDetails>
+                    </ProductCard>
+                  </Card> :
+                  (cardType === "type2") ?
+                    (<Card 
+                      key={index}  
+                      className="card"
+                      padding={0}
+                      height={254}
+                      width={212}
+                      borderRadius={6}
+                    >
+                      <ProductCard view="grid"  background={background}>
+                        <div className="image">
+                          <ImageCard view="grid" src={image34}/>
+                        </div>
+                      <ProductDetails view="grid">
+                        <div className="flex">
+                          <div className="price">
+                            <span>&#8358;32,000</span>
+                          </div>
+                        </div>
+                        <h1>Xiaomi Redmi 8 Original </h1>
+                      </ProductDetails>
+                    </ProductCard>
+                    </Card>) : 
+                    ('')
               );
             })}
         </GridWrapper>
-        <Pagination
-          totalPages={3}
-          currentPage={currentPage}
-          goToPage={goToPage}
-          nextPage={nextPage}
-          prevPage={prevPage}
-        />
+        {showPagination && 
+          (<Pagination
+            totalPages={3}
+            currentPage={currentPage}
+            goToPage={goToPage}
+            nextPage={nextPage}
+            prevPage={prevPage}
+          />)
+        }
       </>
     );
   }

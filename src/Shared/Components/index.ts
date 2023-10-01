@@ -16,6 +16,12 @@ import Timer from "./Timer/Timer"
 import ProductGrid from "./ProductGrid/ProductGrid";
 import FilterMenu from "./FilterMenu/FilterMenu";
 import Badge from "./Badge/Badge"
+import Breadcrumb from "./Breadcrumb/Breadcrumb";
+import ProductCarousel from "./Carousel/ProductCarousel";
+import Reviews from "./Review/Review";
+import WishCard from "./Card/WishCard";
+import { ColorList } from "./Carousel/ProductCarousel";
+import RangeSlider from "./RangeSlider/RangeSlider";
 export {
   Loader,
   Navbar,
@@ -36,4 +42,10 @@ export {
   Timer,
   ProductGrid,
   FilterMenu,
+  Breadcrumb,
+  ProductCarousel,
+  Reviews,
+  WishCard,
+  ColorList,
+  RangeSlider,
 };

@@ -4,7 +4,7 @@ import React from "react";
 const Rating: React.FC<{ numberOfRates: number }> = ({ numberOfRates }) => {
   // Function to calculate the number of filled stars and half-filled stars
   const getStars = (num: number): [number, number] => {
-    const filledStars = Math.floor(num / 2);
+    const filledStars = Math.floor(num);
     const halfStar = num % 2;
     return [filledStars, halfStar];
   };

@@ -2,26 +2,37 @@ import styled from "styled-components";
 import { AppColors } from "../../Constants";
 import { NavLink } from "react-router-dom";
 
-export const Container = styled.div``;
+export const Container = styled.div<{background?: string}>`
+`;
 
-export const ListWrapper = styled.div<{ gap?: string | undefined ,type?:string| undefined}>`
+export const ListWrapper = styled.div<{ gap?: string | undefined, type?:string| undefined}>`
   width: 100%;
   display: flex;
   gap: ${({ gap }) => (gap ? gap : "5px")};
   flex-direction: column;
 `;
-export const ProductCard = styled.div<{ view?: string }>`
-  gap: 40px;
+
+export const ProductCard = styled.div<{ view?: string, background?: string, type?: string }>`
+  gap: ${({ type }) => (type === "type1" ? "40px" : "")};
   display: flex;
   flex-direction: ${({ view }) => (view === "grid" ? "column" : "row")};
+  background:  ${({ background }) => (background ? background : "5px")};
+  .image {
+    height: 120px;
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 
-export const ProductDetails = styled.div<{ view?: string }>`
+export const ProductDetails = styled.div<{ view?: string, type?: string }>`
   flex: 0.8;
-  bacground: red;
+  background: #fff;
   height: 60px;
-
+  padding: ${({ type }) => (type === 'type1' ? "" : '0 10px')};
   h1 {
     color: ${({ view }) => (view === "grid" ? "#606060" : "#1c1c1c")};
     font-feature-settings: "clig" off, "liga" off;
@@ -111,15 +122,16 @@ export const WishCard = styled.div`
   position: absolute;
   right: 20px;
 `;
+
 export const GridWrapper = styled.div<{
   gap: string | undefined;
   itempergrid: number;
   type?: string;
 }>`
+  box-sizing: border-box;
   width: 100%;
-  padding: ${({ type }) => (type === "productGrid" ? "20px 0" : "20px")};
-  margin: auto;
   display: grid;
+  margin: auto;
   gap: ${({ gap }) => (gap ? gap : "10px")};
   grid-template-columns: ${({ itempergrid }) =>
     itempergrid ? `repeat(${itempergrid},1fr)` : "repeat(3,1fr)"};
