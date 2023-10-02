@@ -6,7 +6,7 @@ export const ToastContainer = styled.div<{
 }>`
   background-color: ${(props) =>
     props.type === "error"
-      ? "#ff3333"
+      ? "#000"
       : props.type === "success"
       ? "#33ff33"
       : "#333"};
@@ -14,5 +14,5 @@ export const ToastContainer = styled.div<{
   padding: 10px;
   border-radius: 4px;
   margin-bottom: 8px;
-  
+ background:blue
 `;

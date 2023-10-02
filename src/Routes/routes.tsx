@@ -14,6 +14,7 @@ import {
   ProductView,
   Cart,
 } from "../Pages/Private";
+import { useSelector } from "react-redux";
 
 const Router: React.FC = () => {
   return (
@@ -77,7 +78,8 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   component: Component,
   authRoute,
 }) => {
-  const isAuthenticated = true; // logic to check if the user is authenticated
+  const {token} = useSelector((el:any)=>el.user)
+  const isAuthenticated = !token?true:false; // logic to check if the user is authenticated
 
   if (authRoute && !isAuthenticated) {
     return <Navigate to={ROUTE.LOGIN} replace />;

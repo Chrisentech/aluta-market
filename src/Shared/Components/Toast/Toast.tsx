@@ -1,26 +1,43 @@
-import React from "react";
-import toast, { Toaster } from "react-hot-toast";
-import { ToastContainer } from "./toast.styles";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { clearAlert } from "../../../Features/alert/alertSlice";
 
 interface ToastProps {
-  type: "error" | "success" | "message";
-  message: string;
+  // message: string;
 }
 
-const Toast: React.FC<ToastProps> = ({ type, message }) => {
-  return (
-    <Toaster>
-      {(t) => (
-        <ToastContainer
-          className="ige"
-          type={type}
-          onClick={() => toast.dismiss(t.id)}
-        >
-          {message}
-        </ToastContainer>
-      )}
-    </Toaster>
-  );
+const Toast: React.FC<ToastProps> = () => {
+  const { status,message } = useSelector((state: any) => state.alert);
+  const dispatch = useDispatch()
+  
+
+  useEffect(() => {
+    if (status && status == "error") {
+      toast.error(message, {
+        position: toast.POSITION.TOP_RIGHT, // Set the position using the POSITION constant
+        hideProgressBar: false,
+        closeOnClick: true,
+        
+      });
+      setTimeout(() => {
+        dispatch(clearAlert());
+      }, 500);
+    } else if (status && status == "success") {
+      toast.success(message, {
+        position: toast.POSITION.TOP_RIGHT, // Set the position using the POSITION constant
+        hideProgressBar: false,
+        closeOnClick: true,
+        
+      });
+      setTimeout(() => {
+        dispatch(clearAlert());
+      }, 500);
+    } 
+  }, [status, message]);
+
+  return <ToastContainer />;
 };
 
 export default Toast;

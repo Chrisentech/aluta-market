@@ -1,7 +1,6 @@
 import React, { ReactNode, Fragment, useEffect, useState } from "react";
 import useLayoutHook from "../Shared/Hooks/useLayout";
-import { Loader, Navbar, Popup } from "../Shared/Components";
-
+import { Loader, Navbar, Popup, Toast } from "../Shared/Components";
 type ILayout = "blank" | "full" | "dashboard";
 
 interface LayoutProps<T> {
@@ -46,6 +45,7 @@ const Layout: React.FC<LayoutProps<any>> = ({
   if (state) {
     return <Loader />;
   }
+  
   return (
     <>
       <Popup show={showModal} width={modalWidth} className="popup">
@@ -53,6 +53,7 @@ const Layout: React.FC<LayoutProps<any>> = ({
       </Popup>
       <Fragment>
         <Navbar scrolled={scrolled} isMobile={isMobile} />
+        <Toast/>
         {Screen}
       </Fragment>
     </>

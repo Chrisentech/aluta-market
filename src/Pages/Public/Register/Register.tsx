@@ -20,13 +20,18 @@ import * as yup from "yup";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 // import { GoogleLogin } from "react-google-login";
-import { GoogleLogin} from '@react-oauth/google';
+import { GoogleLogin } from "@react-oauth/google";
 import { RegisterFormValues } from "../../../Interfaces";
 import { ROUTE } from "../../../Shared/Constants";
 import { generateSlug } from "../../../Shared/Utils/helperFunctions";
 import { FaArrowLeft } from "react-icons/fa";
 import { registerImg } from "../../../assets";
 import { Campus } from "../../../Shared/Constants/data";
+import useUsers from "../../../Features/user/userActions";
+import { useDispatch, useSelector } from "react-redux";
+import { alertError, alertSuccess } from "../../../Features/alert/alertSlice";
+import { VerifyOTPModal } from "../../../Shared/Components";
+import { showModal } from "../../../Features/modal/modalSlice";
 
 const initialValues: RegisterFormValues = {
   email: "",
@@ -34,14 +39,14 @@ const initialValues: RegisterFormValues = {
   fullname: "",
   phone: "",
   campus: "",
-  category: "",
+  usertype: "",
 };
 const validationSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
   fullname: yup.string().required("Fullname is required"),
   phone: yup.string().required("Phone is required"),
-  campus: yup.string().required("Select an option"),
-  category: yup.string().required("Select an option"),
+  campus: yup.string().required("Select your campus"),
+  usertype: yup.string().required("Select an option"),
   password: yup
     .string()
     .required("Password is required")
@@ -59,10 +64,36 @@ const responseGoogle = (response: any | void) => {
 const Screen: React.FC = () => {
   const [showPwd, setShowPwd] = useState(false);
   const [userType, setUserType] = useState("");
+  const [studentCampus, setCampus] = useState("");
+  const [loading, setLoading] = useState(false);
   const [storeName, setStoreName] = useState("");
-  const handleSubmit = (values: RegisterFormValues) => {
-    // Handle form submission here
-    console.log(values);
+  const dispatch = useDispatch();
+  const { createUser } = useUsers();
+  const handleSubmit = async (values: RegisterFormValues) => {
+    // console.log(campus)
+    let payload = {
+      campus: studentCampus,
+      usertype: userType,
+      email: "",
+      phone: "",
+      password: "",
+      fullname: "",
+    };
+    let { campus, usertype, ...rest } = values;
+    payload = { ...payload, ...rest };
+    setLoading(true);
+    try {
+      await createUser(payload);
+      dispatch(alertSuccess("Registration successful. Verify OTP!"));
+      setTimeout(() => {
+        dispatch(showModal());
+      }, 2000);
+    } catch (error: any) {
+      setLoading(false);
+      for (let index = 0; index < error.graphQLErrors.length; index++) {
+        dispatch(alertError(error.graphQLErrors[index].message));
+      }
+    }
   };
   return (
     <Container>
@@ -75,7 +106,7 @@ const Screen: React.FC = () => {
           <Formik
             initialValues={initialValues}
             onSubmit={handleSubmit}
-            validationSchema={validationSchema} // Specify the validation schema
+            // validationSchema={validationSchema} // Specify the validation schema
           >
             <Form>
               <FormControl>
@@ -115,12 +146,12 @@ const Screen: React.FC = () => {
                   Campus<span>*</span>
                 </Label>
                 <CustomField
-                  name="campus"
+                  name={studentCampus ? "none" : "campus"}
                   type="select"
                   defaultText="Select an option"
-                  onChange={(e: any) => setUserType(e.target.value)}
+                  onChange={(e: any) => setCampus(e.target.value)}
                   options={Campus}
-                  value={userType}
+                  value={studentCampus}
                 />
               </FormControl>
               <FormControl>
@@ -129,18 +160,20 @@ const Screen: React.FC = () => {
                 </Label>
 
                 <CustomField
-                  name={userType ? "none" : "category"}
+                  name={userType ? "none" : "usertype"}
                   type="select"
                   defaultText="I am a..."
                   onChange={(e: any) => setUserType(e.target.value)}
                   options={[
-                    { label: "Buyer", value: "buyer" },
-                    { label: "Seller", value: "seller" },
+                    { label: "I am a Buyer", value: "buyer" },
+                    { label: "I am a Seller", value: "seller" },
                   ]}
                   value={userType}
                 />
               </FormControl>
-              <SubmitButton type="submit">Join the Wagon</SubmitButton>
+              <SubmitButton type="submit" disabled={loading}>
+                Join the Wagon
+              </SubmitButton>
 
               <div className="option">
                 <span className="line"></span>
@@ -155,10 +188,10 @@ const Screen: React.FC = () => {
                 cookiePolicy={"single_host_origin"}
                 className="googleSignin"
               /> */}
-              <GoogleLogin 
-                  onSuccess={responseGoogle}
-                  onError={() => (responseGoogle)}
-                  // cookiePolicy={"single_host_origin"}
+              <GoogleLogin
+                onSuccess={responseGoogle}
+                onError={() => responseGoogle}
+                // cookiePolicy={"single_host_origin"}
               />
               <p>
                 Already have an account?{" "}
@@ -258,18 +291,22 @@ const CustomField: React.FC<{
   readOnly?: boolean;
 }> = ({ name, type, defaultText, options, value, readOnly, onChange }) => {
   const [field, meta] = useField(name);
+  // console.log(meta)
   const inputHasError = meta?.error?.length ? true : false;
   if (type === "select") {
+    // console.log(meta.error);
     return (
       <>
         <Select
           {...field}
           error={false}
           value={value}
+          as="select"
+          name={name}
           type={type}
           onChange={onChange}
         >
-          <option disabled selected value="">
+          <option disabled value="">
             {defaultText}
           </option>
           {options.map((opt: any, index: number) => {
@@ -303,6 +340,16 @@ const CustomField: React.FC<{
   );
 };
 const RegisterPage = () => {
-  return <Layout layout={"blank"} component={Screen} state={false} />;
+  const { show } = useSelector((state: any) => state.modal);
+
+  return (
+    <Layout
+      showModal={show}
+      layout={"blank"}
+      component={Screen}
+      state={false}
+      popUpContent={<VerifyOTPModal />}
+    />
+  );
 };
 export default RegisterPage;

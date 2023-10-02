@@ -27,6 +27,7 @@ const GlobalStyle = createGlobalStyle`
     background:${AppColors.brandGray};
     cursor:not-allowed
   }
+  
 `;
 
 export default GlobalStyle;
