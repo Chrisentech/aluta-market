@@ -28,8 +28,10 @@ import { FaArrowLeft } from "react-icons/fa";
 import { registerImg } from "../../../assets";
 import { Campus } from "../../../Shared/Constants/data";
 import useUsers from "../../../Features/user/userActions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { alertError, alertSuccess } from "../../../Features/alert/alertSlice";
+import { VerifyOTPModal } from "../../../Shared/Components";
+import { showModal } from "../../../Features/modal/modalSlice";
 
 const initialValues: RegisterFormValues = {
   email: "",
@@ -65,23 +67,33 @@ const Screen: React.FC = () => {
   const [studentCampus, setCampus] = useState("");
   const [loading, setLoading] = useState(false);
   const [storeName, setStoreName] = useState("");
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { createUser } = useUsers();
   const handleSubmit = async (values: RegisterFormValues) => {
     // console.log(campus)
-    let payload = {campus:studentCampus,usertype:userType,email:"",phone:"",password:"",fullname:""}
-    let {campus,usertype,...rest} = values
-    payload = {...payload,...rest}
-    setLoading(true)
-     try {
-       await createUser(payload);
-       dispatch(alertSuccess("Registration successful. Verify OTP!"))
-     } catch (error:any) {
-      setLoading(false)
+    let payload = {
+      campus: studentCampus,
+      usertype: userType,
+      email: "",
+      phone: "",
+      password: "",
+      fullname: "",
+    };
+    let { campus, usertype, ...rest } = values;
+    payload = { ...payload, ...rest };
+    setLoading(true);
+    try {
+      await createUser(payload);
+      dispatch(alertSuccess("Registration successful. Verify OTP!"));
+      setTimeout(() => {
+        dispatch(showModal());
+      }, 2000);
+    } catch (error: any) {
+      setLoading(false);
       for (let index = 0; index < error.graphQLErrors.length; index++) {
-             dispatch(alertError(error.graphQLErrors[index].message));
+        dispatch(alertError(error.graphQLErrors[index].message));
       }
-     }
+    }
   };
   return (
     <Container>
@@ -134,7 +146,7 @@ const Screen: React.FC = () => {
                   Campus<span>*</span>
                 </Label>
                 <CustomField
-                  name={studentCampus?"none":"campus"}
+                  name={studentCampus ? "none" : "campus"}
                   type="select"
                   defaultText="Select an option"
                   onChange={(e: any) => setCampus(e.target.value)}
@@ -294,7 +306,7 @@ const CustomField: React.FC<{
           type={type}
           onChange={onChange}
         >
-          <option disabled  value="">
+          <option disabled value="">
             {defaultText}
           </option>
           {options.map((opt: any, index: number) => {
@@ -328,6 +340,16 @@ const CustomField: React.FC<{
   );
 };
 const RegisterPage = () => {
-  return <Layout layout={"blank"} component={Screen} state={false} />;
+  const { show } = useSelector((state: any) => state.modal);
+
+  return (
+    <Layout
+      showModal={show}
+      layout={"blank"}
+      component={Screen}
+      state={false}
+      popUpContent={<VerifyOTPModal />}
+    />
+  );
 };
 export default RegisterPage;

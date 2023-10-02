@@ -74,7 +74,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   authRoute,
 }) => {
   const {token} = useSelector((el:any)=>el.user)
-  const isAuthenticated = token?true:false; // logic to check if the user is authenticated
+  const isAuthenticated = !token?true:false; // logic to check if the user is authenticated
 
   if (authRoute && !isAuthenticated) {
     return <Navigate to={ROUTE.LOGIN} replace />;

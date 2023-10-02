@@ -11,17 +11,18 @@ import ImageCard from "./ImageCard/ImageCard";
 import Dropdown from "./Dropdown/Dropdown";
 import Popup from "./Popup/Popup";
 import Toast from "./Toast/Toast";
-import Button from "./Button/Button"
-import Timer from "./Timer/Timer"
+import Button from "./Button/Button";
+import Timer from "./Timer/Timer";
 import ProductGrid from "./ProductGrid/ProductGrid";
 import FilterMenu from "./FilterMenu/FilterMenu";
-import Badge from "./Badge/Badge"
+import Badge from "./Badge/Badge";
 import Breadcrumb from "./Breadcrumb/Breadcrumb";
 import ProductCarousel from "./Carousel/ProductCarousel";
 import Reviews from "./Review/Review";
 import WishCard from "./Card/WishCard";
 import { ColorList } from "./Carousel/ProductCarousel";
 import RangeSlider from "./RangeSlider/RangeSlider";
+import VerifyOTPModal from "./VerifyOTPModal";
 export {
   Loader,
   Navbar,
@@ -32,6 +33,7 @@ export {
   Badge,
   ImageCard,
   Table,
+  VerifyOTPModal,
   View,
   Rating,
   Toast,
