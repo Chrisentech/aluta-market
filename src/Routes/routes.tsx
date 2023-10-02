@@ -12,6 +12,7 @@ import {
   SellerPayment,
   PaymentRegScreen,
   ProductView,
+  Cart,
 } from "../Pages/Private";
 
 const Router: React.FC = () => {
@@ -26,6 +27,10 @@ const Router: React.FC = () => {
           <Route
             path={ROUTE.BUYER_DASHBOARD}
             element={<PrivateRoute component={BuyerDashboard} authRoute />}
+          />
+          <Route
+            path={ROUTE.CART}
+            element={<PrivateRoute component={Cart} authRoute />}
           />
           <Route
             path={ROUTE.SELLER_DASHBOARD}

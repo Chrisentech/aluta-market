@@ -65,6 +65,9 @@ export const OptionsContainer = styled.div<{ isOpen: boolean }>`
     cursor: pointer;
     display: inline-block;
     margin: 10px 0;
+    &:hover {
+      color: #FA3434;
+    }
   }
 }
 `;
