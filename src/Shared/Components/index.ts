@@ -23,6 +23,7 @@ import WishCard from "./Card/WishCard";
 import { ColorList } from "./Carousel/ProductCarousel";
 import RangeSlider from "./RangeSlider/RangeSlider";
 import VerifyOTPModal from "./VerifyOTPModal";
+import ItemCounter from "./ItemCounter/ItemCounter";
 export {
   Loader,
   Navbar,
@@ -50,4 +51,5 @@ export {
   WishCard,
   ColorList,
   RangeSlider,
+  ItemCounter,
 };

@@ -20,6 +20,13 @@ export { default as square3d } from './3d-square.svg';
 export { default as group } from './group.svg';
 export { default as image34 } from './image34.png';
 export { default as check } from './check.svg';
-
-
-
+export { default as amexpress } from './amexpresspayment.png';
+export { default as applepay } from './applepayment.png';
+export { default as masterpay } from './masterpayment.png';
+export { default as paypal } from './paypalpayment.png';
+export { default as visa } from './visapayment.png';
+export { default as arike } from './Arike-background.png';
+export { default as profileAdd } from './profile-add.svg';
+export { default as message } from './message.svg';
+export { default as report } from './report.svg';
+export { default as location } from './location-add.png'
