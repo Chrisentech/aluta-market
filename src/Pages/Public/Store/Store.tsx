@@ -65,7 +65,7 @@ const Screen: React.FC = () => {
                             className="view" mode="grid" 
                             gridItems={Array(30).fill(null)} 
                             itempergrid={5} type="productGrid" 
-                            gap='20px' />
+                            gap='20px'/>
                     </ProductSection>
                 </MainSection>
             </Container>
@@ -75,7 +75,7 @@ const Screen: React.FC = () => {
 
 const Cart = () => {
     // const { loading } = useSelector((store: any) => store.products);
-    return <Layout layout={"full"} component={Screen} state={false} />;
+    return <Layout layout={"blank"} component={Screen} state={false} />;
 };
 
 export default Cart;

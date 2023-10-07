@@ -30,3 +30,19 @@ export { default as profileAdd } from './profile-add.svg';
 export { default as message } from './message.svg';
 export { default as report } from './report.svg';
 export { default as location } from './location-add.png'
+export { default as dashboard } from './dashboard.svg';
+export { default as emptyWallet } from './empty-wallet-tick.svg';
+export { default as documentText } from './document-text.svg';
+export { default as sendSquare } from './send-sqaure-2.svg';
+export { default as settings } from './setting-2.svg';
+export { default as shop } from './shop.svg';
+export { default as shoppingCart } from './shopping-cart.svg';
+export { default as userTag } from './user-tag.svg';
+export { default as dashboardUnfilled } from './category.svg';
+export { default as emptyWalletUnfilled } from './empty-wallet-tick-unfilled.svg';
+export { default as documentTextUnfilled } from './document-text-unfilled.svg';
+export { default as settingsUnfilled } from './setting-2-unfilled.svg';
+export { default as shopUnfilled } from './shop-unfilled.svg';
+export { default as shoppingCartUnfilled } from './shopping-cart-unfilled.svg';
+export { default as userTagUnfilled } from './user-tag-unfilled.svg';
+

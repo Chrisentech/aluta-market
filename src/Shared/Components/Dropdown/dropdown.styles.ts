@@ -37,6 +37,10 @@ export const DropdownWrapper = styled.button<{
 export const DropdownSelected = styled.div`
   padding: 0 10px;
   cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const DropdownOptions = styled.ul<{ open: boolean }>`
@@ -52,7 +56,7 @@ export const DropdownOptions = styled.ul<{ open: boolean }>`
   border: 1px solid #ccc;
   border-top: none;
   z-index: 1000;
-  border-radius: 0 0 4px 4px;
+  border-radius: 6px;
 `;
 
 export const DropdownOption = styled.li`

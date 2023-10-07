@@ -6,17 +6,21 @@ import {
   SidebarMenu,
   SidebarMenuLinks,
   CustomLink,
+  MenuTop,
 } from "./dashboard.style";
-import { BiSolidUserPin } from "react-icons/bi";
-import { FiBarChart2, FiSettings } from "react-icons/fi";
 // import { PiGridFourFill } from "react-icons/pi";
 
-import { IoLogOutOutline, IoWalletOutline } from "react-icons/io5";
-import { RxDashboard } from "react-icons/rx";
 // import { HiMiniShoppingCart, HiOutlineDocumentText } from "react-icons/hi";
-import { HiMiniShoppingCart, HiOutlineDocumentText } from "react-icons/hi2";
 import { ROUTE } from "../../Shared/Constants";
 import { Dropdown } from "../../Shared/Components";
+import { 
+  dashboard, dashboardUnfilled, 
+  documentText, documentTextUnfilled, 
+  emptyWallet, emptyWalletUnfilled, 
+  sendSquare, settings, settingsUnfilled, 
+  shop, shopUnfilled, shoppingCart, 
+  shoppingCartUnfilled, userTag, userTagUnfilled 
+} from "../../assets";
 interface IScreenProps {
   children: ReactNode;
 }
@@ -26,9 +30,9 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
   const currentPath = location.pathname;
   const [hover, setHover] = useState("");
 
-  const options = ["Opeyemi's Store", "+ Create a new Store"];
+  const options = ["Arike collection", "+ Create a new Store"];
   const [active, setActive] = useState("");
-  const [selectedOption, setSelectedOption] = useState(" Opeyemi's Store");
+  const [selectedOption, setSelectedOption] = useState(" Arike Collection");
 
   const handleOptionClick = (option: string) => {
     setSelectedOption(option);
@@ -69,103 +73,114 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
           hasAvatar={true}
           selectedOption={selectedOption}
           handleOptionClick={handleOptionClick}
+          // className="store-dropdown"
         />
         <SidebarMenu>
-          <SidebarMenuLinks
-            active={active === "dashboard"}
-            onClick={() => setActive("dashboard")}
-          >
-            <Link to={ROUTE.SELLER_DASHBOARD}>
-              <RxDashboard /> Dashboard
-            </Link>
-          </SidebarMenuLinks>
-          <SidebarMenuLinks
-            active={active === "products"}
-            onClick={() => setActive("products")}
-          >
-            <Link to={ROUTE.SELLER_PRODUCTS}>
-              <HiMiniShoppingCart /> Products
-            </Link>
-          </SidebarMenuLinks>
-          <SidebarMenuLinks
-            active={active === "orders"}
-            hover={hover === "orders"}
-            onMouseOut={() => setHover("")}
-            onMouseOver={() => setHover("orders")}
-            onFocus={() => setHover("orders")}
-            onClick={() => {
-              setHover("orders");
-              setActive("orders");
-            }}
-          >
-            <Link to="#">
-              <FiBarChart2 />
-              <Dropdown
-                margin={"0"}
-                options={[<span>Orders</span>, <span>Orders</span>]}
-                width={"100%"}
-                padding={"0"}
-                state={hover === "orders"}
-                offset={"0"}
-                background={"transparent"}
-                selectedOption={"Orders"}
-                handleOptionClick={handleOptionClick}
-              />
-            </Link>
-          </SidebarMenuLinks>
-          <SidebarMenuLinks
-            hover={hover === "payments"}
-            active={active === "payments"}
-            onMouseOut={() => setHover("")}
-            onMouseOver={() => setHover("payments")}
-            onClick={() => {
-              setHover("payments");
-              setActive("payments");
-            }}
-          >
-            <Link to={ROUTE.SELLER_PAYMENT}>
-              <IoWalletOutline />{" "}
-              <Dropdown
-                margin={"0"}
-                options={["Payments"]}
-                width={"100%"}
-                padding={"0"}
-                state={hover === "payments"}
-                offset={"0"}
-                background={"transparent"}
-                selectedOption={"Payments"}
-                handleOptionClick={handleOptionClick}
-              />
-            </Link>
-          </SidebarMenuLinks>
-          <SidebarMenuLinks
-            active={active === "reviews"}
-            onClick={() => setActive("reviews")}
-          >
-            <Link to="#">
-              <HiOutlineDocumentText /> Reviews
-            </Link>
-          </SidebarMenuLinks>
-          <SidebarMenuLinks
-            active={active === "settings"}
-            onClick={() => setActive("settings")}
-          >
-            <Link to="#">
-              <FiSettings /> Store Settings
-            </Link>
-          </SidebarMenuLinks>
+          <MenuTop>
+            <SidebarMenuLinks
+              active={active === "dashboard"}
+              onClick={() => setActive("dashboard")}
+              color="#00B517"
+            >
+              <Link to={ROUTE.SELLER_DASHBOARD}>
+                {(active === "dashboard") ? <img src={dashboard}/> :  <img src={dashboardUnfilled}/>  } Dashboard
+              </Link>
+            </SidebarMenuLinks>
+            <SidebarMenuLinks
+              active={active === "products"}
+              onClick={() => setActive("products")}
+              color="#FF001F"
+            >
+              <Link to={ROUTE.SELLER_PRODUCTS}>
+                {(active === "products") ? <img src={shoppingCart}/> :  <img src={shoppingCartUnfilled}/>  } Products
+              </Link>
+            </SidebarMenuLinks>
+            <SidebarMenuLinks
+              active={active === "orders"}
+              hover={hover === "orders"}
+              color="#FF9017"
+              onMouseOut={() => setHover("")}
+              onMouseOver={() => setHover("orders")}
+              onFocus={() => setHover("orders")}
+              onClick={() => {
+                setHover("orders");
+                setActive("orders");
+              }}
+            >
+              <Link to="#">
+              {(active === "orders") ? <img src={shop}/> :  <img src={shopUnfilled}/>  }
+                <Dropdown
+                  margin={"0"}
+                  options={[<span>Orders</span>, <span>Orders</span>]}
+                  width={"100%"}
+                  padding={"0"}
+                  state={hover === "orders"}
+                  offset={"0"}
+                  background={"transparent"}
+                  selectedOption={"Orders"}
+                  handleOptionClick={handleOptionClick}
+                />
+              </Link>
+            </SidebarMenuLinks>
+            <SidebarMenuLinks
+              hover={hover === "payments"}
+              active={active === "payments"}
+              onMouseOut={() => setHover("")}
+              onMouseOver={() => setHover("payments")}
+              onClick={() => {
+                setHover("payments");
+                setActive("payments");
+              }}
+              color="#0D6EFD"
+            >
+              <Link to={ROUTE.SELLER_PAYMENT}>
+              {(active === "payments") ? <img src={emptyWallet}/> :  <img src={emptyWalletUnfilled}/> }{" "}
+                <Dropdown
+                  margin={"0"}
+                  options={["Payments"]}
+                  width={"100%"}
+                  padding={"0"}
+                  state={hover === "payments"}
+                  offset={"0"}
+                  background={"transparent"}
+                  selectedOption={"Payments"}
+                  handleOptionClick={handleOptionClick}
+                />
+              </Link>
+            </SidebarMenuLinks>
+            <SidebarMenuLinks
+              active={active === "reviews"}
+              onClick={() => setActive("reviews")}
+              color="#FF9017"
+            >
+              <Link to="#">
+              {(active === "reviews") ? <img src={documentText}/> :  <img src={documentTextUnfilled}/>  } Reviews
+              </Link>
+            </SidebarMenuLinks>
+            <SidebarMenuLinks
+              active={active === "settings"}
+              onClick={() => setActive("settings")}
+              color="#FF001F"
+            >
+              <Link to="#">
+                {(active === "settings") ? <img src={settings} /> :  <img src={settingsUnfilled}/>  } Store Settings
+              </Link>
+            </SidebarMenuLinks>
+          </MenuTop>
           <CustomLink>
+            <hr />
             <SidebarMenuLinks
               active={active === "profile"}
               onClick={() => setActive("profile")}
+              color="#0D6EFD"
             >
               <Link to="#">
-                <BiSolidUserPin size="24" /> My Profile
+              {(active === "profile") ? <img src={userTag} /> :  <img src={userTagUnfilled}/> } My Profile
               </Link>
             </SidebarMenuLinks>
             <SidebarMenuLinks>
               <Link to="#">
-                <IoLogOutOutline color="red !important" /> Log out
+                <img src={sendSquare} /> Log out
               </Link>
             </SidebarMenuLinks>
           </CustomLink>

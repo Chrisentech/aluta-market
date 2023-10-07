@@ -103,7 +103,7 @@ export const MainSection = styled.div`
     border: 1px solid #EFF2F4;
     margin-top: 10px;
     margin-bottom: 50px;
-    overflow: hidden;
+    overflow-y: hidden;
 `;
 
 export const Top = styled.div`
@@ -111,6 +111,7 @@ export const Top = styled.div`
     height: 95px;
     padding: 20px 40px;
     border-bottom: 1px solid #EFF2F4;
+    margin-bottom: 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -164,6 +165,32 @@ export const SearchTab = styled.div`
 `;
 
 export const ProductSection = styled.div`
-    padding: 40px;
-    overflow: hidden;
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 20px;
+    margin: auto;
+    overflow-y: scroll;
+    height: 77%;
+    width: 95%;
+
+    &::-webkit-scrollbar {
+        display: none;
+        width: 8px
+      }
+    
+      &::-webkit-scrollbar-thumb {
+        background-color: #DEE2E7;
+        border-radius: 6px;
+      }
+    
+      &::-webkit-scrollbar-track {
+        background-color: #fff;
+      }
+
+      &:hover {
+        &::-webkit-scrollbar {
+          display: block;
+        }
+      }
+}
 `;
