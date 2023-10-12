@@ -2,7 +2,8 @@ import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 const token = null;
 
 const httpLink = new HttpLink({
-  uri: "http://localhost:8082/graphql",
+  // uri: "http://localhost:8082/graphql", //Developement
+  uri: "http://54.161.147.89:8082/graphql", //Production
   headers: {
     Authorization: `Bearer ${token}`,
   },

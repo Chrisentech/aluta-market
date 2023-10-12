@@ -1,6 +1,7 @@
 import React, { ReactNode, Fragment, useEffect, useState } from "react";
 import useLayoutHook from "../Shared/Hooks/useLayout";
 import { Loader, Navbar, Popup, Toast } from "../Shared/Components";
+import { useSelector } from "react-redux";
 type ILayout = "blank" | "full" | "dashboard";
 
 interface LayoutProps<T> {
@@ -23,6 +24,7 @@ const Layout: React.FC<LayoutProps<any>> = ({
   const Screen = useLayoutHook(layout, state, <Component />);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [scrolled, setScrolled] = useState(false);
+  const {show} = useSelector((el:any)=>el.modal)
 
   const handleScroll = () => {
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
@@ -48,12 +50,15 @@ const Layout: React.FC<LayoutProps<any>> = ({
   
   return (
     <>
-      <Popup show={showModal} width={modalWidth} className="popup">
-        {popUpContent}
-      </Popup>
+     
+      {
+        <Popup show={showModal} width={modalWidth} className="popup">
+          {popUpContent}
+        </Popup>
+      }
       <Fragment>
         <Navbar scrolled={scrolled} isMobile={isMobile} />
-        <Toast/>
+        {!show && <Toast />}
         {Screen}
       </Fragment>
     </>

@@ -87,7 +87,7 @@ const Screen: React.FC = () => {
       dispatch(alertSuccess("Registration successful. Verify OTP!"));
       setTimeout(() => {
         dispatch(showModal());
-      }, 2000);
+      }, 1500);
     } catch (error: any) {
       setLoading(false);
       for (let index = 0; index < error.graphQLErrors.length; index++) {
@@ -348,7 +348,7 @@ const RegisterPage = () => {
       layout={"blank"}
       component={Screen}
       state={false}
-      popUpContent={<VerifyOTPModal />}
+      popUpContent={<VerifyOTPModal url="" />}
     />
   );
 };

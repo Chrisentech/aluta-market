@@ -6,9 +6,12 @@ export const Container = styled.div`
   .label {
     display: flex;
     justify-content: center; 
-    margin-left: 20px;
-    margin-bottom: -5px;
-    font-weight:bold
+    // margin-left: 20px;
+    text-align:center;
+    margin-bottom: -5px;font-family: Inter;
+    font-size: 24px !important;
+    font-style: normal;
+    font-weight: 600;
   }
   .title {
     text-align: center;
@@ -67,32 +70,29 @@ export const Container = styled.div`
     }  
  `;
 
-export const Label = styled.label`
-   color: #5050 50;
-  font-featur e-settings: "clig" off, "liga" off;
-  font-family: Inter;
-  font-size: 16px;tyle: normal;
-  font-weight: 600;
-  line-height: normal;
-  text-align:center;
-  display: block;
-  span {
-    color: ${AppColors.brandOrange};
+export const Input = styled.input`
+  height: 50px;
+  width: 50px;
+  border-radius: 7px;
+  outline: none;
+  // border: 1px;
+  text-align: center;
+  font-size: 42px;
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
-  .info {
-    color: var(--gray-600, #505050);
-    font-feature-settings: "clig" off, "liga" off;
-    font-family: Inter;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
+  
 `;
+
 
 export const FormControl = styled.div`
   width: 100%;
-
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
   position: relative;
   div {
     display: flex;
@@ -113,4 +113,19 @@ export const FormControl = styled.div`
     color: red;
     margin-bottom: 5px;
   }
+  img{
+    margin-bottom:10px
+  }
 `;
+
+export const ResendButton = styled.button`
+color: #002;
+border:0;
+outline:0;
+cursor:pointer;
+font-size:14px;
+background:transparent;
+margin:10px 0;
+float:right
+
+`

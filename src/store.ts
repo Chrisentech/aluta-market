@@ -5,6 +5,7 @@ import productReducer, {
 } from "./Features/products/productSlice";
 import modalReducer, { ModalState } from "./Features/modal/modalSlice";
 import userReducer, { UserState } from "./Features/user/userSlice";
+import notificationsReducer, { notificationsState } from "./Features/notifications/notificationSlice";
 
 // Define the root state type
 export interface RootState {
@@ -12,6 +13,7 @@ export interface RootState {
   products: ProductState;
   modal: ModalState;
   user: UserState;
+  notifications: notificationsState;
 }
 
 // Create the Redux store with the rootReducer
@@ -21,5 +23,6 @@ export const store = configureStore({
     products: productReducer,
     modal: modalReducer,
     user: userReducer,
+    notifications: notificationsReducer,
   },
 });

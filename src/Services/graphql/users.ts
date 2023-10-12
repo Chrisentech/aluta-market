@@ -33,7 +33,7 @@ export const CREATE_USER = gql`
 export const VERIFY_OTP = gql`
   ${USER_FIELDS}
   mutation ($input: NewVerifyOTP!) {
-    loginUser(input: $input) {
+    createVerifyOTP(input: $input) {
       ...UserFields
     }
   }

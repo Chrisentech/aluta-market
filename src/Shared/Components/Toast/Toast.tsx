@@ -37,7 +37,7 @@ const Toast: React.FC<ToastProps> = () => {
     } 
   }, [status, message]);
 
-  return <ToastContainer />;
+  return <ToastContainer className={"am_toast"} />;
 };
 
 export default Toast;
