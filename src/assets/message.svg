@@ -1,0 +1,28 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="vuesax/linear/message">
+<g id="message">
+<path id="Vector" d="M8.5 19H8C4 19 2 18 2 13V8C2 4 4 2 8 2H16C20 2 22 4 22 8V13C22 17 20 19 16 19H15.5C15.19 19 14.89 19.15 14.7 19.4L13.2 21.4C12.54 22.28 11.46 22.28 10.8 21.4L9.3 19.4C9.14 19.18 8.77 19 8.5 19Z" stroke="url(#paint0_linear_2547_402)" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M15.9965 11H16.0054" stroke="url(#paint1_linear_2547_402)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_3" d="M11.9955 11H12.0045" stroke="url(#paint2_linear_2547_402)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_4" d="M7.99451 11H8.00349" stroke="url(#paint3_linear_2547_402)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_2547_402" x1="12" y1="2" x2="12" y2="22.06" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF7612"/>
+<stop offset="1" stop-color="#FF001F"/>
+</linearGradient>
+<linearGradient id="paint1_linear_2547_402" x1="16.001" y1="10.5" x2="16.001" y2="11.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF7612"/>
+<stop offset="1" stop-color="#FF001F"/>
+</linearGradient>
+<linearGradient id="paint2_linear_2547_402" x1="12" y1="10.5" x2="12" y2="11.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF7612"/>
+<stop offset="1" stop-color="#FF001F"/>
+</linearGradient>
+<linearGradient id="paint3_linear_2547_402" x1="7.999" y1="10.5" x2="7.999" y2="11.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF7612"/>
+<stop offset="1" stop-color="#FF001F"/>
+</linearGradient>
+</defs>
+</svg>

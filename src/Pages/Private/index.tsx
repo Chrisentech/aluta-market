@@ -6,3 +6,4 @@ export { default as AddNewProducts } from "./Seller/Products/New/CreateNew";
 export { default as SellerPayment } from "./Seller/Payment/Payment";
 export { default as ProductView } from "./Buyer/ProductView/ProductView";
 export { default as PaymentRegScreen } from "./Seller/Payment/RegistrationScreen";
+export { default as Cart } from "./Buyer/Cart/Cart";

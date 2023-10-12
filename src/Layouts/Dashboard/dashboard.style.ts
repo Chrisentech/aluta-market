@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { StringLiteral } from "typescript";
 // import { AppColors } from "../../Shared/Constants";
 
 export const Wrapper = styled.div`
@@ -7,25 +8,35 @@ export const Wrapper = styled.div`
   position: relative;
   min-height: 100vh;
   main {
-    width: calc(100% - 250px);
+    box-sizing: border-box;
+    width: calc(100% - 295px);
     // display: flex;
     // justify-content: center;
     // align-items: center;
     // flex-direction: column;
     padding: 30px;
     margin: 100px auto 30px auto;
-    margin-left: 251.5px;
+    margin-left: 295.5px;
   }
 `;
 
 export const Sidebar = styled.section`
+  box-sizing: border-box;
   position: fixed;
   height: 100vh;
   background: #fff;
   margin-top: 50px;
-  width: 250px;
+  width: 295px;
   padding-top: 60px;
 
+  .store-title {
+    font-family: inter;
+    font-weight: 500;
+    line-height: 30px;
+    letter-spacing: -0.32px;
+    font-size: 16px;
+    display: inline-flex;
+  }
   .avatar {
     width: 43px;
     height: 43px;
@@ -47,23 +58,33 @@ export const Sidebar = styled.section`
   }
   // top:180px;
 `;
-export const SidebarMenu = styled.ul``;
+export const SidebarMenu = styled.ul`
+  width: 270px;
+`;
 export const SidebarMenuLinks = styled.li<{
   active?: boolean;
   hover?: boolean;
+  background?: string;
+  color?: string;
 }>`
+  box-sizing: border-box;
+  width: 255px;
   border-radius: ${({ hover }) => (hover ? `0` : "6px")};
   padding: 10px 20px;
   margin: 15px 5px 20px 20px;
   position: relative;
   cursor: pointer;
+  font-family: inter;
+  line-height: 30px;
+  letter-spacing: -0.32px;
+  font-weight: ${({ active }) => ( active ? "700" : "400")};
   min-height: ${({ hover }) => (hover ? `100px` : "unset")};
   transition: 0.5s ease;
-  background: ${(props) => (props.active ? `#00b51714` : "unset")};
-  border-right: ${(props) => (props.active ? "5px solid #00B517" : "unset")};
+  background: ${({ active, color }) => ( active ? color + '14' : "unset")};
+  // border-right: ${({active, color }) => ( active ? "5px solid " + color : "unset")};
   &:hover {
     button > div > span {
-      color: #00b517 !important;
+      color: #505050 !important;
     }
   }
   a,
@@ -76,7 +97,7 @@ export const SidebarMenuLinks = styled.li<{
     font-size: 16px !important;
     font-style: normal;
     color: ${(props) =>
-      props.active ? "#00B517 !important" : "#8b96a5 !important"};
+      props.active ? "#505050 !important" : "#8b96a5 !important"};
     ul {
       text-align: initial;
       border: none;
@@ -88,15 +109,25 @@ export const SidebarMenuLinks = styled.li<{
     transition: 0.5s ease;
     font-size: 20px;
     color: ${(props) =>
-      props.active ? "#00B517 !important" : "#8b96a5 !important"};
+      props.active ? "#505050 !important" : "#8b96a5 !important"};
   }
   &:hover {
-    border-right: 5px solid #00b517;
-    background: #00b51714;
+    // border-right: ${({ color }) => ( color ? "5px solid " + color : "unset")};
+    background: ${({ color }) => ( color ? color + '14' : "unset")};
     a,
     svg {
-      color: #00b517 !important;
+      color: #505050 !important;
     }
+  }
+  &::after {
+    content: '';
+    border-radius: 3px;
+    width: 5px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: -10px;
+    background: ${({ active, color }) => ( active ? color : "unset")};
   }
 `;
 
@@ -122,11 +153,47 @@ export const Select = styled.select`
   }
 `;
 
+export const MenuTop = styled.div`
+  box-sizing: border-box;
+  position: relative;
+  width: 295px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+    width: 7px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #EFF2F4;
+    border-radius: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #fff;
+  }
+
+  &:hover {
+    &::-webkit-scrollbar {
+      display: block;
+    }
+  }
+
+  height: calc(100vh - 435px);
+`;
+
 export const CustomLink = styled.div`
   position: absolute;
-  bottom: 130px;
+  background: #fff;
+  bottom: 0px;
+  padding-bottom: 130px;
   width: 100%;
-  border-top: 1px solid #bdc4cd;
-  width: 80%;
-  margin: 0 30px;
+  // border-top: 1px solid #bdc4cd;
+  // margin: 0 30px;
+  z-index: 2;
+
+  hr {
+    width: 70%;
+    margin: 0 auto;
+  }
 `;

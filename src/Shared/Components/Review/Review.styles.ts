@@ -18,6 +18,23 @@ export const Wrapper = styled.div<IWrapperProps>`
         justify-content: space-between;
         padding: 20px;
         border-bottom: 1px solid #DEE2E7;
+
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 28px;
+            letter-spacing: -0.2px;
+            color: #1C1C1C;
+        }
+        .action {
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            cursor: pointer;
+            color: #FF9017;
+        }
     }
 `;
 

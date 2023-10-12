@@ -3,6 +3,7 @@ export const ROUTE = {
   HOME: "/",
   BUYER_DASHBOARD: "/buyer/dashboard/",
   SEARCH: "/search/:query",
+  STORE: "/store/:id",
   CART: "/product/cart/",
   ADDRESS: "/address/",
   WISHLIST: "/product/wishlist/",

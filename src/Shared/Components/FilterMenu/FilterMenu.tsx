@@ -33,7 +33,7 @@ const Dropdown: React.FC<{
 
     useEffect(() => {
       if (onOptionChange) onOptionChange(category, selectedOptions);
-    }, [selectedOptions, onOptionChange])
+    }, [selectedOptions])
   
     return (
       <DropdownContainer>
@@ -65,8 +65,7 @@ const Dropdown: React.FC<{
     );
 };
 
-
-const FilterMenu: React.FC<{onOptionChange?: (category: string, selectedOptions: string[]) => void}> = ({ onOptionChange }) => {
+const FilterMenu: React.FC<{ onOptionChange?: (category: string, selectedOptions: string[]) => void}> = ({ onOptionChange }) => {
   return (
       <FilterContainer>
           <Dropdown category='Category' options={categories} type="default" onOptionChange={onOptionChange}/>

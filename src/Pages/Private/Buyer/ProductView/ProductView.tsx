@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { 
   CardIcon, Container, 
   DeliveryInfo, Description, 
@@ -21,6 +21,8 @@ import {
 import { RxDotFilled } from "react-icons/rx";
 import { color2, group, rotate3d, square3d } from "../../../../assets";
 import GridView from "../../../../Shared/Components/ViewSelector/GridView";
+import { BiSolidRightArrowSquare } from "react-icons/bi";
+import DeliveryAddressFormModal from "./modals/ChangeAddress";
 
 
 const instock = true //to test the reaction if product is in stock
@@ -38,6 +40,8 @@ const DiscountCalc = (
  
 
 const Screen: React.FC = () => {
+  const [isChangeAddressOpen, setChangeAddressOpen] = useState(false);
+
   const breadcrumbs = [
     // should get links and labels dynamically 
     { label: 'Home', link: '/' },
@@ -45,8 +49,18 @@ const Screen: React.FC = () => {
     { label: 'Mens Wear', link: '/search?Clothings/Mens wear' }, 
     { label: 'Summer clothing' }, 
   ];
+
+  const openChangeAddressModal = () => {
+    setChangeAddressOpen(true);
+  };
+
+  const closeChangeAddressModal = () => {
+    setChangeAddressOpen(false);
+  };
+
   return (
     <Wrapper>
+      <DeliveryAddressFormModal isOpen={isChangeAddressOpen} onClose={closeChangeAddressModal} />
       <Container>
         <Breadcrumb items={breadcrumbs}/>
         <OrderDetail>
@@ -116,8 +130,7 @@ const Screen: React.FC = () => {
                   <p className="detail">
                     Scarlet Hostel, adjacent Yemco Saloon, Education, Fuoye, Oye <span>Delivery within 24 hours</span>
                   </p>
-                  <p className="action">Change Address</p>
-
+                  <p className="action" onClick={openChangeAddressModal}><BiSolidRightArrowSquare size={18}/> Change Address</p>
                 </div>
               </InfoCard>
               <InfoCard>
@@ -142,7 +155,7 @@ const Screen: React.FC = () => {
                   <p className="detail">
                     Kindly return any bad or wrong product to our station within 24 hours of delivery for refund.
                   </p>
-                  <p className="action">Read more</p>
+                  <p className="action"><BiSolidRightArrowSquare size={18}/>Read more</p>
                 </div>
               </InfoCard>
             </div>

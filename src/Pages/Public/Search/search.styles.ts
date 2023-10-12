@@ -65,7 +65,16 @@ export const Selector = styled.div`
 `;
 
 export const Filters = styled.div`
-
+    font-family: inter;
+    display: flex; 
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    .clear {
+        color: #FA3434;
+        cursor: pointer;
+    }
 `;
 
 export const SelectIcon = styled.button<{active: boolean}>` 
@@ -80,5 +89,12 @@ export const SelectIcon = styled.button<{active: boolean}>`
 `;
 
 export const FilterTag = styled.span`
-
+    padding: 6px;
+    border: solid 1px #FF7612;
+    border-radius: 5px;
+    color: #505050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
 `;

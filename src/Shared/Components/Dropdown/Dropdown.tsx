@@ -66,7 +66,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           <PiCaretUpDownBold />
         )}
         {hasAvatar && <span className="avatar">A</span>}{" "}
-        <span>{selectedOption} </span>
+        <span className="store-title">{selectedOption} </span>
       </DropdownSelected>
       {(state ? state : isOpen) && (
         <DropdownOptions

@@ -4,6 +4,7 @@ import { Container, FilterTag, Filters, MainView, Page, SelectIcon, Selector, Si
 import { Breadcrumb, FilterMenu, View } from '../../../Shared/Components';
 import { BiSolidGridAlt } from 'react-icons/bi';
 import { PiListFill } from 'react-icons/pi';
+import { HiXMark } from 'react-icons/hi2';
 
 const Screen: React.FC = () => {
     const [mode, setMode] = useState<string>('grid')
@@ -14,10 +15,12 @@ const Screen: React.FC = () => {
           ...prevState,
           [key]: value,
         }));
-
-        console.log(filters)
     };
     
+    const hasFilter = Object.values(filters).some((value) => (value.length > 0))
+
+    const clearFilters = () => setFilters({})
+
     const handleGrid = () => {
         setMode('grid')
     }
@@ -57,11 +60,15 @@ const Screen: React.FC = () => {
                                 </div>
                             </div>
                         </Selector>
-                        <Filters>
-                            {Object.entries(filters).map(([category, filter]) => (
-                                <FilterTag>{filter}</FilterTag>
-                            ))}
-                        </Filters>
+                        {hasFilter && 
+                            <Filters>
+                                {Object.values(filters).map((array) => (
+                                    array.map((filter) => <FilterTag>{filter}<HiXMark size="20px">x</HiXMark></FilterTag>)
+                                ))}
+                                <span className="clear">Clear all filter</span>
+                            </Filters>
+                        }
+                        
                         <View 
                             className="view" mode={mode} 
                             gridItems={Array(9).fill(null)} 

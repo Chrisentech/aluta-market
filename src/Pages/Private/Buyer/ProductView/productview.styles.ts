@@ -47,7 +47,7 @@ export const ProductInfo = styled.div<ProductInfoProps>`
     color: #FF9017;
   }
   .product-status {
-    color: ${({ instock }) => (instock ? "#00B517" : "#FA3434")};
+    color: ${({ instock }) => (instock ? '#00B517' : '#FA3434')};
     font-size: 16px;
     font-weight: 400;
     line-height: 24px;
@@ -141,7 +141,7 @@ export const DeliveryInfo = styled.div`
     flex-direction: column;
     padding: 20px 0px;
     justify-content: space-between;
-    gap: 20px;
+    gap: 10px;
   }
 `;
 
@@ -180,6 +180,7 @@ export const InfoCard = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
+  font-family: inter;
   width: 100%;
   gap: 10px;
   .store-name {
@@ -200,11 +201,29 @@ export const InfoCard = styled.div`
   }
   .detail {
     font-size: 12px;
-    font-weight: 500px
+    font-weight: 500;
   }
 
   span {
     font-weight: 700;
+  }
+  .action {
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+  }
+  &:first-child {
+    .action {
+      color: #00B517;
+    }
+  }
+  &:last-child {
+    .action {
+      color: #FF9017;
+    }
   }
 `;
 

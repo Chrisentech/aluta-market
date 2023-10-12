@@ -2,6 +2,7 @@ import React from "react"
 import { Ratings, ReviewCard, Wrapper, CustomerReviews, ReviewContainer, SummaryBox, User } from "./Review.styles"
 import { Rating } from "..";
 import { userPic } from "../../../assets";
+import { BiSolidRightArrowSquare } from "react-icons/bi";
 
 
 interface IReviewProps {
@@ -13,7 +14,7 @@ const Reviews: React.FC<IReviewProps> = ({ width }) => {
         <Wrapper width={width}>
             <header>
                 <h3>Customers' Reviews</h3>
-                <p>readmore</p>
+                <p className="action"><BiSolidRightArrowSquare size={18}/>Read all</p>
             </header>
             <ReviewContainer>
                 <Ratings>
