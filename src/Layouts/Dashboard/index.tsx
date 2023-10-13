@@ -30,13 +30,14 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
   const currentPath = location.pathname;
   const [hover, setHover] = useState("");
 
-  const options = ["Arike collection", "+ Create a new Store"];
+  const options = ["+ Create a new Store"];
   const [active, setActive] = useState("");
   const [selectedOption, setSelectedOption] = useState(" Arike Collection");
 
   const handleOptionClick = (option: string) => {
     setSelectedOption(option);
   };
+
   useEffect(() => {
     // Based on the current path, update the active state
     if (currentPath === ROUTE.SELLER_DASHBOARD) {
@@ -70,10 +71,10 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
         <Dropdown
           background="#eff2f4"
           options={options}
-          hasAvatar={true}
+          type='dropdown_one'
           selectedOption={selectedOption}
           handleOptionClick={handleOptionClick}
-          // className="store-dropdown"
+          className="dropdown-one"
         />
         <SidebarMenu>
           <MenuTop>
@@ -107,20 +108,22 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
                 setActive("orders");
               }}
             >
-              <Link to="#">
-              {(active === "orders") ? <img src={shop}/> :  <img src={shopUnfilled}/>  }
-                <Dropdown
+              <Dropdown
                   margin={"0"}
                   options={[<span>Orders</span>, <span>Orders</span>]}
                   width={"100%"}
                   padding={"0"}
                   state={hover === "orders"}
+                  type="sidebar_menu"
                   offset={"0"}
                   background={"transparent"}
                   selectedOption={"Orders"}
                   handleOptionClick={handleOptionClick}
-                />
-              </Link>
+                >
+                  <Link to="#">
+                    {(active === "orders") ? <img src={shop}/> :  <img src={shopUnfilled}/>  } Orders
+                  </Link>
+                </Dropdown>
             </SidebarMenuLinks>
             <SidebarMenuLinks
               hover={hover === "payments"}
@@ -133,20 +136,22 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
               }}
               color="#0D6EFD"
             >
-              <Link to={ROUTE.SELLER_PAYMENT}>
-              {(active === "payments") ? <img src={emptyWallet}/> :  <img src={emptyWalletUnfilled}/> }{" "}
                 <Dropdown
                   margin={"0"}
                   options={["Payments"]}
                   width={"100%"}
                   padding={"0"}
+                  type="sidebar_menu"
                   state={hover === "payments"}
                   offset={"0"}
                   background={"transparent"}
                   selectedOption={"Payments"}
                   handleOptionClick={handleOptionClick}
-                />
-              </Link>
+                >
+                  <Link to={ROUTE.SELLER_PAYMENT}>
+                    {(active === "payments") ? <img src={emptyWallet}/> :  <img src={emptyWalletUnfilled}/> }{" "} Payments
+                  </Link>
+                </Dropdown>
             </SidebarMenuLinks>
             <SidebarMenuLinks
               active={active === "reviews"}

@@ -1,4 +1,6 @@
 import React, { ReactNode, Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { showModal, closeModal } from "../Features/modal/modalSlice";
 import useLayoutHook from "../Shared/Hooks/useLayout";
 import { Loader, Navbar, Popup, Toast } from "../Shared/Components";
 type ILayout = "blank" | "full" | "dashboard";
@@ -7,9 +9,9 @@ interface LayoutProps<T> {
   layout: ILayout;
   component: React.ComponentType<T>;
   state: boolean;
-  showModal?: boolean;
-  popUpContent?: ReactNode;
+  showModal?: string | null; // Pass the modal identifier
   modalWidth?: string;
+  popUpContent?: ReactNode;
 }
 
 const Layout: React.FC<LayoutProps<any>> = ({
@@ -23,6 +25,7 @@ const Layout: React.FC<LayoutProps<any>> = ({
   const Screen = useLayoutHook(layout, state, <Component />);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [scrolled, setScrolled] = useState(false);
+  const dispatch = useDispatch();
 
   const handleScroll = () => {
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
@@ -42,18 +45,30 @@ const Layout: React.FC<LayoutProps<any>> = ({
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const closeModalHandler = () => {
+    if (showModal) {
+      dispatch(closeModal(showModal));
+    }
+  };
+
   if (state) {
     return <Loader />;
   }
-  
+
   return (
     <>
-      <Popup show={showModal} width={modalWidth} className="popup">
+      <Popup
+        show={showModal ? true : false}
+        width={modalWidth}
+        className="popup"
+        onClose={closeModalHandler}
+      >
         {popUpContent}
       </Popup>
       <Fragment>
         <Navbar scrolled={scrolled} isMobile={isMobile} />
-        <Toast/>
+        <Toast />
         {Screen}
       </Fragment>
     </>
@@ -61,7 +76,7 @@ const Layout: React.FC<LayoutProps<any>> = ({
 };
 
 Layout.defaultProps = {
-  showModal: false,
+  showModal: null,
   modalWidth: "500px",
 };
 
