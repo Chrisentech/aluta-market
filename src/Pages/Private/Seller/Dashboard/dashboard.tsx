@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useEffect} from "react";
+import { useParams } from "react-router-dom";
 import {
   Wrapper,
   GridItem,
@@ -19,6 +20,9 @@ import {
 } from "react-icons/bs";
 import { FiBarChart2 } from "react-icons/fi";
 import { IoIosCheckmarkCircle } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
+import ModalContent from "./modals";
+import { selectActiveModal, showModal } from "../../../../Features/modal/modalSlice";
 const { Charts, Pie } = Visuals;
 
 const gridItem = [
@@ -220,7 +224,28 @@ const Screen: React.FC = () => {
 };
 
 const Dashboard = () => {
-  return <Layout layout={"dashboard"} component={Screen} state={false} />;
+  const activeModal = useSelector(selectActiveModal);
+  const { keyword } = useParams();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    //checking route to see if create-store is contained
+    // so to display create store modal
+
+    if (keyword) {
+      dispatch(showModal("createStore"))
+    }
+  }, [location.pathname])
+  
+  return (
+    <Layout
+      showModal={activeModal}
+      layout="dashboard"
+      component={Screen}
+      popUpContent={<ModalContent active={activeModal}/>}
+      state={false}
+    />
+  )
 };
 
 export default Dashboard;

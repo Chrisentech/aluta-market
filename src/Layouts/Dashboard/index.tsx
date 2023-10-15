@@ -1,5 +1,5 @@
 import React, { ReactNode, useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   Wrapper,
   Sidebar,
@@ -21,12 +21,16 @@ import {
   shop, shopUnfilled, shoppingCart, 
   shoppingCartUnfilled, userTag, userTagUnfilled 
 } from "../../assets";
+import { useDispatch } from "react-redux";
+import { showModal } from "../../Features/modal/modalSlice";
 interface IScreenProps {
   children: ReactNode;
 }
 
 const Screen: React.FC<IScreenProps> = ({ children }) => {
   const location = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const currentPath = location.pathname;
   const [hover, setHover] = useState("");
 
@@ -35,8 +39,14 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
   const [selectedOption, setSelectedOption] = useState(" Arike Collection");
 
   const handleOptionClick = (option: string) => {
-    setSelectedOption(option);
+    if (option === "+ Create a new Store") {
+      // dispatch(showModal("createStore"))
+      navigate(ROUTE.SELLER_DASHBOARD + "create-store")
+    } else {
+      setSelectedOption(option);
+    }
   };
+
 
   useEffect(() => {
     // Based on the current path, update the active state

@@ -1,18 +1,5 @@
 import styled from 'styled-components';
 
-export const ModalWrapper = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-`;
-
 export const FormContainer = styled.div`
     box-sizing: border-box;
     position: relative;

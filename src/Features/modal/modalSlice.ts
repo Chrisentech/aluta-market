@@ -1,28 +1,31 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-// Define the type for the ModalState
 export interface ModalState {
-  show: boolean;
+  modals: Record<string, boolean>;
+  activeModal: string | null; // New property to store the active modal
 }
 
-// Create the modalSlice
 export const modalSlice = createSlice({
   name: "modal",
   initialState: {
-    show: false,
-  } as ModalState, // Set the initial state using the ModalState type
+    modals: {},
+    activeModal: null,
+  } as ModalState,
   reducers: {
-    showModal: (state) => {
-      state.show = true;
+    showModal: (state, action: PayloadAction<string>) => {
+      state.modals[action.payload] = true;
+      state.activeModal = action.payload; // Set the active modal when showing
     },
-    closeModal: (state) => {
-      state.show = false;
+    closeModal: (state, action: PayloadAction<string>) => {
+      state.modals[action.payload] = false;
+      state.activeModal = null; // Clear the active modal when closing
     },
   },
 });
 
-// Export the action creators
 export const { showModal, closeModal } = modalSlice.actions;
 
-// Export the reducer
+// Add a new reducer to get the active modal
+export const selectActiveModal = (state: { modal: ModalState }) => state.modal.activeModal;
+
 export default modalSlice.reducer;

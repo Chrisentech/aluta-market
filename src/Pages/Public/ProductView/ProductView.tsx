@@ -8,21 +8,24 @@ import {
   SuggestionsWrapper, 
   Table, TableRow, 
   Variations, Wrapper } from "./productview.styles";
-import Layout from "../../../../Layouts";
+import Layout from "../../../Layouts";
 import { BsCheckLg } from 'react-icons/bs'
 import { FaXmark } from 'react-icons/fa6'
 import { MdOutlineMessage, MdOutlineShoppingBasket } from 'react-icons/md'
-import { ProductImages, colorData } from "../../../../test-data/data";
+import { ProductImages, colorData } from "../../../test-data/data";
 import { 
   Breadcrumb, Button, Card, 
   ColorList, ImageCard, 
   ProductCarousel, Rating, 
-  Reviews, WishCard } from "../../../../Shared/Components";
+  Reviews, WishCard } from "../../../Shared/Components";
 import { RxDotFilled } from "react-icons/rx";
-import { color2, group, rotate3d, square3d } from "../../../../assets";
-import GridView from "../../../../Shared/Components/ViewSelector/GridView";
+import { color2, group, rotate3d, square3d } from "../../../assets";
+import GridView from "../../../Shared/Components/ViewSelector/GridView";
 import { BiSolidRightArrowSquare } from "react-icons/bi";
-import DeliveryAddressFormModal from "./modals/ChangeAddress";
+import ModalContent from "./modals";
+import { useDispatch, useSelector } from "react-redux";
+import { showModal } from "../../../Features/modal/modalSlice";
+import { selectActiveModal } from "../../../Features/modal/modalSlice";
 
 
 const instock = true //to test the reaction if product is in stock
@@ -40,7 +43,7 @@ const DiscountCalc = (
  
 
 const Screen: React.FC = () => {
-  const [isChangeAddressOpen, setChangeAddressOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const breadcrumbs = [
     // should get links and labels dynamically 
@@ -50,17 +53,8 @@ const Screen: React.FC = () => {
     { label: 'Summer clothing' }, 
   ];
 
-  const openChangeAddressModal = () => {
-    setChangeAddressOpen(true);
-  };
-
-  const closeChangeAddressModal = () => {
-    setChangeAddressOpen(false);
-  };
-
   return (
     <Wrapper>
-      <DeliveryAddressFormModal isOpen={isChangeAddressOpen} onClose={closeChangeAddressModal} />
       <Container>
         <Breadcrumb items={breadcrumbs}/>
         <OrderDetail>
@@ -130,7 +124,7 @@ const Screen: React.FC = () => {
                   <p className="detail">
                     Scarlet Hostel, adjacent Yemco Saloon, Education, Fuoye, Oye <span>Delivery within 24 hours</span>
                   </p>
-                  <p className="action" onClick={openChangeAddressModal}><BiSolidRightArrowSquare size={18}/> Change Address</p>
+                  <p className="action" onClick={() => dispatch(showModal("changeAddress"))}><BiSolidRightArrowSquare size={18}/> Change Address</p>
                 </div>
               </InfoCard>
               <InfoCard>
@@ -228,8 +222,18 @@ const Screen: React.FC = () => {
   );
 };
 
-const ProductView: React.FC = () => (
-  <Layout layout="full" component={Screen} state={false}/>
-);
+const ProductView: React.FC = () => {
+  const activeModal = useSelector(selectActiveModal);
+  
+  return (
+    <Layout
+      showModal={activeModal}
+      layout="full"
+      component={Screen}
+      popUpContent={<ModalContent active={activeModal}/>}
+      state={false}
+    />
+  )
+};
 
 export default ProductView;
