@@ -1,6 +1,12 @@
 import React, { useRef, useState, useEffect } from "react";
 import Layout from "../../../../../Layouts";
 import { useDispatch, useSelector } from "react-redux";
+
+import { convertFromRaw, EditorState } from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
+import * as Icons from "images/icons";
 import {
   Wrapper,
   ImageWrapper,
@@ -61,6 +67,7 @@ const Screen: React.FC = () => {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [quantity, setQuantity] = useState<number>(1);
   const hiddenInputRef = useRef<HTMLInputElement | null>(null);
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   useEffect(() => {
     // Retrieve the URL parameter containing the file data
     if (files) {
@@ -80,6 +87,13 @@ const Screen: React.FC = () => {
   const [thumbNails, setThumbNails] = useState<string | undefined>(
     imageUrls[0]
   );
+  const [content, setContent] = useState("");
+  const handleContentChange = (text: any) => {
+    console.log(text.blocks);
+
+    setContent(text.blocks);
+    // console.log(convertFromRaw(text.blocks))
+  };
 
   const handleRemoveImage = (url: string) => {
     if (thumbNails === url) {
@@ -164,6 +178,7 @@ const Screen: React.FC = () => {
                 </Label>
                 <CustomField name="name" type="text" />
               </FormControl>
+
               <Flex>
                 <FormControl>
                   <Label>
@@ -211,8 +226,55 @@ const Screen: React.FC = () => {
                 <Label>
                   Product description<span>*</span>{" "}
                 </Label>
-
-                <CustomField type="" height="100px" name="description" />
+                <TextEditor>
+                  <Editor
+                    // editorState={editorState}
+                    wrapperClassName="wrapper-class"
+                    editorClassName="editor-class"
+                    toolbarClassName="toolbar-class"
+                    onContentStateChange={handleContentChange}
+                    toolbar={{
+                       options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'link', 'embedded',  'image', 'remove', 'history'],
+  
+                      link: {
+                        popupClassName: "demo-popup-custom",
+                        link: { className: "demo-option-custom" },
+                        unlink: { className: "demo-option-custom" },
+                      },
+                      blockType: {
+                        inDropdown: true,
+                        options: [
+                          "Normal",
+                          "H1",
+                          "H2",
+                          "H3",
+                          "H4",
+                          "H5",
+                          "H6",
+                          "Blockquote",
+                          "Code",
+                        ],
+                        className: undefined,
+                        component: undefined,
+                        dropdownClassName: undefined,
+                      },
+                      fontSize: {
+                        options: [
+                          8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72,
+                          96,
+                        ],
+                        className: undefined,
+                        component: undefined,
+                        dropdownClassName: undefined,
+                      },
+                    }}
+                  />
+                </TextEditor>
+                {/* <CustomField
+                  type=""
+                  height="100px"
+                  name="description"
+                /> */}
               </FormControl>
               <Flex>
                 <FormControl>

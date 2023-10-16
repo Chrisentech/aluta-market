@@ -266,6 +266,27 @@ export const TextEditor = styled.div<{
     margin: 5px 0px 10px 0;
     cursor: ${(props: any) => (props.readOnly ? `not-allowed` : "inherit")};
   }
+  // Overiding Editor styles
+  .rdw-editor-toolbar {
+    border-radius: 10px !important;
+  }
+  .rdw-editor-main {
+    background: #f7fafc;
+    height: 150px;
+    overflow: auto;
+    margin-bottom: 10px;
+    padding: 0 10px;
+    li, ol {
+      list-style: square !important;
+    }
+  }
+  .rdw-option-wrapper{
+    border:none !important
+  }
+  .rdw-option-active{
+    box-shadow:none !immportant;
+    background:#f7fafc !important;
+  }
 `;
 
 export const Incrementor = styled.div<{ width?: string }>`
