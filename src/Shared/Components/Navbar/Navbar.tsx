@@ -21,6 +21,8 @@ import { ImUser } from "react-icons/im";
 import { logo } from "../../../assets";
 import { categories } from "../../../test-data";
 import { Badge } from "..";
+import { useDispatch, useSelector } from "react-redux";
+import { newMessage } from "../../../Features/notifications/notificationSlice";
 
 // Sidebar Component
 const SideBar: React.FC<{ show: boolean; onClose: () => void }> = ({
@@ -80,6 +82,8 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
   scrolled,
   mode,
 }) => {
+  const { message } = useSelector((st: any) => st.notifications);
+  const dispatch = useDispatch();
   return (
     <Container scrolled={scrolled} mode={mode}>
       <Wrapper>
@@ -107,12 +111,24 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
             <label>Profile</label>
           </IconWrapper>
           <IconWrapper>
-            <Badge count={4} />
+            {message > 0 && (
+              <Badge
+                count={
+                  message < 10 ? (
+                    message
+                  ) : (
+                    <small>
+                      9<span>+</span>
+                    </small>
+                  )
+                }
+              />
+            )}
 
             <MdMessage color="#BDC4CD" />
             <label>Message</label>
           </IconWrapper>
-          <IconWrapper>
+          <IconWrapper onClick={() => dispatch(newMessage())}>
             <MdFavorite background="#BDC4CD" />
             <label>Orders</label>
           </IconWrapper>
@@ -139,4 +155,4 @@ const Navbar: React.FC<{
   return <DesktopNavbar scrolled={scrolled} mode={mode} />;
 };
 
-export {Navbar, SideBar};
+export { Navbar, SideBar };

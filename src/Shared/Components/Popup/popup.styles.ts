@@ -4,7 +4,7 @@ export const Wrapper = styled.div<{ show: boolean | undefined }>`
   position: fixed;
   top: 0;
   left: 0;
-  height: 100vh;
+  height: 100%;
   width: 100%;
   display: ${({ show }) => (show ? "flex" : "none")};
   justify-content: center;

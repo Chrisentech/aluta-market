@@ -14,5 +14,11 @@ export const ToastContainer = styled.div<{
   padding: 10px;
   border-radius: 4px;
   margin-bottom: 8px;
- background:blue
+  background: blue;
+  z-index: 1000000000000;
+  z-index: 1000;
+  position: fixed; /* or absolute */
+  top: 10px; /* Adjust the top and left values as needed */
+  left: 50%;
+  transform: translateX(-50%);
 `;
