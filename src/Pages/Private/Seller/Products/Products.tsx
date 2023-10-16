@@ -121,7 +121,7 @@ const Screen: React.FC = () => {
             <Dropdown
               options={options}
               padding={"10"}
-              dropDown_one={false}
+              // dropDown_one={false}
               selectedOption={options[0]}
               offset="12px"
               handleOptionClick={handleOptionClick}

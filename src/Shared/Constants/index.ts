@@ -2,7 +2,7 @@ export const ROUTE = {
   //Buyer Routes
   HOME: "/",
   BUYER_DASHBOARD: "/buyer/dashboard/",
-  SEARCH: "/search/:query",
+  SEARCH: "/search/:query?",
   STORE: "/store/:id",
   CART: "/product/cart/",
   ADDRESS: "/address/",
@@ -13,15 +13,20 @@ export const ROUTE = {
   FORGOT: "/auth/forgot-password/",
   TWOFA: "/auth/two-fa/setup/",
   CHECKOUT: "/checkout/",
+  TERMS: "/terms-and-conditions",
+  // product Routes
   PRODUCTVIEW: "/product/view",
+  CHANGEADDRESS: "/product/view/change-address",
 
   //Seller Routes
   SELLER_NEWPRODUCT: "/seller/product/new",
   SELLER_ADDPRODUCT: "/seller/product/add",
   SELLER_DASHBOARD: "/seller/dashboard/",
+  SELLER_CREATESTORE: "/seller/dashboard/create-store",
   SELLER_PRODUCTS: "/seller/products/",
   SELLER_PAYMENT: "/seller/payment/",
   SELLER_PAYMENT_REG: "/seller/payment/reg",
+  SELLER_PROFILE: "/seller/profile/",
   REMOVEPRODUCT: "/product/remove",
   EDITPRODUCT: "/product/edit",
 };

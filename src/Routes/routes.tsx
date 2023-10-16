@@ -2,7 +2,15 @@ import React from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 // import { BreadcrumbsProvider } from 'react-breadcrumbs-dynamic';
 import { ROUTE } from "../Shared/Constants";
-import { Homepage, Loginpage, Registerpage, SearchPage, Store } from "../Pages/Public";
+import { 
+  Homepage, 
+  Loginpage, 
+  Registerpage, 
+  SearchPage, 
+  Store, 
+  ProductView,
+  TermsAndConditions 
+} from "../Pages/Public";
 import {
   BuyerDashboard,
   SellerDashboard,
@@ -11,8 +19,9 @@ import {
   AddNewProducts,
   SellerPayment,
   PaymentRegScreen,
-  ProductView,
   Cart,
+  SellerProfile,
+  CreateStore
 } from "../Pages/Private";
 import { useSelector } from "react-redux";
 
@@ -26,6 +35,11 @@ const Router: React.FC = () => {
           <Route path={ROUTE.STORE} element={<Store />} />
           <Route path={ROUTE.LOGIN} element={<Loginpage />} />
           <Route path={ROUTE.REGISTER} element={<Registerpage />} />
+          
+          <Route path={ROUTE.PRODUCTVIEW} element={<ProductView />} />
+          <Route path={ROUTE.TERMS} element={<TermsAndConditions />} />
+          {/* <Route path={ROUTE.VERIFY} element={<Veri />} /> */}
+
           <Route
             path={ROUTE.BUYER_DASHBOARD}
             element={<PrivateRoute component={BuyerDashboard} authRoute />}
@@ -37,6 +51,10 @@ const Router: React.FC = () => {
           <Route
             path={ROUTE.SELLER_DASHBOARD}
             element={<PrivateRoute component={SellerDashboard} authRoute />}
+          />
+          <Route
+            path={ROUTE.SELLER_CREATESTORE}
+            element={<PrivateRoute component={CreateStore} authRoute />}
           />
           <Route
             path={ROUTE.SELLER_PRODUCTS}
@@ -54,15 +72,13 @@ const Router: React.FC = () => {
             path={ROUTE.SELLER_PAYMENT}
             element={<PrivateRoute component={SellerPayment} authRoute />}
           />
-
-          <Route
-            path={ROUTE.PRODUCTVIEW}
-            element={<PrivateRoute component={ProductView} authRoute />}
-          />
-
           <Route
             path={ROUTE.SELLER_PAYMENT_REG + "/:step"}
             element={<PrivateRoute component={PaymentRegScreen} authRoute />}
+          />
+          <Route
+            path={ROUTE.SELLER_PROFILE}
+            element={<PrivateRoute component={SellerProfile} authRoute />}
           />
         {/* </BreadcrumbsProvider> */}
       </Routes>

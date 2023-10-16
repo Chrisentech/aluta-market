@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ReactNode } from "react";
 import {
   PiCaretDownBold,
   PiCaretUpDownBold,
@@ -17,8 +17,7 @@ interface DropdownProps {
   selectedOption: string;
   handleOptionClick: (option: string) => void;
   background?: string;
-  dropDown_one?: boolean;
-  hasAvatar?: boolean;
+  type?: 'dropdown_one' | 'sidebar_menu';
   padding?: string;
   offset?: string;
   width?: string;
@@ -26,6 +25,7 @@ interface DropdownProps {
   margin?: string;
   className?: string;
   disabled?: boolean;
+  children?: ReactNode;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -38,10 +38,10 @@ const Dropdown: React.FC<DropdownProps> = ({
   width,
   offset,
   margin,
-  dropDown_one,
+  type,
   disabled,
   className,
-  hasAvatar,
+  children,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
@@ -51,32 +51,42 @@ const Dropdown: React.FC<DropdownProps> = ({
       padding={padding}
       offset={offset}
       margin={margin}
+      type={type}
       onClick={() => setIsOpen(state ? !state : !isOpen && !disabled)}
       onMouseOver={() => setIsOpen(state ? state : true && !disabled)}
       onMouseOut={() => setIsOpen(state ? !state : !isOpen && !disabled)}
       width={width}
       className={className}
     >
-      <DropdownSelected onChange={() => alert("hi")}>
-        {(state ? state : isOpen) && dropDown_one ? (
-          <PiCaretUpBold as={PiCaretIcon} />
-        ) : !isOpen && dropDown_one ? (
-          <PiCaretDownBold as={PiCaretIcon} />
+      <DropdownSelected
+        padding={padding} 
+        onChange={() => alert("hi")}
+      >
+        {(state ? state : isOpen) ? (
+          <PiCaretUpBold as={PiCaretIcon}  />
         ) : (
-          <PiCaretUpDownBold />
+          <PiCaretDownBold as={PiCaretIcon} />
         )}
-        {hasAvatar && <span className="avatar">A</span>}{" "}
-        <span className="store-title">{selectedOption} </span>
+        {(type === "dropdown_one") ? 
+          (<>
+            <span className="avatar">A</span>{" "}
+            <span className="store-title">{selectedOption} </span>
+          </>) 
+          : <>{children}</>
+        }
+        
       </DropdownSelected>
       {(state ? state : isOpen) && (
         <DropdownOptions
           open={state ? state : isOpen}
           onMouseLeave={() => !state && setIsOpen(false)}
+          type={type}
         >
           {options.map((option: any) => (
             <DropdownOption
               key={option}
               onClick={() => handleOptionClick(option)}
+              type={type}
             >
               {option}
             </DropdownOption>
@@ -88,7 +98,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 };
 
 Dropdown.defaultProps = {
-  dropDown_one: true,
+  type: 'sidebar_menu',
   disabled: false,
 };
 export default Dropdown;

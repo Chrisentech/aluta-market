@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
   Wrapper,
   GridItem,
@@ -219,8 +219,14 @@ const Screen: React.FC = () => {
   );
 };
 
-const Dashboard = () => {
-  return <Layout layout={"dashboard"} component={Screen} state={false} />;
+const Dashboard = () => {  
+  return (
+    <Layout
+      layout="dashboard"
+      component={Screen}
+      state={false}
+    />
+  )
 };
 
 export default Dashboard;

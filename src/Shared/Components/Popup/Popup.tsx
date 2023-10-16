@@ -22,7 +22,7 @@ const Popup: React.FC<IPopupProps> = ({
       <BlurredBackground show={show} />
       <Toast />
       <Card
-        width={width}
+        width="auto"
         height={height}
         borderRadius={"20px"}
         padding={"25px"}

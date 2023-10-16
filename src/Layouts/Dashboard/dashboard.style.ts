@@ -167,6 +167,10 @@ export const MenuTop = styled.div`
   &::-webkit-scrollbar-thumb {
     background-color: #EFF2F4;
     border-radius: 6px;
+    transition: ease .4s;
+    &:hover {
+      background: #BDC4CD;
+    }
   }
 
   &::-webkit-scrollbar-track {

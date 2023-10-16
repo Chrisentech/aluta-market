@@ -29,3 +29,4 @@ export const store = configureStore({
     notifications: notificationsReducer,
   },
 });
+

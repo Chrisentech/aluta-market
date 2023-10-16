@@ -301,7 +301,7 @@ const Screen: React.FC = () => {
                 <FormControl>
                   <OptionButton
                     type="button"
-                    onClick={() => dispatch(showModal())}
+                    onClick={() => dispatch(showModal("addOptions"))}
                   >
                     Add Options
                   </OptionButton>
@@ -403,11 +403,12 @@ const CustomField: React.FC<{
   );
 };
 const variations = ["color", "size", "condition"];
+
 const NewProduct = () => {
   const dispatch = useDispatch();
-  const { show } = useSelector((state: any) => state.modal);
-  const [selectedOption, setSelectedOption] =
-    useState<string>("Select an Option");
+  const { modals } = useSelector((state: any) => state.modal);
+  const [selectedOption, setSelectedOption] = useState<string>("Select an Option");
+
   const handleSubmit = () => {};
   // const handleOption = (arr, index, val) => {
   //   if (arr.includes.arr[index]) {
@@ -416,9 +417,9 @@ const NewProduct = () => {
   //     setSizeOptions([...arr, val]);
   //   }
   // };
-  const ModalContent = (
+  const ModalContent: JSX.Element = (
     <Modal>
-      {true && (
+      {modals.addOptions && (
         <>
           <div className="label">
             <BiArrowBack size={32} color="#bdc4cd" />
@@ -426,7 +427,7 @@ const NewProduct = () => {
               className="svg"
               size={32}
               color="#bdc4cd"
-              onClick={() => dispatch(closeModal())}
+              onClick={() => dispatch(closeModal("addOptions"))}
             />
           </div>
           <h3 className="title">Add Product options</h3>
@@ -461,7 +462,7 @@ const NewProduct = () => {
                     .fill("*")
                     .map((_, index: number) => {
                       return (
-                        <Input
+                        <input
                           className="input"
                           key={index}
                           readOnly
@@ -493,7 +494,7 @@ const NewProduct = () => {
   );
   return (
     <Layout
-      showModal={show}
+      showModal="addOptions"
       layout={"dashboard"}
       component={Screen}
       popUpContent={ModalContent}
