@@ -1,6 +1,5 @@
 import React, { ReactNode, Fragment, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { closeModal } from "../Features/modal/modalSlice.ts"; // Update the path to your modal slice
+import { useSelector } from "react-redux";
 import useLayoutHook from "../Shared/Hooks/useLayout";
 import { Loader, Navbar, Popup, Toast } from "../Shared/Components";
 type ILayout = "blank" | "full" | "dashboard";
@@ -25,7 +24,6 @@ const Layout: React.FC<LayoutProps<any>> = ({
   const Screen = useLayoutHook(layout, state, <Component />);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [scrolled, setScrolled] = useState(false);
-  // const dispatch = useDispatch();
   const { modals } = useSelector((state: any) => state.modal);
 
   const handleScroll = () => {

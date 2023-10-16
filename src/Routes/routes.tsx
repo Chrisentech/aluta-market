@@ -20,6 +20,8 @@ import {
   SellerPayment,
   PaymentRegScreen,
   Cart,
+  SellerProfile,
+  CreateStore
 } from "../Pages/Private";
 import { useSelector } from "react-redux";
 
@@ -36,6 +38,8 @@ const Router: React.FC = () => {
           
           <Route path={ROUTE.PRODUCTVIEW} element={<ProductView />} />
           <Route path={ROUTE.TERMS} element={<TermsAndConditions />} />
+          {/* <Route path={ROUTE.VERIFY} element={<Veri />} /> */}
+
           <Route
             path={ROUTE.BUYER_DASHBOARD}
             element={<PrivateRoute component={BuyerDashboard} authRoute />}
@@ -45,8 +49,12 @@ const Router: React.FC = () => {
             element={<PrivateRoute component={Cart} authRoute />}
           />
           <Route
-            path={ROUTE.SELLER_DASHBOARD + ":keyword?"}
+            path={ROUTE.SELLER_DASHBOARD}
             element={<PrivateRoute component={SellerDashboard} authRoute />}
+          />
+          <Route
+            path={ROUTE.SELLER_CREATESTORE}
+            element={<PrivateRoute component={CreateStore} authRoute />}
           />
           <Route
             path={ROUTE.SELLER_PRODUCTS}
@@ -67,6 +75,10 @@ const Router: React.FC = () => {
           <Route
             path={ROUTE.SELLER_PAYMENT_REG + "/:step"}
             element={<PrivateRoute component={PaymentRegScreen} authRoute />}
+          />
+          <Route
+            path={ROUTE.SELLER_PROFILE}
+            element={<PrivateRoute component={SellerProfile} authRoute />}
           />
         {/* </BreadcrumbsProvider> */}
       </Routes>

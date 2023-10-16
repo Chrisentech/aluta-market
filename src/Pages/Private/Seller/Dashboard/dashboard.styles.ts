@@ -1,8 +1,10 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
+  box-sizing: border-box;
   //   height: 200px;
   width: 100%;
+  padding: 20px;
   overflow-x: hidden;
   h2 {
     color: var(--dark, #1c1c1c);

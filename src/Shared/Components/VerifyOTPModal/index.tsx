@@ -61,7 +61,7 @@ const VerifyOTPModal = () => {
                     className={`input ${
                       touched.otp && errors.otp ? "error" : ""
                     }`}
-                    handleChange
+                    handleChange={handleChange}
                   />
                 ))}
               </div>

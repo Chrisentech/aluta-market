@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { check } from '../../../../../assets';
+import { check } from '../../../../../../assets';
 
 export const FormContainer = styled.div`
     box-sizing: border-box;

@@ -1,5 +1,5 @@
 import React, { ReactNode, useState, useEffect } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Wrapper,
   Sidebar,
@@ -21,15 +21,12 @@ import {
   shop, shopUnfilled, shoppingCart, 
   shoppingCartUnfilled, userTag, userTagUnfilled 
 } from "../../assets";
-import { useDispatch } from "react-redux";
-import { showModal } from "../../Features/modal/modalSlice";
 interface IScreenProps {
   children: ReactNode;
 }
 
 const Screen: React.FC<IScreenProps> = ({ children }) => {
   const location = useLocation();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const currentPath = location.pathname;
   const [hover, setHover] = useState("");
@@ -40,8 +37,7 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 
   const handleOptionClick = (option: string) => {
     if (option === "+ Create a new Store") {
-      // dispatch(showModal("createStore"))
-      navigate(ROUTE.SELLER_DASHBOARD + "create-store")
+      navigate(ROUTE.SELLER_CREATESTORE )
     } else {
       setSelectedOption(option);
     }
@@ -189,7 +185,7 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
               onClick={() => setActive("profile")}
               color="#0D6EFD"
             >
-              <Link to="#">
+              <Link to={ROUTE.SELLER_PROFILE}>
               {(active === "profile") ? <img src={userTag} /> :  <img src={userTagUnfilled}/> } My Profile
               </Link>
             </SidebarMenuLinks>
