@@ -57,7 +57,7 @@ const VerifyOTPModal:React.FC<{url:any}> = ({url}) => {
       if (url) {
         nav(url);
       } else {
-        dispatch(closeModal());
+        dispatch(closeModal('verifyOTP'));
       }
     } catch (error:any) {
       setLoading(false);
@@ -94,46 +94,8 @@ const VerifyOTPModal:React.FC<{url:any}> = ({url}) => {
 
   return (
     <Container>
-<<<<<<< HEAD
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-        validationSchema={validationSchema}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-        }) => (
-          <Form>
-            <FormControl>
-              <label className="label">Verify OTP</label>
-              <div>
-                {values.otp.map((_, index) => (
-                  <Field
-                    key={index}
-                    type="text"
-                    name={`otp[${index}]`}
-                    placeholder="0"
-                    maxLength={1}
-                    onBlur={handleBlur}
-                    className={`input ${
-                      touched.otp && errors.otp ? "error" : ""
-                    }`}
-                    handleChange={handleChange}
-                  />
-                ))}
-              </div>
-              <ErrorMessage name="otp" component="div" className="error" />
-            </FormControl>
-          </Form>
-        )}
-      </Formik>
-=======
       <MdCancel
-        onClick={() => dispatch(closeModal())}
+        onClick={() => dispatch(closeModal('VerifyOTP'))}
         color="red"
         size="18px"
         style={{ float: "right", zIndex: 10000000, position: "relative" }}
@@ -164,7 +126,6 @@ const VerifyOTPModal:React.FC<{url:any}> = ({url}) => {
           resend otp {resend && `(${timer})`}
         </ResendButton>
       </FormControl>
->>>>>>> 2791ce654f50738ff0c19be14396ad850f5e935d
     </Container>
   );
 };

@@ -38,8 +38,10 @@ export default function useUsers() {
       mutation: LOGIN_USER,
       variables: { input },
     });
-    if (response.data.loginUser)
+    if (response.data.loginUser) {
       dispatch(actions.registerUser(response.data.loginUser));
+      // return response.data.loginUser;
+    } 
   };
 
   const getCart = async (userId: number) => {

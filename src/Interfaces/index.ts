@@ -73,6 +73,8 @@ export interface IProductProps {
   subcategory: string;
   description: string;
   id?: string;
+  status?: boolean;
+  image?: string[];
   option: [];
 }
 

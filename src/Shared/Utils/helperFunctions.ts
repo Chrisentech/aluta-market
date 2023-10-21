@@ -40,11 +40,24 @@ export function deepClone<T>(obj: T): T {
 }
 
 export const formatCurrency = (
-  value: number,
-  currency: string,
+  value: number | undefined,
+  symbol: string = "₦",
+  currency: string = "NGN", 
+  locale: string = 'en-US', // Set your desired locale
   decimalPlaces: number = 2
 ): string => {
-  return `${currency}${value.toFixed(decimalPlaces)}`;
+  if (typeof value !== 'number' || isNaN(value)) {
+    return ''; // Return an empty string or handle it as you see fit
+  }
+
+  const formattedValue = value.toLocaleString(locale, {
+    style: 'currency',
+    currency: currency,
+    minimumFractionDigits: decimalPlaces,
+    maximumFractionDigits: decimalPlaces,
+  });
+
+  return `${symbol}${formattedValue.slice(3)}`;
 };
 
 export const calculateDiscount = (

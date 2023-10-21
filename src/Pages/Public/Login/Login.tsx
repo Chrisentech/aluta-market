@@ -16,7 +16,7 @@ import { Formik, Form, useField } from "formik";
 import * as yup from "yup";
 import { marketLogo } from "../../../assets";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 // import { GoogleLogin } from "react-google-login";
 import { GoogleLogin } from "@react-oauth/google";
 import { LoginFormValues } from "../../../Interfaces";
@@ -24,8 +24,10 @@ import { AppColors, ROUTE } from "../../../Shared/Constants";
 import { MdOutlineCancel, MdOutlineMailOutline } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { BiArrowBack } from "react-icons/bi";
-import { closeModal, showModal } from "../../../Features/modal/modalSlice";
+import { closeModal, selectActiveModal, showModal } from "../../../Features/modal/modalSlice";
 import { Puff } from "react-loading-icons";
+import useUsers from "../../../Features/user/userActions";
+import { alertError, alertSuccess } from "../../../Features/alert/alertSlice";
 const initialValues: LoginFormValues = {
   email: "",
   password: "",
@@ -54,11 +56,29 @@ const Screen: React.FC = () => {
   const [showPwd, setShowPwd] = useState(false);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const { loginUser } = useUsers();
+  const navigate = useNavigate();
 
-  const handleSubmit = (values: LoginFormValues) => {
+
+  const handleSubmit = async (values: LoginFormValues) => {
     // Handle form submission here
+    let payload = { 
+      ...values
+    };
+     
     setLoading(true);
-    console.log(values);
+    try {
+      const userData = await loginUser(payload);
+      dispatch(alertSuccess("Login successful"));
+      console.log(userData)
+      // document.cookie = `token=${userData.access_token}; expires=Thu, 18 Oct 2023 12:00:00 UTC; path=/; secure; HttpOnly`;
+      // navigate('/')
+    } catch (error: any) {
+      setLoading(false);               
+      for (let index = 0; index < error.graphQLErrors.length; index++) {
+        dispatch(alertError(error.graphQLErrors[index].message));
+      }
+    }
   };
   return (
     <Container>
@@ -93,7 +113,7 @@ const Screen: React.FC = () => {
                 Keep me logged in
               </span>
             </div>
-            <NavLink to="#" onClick={() => dispatch(showModal())}>
+            <NavLink to="#" onClick={() => dispatch(showModal('forgotPassword'))}>
               forgot password?
             </NavLink>
           </Flex>
@@ -149,9 +169,11 @@ const CustomField: React.FC<{
   );
 };
 const LoginPage = () => {
-  const { show } = useSelector((state: any) => state.modal);
+  // const { show } = useSelector((state: any) => state.modal);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const activeModal = useSelector(selectActiveModal);
+
   const handleSubmit = () => {
     setLoading(true);
   };
@@ -165,7 +187,7 @@ const LoginPage = () => {
               className="svg"
               size={32}
               color="#bdc4cd"
-              onClick={() => dispatch(closeModal())}
+              onClick={() => dispatch(closeModal('forgotPassword'))}
             />
           </div>
           <Heading>
@@ -209,7 +231,7 @@ const LoginPage = () => {
   return (
     <Layout
       popUpContent={ModalContent}
-      showModal={show}
+      showModal={activeModal}
       layout={"blank"}
       component={Screen}
       state={false}
