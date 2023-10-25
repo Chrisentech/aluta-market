@@ -155,6 +155,14 @@ export function create_UUID(): string {
   return uuid;
 }
 
+export function calcExpiryDate(dayspan: number): Date {
+  const today = new Date()
+  const defaultDate = new Date(today);
+  defaultDate.setDate(today.getDate() + dayspan);
+
+  return defaultDate;
+}
+
 // export const isTokenExpired = (token:string) => {
 //   try {
 //     const decodedToken = JWT(token);

@@ -7,6 +7,7 @@ import modalReducer, { ModalState } from "./Features/modal/modalSlice";
 import userReducer, { UserState } from "./Features/user/userSlice";
 import filterReducer, { FilterState } from "./Features/searchFilter/filterSlice";
 import notificationsReducer, { notificationsState } from "./Features/notifications/notificationSlice";
+import loadingReducer, { LoadingState } from "./Features/loading/loadingSlice";
 
 // Define the root state type
 export interface RootState {
@@ -16,6 +17,7 @@ export interface RootState {
   filter: FilterState
   user: UserState;
   notifications: notificationsState;
+  loading: LoadingState
 }
 
 // Create the Redux store with the rootReducer
@@ -27,6 +29,7 @@ export const store = configureStore({
     filter: filterReducer,
     user: userReducer,
     notifications: notificationsReducer,
+    loading: loadingReducer,
   },
 });
 

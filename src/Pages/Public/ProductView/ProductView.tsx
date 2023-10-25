@@ -27,22 +27,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { showModal } from "../../../Features/modal/modalSlice";
 import { selectActiveModal } from "../../../Features/modal/modalSlice";
 import useProducts from "../../../Features/products/productActions";
-import { formatCurrency } from "../../../Shared/Utils/helperFunctions";
-// import useProducts from "../../../Features/products/productActions";
-// import { selectProduct } from "../../../Features/products/productSlice";
+import { calculateDiscount, formatCurrency } from "../../../Shared/Utils/helperFunctions";
+import { RootState } from "../../../store";
+import { setLoading } from "../../../Features/loading/loadingSlice";
+import { useParams } from "react-router-dom";
 
-
-const DiscountCalc = (
-  usualPrice: number, 
-  discountPrice: number
-): number => {
-  return Math.ceil(100 -((discountPrice/usualPrice) * 100))
-}
 
 const Screen: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch();
-  const { product, getProduct } = useProducts()
-    
+  const { product, getProduct } = useProducts()    
 
   const breadcrumbs = [
     // should get links and labels dynamically 
@@ -53,10 +47,13 @@ const Screen: React.FC = () => {
   ];
     
   useEffect(() => {
+    dispatch(setLoading(true));
     try {
-      getProduct(1);
+      getProduct(id);
+      dispatch(setLoading(false));
     } catch(errors) {
       console.error('GraphQL Validation Errors:', errors);
+      dispatch(setLoading(false))
     }
   }, [product]);
   return (
@@ -74,7 +71,7 @@ const Screen: React.FC = () => {
             <ProductName>
               <div className="heading">
                 <h2>{product?.name}</h2>
-                <WishCard size="32px" boxShadow={false}  />
+                <WishCard size="32px" boxShadow={false} userId={7} productId={1} />
               </div>
               <div className="list">
                 <div className="average-rate"><Rating numberOfRates={4.3} /> 4.3</div>
@@ -85,7 +82,7 @@ const Screen: React.FC = () => {
             
             <PriceCard>
               <p>{formatCurrency(product?.price as number)}</p>
-              {(product?.discount !== 0) && <p><span>{formatCurrency(4800.00, "₦")}</span> <span>-{DiscountCalc(4800, 4500)}%</span></p>}
+              {(product?.discount !== 0) && <p><span>{formatCurrency(product?.price)}</span> <span>-{formatCurrency(calculateDiscount(product?.price as number, product?.discount as number))}%</span></p>}
             </PriceCard>
             <Variations>
               <div className="colors">
@@ -224,6 +221,8 @@ const Screen: React.FC = () => {
 
 const ProductView: React.FC = () => {
   const activeModal = useSelector(selectActiveModal);
+  const isLoading = useSelector((state: RootState) => state.loading.isLoading);
+
   
   return (
     <Layout
@@ -231,7 +230,7 @@ const ProductView: React.FC = () => {
       layout="full"
       component={Screen}
       popUpContent={<ModalContent active={activeModal}/>}
-      state={false}
+      state={isLoading}
     />
   )
 };

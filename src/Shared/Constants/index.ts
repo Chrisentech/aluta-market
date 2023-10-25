@@ -15,7 +15,7 @@ export const ROUTE = {
   CHECKOUT: "/checkout/",
   TERMS: "/terms-and-conditions",
   // product Routes
-  PRODUCTVIEW: "/product/view",
+  PRODUCTVIEW: "/product/view/:id",
   CHANGEADDRESS: "/product/view/change-address",
 
   //Seller Routes

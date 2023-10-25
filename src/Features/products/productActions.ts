@@ -24,7 +24,7 @@ export default function useProducts() {
   //   });
   //   dispatch(actions.setProducts(response.data.products));
   // };
-  const getProduct = async (productId: number) => {
+  const getProduct = async (productId: string | undefined) => {
     const response = await apolloClient.query({
       query: GET_PRODUCT,
       variables: { productId }  ,

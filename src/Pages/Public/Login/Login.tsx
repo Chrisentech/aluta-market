@@ -10,7 +10,7 @@ import {
   CustomCheckbox,
   Modal,
 } from "./login.styles";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../Layouts";
 import { Formik, Form, useField } from "formik";
 import * as yup from "yup";
@@ -28,6 +28,8 @@ import { closeModal, selectActiveModal, showModal } from "../../../Features/moda
 import { Puff } from "react-loading-icons";
 import useUsers from "../../../Features/user/userActions";
 import { alertError, alertSuccess } from "../../../Features/alert/alertSlice";
+import { fetchUser } from "../../../Features/user/userSlice";
+import { calcExpiryDate } from "../../../Shared/Utils/helperFunctions";
 const initialValues: LoginFormValues = {
   email: "",
   password: "",
@@ -38,10 +40,10 @@ const validationSchema = yup.object().shape({
     .string()
     .required("Password is required")
     .min(8, "Password must be at least 8 characters")
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&])/,
-      "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character (@, $, !, #,%, *, ?, &)"
-    ),
+    // .matches(
+    //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&])/,
+    //   "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character (@, $, !, #,%, *, ?, &)"
+    // ),
 });
 const resePWdValidationSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -55,9 +57,12 @@ const responseGoogle = (response?: any) => {
 const Screen: React.FC = () => {
   const [showPwd, setShowPwd] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [stayLoggedIn, setStayLoggedIn] = useState(false);
   const dispatch = useDispatch();
   const { loginUser } = useUsers();
+  const user = useSelector(fetchUser)
   const navigate = useNavigate();
+
 
 
   const handleSubmit = async (values: LoginFormValues) => {
@@ -68,10 +73,12 @@ const Screen: React.FC = () => {
      
     setLoading(true);
     try {
-      const userData = await loginUser(payload);
+      await loginUser(payload);
       dispatch(alertSuccess("Login successful"));
-      console.log(userData)
-      // document.cookie = `token=${userData.access_token}; expires=Thu, 18 Oct 2023 12:00:00 UTC; path=/; secure; HttpOnly`;
+      if (stayLoggedIn) {
+        // document.cookie = `token=${user?.access_token}; expires={calcExpiryDate(7).toUTCString()}; path=/; secure; HttpOnly`;
+        console.log(user)
+      }
       // navigate('/')
     } catch (error: any) {
       setLoading(false);               
@@ -80,6 +87,11 @@ const Screen: React.FC = () => {
       }
     }
   };
+  useEffect(() => {
+    if (user) {
+      console.log(user)
+    }
+  }, [user])
   return (
     <Container>
       <Heading>
@@ -108,7 +120,7 @@ const Screen: React.FC = () => {
           </FormControl>
           <Flex>
             <div>
-              <CustomField name="checkbox" type="checkbox" />
+              <CustomField name="checkbox" type="checkbox" checked={stayLoggedIn} onChange={() => setStayLoggedIn(!stayLoggedIn)}/>
               <span style={{ marginLeft: 5, marginTop: 2 }}>
                 Keep me logged in
               </span>
@@ -151,14 +163,14 @@ const CustomField: React.FC<{
   name: string;
   type: string;
   checked?: boolean;
-}> = ({ name, type, checked }) => {
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+}> = ({ name, type, checked, onChange }) => {
   const [field, meta] = useField(name);
   const inputHasError = meta?.error?.length ? true : false;
 
   if (type === "checkbox") {
-    return <CustomCheckbox checked={checked} type={type} />;
+    return <CustomCheckbox checked={checked} type={type} onChange={onChange} />;
   }
-
   return (
     <>
       <Input {...field} error={inputHasError} type={type} />
@@ -169,7 +181,6 @@ const CustomField: React.FC<{
   );
 };
 const LoginPage = () => {
-  // const { show } = useSelector((state: any) => state.modal);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const activeModal = useSelector(selectActiveModal);

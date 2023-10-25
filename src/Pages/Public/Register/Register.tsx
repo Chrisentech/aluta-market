@@ -11,10 +11,9 @@ import {
   Heading,
   FirstScreen,
   SecondScreen,
-  // CustomCheckbox,
   // Trademark,
 } from "./register.styles";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../Layouts";
 import { Formik, Form, useField } from "formik";
 import * as yup from "yup";
@@ -23,7 +22,7 @@ import { NavLink } from "react-router-dom";
 // import { GoogleLogin } from "react-google-login";
 import { GoogleLogin } from "@react-oauth/google";
 import { RegisterFormValues } from "../../../Interfaces";
-import { AppColors, ROUTE } from "../../../Shared/Constants";
+import { ROUTE } from "../../../Shared/Constants";
 import { generateSlug } from "../../../Shared/Utils/helperFunctions";
 import { FaArrowLeft } from "react-icons/fa";
 import { registerImg } from "../../../assets";
@@ -33,7 +32,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { alertError, alertSuccess } from "../../../Features/alert/alertSlice";
 import { VerifyOTPModal } from "../../../Shared/Components";
 import { selectActiveModal, showModal } from "../../../Features/modal/modalSlice";
-import Puff from "react-loading-icons/dist/esm/components/puff";
 
 const initialValues: RegisterFormValues = {
   email: "",
@@ -68,19 +66,9 @@ const Screen: React.FC = () => {
   const [userType, setUserType] = useState("");
   const [studentCampus, setCampus] = useState("");
   const [loading, setLoading] = useState(false);
-  const [phone, setPhone] = useState(""); 
   const [storeName, setStoreName] = useState("");
-  const [storePhone, setStorePhone] = useState("");
-
-  // checkbox states
-  const [isSameNumber, setIsSameNumber] = useState(false);
-  const [haveAddress, setHaveAddress] = useState(true);
-  const [agreedToTerms, setAgreedToTerms] = useState(false)
-
-
   const dispatch = useDispatch();
   const { createUser } = useUsers();
-  
   const handleSubmit = async (values: RegisterFormValues) => {
     // console.log(campus)
     let payload = {
@@ -98,7 +86,7 @@ const Screen: React.FC = () => {
       await createUser(payload);
       dispatch(alertSuccess("Registration successful. Verify OTP!"));
       setTimeout(() => {
-        dispatch(showModal('verifyOTP'));
+        dispatch(showModal("VerifyOTP"));
       }, 1500);
     } catch (error: any) {
       setLoading(false);
@@ -107,6 +95,7 @@ const Screen: React.FC = () => {
       }
     }
   };
+  
   return (
     <Container>
       <LeftPanel>
@@ -151,12 +140,7 @@ const Screen: React.FC = () => {
                 <Label>
                   Phone Number<span>*</span>
                 </Label>
-                <CustomField 
-                  name="phone" 
-                  type="text"
-                  value={phone}
-                  onChange={(e: any) => setPhone(e.target.value)} 
-                />
+                <CustomField name="phone" type="text" />
               </FormControl>
               <FormControl>
                 <Label>
@@ -188,13 +172,8 @@ const Screen: React.FC = () => {
                   value={userType}
                 />
               </FormControl>
-              <SubmitButton type="submit" loading={loading} disabled={loading}> 
-                {" "}
-                {loading ? (
-                  <Puff stroke={AppColors.brandOrange} strokeOpacity={0.125} />
-                ) : (
-                  "Join the Wagon"
-                )}
+              <SubmitButton type="submit" disabled={loading}>
+                Join the Wagon
               </SubmitButton>
 
               <div className="option">
@@ -256,7 +235,7 @@ const Screen: React.FC = () => {
                     storeName
                       ? "https://aluta-market.com/" +
                         generateSlug(storeName) +
-                        "/store"
+                        "/store001"
                       : ""
                   }
                 />
@@ -265,22 +244,10 @@ const Screen: React.FC = () => {
                 <Label>
                   Store Phone Number<span>*</span>
                 </Label>
-                <CustomField 
-                  name="phone" 
-                  type="text" 
-                  readOnly={isSameNumber} 
-                  value={isSameNumber ? phone : storePhone}
-                  onChange={(e: any) => setStorePhone(e.target.value)} 
-                />
+                <CustomField name="phone" type="text" readOnly />
               </FormControl>
               <div className="check">
-                <Input 
-                  error={false} 
-                  type="checkbox" 
-                  checked={isSameNumber} 
-                  onChange={() => setIsSameNumber(!isSameNumber) } 
-                />
-                {" "}
+                <Input error={false} type="checkbox" />{" "}
                 <span>same as my phone number</span>
               </div>
               <FormControl>
@@ -289,34 +256,19 @@ const Screen: React.FC = () => {
                 </Label>
                 <CustomField name="storeDescription" type="text" />
                 <div className="check">
-                  <Input
-                    error={false}
-                    type="checkbox" 
-                    checked={haveAddress}
-                    onChange={() => setHaveAddress(!haveAddress)} 
-                  />
-                    <span>I have a physical address</span>
+                  <Input error={false} type="checkbox" />{" "}
+                  <span>I have a physical address</span>
                 </div>
                 <div className="check">
-                  <Input 
-                    error={false}
-                    type="checkbox" 
-                    checked={agreedToTerms}
-                    onChange={() => setAgreedToTerms(!agreedToTerms)}
-                  />{" "}
+                  <Input error={false} type="checkbox" />{" "}
                   <span>
                     I agree to the{" "}
                     <NavLink to="#">Terms and Conditions</NavLink>
                   </span>
                 </div>
               </FormControl>
-              <SubmitButton loading={loading} disabled={loading} type="submit">
-                {" "}
-                {loading ? (
-                  <Puff stroke={AppColors.brandOrange} strokeOpacity={0.125} />
-                ) : (
-                  "Register Store"
-                )}
+              <SubmitButton type="submit" disabled={true}>
+                Register Store
               </SubmitButton>
             </Form>
           </Formik>
@@ -338,8 +290,7 @@ const CustomField: React.FC<{
   value?: string;
   onChange?: any;
   readOnly?: boolean;
-  checked?: boolean;
-}> = ({ name, type, defaultText, options, value, readOnly, onChange, checked }) => {
+}> = ({ name, type, defaultText, options, value, readOnly, onChange }) => {
   const [field, meta] = useField(name);
   // console.log(meta)
   const inputHasError = meta?.error?.length ? true : false;
@@ -372,7 +323,7 @@ const CustomField: React.FC<{
         )}
       </>
     );
-  } 
+  }
   return (
     <>
       <Input
@@ -390,8 +341,7 @@ const CustomField: React.FC<{
   );
 };
 const RegisterPage = () => {
-  // const { show } = useSelector((state: any) => state.modal);
-  const activeModal = useSelector(selectActiveModal);
+  const activeModal = useSelector(selectActiveModal)
 
   return (
     <Layout

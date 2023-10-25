@@ -14,7 +14,7 @@ const VerifyOTPModal:React.FC<{url:any}> = ({url}) => {
   const [activeOtpIndex, setactiveOtpIndex] = useState<number>(0);
   const { verifyOTP } = useUsers();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [resend,setResend] = useState(false)
+  const [resend, setResend] = useState(false)
   const [timer, setTimer] = useState(300000);
   let nav = useNavigate();
   const dispatch = useDispatch();
