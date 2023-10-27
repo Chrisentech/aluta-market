@@ -8,13 +8,13 @@ import { alertError, alertSuccess } from "../../../Features/alert/alertSlice";
 import useUsers from "../../../Features/user/userActions";
 import { marketLogo } from "../../../assets";
 
-const VerifyOTPModal:React.FC<{url:any}> = ({url}) => {
+const VerifyOTPModal: React.FC<{ url: any }> = ({ url }) => {
   const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState<string[]>(new Array(5).fill(""));
   const [activeOtpIndex, setactiveOtpIndex] = useState<number>(0);
   const { verifyOTP } = useUsers();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [resend,setResend] = useState(false)
+  const [resend, setResend] = useState(false);
   const [timer, setTimer] = useState(300000);
   let nav = useNavigate();
   const dispatch = useDispatch();
@@ -35,13 +35,12 @@ const VerifyOTPModal:React.FC<{url:any}> = ({url}) => {
     }
   }, [otp]);
 
-  useEffect(()=>{
+  useEffect(() => {
     setTimeout(() => {
       setResend(false);
-      setInterval
-
+      setInterval;
     }, 300000);
-  },[resend])
+  }, [resend]);
 
   const onPaste = async (val: any) => {
     const pasted = val.clipboardData.getData("text/plain");
@@ -59,7 +58,7 @@ const VerifyOTPModal:React.FC<{url:any}> = ({url}) => {
       } else {
         dispatch(closeModal());
       }
-    } catch (error:any) {
+    } catch (error: any) {
       setLoading(false);
       console.log(error);
       for (let index = 0; index < error.graphQLErrors.length; index++) {
@@ -94,44 +93,6 @@ const VerifyOTPModal:React.FC<{url:any}> = ({url}) => {
 
   return (
     <Container>
-<<<<<<< HEAD
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-        validationSchema={validationSchema}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-        }) => (
-          <Form>
-            <FormControl>
-              <label className="label">Verify OTP</label>
-              <div>
-                {values.otp.map((_, index) => (
-                  <Field
-                    key={index}
-                    type="text"
-                    name={`otp[${index}]`}
-                    placeholder="0"
-                    maxLength={1}
-                    onBlur={handleBlur}
-                    className={`input ${
-                      touched.otp && errors.otp ? "error" : ""
-                    }`}
-                    handleChange={handleChange}
-                  />
-                ))}
-              </div>
-              <ErrorMessage name="otp" component="div" className="error" />
-            </FormControl>
-          </Form>
-        )}
-      </Formik>
-=======
       <MdCancel
         onClick={() => dispatch(closeModal())}
         color="red"
@@ -139,7 +100,7 @@ const VerifyOTPModal:React.FC<{url:any}> = ({url}) => {
         style={{ float: "right", zIndex: 10000000, position: "relative" }}
       />
       <FormControl>
-        <img width={50} src={marketLogo} alt="verify-otp-logo"  />
+        <img width={50} src={marketLogo} alt="verify-otp-logo" />
         <label className="label">Verify OTP</label>
         <div>
           {otp.map((_, index: number) => (
@@ -164,7 +125,6 @@ const VerifyOTPModal:React.FC<{url:any}> = ({url}) => {
           resend otp {resend && `(${timer})`}
         </ResendButton>
       </FormControl>
->>>>>>> 2791ce654f50738ff0c19be14396ad850f5e935d
     </Container>
   );
 };

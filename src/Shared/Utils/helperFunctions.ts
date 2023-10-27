@@ -152,3 +152,11 @@ export function create_UUID(): string {
 //     return true;
 //   }
 // };
+
+export const parseJSONString = (str:string) =>{
+  return JSON.parse(str)
+}
+
+export const StringifyJSON = (js:any)=>{
+  return JSON.stringify(js)
+}
