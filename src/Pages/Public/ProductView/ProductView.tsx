@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { 
   CardIcon, Container, 
   DeliveryInfo, Description, 
@@ -26,24 +26,17 @@ import ModalContent from "./modals";
 import { useDispatch, useSelector } from "react-redux";
 import { showModal } from "../../../Features/modal/modalSlice";
 import { selectActiveModal } from "../../../Features/modal/modalSlice";
+import useProducts from "../../../Features/products/productActions";
+import { calculateDiscount, formatCurrency } from "../../../Shared/Utils/helperFunctions";
+import { RootState } from "../../../store";
+import { setLoading } from "../../../Features/loading/loadingSlice";
+import { useParams } from "react-router-dom";
 
-
-const instock = true //to test the reaction if product is in stock
-const formatNumber = ( num: number ): string => new Intl.NumberFormat('en-US', {
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
-}).format(num);
-
-const DiscountCalc = (
-  usualPrice: number, 
-  discountPrice: number
-): number => {
-  return Math.ceil(100 -((discountPrice/usualPrice) * 100))
-}
- 
 
 const Screen: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch();
+  const { product, getProduct } = useProducts()    
 
   const breadcrumbs = [
     // should get links and labels dynamically 
@@ -52,23 +45,33 @@ const Screen: React.FC = () => {
     { label: 'Mens Wear', link: '/search?Clothings/Mens wear' }, 
     { label: 'Summer clothing' }, 
   ];
-
+    
+  useEffect(() => {
+    dispatch(setLoading(true));
+    try {
+      getProduct(id);
+      dispatch(setLoading(false));
+    } catch(errors) {
+      console.error('GraphQL Validation Errors:', errors);
+      dispatch(setLoading(false))
+    }
+  }, [product]);
   return (
     <Wrapper>
       <Container>
         <Breadcrumb items={breadcrumbs}/>
         <OrderDetail>
-          <ProductCarousel images={ProductImages}/>
-          <ProductInfo instock={instock}>
-            {instock ? (
+          <ProductCarousel images={product?.image}/>
+          <ProductInfo instock={product?.status}>
+            {product?.status ? (
               <p className="product-status"><BsCheckLg /> in stock</p>
             ) : (
               <p className="product-status"><FaXmark /> not in stock</p>
             )}
             <ProductName>
               <div className="heading">
-                <h2>Men’s Short Sleeve T-shirt Cotton Base Layer Slim Muscle</h2>
-                <WishCard size="32px" boxShadow={false} />
+                <h2>{product?.name}</h2>
+                <WishCard size="32px" boxShadow={false} userId={7} productId={1} />
               </div>
               <div className="list">
                 <div className="average-rate"><Rating numberOfRates={4.3} /> 4.3</div>
@@ -78,8 +81,8 @@ const Screen: React.FC = () => {
             </ProductName>
             
             <PriceCard>
-              <p>{formatNumber(4500.00)}</p>
-              <p><span>{formatNumber(4800.00)}</span> <span>-{DiscountCalc(4800, 4500)}%</span></p>
+              <p>{formatCurrency(product?.price as number)}</p>
+              {(product?.discount !== 0) && <p><span>{formatCurrency(product?.price)}</span> <span>-{formatCurrency(calculateDiscount(product?.price as number, product?.discount as number))}%</span></p>}
             </PriceCard>
             <Variations>
               <div className="colors">
@@ -98,8 +101,7 @@ const Screen: React.FC = () => {
               </div>
             </Variations>
             <div className="buttons">
-              <Button color="#fff" background="linear-gradient(180deg, #FF7612 0%, #FF001F 100%);" height={45} width={199} padding={16} gap={10}>Buy Now</Button>
-              <Button border="solid 1px #e6e9ed" background="#fff" width={199} height={45} padding={16} gap={10}>Add to Cart</Button>
+              <Button color="#fff" background="linear-gradient(180deg, #FF7612 0%, #FF001F 100%);" height={60} width="100%" padding={16} gap={10}>Add to cart</Button>
             </div>
           </ProductInfo>
           <DeliveryInfo>
@@ -180,12 +182,7 @@ const Screen: React.FC = () => {
         <Description>
           <h3 className="title">Description</h3>
           <p className="description">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.  
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-            Ut enim ad minim veniam, Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+            {product?.description}
           </p>
           <Table>
             <TableRow>
@@ -224,6 +221,8 @@ const Screen: React.FC = () => {
 
 const ProductView: React.FC = () => {
   const activeModal = useSelector(selectActiveModal);
+  const isLoading = useSelector((state: RootState) => state.loading.isLoading);
+
   
   return (
     <Layout
@@ -231,7 +230,7 @@ const ProductView: React.FC = () => {
       layout="full"
       component={Screen}
       popUpContent={<ModalContent active={activeModal}/>}
-      state={false}
+      state={isLoading}
     />
   )
 };

@@ -7,6 +7,7 @@ import {
   SelectedImage, 
   Thumbnail 
 } from './ProductCarousel.style';
+import { NAimage } from '../../../assets';
 
 
 //Component to handle choosing product color
@@ -56,12 +57,15 @@ export const ColorList: React.FC<ColorListProps> = ({ colors }) => {
 // Main Carousel component
 
 interface ProductCarouselProps {
-  images: string[]; // Array of image URLs
+  images?: string[]; // Array of image URLs
 }
 
 const ProductCarousel: React.FC<ProductCarouselProps> = ({ images }) => {
-    const [selectedImage, setSelectedImage] = useState<string>(images[0]);
-  
+  const [selectedImage, setSelectedImage] = useState<string>(NAimage);
+  if (images && images[0]) {
+    setSelectedImage(images[0]);
+  } 
+    
     const handleImageSelect = (image: string) => {
       setSelectedImage(image);
     };
@@ -70,7 +74,7 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ images }) => {
       <CarouselContainer>
         <SelectedImage src={selectedImage} alt="Selected Product" />
         <ImageList>
-          {images.map((image, index) => (
+          {images?.map((image, index) => (
             <Thumbnail
               key={index}
               src={image}

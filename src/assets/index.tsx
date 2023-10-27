@@ -47,3 +47,4 @@ export { default as shoppingCartUnfilled } from './shopping-cart-unfilled.svg';
 export { default as userTagUnfilled } from './user-tag-unfilled.svg';
 export { default as messageEdit } from './message-edit.svg';
 export { default as shopWhite } from './shop-white.svg'
+export { default as NAimage } from './NAimage.jpg'

@@ -10,13 +10,13 @@ import {
   CustomCheckbox,
   Modal,
 } from "./login.styles";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../Layouts";
 import { Formik, Form, useField } from "formik";
 import * as yup from "yup";
 import { marketLogo } from "../../../assets";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 // import { GoogleLogin } from "react-google-login";
 import { GoogleLogin } from "@react-oauth/google";
 import { LoginFormValues } from "../../../Interfaces";
@@ -24,8 +24,12 @@ import { AppColors, ROUTE } from "../../../Shared/Constants";
 import { MdOutlineCancel, MdOutlineMailOutline } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { BiArrowBack } from "react-icons/bi";
-import { closeModal, showModal } from "../../../Features/modal/modalSlice";
+import { closeModal, selectActiveModal, showModal } from "../../../Features/modal/modalSlice";
 import { Puff } from "react-loading-icons";
+import useUsers from "../../../Features/user/userActions";
+import { alertError, alertSuccess } from "../../../Features/alert/alertSlice";
+import { fetchUser } from "../../../Features/user/userSlice";
+import { calcExpiryDate } from "../../../Shared/Utils/helperFunctions";
 const initialValues: LoginFormValues = {
   email: "",
   password: "",
@@ -36,10 +40,10 @@ const validationSchema = yup.object().shape({
     .string()
     .required("Password is required")
     .min(8, "Password must be at least 8 characters")
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&])/,
-      "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character (@, $, !, #,%, *, ?, &)"
-    ),
+    // .matches(
+    //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&])/,
+    //   "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character (@, $, !, #,%, *, ?, &)"
+    // ),
 });
 const resePWdValidationSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -53,13 +57,41 @@ const responseGoogle = (response?: any) => {
 const Screen: React.FC = () => {
   const [showPwd, setShowPwd] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [stayLoggedIn, setStayLoggedIn] = useState(false);
   const dispatch = useDispatch();
+  const { loginUser } = useUsers();
+  const user = useSelector(fetchUser)
+  const navigate = useNavigate();
 
-  const handleSubmit = (values: LoginFormValues) => {
+
+
+  const handleSubmit = async (values: LoginFormValues) => {
     // Handle form submission here
+    let payload = { 
+      ...values
+    };
+     
     setLoading(true);
-    console.log(values);
+    try {
+      await loginUser(payload);
+      dispatch(alertSuccess("Login successful"));
+      if (stayLoggedIn) {
+        // document.cookie = `token=${user?.access_token}; expires={calcExpiryDate(7).toUTCString()}; path=/; secure; HttpOnly`;
+        console.log(user)
+      }
+      // navigate('/')
+    } catch (error: any) {
+      setLoading(false);               
+      for (let index = 0; index < error.graphQLErrors.length; index++) {
+        dispatch(alertError(error.graphQLErrors[index].message));
+      }
+    }
   };
+  useEffect(() => {
+    if (user) {
+      console.log(user)
+    }
+  }, [user])
   return (
     <Container>
       <Heading>
@@ -88,12 +120,12 @@ const Screen: React.FC = () => {
           </FormControl>
           <Flex>
             <div>
-              <CustomField name="checkbox" type="checkbox" />
+              <CustomField name="checkbox" type="checkbox" checked={stayLoggedIn} onChange={() => setStayLoggedIn(!stayLoggedIn)}/>
               <span style={{ marginLeft: 5, marginTop: 2 }}>
                 Keep me logged in
               </span>
             </div>
-            <NavLink to="#" onClick={() => dispatch(showModal())}>
+            <NavLink to="#" onClick={() => dispatch(showModal('forgotPassword'))}>
               forgot password?
             </NavLink>
           </Flex>
@@ -131,14 +163,14 @@ const CustomField: React.FC<{
   name: string;
   type: string;
   checked?: boolean;
-}> = ({ name, type, checked }) => {
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+}> = ({ name, type, checked, onChange }) => {
   const [field, meta] = useField(name);
   const inputHasError = meta?.error?.length ? true : false;
 
   if (type === "checkbox") {
-    return <CustomCheckbox checked={checked} type={type} />;
+    return <CustomCheckbox checked={checked} type={type} onChange={onChange} />;
   }
-
   return (
     <>
       <Input {...field} error={inputHasError} type={type} />
@@ -149,9 +181,10 @@ const CustomField: React.FC<{
   );
 };
 const LoginPage = () => {
-  const { show } = useSelector((state: any) => state.modal);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const activeModal = useSelector(selectActiveModal);
+
   const handleSubmit = () => {
     setLoading(true);
   };
@@ -165,7 +198,7 @@ const LoginPage = () => {
               className="svg"
               size={32}
               color="#bdc4cd"
-              onClick={() => dispatch(closeModal())}
+              onClick={() => dispatch(closeModal('forgotPassword'))}
             />
           </div>
           <Heading>
@@ -209,7 +242,7 @@ const LoginPage = () => {
   return (
     <Layout
       popUpContent={ModalContent}
-      showModal={show}
+      showModal={activeModal}
       layout={"blank"}
       component={Screen}
       state={false}

@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
-import { ICartProps, RegisterFormValues } from "../../Interfaces";
+import { ICartProps, IUserProps, IWishlistProductProps } from "../../Interfaces";
 export interface UserState {
-  user: RegisterFormValues | null;
+  user: IUserProps | null;
   cart: ICartProps | null;
-  wishlists: any;
+  wishlists: any[] | null;
 }
 
 export const userSlice = createSlice({
@@ -15,7 +15,7 @@ export const userSlice = createSlice({
     wishlists: null,
   } as UserState,
   reducers: {
-    getUser: (state, action: PayloadAction<RegisterFormValues | null>) => {
+    getUser: (state, action: PayloadAction<IUserProps | null>) => {
       state.user = action.payload;
     },
     getMyCart: (state, action: PayloadAction<ICartProps | null>) => {
@@ -24,16 +24,26 @@ export const userSlice = createSlice({
     registerUser: (state, { payload }) => {
       state.user = payload.user;
     },
+    addWishlist: (state, { payload }) => {
+      state.wishlists = payload
+    }
   },
 });
 
 export const actions = userSlice.actions;
 
 //Define and export action for selectors
-export const fetchUser = (state: RootState): RegisterFormValues | null =>
+export const fetchUser = (state: RootState): IUserProps | null =>
   state.user.user;
 
 export const fetchCart = (state: RootState): ICartProps | null =>
   state.user.cart;
+
+  export const fetchWishlist = (state: RootState): any[] | null =>
+  state.user.wishlists;
+
+export const isInWishlist = (productId: number) => (state: RootState): boolean | undefined =>
+  state.user.wishlists?.some(product => product.productId === productId);
+
 //export user reducer
 export default userSlice.reducer;

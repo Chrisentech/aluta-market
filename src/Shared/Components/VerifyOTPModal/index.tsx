@@ -14,7 +14,7 @@ const VerifyOTPModal: React.FC<{ url: any }> = ({ url }) => {
   const [activeOtpIndex, setactiveOtpIndex] = useState<number>(0);
   const { verifyOTP } = useUsers();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [resend, setResend] = useState(false);
+  const [resend, setResend] = useState(false)
   const [timer, setTimer] = useState(300000);
   let nav = useNavigate();
   const dispatch = useDispatch();
@@ -56,7 +56,7 @@ const VerifyOTPModal: React.FC<{ url: any }> = ({ url }) => {
       if (url) {
         nav(url);
       } else {
-        dispatch(closeModal());
+        dispatch(closeModal('verifyOTP'));
       }
     } catch (error: any) {
       setLoading(false);
@@ -94,7 +94,7 @@ const VerifyOTPModal: React.FC<{ url: any }> = ({ url }) => {
   return (
     <Container>
       <MdCancel
-        onClick={() => dispatch(closeModal())}
+        onClick={() => dispatch(closeModal('VerifyOTP'))}
         color="red"
         size="18px"
         style={{ float: "right", zIndex: 10000000, position: "relative" }}

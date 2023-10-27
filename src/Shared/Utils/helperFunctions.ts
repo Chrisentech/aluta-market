@@ -40,11 +40,24 @@ export function deepClone<T>(obj: T): T {
 }
 
 export const formatCurrency = (
-  value: number,
-  currency: string,
+  value: number | undefined,
+  symbol: string = "₦",
+  currency: string = "NGN", 
+  locale: string = 'en-US', // Set your desired locale
   decimalPlaces: number = 2
 ): string => {
-  return `${currency}${value.toFixed(decimalPlaces)}`;
+  if (typeof value !== 'number' || isNaN(value)) {
+    return ''; // Return an empty string or handle it as you see fit
+  }
+
+  const formattedValue = value.toLocaleString(locale, {
+    style: 'currency',
+    currency: currency,
+    minimumFractionDigits: decimalPlaces,
+    maximumFractionDigits: decimalPlaces,
+  });
+
+  return `${symbol}${formattedValue.slice(3)}`;
 };
 
 export const calculateDiscount = (
@@ -140,6 +153,14 @@ export function create_UUID(): string {
     return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
   });
   return uuid;
+}
+
+export function calcExpiryDate(dayspan: number): Date {
+  const today = new Date()
+  const defaultDate = new Date(today);
+  defaultDate.setDate(today.getDate() + dayspan);
+
+  return defaultDate;
 }
 
 // export const isTokenExpired = (token:string) => {

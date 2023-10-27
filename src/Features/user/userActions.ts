@@ -10,6 +10,8 @@ import {
   GET_MY_CART,
   LOGIN_USER,
   VERIFY_OTP,
+  ADD_TO_WISHLIST,
+  GET_WISHLIST,
 } from "../../Services/graphql/users";
 import { actions } from "./userSlice";
 
@@ -38,8 +40,11 @@ export default function useUsers() {
       mutation: LOGIN_USER,
       variables: { input },
     });
-    if (response.data.loginUser)
+    if (response.data.loginUser) {
       dispatch(actions.registerUser(response.data.loginUser));
+      dispatch(actions.addWishlist(response.data.loginUser.wishlisted_products))
+      // return response.data.loginUser;
+    } 
   };
 
   const getCart = async (userId: number) => {
@@ -57,10 +62,37 @@ export default function useUsers() {
     }
   };
 
+
+  const getWishlist = async (userId: number) => {
+    if (userId) {
+      const response = await apolloClient.query({
+        query: GET_WISHLIST,
+        variables: { user: userId },
+      })
+      dispatch(actions.addWishlist(response.data))
+      console.log(response);
+    } else {
+      let wishlist: any = window.sessionStorage.getItem("wishlist");
+      wishlist ? JSON.parse(wishlist) : null;
+      console.log("wishlist from session Storage: ", wishlist);
+      // dispatch(actions.getWishlist(wishlist));
+    }
+  }
+  
+  const addToWishlist = async ( userId: number, productId: number ) => {
+    const response = await apolloClient.mutate({
+      mutation: ADD_TO_WISHLIST,
+      variables: { userId, productId },
+    });
+    console.log(response)
+  };
+
   return {
     createUser,
     loginUser,
     verifyOTP,
     getCart,
+    addToWishlist,
+    getWishlist,
   };
 }

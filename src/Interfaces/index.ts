@@ -24,6 +24,24 @@ export interface RegisterFormValues {
   active?: boolean;
 }
 
+export interface IUserProps {
+  id: number;
+  fullname: string;
+  email: string;
+  campus: string
+  avatar?: string;
+  phone?: string;
+  usertype?: string;
+  // password: string;
+  // stores?: 
+  active?: boolean;
+  access_token?: string;
+  refresh_token?: string;
+  // twofa
+  // code
+  // codeexpiry
+}
+
 export interface IVerifyOTPProps{
   phone:string
   email:string
@@ -72,8 +90,20 @@ export interface IProductProps {
   category: string;
   subcategory: string;
   description: string;
-  id?: string;
+  id?: number;
+  status?: boolean;
+  image?: string[];
   option: [];
+}
+
+export interface IWishlistProductProps {
+  productId: number;
+  productPrice: number;
+  productName: string;
+  productQuantity: number;
+  productStatus: boolean;
+  productThumbnail?: string[];
+  userId: number;
 }
 
 export interface IProductGridProps {

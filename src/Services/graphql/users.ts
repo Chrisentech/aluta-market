@@ -40,9 +40,11 @@ export const VERIFY_OTP = gql`
 `;
 
 export const LOGIN_USER = gql`
-  mutation ($input: LoginReq!) {
+  mutation LoginUser($input: LoginReq!) {
     loginUser(input: $input) {
-      ...UserFields
+      access_token
+      id
+      refresh_token
     }
   }
 `;
@@ -61,9 +63,16 @@ export const MY_PROFILE = gql`
 // export const SET_TWOFA = gql``;
 
 export const ADD_TO_WISHLIST = gql`
-  mutation ($userId: Int!, $productID: Int!) {
-    addWishListedProduct(userId: $userId, productId: $produtcId) {
-      ...UserFields
+  mutation AddWishListedProduct($userId: Int!, $productId: Int!) {
+    addWishListedProduct(userId: $userId, productId: $productId) {
+      productDiscount
+      productId
+      productName
+      productPrice
+      productQuantity
+      productStatus
+      productThumbnail
+      userId
     }
   }
 `;
@@ -72,6 +81,21 @@ export const GET_MY_CART = gql`
   query ($id: Int!) {
     Cart(user: $id) {
       ...Cart
+    }
+  }
+`;
+
+export const GET_WISHLIST = gql`
+  query Wishlisted_products($userId: ID!) {
+    User(id: $userId) {
+      wishlisted_products {
+        id
+        price
+        name
+        quantity
+        status
+        thumbnail
+      }
     }
   }
 `;

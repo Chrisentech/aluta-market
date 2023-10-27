@@ -13,7 +13,7 @@ import {
   SecondScreen,
   // Trademark,
 } from "./register.styles";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../Layouts";
 import { Formik, Form, useField } from "formik";
 import * as yup from "yup";
@@ -31,7 +31,7 @@ import useUsers from "../../../Features/user/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import { alertError, alertSuccess } from "../../../Features/alert/alertSlice";
 import { VerifyOTPModal } from "../../../Shared/Components";
-import { showModal } from "../../../Features/modal/modalSlice";
+import { selectActiveModal, showModal } from "../../../Features/modal/modalSlice";
 
 const initialValues: RegisterFormValues = {
   email: "",
@@ -86,7 +86,7 @@ const Screen: React.FC = () => {
       await createUser(payload);
       dispatch(alertSuccess("Registration successful. Verify OTP!"));
       setTimeout(() => {
-        dispatch(showModal());
+        dispatch(showModal("VerifyOTP"));
       }, 1500);
     } catch (error: any) {
       setLoading(false);
@@ -95,6 +95,7 @@ const Screen: React.FC = () => {
       }
     }
   };
+  
   return (
     <Container>
       <LeftPanel>
@@ -340,11 +341,11 @@ const CustomField: React.FC<{
   );
 };
 const RegisterPage = () => {
-  const { show } = useSelector((state: any) => state.modal);
+  const activeModal = useSelector(selectActiveModal)
 
   return (
     <Layout
-      showModal={show}
+      showModal={activeModal}
       layout={"blank"}
       component={Screen}
       state={false}
