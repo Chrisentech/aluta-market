@@ -22,7 +22,7 @@ export const userSlice = createSlice({
       state.cart = action.payload;
     },
     registerUser: (state, { payload }) => {
-      state.user = payload.user;
+      state.user = payload;
     },
     addWishlist: (state, { payload }) => {
       state.wishlists = payload

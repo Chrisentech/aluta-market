@@ -1,12 +1,13 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Container, FormControl, Input, ResendButton } from "./styles";
+import { Container, FormControl, Img, Input, ResendButton, SuccessContainer, Top } from "./styles";
 import { useNavigate } from "react-router-dom";
 import { closeModal } from "../../../Features/modal/modalSlice";
 import { useDispatch } from "react-redux";
 import { MdCancel } from "react-icons/md";
 import { alertError, alertSuccess } from "../../../Features/alert/alertSlice";
 import useUsers from "../../../Features/user/userActions";
-import { marketLogo } from "../../../assets";
+import { keySquare, marketLogo, tickCircle } from "../../../assets";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 const VerifyOTPModal:React.FC<{url:any}> = ({url}) => {
   const [loading, setLoading] = useState(false);
@@ -16,6 +17,7 @@ const VerifyOTPModal:React.FC<{url:any}> = ({url}) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [resend, setResend] = useState(false)
   const [timer, setTimer] = useState(300000);
+  const [isVerified, setVerified] = useState<boolean>(true)
   let nav = useNavigate();
   const dispatch = useDispatch();
   // check if the user has enter all the values for the otp
@@ -93,39 +95,54 @@ const VerifyOTPModal:React.FC<{url:any}> = ({url}) => {
   }, [activeOtpIndex]);
 
   return (
-    <Container>
-      <MdCancel
-        onClick={() => dispatch(closeModal('VerifyOTP'))}
-        color="red"
-        size="18px"
-        style={{ float: "right", zIndex: 10000000, position: "relative" }}
-      />
-      <FormControl>
-        <img width={50} src={marketLogo} alt="verify-otp-logo"  />
-        <label className="label">Verify OTP</label>
-        <div>
-          {otp.map((_, index: number) => (
-            <React.Fragment key={index}>
-              <Input
-                disabled={loading}
-                ref={index === activeOtpIndex ? inputRef : null}
-                value={otp[index]}
-                onChange={(e) => {
-                  handleOnChange(e, index);
-                }}
-                onPaste={onPaste}
-                onKeyDown={(e) => {
-                  handleKeyDown(e, index);
-                }}
-                type="number"
-              />
-            </React.Fragment>
-          ))}
-        </div>
-        <ResendButton onClick={() => setResend(true)}>
-          resend otp {resend && `(${timer})`}
-        </ResendButton>
-      </FormControl>
+    <Container success={isVerified}>
+      <Top>
+        <AiOutlineCloseCircle
+          className="close-button"
+          onClick={() => dispatch(closeModal('VerifyOTP'))}
+          color="#292D32"
+          size="34px"
+        />
+      </Top>
+      {isVerified ? 
+        <SuccessContainer>
+          <Img background="#00B517">
+            <img width={48} src={tickCircle} alt="otp-verification success"  />
+          </Img>
+          <label className="label">Number Verified</label>
+        </SuccessContainer> :
+        <FormControl>
+          <Img background="#FA3434">
+            <img width={48} src={keySquare} alt="verify-otp-logo"  />
+          </Img>
+          <label className="label">Verify OTP</label>
+          <p className="message">Input the OTP sent to 0802*****43</p>
+          <div>
+            {otp.map((_, index: number) => (
+              <React.Fragment key={index}>
+                <Input
+                  disabled={loading}
+                  ref={index === activeOtpIndex ? inputRef : null}
+                  value={otp[index]}
+                  onChange={(e) => {
+                    handleOnChange(e, index);
+                  }}
+                  onPaste={onPaste}
+                  onKeyDown={(e) => {
+                    handleKeyDown(e, index);
+                  }}
+                  type="number"
+                />
+              </React.Fragment>
+            ))}
+          </div>
+          <span className="message">Didn’t receive OTP?<span style={{ width: "0.3rem"}}></span> 
+            <ResendButton onClick={() => setResend(true)}>
+            Resend Code {resend && `(${timer})`}
+            </ResendButton>
+          </span>    
+        </FormControl>
+      }
     </Container>
   );
 };

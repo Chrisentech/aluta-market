@@ -1,35 +1,41 @@
 import { Field } from "formik";
 import styled from "styled-components";
 import { AppColors, BreakPoints } from "../../../Shared/Constants";
+import { check } from "../../../assets";
+import { boolean, string } from "yup";
+
 
 export const Container = styled.div`
   width: 100%;
   height: calc(100vh - 95px);
   display: flex;
   position: absolute;
-  top: 80px;
+  // top: 80px;
 `;
 
 export const RightPanel = styled.div`
+  position: fixed;
+  right: 0;
+  top: 0;
   width: 50%;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
- 
 `;
+
 export const FirstScreen = styled.div<{ userType: string }>`
   transition: 0.9s ease;
   position: absolute;
-  top: 130px;
+  top: 80px;
   transform: ${(props:any) =>
     props.userType !== "seller" ? "translateY(0vh)" : "translateY(-220vh)"};
   //   display: ${(props:any) => (props.userType !== "seller" ? "block" : "none")};
 `;
 export const SecondScreen = styled.div<{ userType: string }>`
   position: absolute;
-  top: 130px;
+  top: 80px;
   transition: 0.9s ease;
   // display: ${(props:any) => (props.userType !== "seller" ? "none" : "block")};
   transform: ${(props:any) =>
@@ -45,7 +51,7 @@ export const LeftPanel = styled.div`
   justify-content: center;
   align-items: center;
   .back {
-    top: -83px;
+    top: -33px;
     left: -100px;
     position: absolute;
     font-size: 32px;
@@ -55,6 +61,7 @@ export const LeftPanel = styled.div`
   .option {
     align-items: center;
     display: flex;
+    margin: 30px 0 35px 0;
     gap: 20px;
     p {
       color: var(--gray-500, #8b96a5);
@@ -75,6 +82,8 @@ export const LeftPanel = styled.div`
   form {
     width: 450px;
     position: relative;
+    margin-bottom: 115px;
+
     @media (${BreakPoints.xs}) {
       width: 95%;
     }
@@ -91,31 +100,6 @@ export const LeftPanel = styled.div`
     }
     a {
       color: #ff001f;
-    }
-    .googleSignin {
-      background-color: #007bff;
-      padding: 8px !important;
-      border: none;
-      cursor: pointer;
-      box-shadow: none !important;
-      width: 100%;
-      margin: 20px 0;
-      border-radius: 6px !important;
-      background: ${AppColors.brandPink} !important;
-      justify-content: center;
-      div {
-        background: transparent !important;
-      }
-      span {
-        color: #505050 !important;
-        font-family: Inter;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 500 !important;
-        text-align: center;
-        line-height: 20px; /* 142.857% */
-        letter-spacing: -0.28px;
-      }
     }
   }
 `;
@@ -155,6 +139,7 @@ export const FormControl = styled.div`
   flex-direction: column;
   gap: 10px;
   position: relative;
+  margin-bottom: 20px;
   svg {
     position: absolute;
     right: 20px;
@@ -162,22 +147,47 @@ export const FormControl = styled.div`
     cursor: pointer;
     transition: 0.5s ease;
   }
-  .check {
-    margin: -10px 0;
-  }
 `;
 
-export const Label = styled.label`
+export const Label = styled.label<{ checkbox?: boolean,  small?: boolean }>`
   color: #505050;
   font-feature-settings: "clig" off, "liga" off;
   font-family: Inter;
-  font-size: 16px;
+  font-size: ${({small}) => small ? "12px" : "16px"};
   font-style: normal;
-  font-weight: 600;
+  font-weight: ${({checkbox}) => checkbox ? "400" : "500"};
   line-height: normal;
+  display: flex;
+  align-items: center;
   span {
     color: ${AppColors.brandOrange};
   }
+  .terms {
+    font-weight: 400;
+    font-size: 16px;
+    font-family: inter;
+  }
+`;
+
+export const CustomCheckbox = styled.input.attrs({ type: "checkbox" })<{ checked?: boolean }>`
+  appearance: none;
+  ~.custom {
+    display: inline-block;
+    box-sizing: border-box;
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border: 1px solid #BDBDBD;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+
+  &:checked {
+    ~.custom {
+      background: url(${check});
+      border: none;
+    }
+  } 
 `;
 
 export const Input = styled(Field)<{
@@ -193,8 +203,15 @@ export const Input = styled(Field)<{
   background: ${(props:any) => (props.readOnly ? "#bdc4cd" : "#f7fafc")};
   border: ${(props:any) => (props.error ? "1px solid red" : "0")};
   outline: 0;
-  margin: 5px 0px 20px 0;
+  margin: 5px 0px 0 0;
   cursor: ${(props:any) => (props.readOnly ? `not-allowed` : "inherit")};
+
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%; /* 16px */
+  letter-spacing: -0.32px;
 `;
 export const Select = styled.select<{ error: boolean; type: string }>`
   width: ${(props:any) => (props.type === "checkbox" ? "unset" : "100%")};
@@ -219,6 +236,10 @@ export const Select = styled.select<{ error: boolean; type: string }>`
   border-top: 5px solid black; /* Adjust the color as needed */
   pointer-events: none;
   margin-top: -2.5px; /* Half of the border-top width to center the arrow */
+
+  option {
+    
+  }
 `;
 
 export const ErrorMessageWrapper = styled.div`
@@ -226,20 +247,21 @@ export const ErrorMessageWrapper = styled.div`
   margin-bottom: 8px;
 `;
 
-export const SubmitButton = styled.button`
-  background-color: #007bff;
-  color: #fff;
-  padding: 20px;
+export const SubmitButton = styled.button<{ active?: boolean, loading?: boolean }>`
+  // background-color: #007bff;
+  // color: #fff;
+  padding: ${(props) => (props.loading ? "7px" : "20px")};
   border: none;
   cursor: pointer;
   width: 100%;
   margin: 10px 0;
   border-radius: 10px;
-  background: var(
-    --primary-gradient,
-    linear-gradient(180deg, #ff7612 0%, #ff001f 100%)
-  );
-  color: var(--white, #fff);
+  background: ${({ active }) => active ? 
+    "var(--primary-gradient, linear-gradient(180deg, #ff7612 0%, #ff001f 100%))": 
+    "#DEE2E7"};
+  color: ${({ active }) => active ?
+    "var(--white, #fff)" :
+    "#505050"};
   text-align: center;
   font-feature-settings: "clig" off, "liga" off;
   font-family: Inter;
@@ -247,6 +269,15 @@ export const SubmitButton = styled.button`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+`;
+
+export const Hint = styled.span`
+  color: #FF9017;
+  font-family: Inter;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.2px;
 `;
 
 export const Trademark = styled.p`
@@ -259,4 +290,25 @@ export const Trademark = styled.p`
   letter-spacing: -0.28px;
   // position:absolute;
   // bottom:0px
+`;
+
+export const Footer = styled.footer`
+    height: 60px;
+    position: fixed;
+    bottom: 0;
+    background: #fff;
+    width: 100vw;
+    padding-top: 10px;
+    
+    p {
+      width: 90%;
+      margin: auto;
+      color: #BDC4CD;
+      font-family: Inter;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 24px; /* 171.429% */
+      letter-spacing: -0.28px;
+    }
 `;

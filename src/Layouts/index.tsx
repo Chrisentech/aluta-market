@@ -10,6 +10,7 @@ interface LayoutProps<T> {
   state: boolean;
   showModal?: string | null; // Pass the modal identifier
   modalWidth?: string;
+  navMode?: string;
   popUpContent?: ReactNode;
 }
 
@@ -18,7 +19,8 @@ const Layout: React.FC<LayoutProps<any>> = ({
   component: Component,
   state,
   showModal,
-  modalWidth,
+  // modalWidth,
+  navMode,
   popUpContent,
 }) => {
   const Screen = useLayoutHook(layout, state, <Component />);
@@ -59,14 +61,14 @@ const Layout: React.FC<LayoutProps<any>> = ({
     <>
       <Popup
         show={showModal && modals[showModal] ? modals[showModal] : false }
-        width={modalWidth}
+        // width={modalWidth}
         className="popup"
         // onClose={closeModalHandler}
       >
-        {popUpContent}
+        { popUpContent }
       </Popup>
       <Fragment>
-        <Navbar scrolled={scrolled} isMobile={isMobile} />
+        <Navbar scrolled={scrolled} isMobile={isMobile} mode={navMode}/>
         <Toast />
         {Screen}
       </Fragment>

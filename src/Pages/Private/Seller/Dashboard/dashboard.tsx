@@ -9,7 +9,7 @@ import {
   TableWrapper,
 } from "./dashboard.styles";
 import Layout from "../../../../Layouts";
-import { View, Card, Visuals, Table } from "../../../../Shared/Components";
+import { View, Card, Visuals, Table, LogoutModal } from "../../../../Shared/Components";
 import { IoWalletOutline, IoCartOutline } from "react-icons/io5";
 import {
   BsThreeDotsVertical,
@@ -19,6 +19,9 @@ import {
 } from "react-icons/bs";
 import { FiBarChart2 } from "react-icons/fi";
 import { IoIosCheckmarkCircle } from "react-icons/io";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { selectActiveModal, showModal } from "../../../../Features/modal/modalSlice";
 const { Charts, Pie } = Visuals;
 
 const gridItem = [
@@ -220,11 +223,19 @@ const Screen: React.FC = () => {
 };
 
 const Dashboard = () => {  
+  const { state: param } = useParams();
+  const dispatch = useDispatch();
+  const activeModal = useSelector(selectActiveModal);
+
+  if (param === "logout") dispatch(showModal("logout"))
+
   return (
     <Layout
       layout="dashboard"
       component={Screen}
       state={false}
+      showModal={activeModal}
+      popUpContent={<LogoutModal />}
     />
   )
 };

@@ -24,6 +24,7 @@ import { ColorList } from "./Carousel/ProductCarousel";
 import RangeSlider from "./RangeSlider/RangeSlider";
 import VerifyOTPModal from "./VerifyOTPModal";
 import ItemCounter from "./ItemCounter/ItemCounter";
+import LogoutModal from "./LogoutModal/Logout";
 export {
   Loader,
   Navbar,
@@ -52,4 +53,5 @@ export {
   ColorList,
   RangeSlider,
   ItemCounter,
+  LogoutModal,
 };

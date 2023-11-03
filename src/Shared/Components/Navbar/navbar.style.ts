@@ -48,6 +48,14 @@ export const SearchContainer = styled.form`
       font-weight: 400;
       line-height: normal;
     color: ${AppColors.brandGray} !important;
+    &::placeholder {
+      color: var(--gray-500, #8B96A5);
+      font-family: Inter;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
   }
   select {
     background: transparent;

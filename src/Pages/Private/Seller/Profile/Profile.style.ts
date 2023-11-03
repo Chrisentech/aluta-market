@@ -1,20 +1,55 @@
 import styled from 'styled-components';
+import { shop } from '../../../../assets';
 
 export const Wrapper = styled.section`
     box-sizing: border-box;
     width: 100%;
     overflow-x: hidden;
+
+    h1 {
+        Copy
+        color: #1C1C1C;
+        font-feature-settings: 'clig' off, 'liga' off;
+        font-family: Inter;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 32px; /* 133.333% */
+        letter-spacing: -0.2px;
+    }
+    h3 {
+        color: #1C1C1C;
+        font-feature-settings: 'clig' off, 'liga' off;
+        font-family: Inter;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+
+    .password-panel {
+        margin-top: 45px;
+
+        .change-password {
+            border-top: 1px solid #EFF2F4;
+            border-bottom: 1px solid #EFF2F4;
+            margin-top: 10px;
+            padding: 25px 0;
+            cursor: pointer;
+        }
+    }
 `;
 
 export const Body = styled.section`
     box-sizing: border-box;
+    margin-top: 30px;
     width: 100%;
-    height: auto;
     background: #FFF;
-    border-radius: 6px;
+    border-radius: 6px; 
     padding: 40px 80px;
     display: flex;
     flex-direction: column;
+    gap: 300px;
 
     .top {
         display: grid;
@@ -27,6 +62,13 @@ export const Body = styled.section`
             flex-direction: column;
             justify-content: space-between;
 
+            .form {
+                margin: 20px 0;
+                display: flex;
+                flex-direction: column;
+                gap: 25px;
+            }
+
             .gender-birthday {   
                 margin-top: 50px;
                 display: flex;
@@ -37,7 +79,25 @@ export const Body = styled.section`
 
                 label {
                     display: flex;
+                    flex: 1;
                     flex-direction: column;
+                    margin: 20px 0;
+
+                    div {
+                        width: 100%;
+                        input[type="date"] {
+                            font-family: inter;
+                            font-size: 12px;
+                            color: #BDC4CD;
+
+                            &::-webkit-calendar-picker-indicator {
+                                width: 24px;
+                                height: 24px;
+                                opacity: 0.2;
+                                }
+                            }
+                        }
+                    }
 
                     input, select {
                         box-sizing: border-box;
@@ -63,26 +123,46 @@ export const Body = styled.section`
             .deactivate {
                 display: flex;
                 flex-direction: column;
+                color: #505050;
 
                 .top-card {
                     display: flex;
                     flex-direction: row;
                     justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 5px;
+
+                    .deactivate-button {
+                        font-size: 14px;
+                        font-weight: 600;
+                    }
+
+                    .top-text {
+                        font-family: inter;
+                        font-weight: 700;
+                        font-size: 14px;
+                    }
+                }
+
+                p {
+                    font-family: inter;
+                    font-weight: 500;
+                    font-size: 12px;
                 }
             }
         }
     }
     .foot {
-        display: flex;
-        justify-content: space-between;
-        height: 120px;
+        width: 100%;
+        padding-bottom: 40px;
+        position: relative;
+
         .buttons {
             display: flex;
             flex-direction: row;
             gap: 10px;
             position: absolute;
-            right: 120px;
-            bottom: 100px;
+            right: 0px;
         }
     }
 `;

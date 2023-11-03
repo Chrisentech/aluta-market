@@ -2,9 +2,9 @@ export const ROUTE = {
   //Buyer Routes
   HOME: "/",
   BUYER_DASHBOARD: "/buyer/dashboard/",
-  SEARCH: "/search/:query?",
-  STORE: "/store/:id",
-  CART: "/product/cart/",
+  SEARCH: "/search",
+  STORE: "/store",
+  CART: "/product/cart",
   ADDRESS: "/address/",
   WISHLIST: "/product/wishlist/",
   LOGIN: "/auth/login/",
@@ -21,7 +21,7 @@ export const ROUTE = {
   //Seller Routes
   SELLER_NEWPRODUCT: "/seller/product/new",
   SELLER_ADDPRODUCT: "/seller/product/add",
-  SELLER_DASHBOARD: "/seller/dashboard/",
+  SELLER_DASHBOARD: "/seller/dashboard",
   SELLER_CREATESTORE: "/seller/dashboard/create-store",
   SELLER_PRODUCTS: "/seller/products/",
   SELLER_PAYMENT: "/seller/payment/",

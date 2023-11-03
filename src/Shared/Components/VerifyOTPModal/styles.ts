@@ -1,18 +1,11 @@
 import styled from "styled-components";
-import { AppColors } from "../../Constants";
 
-export const Container = styled.div`
+export const Container = styled.div<{success: boolean}>`
+  box-sizing: border-box;
+  width: 400px;
+  height: ${({success}) => success ? "390px" : "450px"};
+  cursor: auto;
 
-  .label {
-    display: flex;
-    justify-content: center; 
-    // margin-left: 20px;
-    text-align:center;
-    margin-bottom: -5px;font-family: Inter;
-    font-size: 24px !important;
-    font-style: normal;
-    font-weight: 600;
-  }
   .title {
     text-align: center;
     color: var(--dark, #1c1c1c);
@@ -27,47 +20,16 @@ export const Container = styled.div`
     letter-spacing: -0.2px;
     margin: 20px 0 0 0;
   }
-  .info {
-    padding: 10px;
-    border-radius: 6px;
-    margin: 0 auto;
-    text-align: center;
-    width: 60%;
-    margin-bottom: 30px;
+  .label {
+    display: flex;
+    justify-content: center; 
+    line-spacing: 
+    text-align:center;
+    margin-bottom: -5px;font-family: Inter;
+    font-size: 32px !important;
+    font-style: normal;
+    font-weight: 600;
   }
-  .gray {
-    background: ${AppColors.brandGray};
-    width: 80%;
-  }
-  .addNewBtn {
-    margin: unset;
-    float: right;
-    width: 100px;
-    margin-right: 20px;
-    margin-bottom: 30px;
-  }
-  .drpDwn {
-    margin: 10px 20px;
-  }
- 
-  }
-  .input {
-    padding:  15px;
-    width: 86%;
-      border-radius: 6px;
-     display:flex;
-     align-items:center;
-     justify-content:center
-   } 
-   .lsxaj2 { 
-      width: 86%;
-    margin: 40px aut  o;
-   } 
-     .popup {
-    .card {  
-        padding-bottom: 40px;
-        width:300px
-    }  
  `;
 
 export const Input = styled.input`
@@ -75,11 +37,12 @@ export const Input = styled.input`
   width: 50px;
   border-radius: 7px;
   outline: none;
-  // border: 1px;
+  border: none;
+  background: #F7FAFC;
   text-align: center;
   font-size: 42px;
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
@@ -89,15 +52,29 @@ export const Input = styled.input`
 
 export const FormControl = styled.div`
   width: 100%;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-  position: relative;
+  // position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .message {
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.2px;
+
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   div {
     display: flex;
     gap: 6px;
-    margin: 30px 0 0 0;
+    margin: 30px 0 20px 0;
   }
   svg {
     position: absolute;
@@ -113,19 +90,48 @@ align-items:center;
     color: red;
     margin-bottom: 5px;
   }
-  img{
-    margin-bottom:10px
+`;
+
+export const Img = styled.div<{ background: string }>`
+  width: 80px;
+  height: 80px;
+  margin: 18px 0 18pxpx 0;
+  background: ${({background}) => background};
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Top = styled.div`
+  height: 70px;
+  background: #F7FAFC;
+  position: relative;
+  .close-button {
+    position: absolute;
+    right: 18px;
+    top: 18px;
+    cursor: pointer;
   }
 `;
 
 export const ResendButton = styled.button`
-color: #002;
-border:0;
-outline:0;
-cursor:pointer;
-font-size:14px;
-background:transparent;
-margin:10px 0;
-float:right
-
+  display: inline-block;
+  color: #000;
+  border:0;
+  outline:0;
+  cursor:pointer;
+  font-size:14px;
+  background:transparent;
+  font-weight: 700 !important;
 `
+
+export const SuccessContainer = styled.div`
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 18px;
+  height: calc(100% - 100px);
+`;

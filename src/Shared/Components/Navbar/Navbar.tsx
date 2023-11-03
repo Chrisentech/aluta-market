@@ -92,20 +92,23 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
           <img width={"150"} src={logo} alt="logo" />
         </NavLink>
         {/* Search container */}
-        <SearchContainer>
-          <input placeholder="Search products, brands and services" />
-          <select>
-            <option selected disabled value="">
-              All Category
-            </option>
-            {categories.map((category, i) => {
-              return <option key={i}>{category.title}</option>;
-            })}
-          </select>
-          <button type="submit">Search</button>
-        </SearchContainer>
+        {(mode !== "noSearch" && mode !== "blank") &&
+          <SearchContainer>
+            <input placeholder="Search products, brands and services" />
+            <select>
+              <option selected disabled value="">
+                All Category
+              </option>
+              {categories.map((category, i) => {
+                return <option key={i}>{category.title}</option>;
+              })}
+            </select>
+            <button type="submit">Search</button>
+          </SearchContainer>
+        }
         {/* Menu icons */}
-        <Menu>
+        {(mode !== "blank") &&
+          <Menu>
           <IconWrapper>
             <FaUser color="#BDC4CD" />
             <label>Profile</label>
@@ -138,6 +141,7 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
             <label>My cart</label>
           </IconWrapper>
         </Menu>
+        }
       </Wrapper>
     </Container>
   );

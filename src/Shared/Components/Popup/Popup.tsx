@@ -14,7 +14,7 @@ const Popup: React.FC<IPopupProps> = ({
   show,
   children,
   className,
-  width,
+  // width,
   height,
 }) => {
   return (
@@ -25,7 +25,7 @@ const Popup: React.FC<IPopupProps> = ({
         width="auto"
         height={height}
         borderRadius={"20px"}
-        padding={"25px"}
+        padding={"0"}
         className="card"
       >
         {children}

@@ -34,6 +34,7 @@ export { default as dashboard } from './dashboard.svg';
 export { default as emptyWallet } from './empty-wallet-tick.svg';
 export { default as documentText } from './document-text.svg';
 export { default as sendSquare } from './send-sqaure-2.svg';
+export { default as sendSquareWhite } from './send-sqaure-white.svg';
 export { default as settings } from './setting-2.svg';
 export { default as shop } from './shop.svg';
 export { default as shoppingCart } from './shopping-cart.svg';
@@ -47,4 +48,7 @@ export { default as shoppingCartUnfilled } from './shopping-cart-unfilled.svg';
 export { default as userTagUnfilled } from './user-tag-unfilled.svg';
 export { default as messageEdit } from './message-edit.svg';
 export { default as shopWhite } from './shop-white.svg'
-export { default as NAimage } from './NAimage.jpg'
+export { default as NAimage } from './NAimage.jpg';
+export { default as keySquare } from './key-square.png';
+export { default as tickCircle } from './tick-circle.svg';
+export { default as caution } from './caution.svg'

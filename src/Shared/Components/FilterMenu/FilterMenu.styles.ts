@@ -46,9 +46,6 @@ export const OptionsContainer = styled.div<{ isOpen: boolean }>`
         border-radius: 4px;
         margin-right: 10px;
       }
-      &.hover input ~.custom {
-        background-color: yellow;
-      }
 
       input {
         &:checked {

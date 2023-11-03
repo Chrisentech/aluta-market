@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { AddImage, Body, InputField, ProfileImage, Wrapper } from './Profile.style';
 import Layout from '../../../../Layouts';
 import { messageEdit } from '../../../../assets';
 import { Button, Card } from '../../../../Shared/Components';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectActiveModal, showModal } from '../../../../Features/modal/modalSlice';
+import ModalContent from './modals';
 
 const Screen: React.FC = () => {
+    const dispatch = useDispatch();
+    const [phone, setPhone] = useState("");
+
+    const handleChangePassword = () => {
+
+    }
+
     return (
         <Wrapper>
             <h1>My Profile</h1>
@@ -12,30 +22,32 @@ const Screen: React.FC = () => {
                 <div className="top">
                     <div className='left'> 
                         <h3>Personal Details</h3>
-                        <label>
-                            Full Name
-                            <InputField 
-                                type="text"
-                                value=""
-                                onChange={() => {}}
-                            />
-                        </label>
-                        <label>
-                            Email
-                            <InputField 
-                                type="email"
-                                value=""
-                                onChange={() => {}}
-                            />
-                        </label>
-                        <label>
-                            Phone Number
-                            <InputField 
-                                type="email"
-                                value=""
-                                onChange={() => {}}
-                            />
-                        </label>
+                        <div className='form'>
+                            <label>
+                                Full Name
+                                <InputField 
+                                    type="text"
+                                    value=""
+                                    onChange={() => {}}
+                                />
+                            </label>
+                            <label>
+                                Email
+                                <InputField 
+                                    type="email"
+                                    value=""
+                                    onChange={() => {}}
+                                />
+                            </label>
+                            <label>
+                                Phone Number
+                                <InputField 
+                                    type="email"
+                                    value={"+234" + phone}
+                                    onChange={(e: ChangeEvent<HTMLInputElement>) => {setPhone(e.target.value.substring(4))}}
+                                />
+                            </label>
+                        </div>
                         <div className="gender-birthday">
                             <label className='gender'>
                                 Gender
@@ -50,16 +62,18 @@ const Screen: React.FC = () => {
                             </label>
                             <label className='birthday'>
                                 Birthday
-                                <input
-                                    type="date"
-                                    // value={}
-                                    onChange={() => {}}
-                                />
+                                <div>
+                                    <input
+                                        type="date"
+                                        // value={}
+                                        onChange={() => {}}
+                                    />
+                                </div>
                             </label>
                         </div>
-                        <div>
+                        <div className='password-panel'>
                             <h3>Password</h3>
-                            <div>Change password</div>
+                            <div className='change-password' onClick={handleChangePassword}>Change password</div>
                         </div>
                     </div>
                     <div className='right'>
@@ -73,8 +87,14 @@ const Screen: React.FC = () => {
                             className='deactivate'
                         >
                             <div className='top-card'>
-                                <p>Delete Account</p>
-                                <Button>
+                                <p className='top-text'>Delete Account</p>
+                                <Button 
+                                    color="#FA3434"
+                                    width={96}
+                                    height={27}
+                                    className='deactivate-button'
+                                    onClick={() => dispatch(showModal('deleteAccount'))}
+                                >
                                     Deactivate
                                 </Button>
                             </div>
@@ -106,7 +126,17 @@ const Screen: React.FC = () => {
 }
 
 const Profile = () => {
-    return <Layout layout={"dashboard"} component={Screen} state={false} />;
+    const activeModal = useSelector(selectActiveModal);
+
+    return (
+        <Layout 
+            layout={"dashboard"} 
+            component={Screen} 
+            state={false} 
+            showModal={activeModal}
+            popUpContent={<ModalContent active={activeModal}/>}
+        />
+    )
 };
 
 export default Profile;

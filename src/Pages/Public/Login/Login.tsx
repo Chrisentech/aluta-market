@@ -60,7 +60,7 @@ const Screen: React.FC = () => {
   const [stayLoggedIn, setStayLoggedIn] = useState(false);
   const dispatch = useDispatch();
   const { loginUser } = useUsers();
-  const user = useSelector(fetchUser)
+  // const user = useSelector(fetchUser)
   const navigate = useNavigate();
 
 
@@ -73,13 +73,14 @@ const Screen: React.FC = () => {
      
     setLoading(true);
     try {
-      await loginUser(payload);
+      let user = await loginUser(payload);
       dispatch(alertSuccess("Login successful"));
+      setLoading(false)
+      console.log("logged in", user)
       if (stayLoggedIn) {
-        // document.cookie = `token=${user?.access_token}; expires={calcExpiryDate(7).toUTCString()}; path=/; secure; HttpOnly`;
-        console.log(user)
+        document.cookie = `token=${user?.access_token}; expires={calcExpiryDate(7).toUTCString()}; path=/; secure; HttpOnly`;
+        navigate('/')
       }
-      // navigate('/')
     } catch (error: any) {
       setLoading(false);               
       for (let index = 0; index < error.graphQLErrors.length; index++) {
@@ -87,11 +88,6 @@ const Screen: React.FC = () => {
       }
     }
   };
-  useEffect(() => {
-    if (user) {
-      console.log(user)
-    }
-  }, [user])
   return (
     <Container>
       <Heading>
@@ -153,7 +149,10 @@ const Screen: React.FC = () => {
             cookiePolicy={"single_host_origin"}
             className="googleSignin"
           /> */}
-          <GoogleLogin onSuccess={responseGoogle} onError={responseGoogle} />
+          <GoogleLogin 
+            onSuccess={responseGoogle} 
+            onError={responseGoogle} 
+          />
         </Form>
       </Formik>
     </Container>

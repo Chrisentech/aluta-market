@@ -190,7 +190,7 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
               </Link>
             </SidebarMenuLinks>
             <SidebarMenuLinks>
-              <Link to="#">
+              <Link to={ROUTE.SELLER_DASHBOARD + "/logout"}>
                 <img src={sendSquare} /> Log out
               </Link>
             </SidebarMenuLinks>

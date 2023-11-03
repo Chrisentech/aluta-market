@@ -42,8 +42,8 @@ export default function useUsers() {
     });
     if (response.data.loginUser) {
       dispatch(actions.registerUser(response.data.loginUser));
-      dispatch(actions.addWishlist(response.data.loginUser.wishlisted_products))
-      // return response.data.loginUser;
+      getWishlist(response.data.loginUser.id)
+      return response.data.loginUser;
     } 
   };
 
@@ -70,7 +70,7 @@ export default function useUsers() {
         variables: { user: userId },
       })
       dispatch(actions.addWishlist(response.data))
-      console.log(response);
+      return response.data;
     } else {
       let wishlist: any = window.sessionStorage.getItem("wishlist");
       wishlist ? JSON.parse(wishlist) : null;
@@ -83,7 +83,10 @@ export default function useUsers() {
     const response = await apolloClient.mutate({
       mutation: ADD_TO_WISHLIST,
       variables: { userId, productId },
-    });
+    })
+    if(response){
+      getWishlist(userId)
+    }
     console.log(response)
   };
 

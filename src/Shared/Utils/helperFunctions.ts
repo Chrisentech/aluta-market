@@ -163,6 +163,9 @@ export function calcExpiryDate(dayspan: number): Date {
   return defaultDate;
 }
 
+export function deleteCookie(name: string) {
+  document.cookie = name + '=; path=/;';
+} 
 // export const isTokenExpired = (token:string) => {
 //   try {
 //     const decodedToken = JWT(token);
