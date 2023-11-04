@@ -176,3 +176,11 @@ export function deleteCookie(name: string) {
 //     return true;
 //   }
 // };
+
+export const parseJSONString = (str:string) =>{
+  return JSON.parse(str)
+}
+
+export const StringifyJSON = (js:any)=>{
+  return JSON.stringify(js)
+}

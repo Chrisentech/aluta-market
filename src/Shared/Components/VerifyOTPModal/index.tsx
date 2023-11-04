@@ -9,7 +9,7 @@ import useUsers from "../../../Features/user/userActions";
 import { keySquare, marketLogo, tickCircle } from "../../../assets";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
-const VerifyOTPModal:React.FC<{url:any}> = ({url}) => {
+const VerifyOTPModal: React.FC<{ url: any }> = ({ url }) => {
   const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState<string[]>(new Array(5).fill(""));
   const [activeOtpIndex, setactiveOtpIndex] = useState<number>(0);
@@ -37,13 +37,12 @@ const VerifyOTPModal:React.FC<{url:any}> = ({url}) => {
     }
   }, [otp]);
 
-  useEffect(()=>{
+  useEffect(() => {
     setTimeout(() => {
       setResend(false);
-      setInterval
-
+      setInterval;
     }, 300000);
-  },[resend])
+  }, [resend]);
 
   const onPaste = async (val: any) => {
     const pasted = val.clipboardData.getData("text/plain");
@@ -61,7 +60,7 @@ const VerifyOTPModal:React.FC<{url:any}> = ({url}) => {
       } else {
         dispatch(closeModal('verifyOTP'));
       }
-    } catch (error:any) {
+    } catch (error: any) {
       setLoading(false);
       console.log(error);
       for (let index = 0; index < error.graphQLErrors.length; index++) {
