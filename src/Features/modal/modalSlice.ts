@@ -16,7 +16,7 @@ export const modalSlice = createSlice({
       state.modals[action.payload] = true;
       state.activeModal = action.payload; // Set the active modal when showing
     },
-    closeModal: (state, action?: PayloadAction<string>) => {
+    closeModal: (state, action: PayloadAction<string>) => {
       state.modals[action.payload] = false;
       state.activeModal = null; // Clear the active modal when closing
     },

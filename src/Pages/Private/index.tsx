@@ -8,3 +8,4 @@ export { default as PaymentRegScreen } from "./Seller/Payment/RegistrationScreen
 export { default as Cart } from "./Buyer/Cart/Cart";
 export { default as SellerProfile } from "./Seller/Profile/profile";
 export { default as CreateStore } from "./Seller/Dashboard/CreateStore/CreateStore"
+export { default as StoreSettings } from "./Seller/StoreSettings/StoreSettings"

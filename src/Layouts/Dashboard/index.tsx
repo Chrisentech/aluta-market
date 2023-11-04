@@ -173,7 +173,7 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
               onClick={() => setActive("settings")}
               color="#FF001F"
             >
-              <Link to="#">
+              <Link to={ROUTE.SELLER_STORESETTINGS}>
                 {(active === "settings") ? <img src={settings} /> :  <img src={settingsUnfilled}/>  } Store Settings
               </Link>
             </SidebarMenuLinks>

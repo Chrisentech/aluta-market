@@ -21,7 +21,8 @@ import {
   PaymentRegScreen,
   Cart,
   SellerProfile,
-  CreateStore
+  CreateStore,
+  StoreSettings
 } from "../Pages/Private";
 import { useSelector } from "react-redux";
 
@@ -79,6 +80,10 @@ const Router: React.FC = () => {
           <Route
             path={ROUTE.SELLER_PROFILE}
             element={<PrivateRoute component={SellerProfile} authRoute />}
+          />
+          <Route
+            path={ROUTE.SELLER_STORESETTINGS}
+            element={<PrivateRoute component={StoreSettings} authRoute />}
           />
         {/* </BreadcrumbsProvider> */}
       </Routes>

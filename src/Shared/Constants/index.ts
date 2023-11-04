@@ -29,6 +29,7 @@ export const ROUTE = {
   SELLER_PROFILE: "/seller/profile/",
   REMOVEPRODUCT: "/product/remove",
   EDITPRODUCT: "/product/edit",
+  SELLER_STORESETTINGS: "/seller/store-settings",
 };
 
 export const BreakPoints = {
