@@ -28,8 +28,8 @@ import { closeModal, selectActiveModal, showModal } from "../../../Features/moda
 import { Puff } from "react-loading-icons";
 import useUsers from "../../../Features/user/userActions";
 import { alertError, alertSuccess } from "../../../Features/alert/alertSlice";
-import { fetchUser } from "../../../Features/user/userSlice";
-import { calcExpiryDate } from "../../../Shared/Utils/helperFunctions";
+// import { fetchUser } from "../../../Features/user/userSlice";
+// import { calcExpiryDate } from "../../../Shared/Utils/helperFunctions";
 const initialValues: LoginFormValues = {
   email: "",
   password: "",
@@ -39,7 +39,7 @@ const validationSchema = yup.object().shape({
   password: yup
     .string()
     .required("Password is required")
-    .min(8, "Password must be at least 8 characters")
+    // .min(8, "Password must be at least 8 characters")
     // .matches(
     //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&])/,
     //   "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character (@, $, !, #,%, *, ?, &)"
@@ -84,7 +84,7 @@ const Screen: React.FC = () => {
     } catch (error: any) {
       setLoading(false);               
       for (let index = 0; index < error.graphQLErrors.length; index++) {
-        dispatch(alertError(error.graphQLErrors[index].message));
+        dispatch(alertError(JSON.parse(error.graphQLErrors[index].message)));
       }
     }
   };
