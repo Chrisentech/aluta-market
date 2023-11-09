@@ -38,7 +38,7 @@ const validationSchema = yup.object().shape({
   password: yup
     .string()
     .required("Password is required")
-    .min(8, "Password must be at least 8 characters")
+    // .min(8, "Password must be at least 8 characters")
     // .matches(
     //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&])/,
     //   "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character (@, $, !, #,%, *, ?, &)"
@@ -82,7 +82,7 @@ const Screen: React.FC = () => {
     } catch (error: any) {
       setLoading(false);               
       for (let index = 0; index < error.graphQLErrors.length; index++) {
-        dispatch(alertError(error.graphQLErrors[index].message));
+        dispatch(alertError(JSON.parse(error.graphQLErrors[index].message)));
       }
     }
   };
