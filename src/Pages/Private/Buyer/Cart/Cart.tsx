@@ -2,13 +2,16 @@ import React from 'react';
 import Layout from '../../../../Layouts';
 import { 
     Container, Empty, 
-    Page, Product, 
+    Page, Product,
     ProductCard, ProductDescr, 
     RightSection, 
     ProductDetails,
+    InfoCard,
+    SectionCard,
 } from './CartStyles';
-import { Button, Card, ItemCounter } from '../../../../Shared/Components';
-import { amexpress, applepay, masterpay, paypal, phone, visa } from '../../../../assets';
+import { Banner, Button, Card, ItemCounter, View } from '../../../../Shared/Components';
+import { amexpress, applepay, deliveryTruckGray, lockGray, masterpay, messageGray, paypal, phone, visa } from '../../../../assets';
+import GridView from '../../../../Shared/Components/ViewSelector/GridView';
 
 const hasProduct: boolean = true;
 const items: number = 4;
@@ -78,8 +81,24 @@ const Screen: React.FC = () => {
                                                         </p>
                                                     </div>
                                                     <div className="buttons">
-                                                        <Button>Remove</Button>
-                                                        <Button>Save for later</Button>
+                                                        <Button
+                                                            width={70}
+                                                            height={30}
+                                                            borderRadius={6}
+                                                            background='#FA3434'
+                                                            color="#FFF"
+                                                        >
+                                                            Remove
+                                                        </Button>
+                                                        <Button
+                                                            width={103}
+                                                            padding={10}
+                                                            height={30}
+                                                            borderRadius={6}
+                                                            background='#FFF'
+                                                            border="#DEE2E7 solid 1px"
+                                                            color="#0D6EFD"
+                                                        >Save for later</Button>
                                                     </div>
                                                 </ProductDescr>
                                             </ProductDetails>
@@ -105,7 +124,86 @@ const Screen: React.FC = () => {
                         {hasProduct && <Button background="#FA3434" color="#fff" width="auto" padding={16}>Remove all</Button>}
                     </footer>
                 </Product>
-                
+                <div className='info-container'>
+                    <InfoCard>
+                        <div className='img'>
+                            <img src={lockGray} />
+                        </div>
+                        <div className="pcontainer">
+                            <p className="head">Secure payment</p>
+                            <p className="p">No more sales scam</p>
+                        </div>
+                    </InfoCard>
+                    <InfoCard>
+                        <img src={messageGray} />
+                        <div className="pcontainer">
+                            <p className="head">Customer support</p>
+                            <p className="p">Speak to us, we are here</p>
+                        </div>
+                    </InfoCard>
+                    <InfoCard>
+                        <img src={deliveryTruckGray} />
+                        <div className="pcontainer">
+                            <p className="head">Fast delivery</p>
+                            <p className="p">Max of 48 hours delivery </p>
+                        </div>
+                    </InfoCard>
+                </div>
+
+                <SectionCard>
+                    <h3 className="title">Saved for later</h3>
+                    {/* <View
+                        itempergrid={4}
+                        gridItems={[
+                            Array(4).fill('').map(_, index) => (
+                                <Card
+                                    key={index}
+                                    width="100%"
+                                    hasBoxShadow={true}
+                                    height="200px"
+                                    onHover
+                                    className="card"
+                                >
+                                    <ProductCard >
+                                        <ImageCard view="grid" src={phone} />
+
+                                        <ProductDetails view="grid">
+                                            <div className="flex">
+                                            <div className="price">
+                                                <span>&#8358;80,000</span>
+                                                <span>&#8358;92,000</span>
+                                            </div>
+                                            <WishCard />
+                                            </div>
+                                            <ProductFlex>
+                                            <div>
+                                                <Rating numberOfRates={7.5} />
+                                                <span className="rating">7.5</span>
+                                            </div>
+                                            </ProductFlex>
+
+                                            <h1>Canon Camera EOS 2000, Black 10x zoom</h1>
+                                        </ProductDetails>
+                                    </ProductCard>
+                                </Card> 
+                            ),
+                        ]}
+                    /> */}
+                    <GridView 
+                        gridItems={Array(4).fill(null)} 
+                        gap="10px" 
+                        itempergrid={4} 
+                        cardType="type2" 
+                        type="productGrid"
+                        background="#EEEEEE"  
+                    />
+
+                </SectionCard>
+                <div style={{ height: "30px" }}></div>
+                <SectionCard>
+                    <h3 className="title">Recently viewed</h3>
+                </SectionCard>
+                <Banner />
             </Container>
         </Page>
     )

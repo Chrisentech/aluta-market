@@ -23,6 +23,7 @@ import { categories } from "../../../test-data";
 import { Badge } from "..";
 import { useDispatch, useSelector } from "react-redux";
 import { newMessage } from "../../../Features/notifications/notificationSlice";
+import { getCookie } from "../../Utils/helperFunctions";
 
 // Sidebar Component
 const SideBar: React.FC<{ show: boolean; onClose: () => void }> = ({
@@ -84,6 +85,8 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 }) => {
   const { message } = useSelector((st: any) => st.notifications);
   const dispatch = useDispatch();
+  const isUserLoggedIn = getCookie("access_token") ? true : false;
+
   return (
     <Container scrolled={scrolled} mode={mode}>
       <Wrapper>
@@ -92,7 +95,7 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
           <img width={"150"} src={logo} alt="logo" />
         </NavLink>
         {/* Search container */}
-        {(mode !== "noSearch" && mode !== "blank") &&
+        {(mode !== "blank") &&
           <SearchContainer>
             <input placeholder="Search products, brands and services" />
             <select>
@@ -107,41 +110,43 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
           </SearchContainer>
         }
         {/* Menu icons */}
-        {(mode !== "blank") &&
           <Menu>
-          <IconWrapper>
-            <FaUser color="#BDC4CD" />
-            <label>Profile</label>
-          </IconWrapper>
-          <IconWrapper>
-            {message > 0 && (
-              <Badge
-                count={
-                  message < 10 ? (
-                    message
-                  ) : (
-                    <small>
-                      9<span>+</span>
-                    </small>
-                  )
-                }
-              />
-            )}
+          {isUserLoggedIn &&
+          <>
+            <IconWrapper>
+              <FaUser color="#BDC4CD" />
+              <label>Profile</label>
+            </IconWrapper>
+            <IconWrapper>
+              {message > 0 && (
+                <Badge
+                  count={
+                    message < 10 ? (
+                      message
+                    ) : (
+                      <small>
+                        9<span>+</span>
+                      </small>
+                    )
+                  }
+                />
+              )}
 
-            <MdMessage color="#BDC4CD" />
-            <label>Message</label>
-          </IconWrapper>
-          <IconWrapper onClick={() => dispatch(newMessage())}>
-            <MdFavorite background="#BDC4CD" />
-            <label>Orders</label>
-          </IconWrapper>
-          <IconWrapper>
-            <Badge count={4} />
-            <BsFillCartFill color="#BDC4CD" />
-            <label>My cart</label>
-          </IconWrapper>
+              <MdMessage color="#BDC4CD" />
+              <label>Message</label>
+            </IconWrapper>
+            <IconWrapper onClick={() => dispatch(newMessage())}>
+              <MdFavorite background="#BDC4CD" />
+              <label>Orders</label>
+            </IconWrapper>
+            <IconWrapper>
+              <Badge count={4} />
+              <BsFillCartFill color="#BDC4CD" />
+              <label>My cart</label>
+            </IconWrapper>
+          </>
+          }
         </Menu>
-        }
       </Wrapper>
     </Container>
   );

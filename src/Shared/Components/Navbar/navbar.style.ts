@@ -91,8 +91,8 @@ export const SearchContainer = styled.form`
 `;
 
 export const Menu = styled.div`
-  // flex:0.3;
-  // width:80%;
+  // flex:0.2;
+  min-width: 10%;
   display: flex;
   justify-content: center;
 `;

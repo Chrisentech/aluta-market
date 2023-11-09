@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Layout from "../../../Layouts";
 import { 
   Home,
@@ -21,6 +21,7 @@ import { ROUTE } from "../../../Shared/Constants";
 
 const Screen: React.FC = () => {
   const nav = useNavigate()
+
   return (
     <Home>
       <Hero>

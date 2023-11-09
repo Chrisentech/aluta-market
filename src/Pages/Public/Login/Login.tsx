@@ -28,8 +28,7 @@ import { closeModal, selectActiveModal, showModal } from "../../../Features/moda
 import { Puff } from "react-loading-icons";
 import useUsers from "../../../Features/user/userActions";
 import { alertError, alertSuccess } from "../../../Features/alert/alertSlice";
-import { fetchUser } from "../../../Features/user/userSlice";
-import { calcExpiryDate } from "../../../Shared/Utils/helperFunctions";
+import { getCookie, setCookie } from "../../../Shared/Utils/helperFunctions";
 const initialValues: LoginFormValues = {
   email: "",
   password: "",
@@ -60,7 +59,7 @@ const Screen: React.FC = () => {
   const [stayLoggedIn, setStayLoggedIn] = useState(false);
   const dispatch = useDispatch();
   const { loginUser } = useUsers();
-  // const user = useSelector(fetchUser)
+  const url = sessionStorage.getItem('redirectPath') || '/'
   const navigate = useNavigate();
 
 
@@ -76,11 +75,10 @@ const Screen: React.FC = () => {
       let user = await loginUser(payload);
       dispatch(alertSuccess("Login successful"));
       setLoading(false)
-      console.log("logged in", user)
-      if (stayLoggedIn) {
-        document.cookie = `token=${user?.access_token}; expires={calcExpiryDate(7).toUTCString()}; path=/; secure; HttpOnly`;
-        navigate('/')
-      }
+      setCookie('user_id', user?.id, stayLoggedIn ? 7 : 0);
+      setCookie('access_token', user?.access_token, stayLoggedIn ? 7 : 0);
+      sessionStorage.removeItem('redirectPath');
+      navigate(url)
     } catch (error: any) {
       setLoading(false);               
       for (let index = 0; index < error.graphQLErrors.length; index++) {
@@ -88,8 +86,11 @@ const Screen: React.FC = () => {
       }
     }
   };
+  
+  
   return (
     <Container>
+      {}
       <Heading>
         <img src={marketLogo} alt="login-logo" />
         <h2>Welcome, Comrade</h2>

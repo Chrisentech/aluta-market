@@ -3,6 +3,7 @@ import { apolloClient } from "../../Services/graphql/apolloClient";
 import {
   IVerifyOTPProps,
   LoginFormValues,
+  ModifyCartItemInput,
   RegisterFormValues,
 } from "../../Interfaces";
 import {
@@ -12,6 +13,7 @@ import {
   VERIFY_OTP,
   ADD_TO_WISHLIST,
   GET_WISHLIST,
+  MODIFY_CART,
 } from "../../Services/graphql/users";
 import { actions } from "./userSlice";
 
@@ -46,6 +48,16 @@ export default function useUsers() {
       return response.data.loginUser;
     } 
   };
+
+  const modifyCart = async (input: ModifyCartItemInput) => {
+    const response = await apolloClient.mutate({
+      mutation: MODIFY_CART,
+      variables: { input }
+    });
+    if (response.data) {
+      return response.data
+    }
+  }
 
   const getCart = async (userId: number) => {
     if (userId) {
@@ -97,5 +109,6 @@ export default function useUsers() {
     getCart,
     addToWishlist,
     getWishlist,
+    modifyCart,
   };
 }

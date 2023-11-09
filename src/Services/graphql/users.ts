@@ -21,6 +21,19 @@ const USER_FIELDS = gql`
   }
 `;
 
+const WISHLIST_FIELDS = gql`
+  fragment WishlistFields on WishListedProducts {
+    productDiscount
+    productId
+    productName
+    productPrice
+    productQuantity
+    productStatus
+    productThumbnail
+    userId
+  }
+`;
+
 export const CREATE_USER = gql`
   ${USER_FIELDS}
   mutation ($input: NewUser!) {
@@ -63,16 +76,18 @@ export const MY_PROFILE = gql`
 // export const SET_TWOFA = gql``;
 
 export const ADD_TO_WISHLIST = gql`
+  ${WISHLIST_FIELDS}
   mutation AddWishListedProduct($userId: Int!, $productId: Int!) {
     addWishListedProduct(userId: $userId, productId: $productId) {
-      productDiscount
-      productId
-      productName
-      productPrice
-      productQuantity
-      productStatus
-      productThumbnail
-      userId
+      ...WishlistFields
+    }
+  }
+`;
+
+export const MODIFY_CART = gql`
+  mutation ModifyCart($input: ModifyCartItemInput!) {
+    modifyCart(input: $input) {
+      active
     }
   }
 `;
@@ -86,16 +101,10 @@ export const GET_MY_CART = gql`
 `;
 
 export const GET_WISHLIST = gql`
-  query Wishlisted_products($userId: ID!) {
-    User(id: $userId) {
-      wishlisted_products {
-        id
-        price
-        name
-        quantity
-        status
-        thumbnail
-      }
+  ${WISHLIST_FIELDS}
+  query WishListedProducts($user: Int!) {
+    WishListedProducts(user: $user) {
+      ...WishlistFields
     }
   }
 `;

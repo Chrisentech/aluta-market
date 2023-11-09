@@ -19,7 +19,8 @@ const LogoutModal:React.FC<{url?: string}> = ({ url }) => {
 
   const handleLogout = () => {
     dispatch(closeModal("logout"))
-    deleteCookie("token")
+    deleteCookie("user_id")
+    deleteCookie("access_token")
     navigate("/")
   }
 

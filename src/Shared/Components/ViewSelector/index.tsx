@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Children } from "react";
 import { Container } from "./styles.ts";
 import ListView from "./ListView.tsx";
 import GridView from "./GridView.tsx";
@@ -14,7 +14,7 @@ interface IVeiw {
   className?: string;
   gridItems?: any[];
 }
-const View: React.FC<IVeiw> = ({ mode, type,className ,gap, gridItems, itempergrid }) => {
+const View: React.FC<IVeiw> = ({ mode, type, className, gap, gridItems, itempergrid }) => {
   
   return (
     <Container>

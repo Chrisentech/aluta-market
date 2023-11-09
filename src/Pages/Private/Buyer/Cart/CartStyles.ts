@@ -19,6 +19,14 @@ export const Container = styled.div`
         line-height: 32px; 
         letter-spacing: -0.2px;
     }
+
+    .info-container { 
+        width: 880px;
+        display: flex;
+        justify-content: flex-start;
+        gap: 80px;
+        margin: 30px 0;
+    }
 `;
 
 export const Product = styled.div`
@@ -39,6 +47,29 @@ export const Product = styled.div`
         font-weight: 500;
         padding-top: 20px;
     }
+`;
+
+export const SectionCard = styled.div`
+    width: 100%;
+    height: 475px;
+    border-radius: 6px;
+    border: 1px solid #DEE2E7;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .title {
+        font-family: inter;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 28px;
+        letter-spacing: -0.2px;
+        color: #1c1c1c;
+        margin-top: 20px;
+        align-self: flex-start;
+        margin-left: 25px;
+      }
 `;
 
 export const Empty = styled.div`
@@ -182,6 +213,7 @@ export const ProductCard = styled.div`
   }
 `;
 
+
 export const ProductDetails = styled.div`
   h2 {
     font-size: 16px;
@@ -207,6 +239,40 @@ export const ProductDescr = styled.div`
   .buttons {
     display: flex;
     flex-direction: row;
+    align-items: center;
     justify-self: flex-end;
+    gap: 10px;
   }
+`;
+
+
+export const InfoCard = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: -0.2px;
+
+  .head {
+    color: #1C1C1C;
+  }
+
+  .p {
+    color: #A9ACB0;
+  }
+
+  .img {
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    background: #DEE2E7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
 `;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 // import { BreadcrumbsProvider } from 'react-breadcrumbs-dynamic';
 import { ROUTE } from "../Shared/Constants";
@@ -24,7 +24,7 @@ import {
   CreateStore,
   StoreSettings
 } from "../Pages/Private";
-import { useSelector } from "react-redux";
+import { getCookie, setRedirectPath } from "../Shared/Utils/helperFunctions";
 
 const Router: React.FC = () => {
   return (
@@ -43,47 +43,47 @@ const Router: React.FC = () => {
 
           <Route
             path={ROUTE.BUYER_DASHBOARD}
-            element={<PrivateRoute component={BuyerDashboard} authRoute />}
+            element={<PrivateRoute component={BuyerDashboard} authRoute route={ROUTE.BUYER_DASHBOARD}/>}
           />
           <Route
             path={ROUTE.CART}
-            element={<PrivateRoute component={Cart} authRoute />}
+            element={<PrivateRoute component={Cart} authRoute route={ROUTE.CART}/>}
           />
           <Route
             path={ROUTE.SELLER_DASHBOARD + "/:state?"}
-            element={<PrivateRoute component={SellerDashboard} authRoute />}
+            element={<PrivateRoute component={SellerDashboard} authRoute route={ROUTE.SELLER_DASHBOARD}/>}
           />
           <Route
             path={ROUTE.SELLER_CREATESTORE}
-            element={<PrivateRoute component={CreateStore} authRoute />}
+            element={<PrivateRoute component={CreateStore} authRoute route={ROUTE.SELLER_CREATESTORE}/>}
           />
           <Route
             path={ROUTE.SELLER_PRODUCTS}
-            element={<PrivateRoute component={SellerProducts} authRoute />}
+            element={<PrivateRoute component={SellerProducts} authRoute route={ROUTE.SELLER_PRODUCTS}/>}
           />
           <Route
             path={ROUTE.SELLER_NEWPRODUCT}
-            element={<PrivateRoute component={NewSellerProduct} authRoute />}
+            element={<PrivateRoute component={NewSellerProduct} authRoute route={ROUTE.SELLER_NEWPRODUCT}/>}
           />
           <Route
             path={ROUTE.SELLER_ADDPRODUCT}
-            element={<PrivateRoute component={AddNewProducts} authRoute />}
+            element={<PrivateRoute component={AddNewProducts} authRoute route={ROUTE.SELLER_ADDPRODUCT}/>}
           />
           <Route
             path={ROUTE.SELLER_PAYMENT}
-            element={<PrivateRoute component={SellerPayment} authRoute />}
+            element={<PrivateRoute component={SellerPayment} authRoute route={ROUTE.SELLER_PAYMENT}/>}
           />
           <Route
             path={ROUTE.SELLER_PAYMENT_REG + "/:step"}
-            element={<PrivateRoute component={PaymentRegScreen} authRoute />}
+            element={<PrivateRoute component={PaymentRegScreen} authRoute route={ROUTE.SELLER_PAYMENT_REG + "/:step"}/>}
           />
           <Route
             path={ROUTE.SELLER_PROFILE}
-            element={<PrivateRoute component={SellerProfile} authRoute />}
+            element={<PrivateRoute component={SellerProfile} authRoute route={ROUTE.SELLER_PROFILE}/>}
           />
           <Route
             path={ROUTE.SELLER_STORESETTINGS}
-            element={<PrivateRoute component={StoreSettings} authRoute />}
+            element={<PrivateRoute component={StoreSettings} authRoute route={ROUTE.SELLER_STORESETTINGS}/>}
           />
         {/* </BreadcrumbsProvider> */}
       </Routes>
@@ -94,15 +94,23 @@ const Router: React.FC = () => {
 interface PrivateRouteProps {
   component: React.ComponentType;
   authRoute?: boolean;
+  route?: string;
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({
   component: Component,
   authRoute,
+  route
 }) => {
-  const {token} = useSelector((el:any)=>el.user)
-  const isAuthenticated = !token?true:false; // logic to check if the user is authenticated
+  const token = getCookie('access_token') 
+  const isAuthenticated = token ? true : false; // logic to check if the user is authenticated
 
+  useEffect(() => {
+    if (route) {
+      setRedirectPath(route)
+    }
+  }, [route])
+  
   if (authRoute && !isAuthenticated) {
     return <Navigate to={ROUTE.LOGIN} replace />;
   }

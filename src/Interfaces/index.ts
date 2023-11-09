@@ -96,6 +96,12 @@ export interface IProductProps {
   option: [];
 }
 
+export interface ModifyCartItemInput {
+  productId: string;
+  quantity: number;
+  user: number;
+}
+
 export interface IWishlistProductProps {
   productId: number;
   productPrice: number;

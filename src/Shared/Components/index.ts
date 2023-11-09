@@ -25,6 +25,7 @@ import RangeSlider from "./RangeSlider/RangeSlider";
 import VerifyOTPModal from "./VerifyOTPModal";
 import ItemCounter from "./ItemCounter/ItemCounter";
 import LogoutModal from "./LogoutModal/Logout";
+import Banner from "./Bannner/Banner";
 export {
   Loader,
   Navbar,
@@ -54,4 +55,5 @@ export {
   RangeSlider,
   ItemCounter,
   LogoutModal,
+  Banner,
 };

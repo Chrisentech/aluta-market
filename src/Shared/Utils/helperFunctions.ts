@@ -166,6 +166,28 @@ export function calcExpiryDate(dayspan: number): Date {
 export function deleteCookie(name: string) {
   document.cookie = name + '=; path=/;';
 } 
+
+export const setCookie = (name: string, value: string, days: number) => {
+  days === 0 ?  
+    document.cookie = `${name}=${value}; path=/`: //creates a session cookie
+    document.cookie = `${name}=${value}; expires=${calcExpiryDate(days).toUTCString()}; path=/`;
+};
+
+export const getCookie = (name: string) => {
+  const cookieArray = document.cookie.split('; ');
+  for (const cookie of cookieArray) {
+    const [cookieName, cookieValue] = cookie.split('=');
+    if (cookieName === name) {
+      return cookieValue;
+    }
+  }
+  return null;
+};
+
+export const setRedirectPath = (path: string) => {
+  sessionStorage.setItem('redirectPath', path);
+};
+
 // export const isTokenExpired = (token:string) => {
 //   try {
 //     const decodedToken = JWT(token);

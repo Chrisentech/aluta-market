@@ -27,16 +27,31 @@ import { useDispatch, useSelector } from "react-redux";
 import { showModal } from "../../../Features/modal/modalSlice";
 import { selectActiveModal } from "../../../Features/modal/modalSlice";
 import useProducts from "../../../Features/products/productActions";
-import { calculateDiscount, formatCurrency } from "../../../Shared/Utils/helperFunctions";
+import { calculateDiscount, formatCurrency, getCookie } from "../../../Shared/Utils/helperFunctions";
 import { RootState } from "../../../store";
 import { setLoading } from "../../../Features/loading/loadingSlice";
 import { useParams } from "react-router-dom";
+import useUsers from "../../../Features/user/userActions";
+import { ModifyCartItemInput } from "../../../Interfaces";
 
 
 const Screen: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id: product_id } = useParams<{ id: string }>();
   const dispatch = useDispatch();
-  const { product, getProduct } = useProducts()    
+  const { product, getProduct } = useProducts();
+  const user_id = getCookie('user_id');
+  const { modifyCart } = useUsers();
+  
+  const handleAddToCart = () => {
+    //if variant, open modal
+    const modifyCartValues: ModifyCartItemInput = {
+      productId: product_id as string,
+      quantity: 1,
+      user: Number(user_id),
+    }
+    modifyCart(modifyCartValues)
+    console.log('clicked')
+  }
 
   const breadcrumbs = [
     // should get links and labels dynamically 
@@ -49,7 +64,7 @@ const Screen: React.FC = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     try {
-      getProduct(id);
+      getProduct(product_id);
       dispatch(setLoading(false));
     } catch(errors) {
       console.error('GraphQL Validation Errors:', errors);
@@ -101,7 +116,16 @@ const Screen: React.FC = () => {
               </div>
             </Variations>
             <div className="buttons">
-              <Button color="#fff" background="linear-gradient(180deg, #FF7612 0%, #FF001F 100%);" height={60} width="100%" padding={16} gap={10}>Add to cart</Button>
+              <Button 
+                color="#fff" 
+                background="linear-gradient(180deg, #FF7612 0%, #FF001F 100%);" 
+                height={60} 
+                width="100%" 
+                padding={16} gap={10}
+                onClick={() => handleAddToCart()}
+              >
+                  Add to cart
+                </Button>
             </div>
           </ProductInfo>
           <DeliveryInfo>

@@ -51,4 +51,7 @@ export { default as shopWhite } from './shop-white.svg'
 export { default as NAimage } from './NAimage.jpg';
 export { default as keySquare } from './key-square.png';
 export { default as tickCircle } from './tick-circle.svg';
-export { default as caution } from './caution.svg'
+export { default as caution } from './caution.svg';
+export { default as deliveryTruckGray } from './deliverytruckgray.svg';
+export { default as messageGray } from './messagegray.svg';
+export { default as lockGray } from './lockgray.svg';
