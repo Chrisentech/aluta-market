@@ -1,5 +1,3 @@
-import { categories } from "./data";
+import { categories,services } from "./data";
 
-export {
-    categories,
-}
+export { categories, services };
