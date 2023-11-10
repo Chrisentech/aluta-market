@@ -1,48 +1,51 @@
 import { gql } from "@apollo/client";
 
 const PRODUCT_FIELDS = gql`
-  fragment ProductFields on Product {
-    id
-    name
-    price
-    description
-    discount
-    image
-    slug
-    quantity
-    status
-    thumbnail
-    store
-    category
-    subcategory
-   # variant
-  }
+	fragment ProductFields on Product {
+		id
+		name
+		price
+		description
+		discount
+		image
+		slug
+		quantity
+		status
+		thumbnail
+		store
+		category
+		subcategory
+		# variant
+	}
 `;
-// const CATEGORY_FIELD = gql`
-// fragment CategoryFields on Category{
-//   id
-//   name
-//   slug
-//   subcategories
-// }
-// `;
+const CATEGORY_FIELD = gql`
+	fragment CategoryFields on Category {
+		id
+		name
+		slug
+		subcategories {
+			name
+			slug
+		}
+	}
+`;
 
-// export const GET_CATEGORY = gql`
-// query ($id: String!){
-//   ${CATEGORY_FIELD}
-//     Category(id:$id){
-//         ...CategoryFields
-//     }
-//   }
-// `;
-// export const GET_CATEGORIES = gql`
-// query (){
-//   ${CATEGORY_FIELD}
-//     Categories(){
-//         ...CategoryFields
-//     }
-//   }
-// `;
+export const GET_CATEGORY = gql`
+	${CATEGORY_FIELD}
+	query Category($id: Int!) {
+		Category(id: $id) {
+			...CategoryFields
+		}
+	}
+`;
+export const GET_CATEGORIES = gql`
+	${CATEGORY_FIELD}
+	query {
+		Categories {
+			...CategoryFields
+		}
+	}
+`;
 
 // export const GET_PRODUCTS = gql`
 //   ${PRODUCT_FIELDS}
@@ -54,22 +57,22 @@ const PRODUCT_FIELDS = gql`
 // `;
 
 export const GET_PRODUCT = gql`
-  ${PRODUCT_FIELDS}
-  query Product($productId: Int!){
-    Product(id: $productId){
-        ...ProductFields
-    }
-  }
+	${PRODUCT_FIELDS}
+	query Product($productId: Int!) {
+		Product(id: $productId) {
+			...ProductFields
+		}
+	}
 `;
 
-// export const CREATE_PRODUCT = gql`
-//   ${PRODUCT_FIELDS}
-//   mutation ($input: NewProduct!) {
-//     (input: $input) {
-//       ...ProductFields
-//     }
-//   }
-// `;
+export const CREATE_PRODUCT = gql`
+	${PRODUCT_FIELDS}
+	mutation CreateProduct($input: ProductInput!) {
+		createProduct(input: $input) {
+			...ProductFields
+		}
+	}
+`;
 
 // export const UPDATE_PRODUCT = gql`
 //   ${PRODUCT_FIELDS}

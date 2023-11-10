@@ -87,8 +87,8 @@ export interface IProductProps {
   price: number;
   slug?: string;
   discount: number;
-  category: string;
-  subcategory: string;
+  category: number;
+  subcategory: number;
   description: string;
   id?: number;
   status?: boolean;
