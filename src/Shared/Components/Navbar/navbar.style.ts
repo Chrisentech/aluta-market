@@ -36,27 +36,33 @@ export const SearchContainer = styled.form`
   margin: 0 10px;
   border-radius: 6px;
   display: flex;
-  input {
-    border: none;
-    outline: none;
-    padding: 12px;
+  .searchbar {
+    position: relative;
     width: 70%;
-    border-radius: 6px;
-      font-family: Inter;
-      font-size: 12px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-    color: ${AppColors.brandGray} !important;
-    &::placeholder {
-      color: var(--gray-500, #8B96A5);
-      font-family: Inter;
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
+
+    input {
+      border: none;
+      outline: none;
+      padding: 12px;
+      width: 90%;
+      border-radius: 6px;
+        font-family: Inter;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      color: ${AppColors.brandGray} !important;
+      &::placeholder {
+        color: var(--gray-500, #8B96A5);
+        font-family: Inter;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
     }
   }
+  
   select {
     background: transparent;
     outline: none;
@@ -170,4 +176,35 @@ export const BlurredBackground = styled.div<{ show: boolean }>`
   opacity: ${(props) => (props.show ? 1 : 0)};
   pointer-events: ${(props: any) => (props.show ? "auto" : "none")};
   transition: opacity 0.3s ease-in-out;
+`;
+
+// suggestions 
+
+export const SearchSuggestions = styled.div<{ show: boolean }>`
+  display: ${({show}) => show ? "block" : "none"};
+  width: 100%;
+  border: solid 1px #bdc4cd;
+  border-top: none;
+  position: absolute;
+  background: #FFF;
+  left: -1px;
+  top: 95%;
+  border-radius: 0 0 12px 12px;
+`;
+
+export const Suggestion = styled.div`
+  border: none;
+  outline: none;
+  padding: 12px;
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  color: #505050;
+  cursor: pointer;
+
+  &:hover {
+    background: ${AppColors.brandPink};
+  }
 `;

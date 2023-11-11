@@ -18,14 +18,18 @@ const PRODUCT_FIELDS = gql`
    # variant
   }
 `;
-// const CATEGORY_FIELD = gql`
-// fragment CategoryFields on Category{
-//   id
-//   name
-//   slug
-//   subcategories
-// }
-// `;
+const CATEGORY_FIELD = gql`
+  fragment CategoryFields on Categories{
+    id
+    name
+    slug
+      subcategories {
+        category
+        name
+        slug
+      }
+  }
+`;
 
 // export const GET_CATEGORY = gql`
 // query ($id: String!){
@@ -35,14 +39,15 @@ const PRODUCT_FIELDS = gql`
 //     }
 //   }
 // `;
-// export const GET_CATEGORIES = gql`
-// query (){
-//   ${CATEGORY_FIELD}
-//     Categories(){
-//         ...CategoryFields
-//     }
-//   }
-// `;
+
+export const GET_CATEGORIES = gql`
+  ${CATEGORY_FIELD}
+  query Categories {
+    Categories {
+      ...CategoryFields
+    }
+  }
+`;
 
 // export const GET_PRODUCTS = gql`
 //   ${PRODUCT_FIELDS}
@@ -90,6 +95,13 @@ export const GET_PRODUCT = gql`
 
 // export const REMOVE_WISHLISTED_PRODUCT = gql``;
 
-// export const GET_SEARCHED_PRODUCTS = gql``;
+export const GET_SEARCHED_PRODUCTS = gql`
+  ${PRODUCT_FIELDS}
+  query SearchProducts($query: String!) {
+    searchProducts(query: $query) {
+      ...ProductFields
+    }
+  }
+`;
 
 // export const GET_RECOMMENDED_PRODUCT = gql``;

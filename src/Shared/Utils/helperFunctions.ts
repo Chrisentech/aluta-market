@@ -1,6 +1,6 @@
 // import * as JWT from "jsonwebtoken"
 export function debounce(func: Function, delay: number) {
-  let timeoutId: number;
+  let timeoutId: NodeJS.Timeout;
 
   return (...args: any[]) => {
     clearTimeout(timeoutId);

@@ -1,9 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { apolloClient } from "../../Services/graphql/apolloClient";
 import {
+  GET_CATEGORIES,
   // CREATE_PRODUCT,
   // DELETE_PRODUCT,
-  GET_PRODUCT,
+  GET_PRODUCT, GET_SEARCHED_PRODUCTS,
   // GET_PRODUCTS,
   // UPDATE_PRODUCT,
 } from "../../Services/graphql/products";
@@ -14,7 +15,7 @@ import { IProductProps } from "../../Interfaces";
 
 export default function useProducts() {
   const dispatch = useDispatch();
-  // const products = useSelector(selectProducts);
+  const products = useSelector(selectProducts);
   const product = useSelector(selectProduct);
 
   // const getProducts = async (filter: IProductProps) => {
@@ -31,6 +32,37 @@ export default function useProducts() {
     });
     dispatch(actions.setProduct(response.data.Product));
   };
+
+  const getSearchProducts = async (query: string) => {
+    const response = await apolloClient.query({
+      query: GET_SEARCHED_PRODUCTS,
+      variables: { query },
+    })
+    if (response.data) {
+      // dispatch(actions.setProducts(response.data.searchProducts));
+      console.log(response.data.searchProducts)
+    }
+  }
+
+  const getCategories = async () => {
+    const response = await apolloClient.query({
+      query: GET_CATEGORIES,
+    })
+    console.log(response.data)
+  }
+
+  const getSearchSuggestions = async (query: string) => {
+    const response = await apolloClient.query({
+      query: GET_SEARCHED_PRODUCTS,
+      variables: { query },
+    }) 
+    if (response?.data?.searchProducts) {
+      const flattenedArray = Object.values(response.data.searchProducts).flatMap((item: any) => item.name);
+      dispatch(actions.setSearchSuggestions(flattenedArray))
+    } else [
+      dispatch(actions.setSearchSuggestions([]))
+    ]
+  }
 
   // const createProduct = async (input: IProductProps) => {
   //   const response = await apolloClient.mutate({
@@ -69,10 +101,13 @@ export default function useProducts() {
   return {
     // getProducts,
     getProduct,
+    getSearchProducts,
+    getSearchSuggestions,
+    getCategories,
     // createProduct,
     // updateProduct,
     // deleteProduct,
-    // products,
+    products,
     product,
   };
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Wrapper,
   Menu,
@@ -8,6 +8,8 @@ import {
   Flex,
   BlurredBackground,
   Sidebar,
+  SearchSuggestions,
+  Suggestion,
 } from "./navbar.style";
 import { FaUser } from "react-icons/fa";
 import { MdMessage, MdFavorite } from "react-icons/md";
@@ -23,7 +25,19 @@ import { categories } from "../../../test-data";
 import { Badge } from "..";
 import { useDispatch, useSelector } from "react-redux";
 import { newMessage } from "../../../Features/notifications/notificationSlice";
-import { getCookie } from "../../Utils/helperFunctions";
+import { debounce, getCookie } from "../../Utils/helperFunctions";
+import { TbUvIndex } from "react-icons/tb";
+import { searchSuggestions } from "../../../Features/products/productSlice";
+import useProducts from "../../../Features/products/productActions";
+
+
+// const searchOptions = [
+//   "things",
+//   "other things",
+//   "more things",
+//   "some things"
+// ]
+
 
 // Sidebar Component
 const SideBar: React.FC<{ show: boolean; onClose: () => void }> = ({
@@ -86,7 +100,29 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
   const { message } = useSelector((st: any) => st.notifications);
   const dispatch = useDispatch();
   const isUserLoggedIn = getCookie("access_token") ? true : false;
+  const [searching, setSearching] = useState(false);
+  const searchOptions = useSelector(searchSuggestions)
+  const [query, setQuery] = useState('')
+  const { getSearchSuggestions, getSearchProducts } = useProducts()
 
+  const handleSuggestions = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value)
+    getSearchSuggestions(e.target.value)
+      // debounce(() => {
+      //   getSearchSuggestions(e.target.value)
+      // }, 300)
+  }
+
+  const handleSearch = () => {
+    // getSearchProducts(query)
+    console.log("clicked")
+  }
+
+  useEffect(() => {
+    searchOptions.length > 1 && query !== '' ? setSearching(true) : setSearching(false)
+    
+  }, [searchOptions, query])
+  
   return (
     <Container scrolled={scrolled} mode={mode}>
       <Wrapper>
@@ -97,7 +133,18 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
         {/* Search container */}
         {(mode !== "blank") &&
           <SearchContainer>
-            <input placeholder="Search products, brands and services" />
+            <div className="searchbar">
+              <input 
+                placeholder="Search products, brands and services" 
+                value={query}
+                onChange={handleSuggestions}
+              />
+              <SearchSuggestions show={searching}>
+              {searchOptions.map((suggestion, index) => (
+                  <Suggestion key={index}>{suggestion}</Suggestion>
+              ))}
+              </SearchSuggestions>
+            </div>
             <select>
               <option selected disabled value="">
                 All Category
@@ -106,7 +153,9 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
                 return <option key={i}>{category.title}</option>;
               })}
             </select>
-            <button type="submit">Search</button>
+            <button 
+              onClick={() => handleSearch()}
+            >Search</button>
           </SearchContainer>
         }
         {/* Menu icons */}

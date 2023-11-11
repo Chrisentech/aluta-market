@@ -6,6 +6,7 @@ import { RootState } from "../../store";
 export interface ProductState {
   products: IProductProps[];
   product: IProductProps | null;
+  searchSuggestions: string[];
 }
 
 // Create the productSlice
@@ -14,6 +15,7 @@ export const productSlice = createSlice({
   initialState: {
     products: [],
     product: null,
+    searchSuggestions: [],
   } as ProductState, // Set the initial state using the ProductState type
   reducers: {
     setProducts: (state, action: PayloadAction<IProductProps[]>) => {
@@ -22,6 +24,9 @@ export const productSlice = createSlice({
     setProduct: (state, action: PayloadAction<IProductProps | null>) => {
       state.product = action.payload;
     },
+    setSearchSuggestions: (state, action: PayloadAction<string[]>) => {
+      state.searchSuggestions = action.payload;
+    }
   },
 });
 
@@ -33,6 +38,7 @@ export const selectProducts = (state: RootState): IProductProps[] =>
   state.products.products;
 export const selectProduct = (state: RootState): IProductProps | null =>
   state.products.product;
+export const searchSuggestions = (state: RootState): string[] => state.products.searchSuggestions;
 
 // Export the reducer
 export default productSlice.reducer;

@@ -1,20 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface FilterState {
-  selectedOptions: { [category: string]: string[] };
+  selectedOptions: string[];
 }
 
 const initialState: FilterState = {
-  selectedOptions: {},
+  selectedOptions: [],
 };
 
 const filter = createSlice({
   name: 'filter',
   initialState,
   reducers: {
-    updateSelectedOptions: (state, action: PayloadAction<{ category: string; options: string[] }>) => {
-      const { category, options } = action.payload;
-      state.selectedOptions[category] = options;
+    updateSelectedOptions: (state, action: PayloadAction<string>) => {
+      state.selectedOptions = [...state.selectedOptions, ...action.payload];
     },
   },
 });

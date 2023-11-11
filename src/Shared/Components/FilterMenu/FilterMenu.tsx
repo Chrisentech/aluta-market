@@ -2,6 +2,8 @@ import React, { useEffect, useState } from  'react';
 import { DropdownContainer, FilterContainer, OptionsContainer } from './FilterMenu.styles'
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { RangeSlider } from '..';
+import { useDispatch } from 'react-redux';
+import useProducts from '../../../Features/products/productActions';
 
 const brands: string[] = ['Samsung', 'Apple', 'Huawei', 'Pocco', 'Lenovo'];
 const categories: string[] = ['Mobile Accessories', 'Electronics', 'Smartphones', 'Modern Tech'];
@@ -12,33 +14,27 @@ const Dropdown: React.FC<{
   category: string; 
   options?: string[]; 
   type?: 'radio' | 'checkbox' | 'slider' | 'ratings' | 'default'; 
-  onOptionChange?: (category: string, selectedOptions: string[]) => void 
-}> = ({ category, options, type, onOptionChange }) => {
+  onOptionChange?: (category: string, selectedOption: string) => void;
+  filters?: {[key: string]: string[]}; 
+}> = ({ category, options, type, onOptionChange, filters }) => {
     const [isOpen, setIsOpen] = useState<boolean>(true);
-    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-  
+
     const toggleDropdown = () => {
       setIsOpen(!isOpen);
     };
   
     const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const optionValue = event.target.value;
+      const category = event.target.name
     
-      if (selectedOptions.includes(optionValue)) {
-        setSelectedOptions(selectedOptions.filter((option) => option !== optionValue));
-      } else {
-        setSelectedOptions([...selectedOptions, optionValue]);
-      }    
+      if (onOptionChange) onOptionChange(category, optionValue)
     };
-
-    useEffect(() => {
-      if (onOptionChange) onOptionChange(category, selectedOptions);
-    }, [selectedOptions])
   
     return (
       <DropdownContainer>
         <div className="heading" onClick={toggleDropdown}>
           <span>{category}</span><span>{isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}</span>
+
         </div>
         <OptionsContainer className='body' isOpen={isOpen}>
           {(type !== 'slider') ? 
@@ -51,7 +47,7 @@ const Dropdown: React.FC<{
                     id={option}
                     name={category}
                     value={option}
-                    checked={selectedOptions.includes(option)}
+                    checked={filters ? filters[category]?.includes(option) : false}
                     onChange={handleOptionChange}
                   />
                   <span className="custom"></span>
@@ -65,13 +61,21 @@ const Dropdown: React.FC<{
     );
 };
 
-const FilterMenu: React.FC<{ onOptionChange?: (category: string, selectedOptions: string[]) => void}> = ({ onOptionChange }) => {
+const FilterMenu: React.FC<{ onOptionChange?: (category: string, selectedOption: string) => void, filters?: {[key: string]: string[]} }> 
+= ({ onOptionChange, filters }) => {
+  const { getCategories } = useProducts();
+  const category = getCategories()
+
+  useEffect(() => {
+    console.log(category)
+  }, [category])
+  
   return (
       <FilterContainer>
-          <Dropdown category='Category' options={categories} type="default" onOptionChange={onOptionChange}/>
-          <Dropdown category='brands' options={brands} type="checkbox" onOptionChange={onOptionChange}/>
-          <Dropdown category='Features' options={features} type="checkbox" onOptionChange={onOptionChange}/>
-          <Dropdown category='Price Range' type='slider'/>
+          <Dropdown category='category' options={categories} type="default" onOptionChange={onOptionChange} filters={filters}/>
+          <Dropdown category='brands' options={brands} type="checkbox" onOptionChange={onOptionChange} filters={filters}/>
+          <Dropdown category='features' options={features} type="checkbox" onOptionChange={onOptionChange} filters={filters}/>
+          <Dropdown category='price Range' type='slider'/>
       </FilterContainer>
     )
 }

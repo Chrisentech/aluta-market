@@ -1,21 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../../../Layouts';
 import { Container, FilterTag, Filters, MainView, Page, SelectIcon, Selector, Sidebar, Wrapper } from './search.styles';
 import { Breadcrumb, FilterMenu, View } from '../../../Shared/Components';
 import { BiSolidGridAlt } from 'react-icons/bi';
 import { PiListFill } from 'react-icons/pi';
 import { HiXMark } from 'react-icons/hi2';
+import useProducts from '../../../Features/products/productActions';
 
 const Screen: React.FC = () => {
     const [mode, setMode] = useState<string>('grid')
     const [filters, setFilters] = useState<{[key: string]: string[]}>({})
+    // const { products } = useProducts();
 
-    const addFilter = (key: string, value: string[]) => {
-        setFilters((prevState) => ({
-          ...prevState,
-          [key]: value,
-        }));
-    };
+    const handleOptionChange = (key: string, value: string) => {
+        if (filters[key]) {
+            if (filters[key].includes(value)) {
+                setFilters((prevState) => {
+                    const updatedValues = prevState[key].filter((option) => option !== value)
+                    return {
+                        ...prevState,
+                        [key]: updatedValues,
+                    };
+                });
+            } else {
+                setFilters((prevState) => ({
+                    ...prevState,
+                    [key]: [...prevState[key], value],
+                }));
+            }
+        } else {
+            setFilters({
+                [key]: [value],
+            });
+        }
+    }
     
     const hasFilter = Object.values(filters).some((value) => (value.length > 0))
 
@@ -33,13 +51,18 @@ const Screen: React.FC = () => {
         { label: 'Home', link: '/' },
         { label: 'Mobile Accessory' },
       ];
+
+    // useEffect(() => {
+    //   console.log(products)
+    // }, [products])
+        
     return (
         <Page>
             <Container>
                 <Breadcrumb items={breadcrumbs}/>
                 <Wrapper>
                     <Sidebar>
-                        <FilterMenu onOptionChange={addFilter}></FilterMenu>
+                        <FilterMenu onOptionChange={handleOptionChange} filters={filters}></FilterMenu>
                     </Sidebar>
                     <MainView>
                         <Selector>
@@ -62,10 +85,10 @@ const Screen: React.FC = () => {
                         </Selector>
                         {hasFilter && 
                             <Filters>
-                                {Object.values(filters).map((array) => (
-                                    array.map((filter) => <FilterTag>{filter}<HiXMark size="20px">x</HiXMark></FilterTag>)
+                                {Object.entries(filters).map(([key, array]) => (
+                                    array.map((filter) => <FilterTag>{filter}<HiXMark size="20px" onClick={()=>handleOptionChange(key, filter)}>x</HiXMark></FilterTag>)
                                 ))}
-                                <span className="clear">Clear all filter</span>
+                                <span className="clear" onClick={() => clearFilters()}>Clear all filter</span>
                             </Filters>
                         }
                         
