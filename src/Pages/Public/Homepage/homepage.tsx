@@ -187,7 +187,19 @@ const Screen: React.FC = () => {
 						))}
 				</div>
 			</Offers> */}
-
+			{/* Best Selling Section */}
+			<section
+				style={{
+					padding: 10,
+					borderRadius: 10,
+					background: "#fff",
+					width: "calc(90% - 20px)",
+					margin: "20px auto",
+				}}
+			>
+				<Header1>Products Students in Your School are Buying</Header1>
+				<ProductGrid />
+			</section>
 			{/* Product and Services section */}
 			<section>
 				<GridContainer>
@@ -265,28 +277,9 @@ const Screen: React.FC = () => {
 					}}
 				>
 					<Header1>Recommended Items</Header1>
-					<ProductGrid image={image26} row={2}>
-						<p>N10,000</p>
-						<p>Leather Wallet</p>
-					</ProductGrid>
+					<ProductGrid />
 				</section>
 
-				{/* Best Selling Section */}
-				<section
-					style={{
-						padding: 10,
-						borderRadius: 10,
-						background: "#fff",
-						width: "calc(90% - 20px)",
-						margin: "20px auto",
-					}}
-				>
-					<Header1>Best Selling Products</Header1>
-					<ProductGrid image={image26} row={2}>
-						<p>N10,000</p>
-						<p>Leather Wallet</p>
-					</ProductGrid>
-				</section>
 				<ProductRequestForm>
 					<div className="text" id="quote">
 						<h2>An easy way to make request for products</h2>

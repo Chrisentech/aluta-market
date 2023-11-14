@@ -18,6 +18,28 @@ const PRODUCT_FIELDS = gql`
 		# variant
 	}
 `;
+const PAGINATION_DATA = gql`
+	fragment paginationProps on ProductPaginationData {
+		data {
+			id
+			name
+			price
+			description
+			discount
+			image
+			slug
+			quantity
+			status
+			thumbnail
+			store
+			category
+			subcategory
+		}
+		current_page
+		per_page
+		total
+	}
+`;
 const CATEGORY_FIELD = gql`
 	fragment CategoryFields on Category {
 		id
@@ -47,14 +69,14 @@ export const GET_CATEGORIES = gql`
 	}
 `;
 
-// export const GET_PRODUCTS = gql`
-//   ${PRODUCT_FIELDS}
-//   query ($title: String!){
-//     Products(title:$title){
-//         ...ProductFields
-//     }
-//   }
-// `;
+export const GET_PRODUCTS = gql`
+	${PAGINATION_DATA}
+	query Products($store: String!, $limit: Int!, $offset: Int!) {
+		Products(store: $store, limit: $limit, offset: $offset) {
+			...paginationProps
+		}
+	}
+`;
 
 export const GET_PRODUCT = gql`
 	${PRODUCT_FIELDS}

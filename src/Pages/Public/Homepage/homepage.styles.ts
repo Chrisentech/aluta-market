@@ -5,7 +5,7 @@ export const Home = styled.section`
 	min-height: 50vh;
 	width: 100%;
 	margin: 30px auto;
-	margin-top: 73px;
+	margin-top: 83px;
 	background: #f7fafc;
 `;
 

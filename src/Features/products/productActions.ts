@@ -7,7 +7,7 @@ import {
 	// CREATE_PRODUCT,
 	// DELETE_PRODUCT,
 	GET_PRODUCT,
-	// GET_PRODUCTS,
+	GET_PRODUCTS,
 	// UPDATE_PRODUCT,
 } from "../../Services/graphql/products";
 import { selectProducts, actions, selectProduct } from "./productSlice";
@@ -20,13 +20,17 @@ export default function useProducts() {
 	const products = useSelector(selectProducts);
 	const product = useSelector(selectProduct);
 
-	// const getProducts = async (filter: IProductProps) => {
-	//   const response = await apolloClient.query({
-	//     query: GET_PRODUCTS,
-	//     variables: { filter },
-	//   });
-	//   dispatch(actions.setProducts(response.data.products));
-	// };
+	const getProducts = async (filter?: any) => {
+		const response = await apolloClient.query({
+			query: GET_PRODUCTS,
+			variables: {
+				store: filter.store,
+				limit: filter.limit,
+				offset: filter.offset,
+			},
+		});
+		dispatch(actions.setProducts(response.data.Products.data));
+	};
 	const getProduct = async (productId: string | undefined) => {
 		const response = await apolloClient.query({
 			query: GET_PRODUCT,
@@ -85,7 +89,7 @@ export default function useProducts() {
 	//   dispatch(actions.setProducts(productsData));
 	// };
 	return {
-		// getProducts,
+		getProducts,
 		getProduct,
 		createProduct,
 		getCategories,

@@ -114,13 +114,14 @@ export interface IWishlistProductProps {
 }
 
 export interface IProductGridProps {
-  column?: number;
-  row?: number;
-  cardWidth?: number | string;
-  cardHeight?: number | string;
-  className?: string;
-  image?: string;
-  alt?: string;
-  background?: string;
-  children?: ReactNode;
+	column?: number;
+	row?: number;
+	cardWidth?: number | string;
+	cardHeight?: number | string;
+	className?: string;
+	image?: string[];
+	thumbnail?: string;
+	alt?: string;
+	background?: string;
+	children?: ReactNode;
 }
