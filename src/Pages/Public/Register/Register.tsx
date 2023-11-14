@@ -90,11 +90,11 @@ const Screen: React.FC = () => {
       campus: studentCampus,
       usertype: userType,
       email: "",
-      phone: buyerNumber,
+      phone: "",
       password: "",
       fullname: "",
     };
-    let { campus, usertype,phone, ...rest } = values;
+    let { campus, usertype, ...rest } = values;
     payload = { ...payload, ...rest };
     setLoading(true);
     try {
@@ -125,102 +125,100 @@ const Screen: React.FC = () => {
 
   
   return (
-		<Container>
-			<LeftPanel>
-				<FirstScreen userType={userType}>
-					<Heading>
-						<h2>Join the Fun...</h2>
-						<p>and let get this party started!</p>
-					</Heading>
-					<Formik
-						initialValues={initialValues}
-						onSubmit={handleSubmit}
-						validationSchema={validationSchema} // Specify the validation schema
-					>
-						<Form>
-							<FormControl>
-								<Label>
-									Fullname<span>*</span>
-								</Label>
-								<CustomField name="fullname" type="text" />
-							</FormControl>
-							<FormControl>
-								<Label>
-									Email<span>*</span>
-								</Label>
-								<CustomField name="email" type="email" />
-							</FormControl>
-							<FormControl>
-								<Label>
-									Password<span>*</span>
-								</Label>
-								<CustomField
-									name="password"
-									type={showPwd ? "text" : "password"}
-								/>
-								{showPwd ? (
-									<AiFillEyeInvisible onClick={() => setShowPwd(!showPwd)} />
-								) : (
-									<AiFillEye onClick={() => setShowPwd(!showPwd)} />
-								)}
-							</FormControl>
-							<FormControl>
-								<Label>
-									Phone Number<span>*</span>
-								</Label>
-								<CustomField
-									name={buyerNumber ? "none" : "phone"}
-									type="text"
-									value={buyerNumber}
-									onChange={(e: ChangeEvent<HTMLInputElement>) =>
-										setBuyerNumber(e.target.value)
-									}
-								/>
-							</FormControl>
-							<FormControl>
-								<Label>
-									Campus<span>*</span>
-								</Label>
-								<CustomField
-									name={studentCampus ? "none" : "campus"}
-									type="select"
-									defaultText="Select an option"
-									onChange={(e: any) => setCampus(e.target.value)}
-									options={Campus}
-									value={studentCampus}
-								/>
-							</FormControl>
-							<FormControl>
-								<Label>
-									Category<span>*</span>
-								</Label>
+    <Container>
+      <LeftPanel>
+        <FirstScreen userType={userType}>
+          <Heading>
+            <h2>Join the Fun...</h2>
+            <p>and let get this party started!</p>
+          </Heading>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            // validationSchema={validationSchema} // Specify the validation schema
+          >
+            <Form>
+              <FormControl>
+                <Label>
+                  Fullname<span>*</span>
+                </Label>
+                <CustomField name="fullname" type="text" />
+              </FormControl>
+              <FormControl>
+                <Label>
+                  Email<span>*</span>
+                </Label>
+                <CustomField name="email" type="email" />
+              </FormControl>
+              <FormControl>
+                <Label>
+                  Password<span>*</span>
+                </Label>
+                <CustomField
+                  name="password"
+                  type={showPwd ? "text" : "password"}
+                />
+                {showPwd ? (
+                  <AiFillEyeInvisible onClick={() => setShowPwd(!showPwd)} />
+                ) : (
+                  <AiFillEye onClick={() => setShowPwd(!showPwd)} />
+                )}
+              </FormControl>
+              <FormControl>
+                <Label>
+                  Phone Number<span>*</span>
+                </Label>
+                <CustomField 
+                  name="phone" 
+                  type="text" 
+                  value={buyerNumber}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => setBuyerNumber(e.target.value)}
+                />
+              </FormControl>
+              <FormControl>
+                <Label>
+                  Campus<span>*</span>
+                </Label>
+                <CustomField
+                  name={studentCampus ? "none" : "campus"}
+                  type="select"
+                  defaultText="Select an option"
+                  onChange={(e: any) => setCampus(e.target.value)}
+                  options={Campus}
+                  value={studentCampus}
+                />
+              </FormControl>
+              <FormControl>
+                <Label>
+                  Category<span>*</span>
+                </Label>
 
-								<CustomField
-									name={userType ? "none" : "usertype"}
-									type="select"
-									defaultText="I am a..."
-									onChange={(e: any) => setUserType(e.target.value)}
-									options={[
-										{ label: "I am a Buyer", value: "buyer" },
-										{ label: "I am a Seller", value: "seller" },
-									]}
-									value={userType}
-								/>
-							</FormControl>
-							<SubmitButton active type="submit" loading={loading}>
-								{loading ? (
-									<Puff stroke={AppColors.brandOrange} strokeOpacity={0.125} />
-								) : (
-									"Continue"
-								)}
-							</SubmitButton>
+                <CustomField
+                  name={userType ? "none" : "usertype"}
+                  type="select"
+                  defaultText="I am a..."
+                  onChange={(e: any) => setUserType(e.target.value)}
+                  options={[
+                    { label: "I am a Buyer", value: "buyer" },
+                    { label: "I am a Seller", value: "seller" },
+                  ]}
+                  value={userType}
+                />
+              </FormControl>
+              <SubmitButton active type="submit" loading={loading}>
+                {loading ? (
+                  <Puff stroke={AppColors.brandOrange} strokeOpacity={0.125} />
+                ) : (
+                  "Continue"
+                )}
+              </SubmitButton>
 
-							<div className="option">
-								<span className="line"></span>
-								<p>or</p>
-								<span className="line"></span>
-							</div>
-							{/* <GoogleLogin
+              <div className="option">
+                <span className="line"></span>
+                <p>or</p>
+                <span className="line"></span>
+              </div>
+              {/* <GoogleLogin
                 clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
                 buttonText="Create account with Google"
                 onSuccess={responseGoogle}
@@ -228,123 +226,116 @@ const Screen: React.FC = () => {
                 cookiePolicy={"single_host_origin"}
                 className="googleSignin"
               /> */}
-							<GoogleLogin
-								onSuccess={responseGoogle}
-								onError={() => responseGoogle}
-								// cookiePolicy={"single_host_origin"}
-							/>
-							<p>
-								Already have an account?{" "}
-								<NavLink to={ROUTE.LOGIN}>Login here</NavLink>
-							</p>
-						</Form>
-					</Formik>
-				</FirstScreen>
-				<SecondScreen userType={userType}>
-					<FaArrowLeft className="back" onClick={() => setUserType("buyer")} />
+              <GoogleLogin
+                onSuccess={responseGoogle}
+                onError={() => responseGoogle}
+                // cookiePolicy={"single_host_origin"}
+              />
+              <p>
+                Already have an account?{" "}
+                <NavLink to={ROUTE.LOGIN}>Login here</NavLink>
+              </p>
+            </Form>
+          </Formik>
+        </FirstScreen>
+        <SecondScreen userType={userType}>
+          <FaArrowLeft className="back" onClick={() => setUserType("buyer")} />
 
-					<Heading>
-						<h2>Aluta Continua...</h2>
-						<p>Book a slot for your store!</p>
-					</Heading>
-					<Formik
-						initialValues={initialValues}
-						onSubmit={handleSubmit}
-						validationSchema={validationSchema} // Specify the validation schema
-					>
-						<Form>
-							<FormControl>
-								<Label>
-									Name of Store<span>*</span>
-								</Label>
-								<CustomField
-									name="storeName"
-									value={storeName}
-									onChange={(e: any) => setStoreName(e.target.value)}
-									type="text"
-								/>
-								<Hint>
-									Hint: You can create more stores under your dashboard
-								</Hint>
-							</FormControl>
-							<FormControl>
-								<Label>Store URL</Label>
-								<CustomField
-									name="storeUrl"
-									type="text"
-									readOnly
-									value={
-										storeName
-											? "https://aluta-market.com/" +
-											  generateSlug(storeName) +
-											  "/store"
-											: ""
-									}
-								/>
-								<Hint>storename.alutamarket.com</Hint>
-							</FormControl>
-							<FormControl>
-								<Label>
-									Store Phone Number<span>*</span>
-								</Label>
-								<CustomField
-									name={storeNumber??"phone"}
-									type="text"
-									value={storeNumber}
-									onChange={(e: ChangeEvent<HTMLInputElement>) =>
-										setStoreNumber(e.target.value)
-									}
-									readOnly={isSameNumber}
-								/>
-								<Label checkbox small>
-									<CustomField
-										name="isSameNumber"
-										type="checkbox"
-										checked={isSameNumber}
-										onChange={handleSameNumber}
-									/>
-									same as my phone number
-								</Label>
-							</FormControl>
-							<FormControl>
-								<Label>
-									Store Description<span>*</span>
-								</Label>
-								<CustomField name="storeDescription" type="text" />
-							</FormControl>
-							<FormControl>
-								<Label checkbox>
-									<CustomField name="havePhysicalAddress" type="checkbox" />I
-									have a physical address
-								</Label>
-								<Label checkbox>
-									<CustomField name="termsAndConditions" type="checkbox" />I
-									agree to the<span style={{ width: "0.2em" }}></span>
-									<NavLink to="#" className="terms">
-										Terms and Conditions
-									</NavLink>
-								</Label>
-							</FormControl>
-							<SubmitButton active type="submit" disabled={loading}>
-								{loading ? (
-									<Puff stroke={AppColors.brandOrange} strokeOpacity={0.125} />
-								) : (
-									"Register store"
-								)}
-							</SubmitButton>
-						</Form>
-					</Formik>
-				</SecondScreen>
-			</LeftPanel>
-			<RightPanel>
-				<img src={registerImg} alt="register-image" />
-			</RightPanel>
-			{/* <Trademark>Alutamarket © 2023 All Rights Reserved. </Trademark> */}
-			<Footer>
-				<p>Alutamarket © 2023 All Rights Reserved. </p>
-			</Footer>
-		</Container>
-	);
+          <Heading>
+            <h2>Aluta Continua...</h2>
+            <p>Book a slot for your store!</p>
+          </Heading>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            validationSchema={validationSchema} // Specify the validation schema
+          >
+            <Form>
+              <FormControl>
+                <Label>
+                  Name of Store<span>*</span>
+                </Label>
+                <CustomField
+                  name="storeName"
+                  value={storeName}
+                  onChange={(e: any) => setStoreName(e.target.value)}
+                  type="text"
+                />
+                <Hint>Hint: You can create more stores under your dashboard</Hint>
+              </FormControl>
+              <FormControl>
+                <Label>Store URL</Label>
+                <CustomField
+                  name="storeUrl"
+                  type="text"
+                  readOnly
+                  value={
+                    storeName
+                      ? "https://aluta-market.com/" +
+                        generateSlug(storeName) +
+                        "/store"
+                      : ""
+                  }
+                />
+                <Hint>storename.alutamarket.com</Hint>
+              </FormControl>
+              <FormControl>
+                <Label>
+                  Store Phone Number<span>*</span>
+                </Label>
+                <CustomField 
+                  name="phone" 
+                  type="text" 
+                  value={storeNumber}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => setStoreNumber(e.target.value)}
+                  readOnly={isSameNumber} />
+                  <Label checkbox small>
+                    <CustomField 
+                      name="isSameNumber" 
+                      type="checkbox" 
+                      checked={isSameNumber} 
+                      onChange={handleSameNumber}
+                    />
+                    same as my phone number
+                  </Label>
+              </FormControl>
+              <FormControl>
+                <Label>
+                  Store Description<span>*</span>
+                </Label>
+                <CustomField name="storeDescription" type="text" />
+              </FormControl>
+              <FormControl>
+                <Label checkbox>
+                  <CustomField name="havePhysicalAddress" type="checkbox"/>
+                  I have a physical address
+                </Label>
+                <Label checkbox>
+                  <CustomField name="termsAndConditions" type="checkbox"/>
+                    I agree to the<span style={{width: "0.2em"}}></span>
+                    <NavLink to="#" className="terms">Terms and Conditions</NavLink>
+                </Label>
+              </FormControl>
+              <SubmitButton active type="submit" disabled={loading}>
+                {loading ? (
+                  <Puff stroke={AppColors.brandOrange} strokeOpacity={0.125} />
+                ) : (
+                  "Register store"
+                )}
+              </SubmitButton>
+            </Form>
+          </Formik>
+        </SecondScreen>
+      </LeftPanel>
+      <RightPanel>
+        <img src={registerImg} alt="register-image" />
+      </RightPanel>
+      {/* <Trademark>Alutamarket © 2023 All Rights Reserved. </Trademark> */}
+      <Footer>
+        <p>Alutamarket © 2023 All Rights Reserved. </p>
+      </Footer>
+    </Container>
+  );
 };
 const CustomField: React.FC<{
   name: string;

@@ -8,7 +8,7 @@ interface LayoutProps<T> {
   layout: ILayout;
   component: React.ComponentType<T>;
   state: boolean;
-  showModal?: string | null; // Pass the modal identifier
+  showModal?: string | null; 
   modalWidth?: string;
   navMode?: string;
   popUpContent?: ReactNode;
@@ -46,12 +46,6 @@ const Layout: React.FC<LayoutProps<any>> = ({
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  // const closeModalHandler = () => {
-  //   if (showModal) {
-  //     dispatch(closeModal(showModal));
-  //   }
-  // };
 
   if (state) {
     return <Loader />;

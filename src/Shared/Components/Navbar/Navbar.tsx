@@ -30,15 +30,6 @@ import { TbUvIndex } from "react-icons/tb";
 import { searchSuggestions } from "../../../Features/products/productSlice";
 import useProducts from "../../../Features/products/productActions";
 
-
-// const searchOptions = [
-//   "things",
-//   "other things",
-//   "more things",
-//   "some things"
-// ]
-
-
 // Sidebar Component
 const SideBar: React.FC<{ show: boolean; onClose: () => void }> = ({
   show,

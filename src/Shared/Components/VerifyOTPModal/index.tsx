@@ -17,7 +17,7 @@ const VerifyOTPModal: React.FC<{ url: any }> = ({ url }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [resend, setResend] = useState(false)
   const [timer, setTimer] = useState(300000);
-  const [isVerified, setVerified] = useState<boolean>(true)
+  const [isVerified, setVerified] = useState<boolean>(false)
   let nav = useNavigate();
   const dispatch = useDispatch();
   // check if the user has enter all the values for the otp

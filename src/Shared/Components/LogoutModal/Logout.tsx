@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { closeModal } from "../../../Features/modal/modalSlice";
 import { useNavigate } from "react-router-dom";
 import { deleteCookie } from "../../Utils/helperFunctions";
+import { actions } from "../../../Features/user/userSlice";
 
 
 const LogoutModal:React.FC<{url?: string}> = ({ url }) => {
@@ -14,11 +15,11 @@ const LogoutModal:React.FC<{url?: string}> = ({ url }) => {
 
   const handleCancel = () => {
     dispatch(closeModal("logout"))
-    navigate("/seller/dashboard")
   }
 
-  const handleLogout = () => {
+   const handleLogout = () => {
     dispatch(closeModal("logout"))
+    dispatch(actions.logout())
     deleteCookie("user_id")
     deleteCookie("access_token")
     navigate("/")

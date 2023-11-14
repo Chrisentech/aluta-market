@@ -79,7 +79,7 @@ export const Wrapper = styled.div`
     gap: 10px;
     flex-shrink: 0;
     border-radius: 6px;
-    margin: 20px 0;
+    margin: 20px auto;
     color: #fff;
     border: 0;
     cursor: pointer;
@@ -227,8 +227,8 @@ export const Label = styled.label`
 `;
 
 export const Input = styled(Field)<{
-  error: boolean;
-  type: string;
+  error?: boolean;
+  type?: string;
   readOnly?: boolean;
   height?: string;
 }>`

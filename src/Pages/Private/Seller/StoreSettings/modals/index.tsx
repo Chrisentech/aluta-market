@@ -1,11 +1,11 @@
 import React from 'react';
-import DeleteAccountModal from './DeleteAccountModal'
+import MaintenanceMode from './MaintenanceMode';
 
 const ModalContent: React.FC<{ active: string | null }> = ({ active }) => {
     return (
         <>
             {active &&
-             (active === "deleteAccount") ? <DeleteAccountModal active={active}/> : <></>}
+             (active === "maintenanceMode") ? <MaintenanceMode active={active}/> : <></>}
         </>
     )
 }

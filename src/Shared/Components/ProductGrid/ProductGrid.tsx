@@ -24,7 +24,7 @@ const ProductGrid: React.FC<IProductGridProps> = ({
                     height={cardHeight} 
                     className="card"
                 >
-                    <div className='.image'>
+                    <div className='image'>
                         <img src={image} alt={alt} />
                     </div>
                     <div className='detail'>
@@ -34,12 +34,12 @@ const ProductGrid: React.FC<IProductGridProps> = ({
             ))}
         </Container>
     )
-};
+}
 
 ProductGrid.defaultProps = {
-    column: 5,
+    column: 6,
     row: 1,
-    cardWidth: 220,
+    cardWidth: "unset",
     cardHeight: 270,
     background: 'white',
     alt: 'product image'

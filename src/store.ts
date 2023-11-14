@@ -5,16 +5,16 @@ import productReducer, {
 } from "./Features/products/productSlice";
 import modalReducer, { ModalState } from "./Features/modal/modalSlice";
 import userReducer, { UserState } from "./Features/user/userSlice";
-import filterReducer, { FilterState } from "./Features/searchFilter/filterSlice";
 import notificationsReducer, { notificationsState } from "./Features/notifications/notificationSlice";
 import loadingReducer, { LoadingState } from "./Features/loading/loadingSlice";
+import storeReducer, { StoreState } from "./Features/store/storeSlice";
 
 // Define the root state type
 export interface RootState {
   alert: AlertState;
   products: ProductState;
+  store: StoreState;
   modal: ModalState;
-  filter: FilterState
   user: UserState;
   notifications: notificationsState;
   loading: LoadingState
@@ -26,7 +26,7 @@ export const store = configureStore({
     alert: alertReducer,
     products: productReducer,
     modal: modalReducer,
-    filter: filterReducer,
+    store: storeReducer,
     user: userReducer,
     notifications: notificationsReducer,
     loading: loadingReducer,

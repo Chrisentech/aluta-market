@@ -64,7 +64,7 @@ export const LOGIN_USER = gql`
 
 export const MY_PROFILE = gql`
   ${USER_FIELDS}
-  query ($id: String!) {
+  query ($id: ID!) {
     User(id: $id) {
       ...UserFields
     }

@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
-export const FormContainer = styled.div<{ deleteAccount?: boolean }>`
+export const FormContainer = styled.div`
   width: 528px;
-  height: ${({deleteAccount}) => deleteAccount ? "618px" : "468px"};
+  height: 468px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,10 +20,11 @@ export const FormContainer = styled.div<{ deleteAccount?: boolean }>`
     line-height: normal;
     letter-spacing: -0.2px;
   }
-  .button {
+  .buttons {
     margin-top: 25px;
-
-    color: #FFF;
+  }
+  .button {
+    margin-top: 10px;
     text-align: center;
     font-family: Inter;
     font-size: 16px;
@@ -51,6 +52,7 @@ export const FormImage = styled.div`
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    background: #FA3434;
 `;
 
 export const Info = styled.p`

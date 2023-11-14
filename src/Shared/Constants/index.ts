@@ -25,6 +25,7 @@ export const ROUTE = {
   SELLER_CREATESTORE: "/seller/dashboard/create-store",
   SELLER_PRODUCTS: "/seller/products/",
   SELLER_PAYMENT: "/seller/payment/",
+  SELLER_REVIEWS: "/seller/reviews",
   SELLER_PAYMENT_REG: "/seller/payment/reg",
   SELLER_PROFILE: "/seller/profile/",
   REMOVEPRODUCT: "/product/remove",
