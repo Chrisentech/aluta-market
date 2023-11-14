@@ -8,10 +8,12 @@ import {
 	Flex,
 	BlurredBackground,
 	Sidebar,
+	SecondWrapper,
+	MenuItem,
 } from "./navbar.style";
 import { FaUser, FaUserAlt } from "react-icons/fa";
-import { MdMessage, MdFavorite, MdLogin, MdLockClock } from "react-icons/md";
-import { BsCart3, BsFillCartFill } from "react-icons/bs";
+import { MdMessage, MdFavorite } from "react-icons/md";
+import { BsCart3, BsFillCartFill, BsMenuApp } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ROUTE } from "../../Constants";
@@ -87,7 +89,6 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 	const { isAuthenticated } = useAuthentication();
 	const dispatch = useDispatch();
   const nav = useNavigate()
-	console.log("User is logged in", isAuthenticated);
 	return (
 		<Container scrolled={scrolled} mode={mode}>
 			<Wrapper>
@@ -140,7 +141,7 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 								<MdFavorite background="#BDC4CD" />
 								<label>Orders</label>
 							</IconWrapper>
-							<IconWrapper>
+							<IconWrapper href={ROUTE.CART}>
 								<Badge count={4} />
 								<BsFillCartFill color="#BDC4CD" />
 								<label>My cart</label>
@@ -153,7 +154,7 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 								<BsFillCartFill color="#BDC4CD" />
 								<label>My cart</label>
 							</IconWrapper>
-							<IconWrapper onClick={()=>nav(ROUTE.LOGIN)}>
+							<IconWrapper onClick={() => nav(ROUTE.LOGIN)}>
 								<FaUserAlt background="#BDC4CD" />
 								<label>Sign in/ Sign Up</label>
 							</IconWrapper>
@@ -161,6 +162,20 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 					)}
 				</Menu>
 			</Wrapper>
+			<hr />
+			<SecondWrapper>
+				<GiHamburgerMenu size={20}/>
+				<MenuItem to="#">All Categories</MenuItem>
+				<MenuItem to="#">Hot Offers</MenuItem>
+				<MenuItem to="#">Skynet</MenuItem>
+				<MenuItem to="#">Food Basket</MenuItem>
+				<MenuItem to="#">Resturants</MenuItem>
+				<MenuItem to="#">
+					<select name="" id="">
+						<option value="">Help</option>
+					</select>
+				</MenuItem>
+			</SecondWrapper>
 		</Container>
 	);
 };

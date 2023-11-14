@@ -10,7 +10,7 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 80px;
+  top: 20px;
   .option {
     align-items: center;
     display: flex;
