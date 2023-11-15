@@ -1,7 +1,19 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.footer`
-  // padding: 40px 80px;
+	// padding: 40px 80px;
+
+	.logo_content {
+		color: #505050;
+		font-feature-settings: "clig" off, "liga" off;
+		font-family: Inter;
+		font-size: 16px;
+		font-style: normal;
+		font-weight: 400;
+		line-height: 24px; /* 150% */
+		letter-spacing: -0.2px;
+    margin:20px 0
+	}
 `;
 
 export const FooterTop = styled.footer`

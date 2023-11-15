@@ -60,15 +60,16 @@ export interface LoginFormValues {
 }
 
 export interface ICardInterface {
-  width?: string | number;
-  height?: string | number;
-  borderRadius?: string | number;
-  hasBoxShadow?: boolean;
-  background?: string;
-  className?: string;
-  onHover?: boolean;
-  padding?: string | number;
-  children: ReactNode;
+	width?: string | number;
+	height?: string | number;
+	borderRadius?: string | number;
+	hasBoxShadow?: boolean;
+	background?: string;
+	color?: string;
+	className?: string;
+	onHover?: boolean;
+	padding?: string | number;
+	children: ReactNode;
 }
 
 export interface PaginationProps {
@@ -113,13 +114,14 @@ export interface IWishlistProductProps {
 }
 
 export interface IProductGridProps {
-  column?: number;
-  row?: number;
-  cardWidth?: number | string;
-  cardHeight?: number | string;
-  className?: string;
-  image?: string;
-  alt?: string;
-  background?: string;
-  children?: ReactNode;
+	column?: number;
+	row?: number;
+	cardWidth?: number | string;
+	cardHeight?: number | string;
+	className?: string;
+	image?: string[];
+	thumbnail?: string;
+	alt?: string;
+	background?: string;
+	children?: ReactNode;
 }

@@ -9,11 +9,13 @@ import useUsers from "./Features/user/userActions";
 import { getCookie } from "./Shared/Utils/helperFunctions";
 import { useDispatch } from "react-redux";
 import { actions } from "./Features/user/userSlice";
+import useAuthentication from "./Shared/Hooks/useAuth";
 
 const App: React.FC = () => {
 	const [isOnline, setIsOnline] = useState(true);
+	const { isAuthenticated } = useAuthentication();
 	const { getMe } = useUsers();
-  const dispatch = useDispatch()
+	const dispatch = useDispatch();
 	useEffect(() => {
 		const handleOnlineStatus = () => {
 			setIsOnline(true);
@@ -27,8 +29,10 @@ const App: React.FC = () => {
 		window.addEventListener("offline", handleOfflineStatus);
 
 		return () => {
-			getMe(parseInt(getCookie("user_id") || "0"));
-      dispatch(actions.setToken(getCookie("access_token")))
+			if (isAuthenticated) {
+				getMe(parseInt(getCookie("user_id") || "0"));
+				dispatch(actions.setToken(getCookie("access_token")));
+			}
 			window.removeEventListener("online", handleOnlineStatus);
 			window.removeEventListener("offline", handleOfflineStatus);
 		};

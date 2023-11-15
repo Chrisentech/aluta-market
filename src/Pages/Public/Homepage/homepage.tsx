@@ -3,7 +3,6 @@ import Layout from "../../../Layouts";
 import {
 	Home,
 	Hero,
-	Offers,
 	GridContainer,
 	GridItem,
 	ProductRequestForm,
@@ -16,7 +15,6 @@ import { categories, services } from "../../../test-data";
 import {
 	Card,
 	Button,
-	Timer,
 	ProductGrid,
 	LogoutModal,
 } from "../../../Shared/Components";
@@ -25,6 +23,8 @@ import { MdOutlineInventory2 } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { ROUTE } from "../../../Shared/Constants";
 import { useDispatch, useSelector } from "react-redux";
+
+
 import useAuthentication from "../../../Shared/Hooks/useAuth";
 import {
 	selectActiveModal,
@@ -34,7 +34,6 @@ import {
 const Screen: React.FC = () => {
 	const nav = useNavigate();
 	const { isAuthenticated } = useAuthentication();
-
 	const me = useSelector((state: any) => state.user.me);
 	const dispatch = useDispatch();
 
@@ -77,8 +76,8 @@ const Screen: React.FC = () => {
 							/>
 							{!isAuthenticated ? (
 								<p>
-									Hi user <br />
-									let's get
+									Hi comrade <br />
+									let's get Started
 								</p>
 							) : (
 								<p>
@@ -145,26 +144,18 @@ const Screen: React.FC = () => {
 					<Card
 						className="card2"
 						width={200}
-						height={55}
+						height={136}
+						color="#000"
 						borderRadius={6}
-						background="#f38332"
+						background="#00B51726"
 					>
-						<p>Get US $10 off with a new supplier</p>
+						<strong>
+							This Place is <br /> reserved for ads
+						</strong>
 					</Card>
-					<a href="#quote">
-						<Card
-							className="card2"
-							width={200}
-							height={55}
-							borderRadius={6}
-							background="#55bdc3"
-						>
-							<p>Send quotes with supplier preferences</p>
-						</Card>
-					</a>
 				</div>
 			</Hero>
-			<Offers>
+			{/* <Offers>
 				<div className="info-card">
 					<div className="top">
 						<p>Deals and Offers</p>
@@ -195,8 +186,20 @@ const Screen: React.FC = () => {
 							</Card>
 						))}
 				</div>
-			</Offers>
-
+			</Offers> */}
+			{/* Best Selling Section */}
+			<section
+				style={{
+					padding: 10,
+					borderRadius: 10,
+					background: "#fff",
+					width: "calc(90% - 20px)",
+					margin: "20px auto",
+				}}
+			>
+				<Header1>Products Students in Your School are Buying</Header1>
+				<ProductGrid />
+			</section>
 			{/* Product and Services section */}
 			<section>
 				<GridContainer>
@@ -274,28 +277,9 @@ const Screen: React.FC = () => {
 					}}
 				>
 					<Header1>Recommended Items</Header1>
-					<ProductGrid image={image26} row={2}>
-						<p>N10,000</p>
-						<p>Leather Wallet</p>
-					</ProductGrid>
+					<ProductGrid />
 				</section>
 
-				{/* Best Selling Section */}
-				<section
-					style={{
-						padding: 10,
-						borderRadius: 10,
-						background: "#fff",
-						width: "calc(90% - 20px)",
-						margin: "20px auto",
-					}}
-				>
-					<Header1>Best Selling Products</Header1>
-					<ProductGrid image={image26} row={2}>
-						<p>N10,000</p>
-						<p>Leather Wallet</p>
-					</ProductGrid>
-				</section>
 				<ProductRequestForm>
 					<div className="text" id="quote">
 						<h2>An easy way to make request for products</h2>

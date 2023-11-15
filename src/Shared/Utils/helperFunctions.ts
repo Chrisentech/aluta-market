@@ -133,11 +133,12 @@ export const truncateText = (text: string, maxLength: number): string => {
 };
 
 export function numberWithCommas(x: number | string): string {
-  if (x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/d, ",");
-  }
-  return "";
+	if (x) {
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+	return "";
 }
+
 
 export function formatMessageTimestamp(timestamp: number): string {
   if (!timestamp) return "";

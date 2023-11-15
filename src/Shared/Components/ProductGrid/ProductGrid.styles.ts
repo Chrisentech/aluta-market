@@ -22,24 +22,32 @@ export const Container = styled.div<IProductGridProps>`
 			display: flex;
 			justify-content: center;
 			align-items: center;
-      margin:0 0 20px 0 
+
+			margin: 0 0 20px 0;
 		}
 		.detail {
 			font-family: inter;
 			height: 35%;
 			background: #fff;
-			p:first-child {
+			.price {
+				color: var(--base-color-dark, #1c1c1c);
+				font-feature-settings: "clig" off, "liga" off;
+				font-family: Inter;
 				font-size: 16px;
+				font-style: normal;
 				font-weight: 500;
-				line-height: 22px;
-				color: #1c1c1c;
+				line-height: 22px; /* 137.5% */
+				margin:10px 0;
 			}
-			p:nth-child(2) {
+			.name {
+				color: var(--gray-500, #8b96a5);
+				font-feature-settings: "clig" off, "liga" off;
+				font-family: Inter;
 				font-size: 16px;
+				font-style: normal;
 				font-weight: 400;
-				line-height: 24px;
+				line-height: 24px; /* 150% */
 				letter-spacing: -0.2px;
-				color: #8b96a5;
 			}
 		}
 	}

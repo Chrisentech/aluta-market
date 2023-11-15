@@ -45,6 +45,7 @@ export default function useUsers() {
 		});
 		if (response.data.loginUser) {
 			dispatch(actions.setToken(response?.data?.loginUser?.access_token));
+			await getMe(response.data.loginUser.id);
 			getWishlist(response.data.loginUser.id);
 			return response.data.loginUser;
 		}

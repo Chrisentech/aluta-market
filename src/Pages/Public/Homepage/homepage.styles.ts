@@ -4,8 +4,8 @@ import styled from "styled-components";
 export const Home = styled.section`
 	min-height: 50vh;
 	width: 100%;
-
 	margin: 30px auto;
+	margin-top: 83px;
 	background: #f7fafc;
 `;
 
@@ -28,7 +28,8 @@ export const Hero = styled.section`
 
 	.banner {
 		background-size: cover;
-
+		background-position: top center;
+		margin: auto;
 		div {
 			position: relative;
 			top: 56px;
@@ -47,7 +48,10 @@ export const Hero = styled.section`
 			}
 		}
 	}
-
+	.slider {
+		width: 100%;
+		// background-color:red
+	}
 	.categories {
 		height: 100%;
 		display: flex;
@@ -94,11 +98,16 @@ export const Hero = styled.section`
 		.card2 {
 			font-size: 16px;
 			color: #fff;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			gap: 20px;
 		}
 
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
+		// justify-content: space-between;
 		height: 100%;
 		gap: 10px;
 	}
