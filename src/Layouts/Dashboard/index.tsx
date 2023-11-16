@@ -1,77 +1,86 @@
 import React, { ReactNode, useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-  Wrapper,
-  Sidebar,
-  SidebarMenu,
-  SidebarMenuLinks,
-  CustomLink,
-  MenuTop,
+	Wrapper,
+	Sidebar,
+	SidebarMenu,
+	SidebarMenuLinks,
+	CustomLink,
+	MenuTop,
 } from "./dashboard.style";
 // import { PiGridFourFill } from "react-icons/pi";
 
 // import { HiMiniShoppingCart, HiOutlineDocumentText } from "react-icons/hi";
 import { ROUTE } from "../../Shared/Constants";
 import { Dropdown } from "../../Shared/Components";
-import { 
-  dashboard, dashboardUnfilled, 
-  documentText, documentTextUnfilled, 
-  emptyWallet, emptyWalletUnfilled, 
-  sendSquare, settings, settingsUnfilled, 
-  shop, shopUnfilled, shoppingCart, 
-  shoppingCartUnfilled, userTag, userTagUnfilled 
+import {
+	dashboard,
+	dashboardUnfilled,
+	documentText,
+	documentTextUnfilled,
+	emptyWallet,
+	emptyWalletUnfilled,
+	sendSquare,
+	settings,
+	settingsUnfilled,
+	shop,
+	shopUnfilled,
+	shoppingCart,
+	shoppingCartUnfilled,
+	userTag,
+	userTagUnfilled,
 } from "../../assets";
+import useStore from "../../Features/store/storeAction";
+import { useSelector } from "react-redux";
 interface IScreenProps {
-  children: ReactNode;
+	children: ReactNode;
 }
 
 const Screen: React.FC<IScreenProps> = ({ children }) => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const currentPath = location.pathname;
-  const [hover, setHover] = useState("");
+	const location = useLocation();
+	const navigate = useNavigate();
+	const currentPath = location.pathname;
 
-  const options = ["+ Create a new Store"];
-  const [active, setActive] = useState("");
-  const [selectedOption, setSelectedOption] = useState(" Arike Collection");
+	const options = ["+ Create a new Store"];
+	const [active, setActive] = useState("");
+	const [selectedOption, setSelectedOption] = useState("null");
 
-  const handleOptionClick = (option: string) => {
-    if (option === "+ Create a new Store") {
-      navigate(ROUTE.SELLER_CREATESTORE )
-    } else {
-      setSelectedOption(option);
-    }
-  };
+	const handleOptionClick = (option: string) => {
+		if (option === "+ Create a new Store") {
+			navigate(ROUTE.SELLER_CREATESTORE);
+		} else {
+			setSelectedOption(option);
+		}
+	};
 
-
-  useEffect(() => {
-    // Based on the current path, update the active state
-    if (currentPath === ROUTE.SELLER_DASHBOARD) {
-      setActive("dashboard");
-    } else if (
-      currentPath === ROUTE.SELLER_PRODUCTS ||
-      currentPath === ROUTE.SELLER_ADDPRODUCT ||
-      currentPath === ROUTE.SELLER_NEWPRODUCT
-    ) {
-      setActive("products");
-    } else if (currentPath === "#") {
-      setActive("orders");
-    } else if (
-      currentPath === ROUTE.SELLER_PAYMENT ||
-      currentPath.includes(ROUTE.SELLER_PAYMENT_REG)
-    ) {
-      setActive("payments");
-    } else if (currentPath === ROUTE.SELLER_REVIEWS) {
-      setActive("reviews");
-    } else if (currentPath === ROUTE.SELLER_STORESETTINGS) {
-      setActive("settings");
-    } else if (currentPath === ROUTE.SELLER_PROFILE) {
-      setActive("profile");
-    } else {
-      setActive(""); // Set default active state here
-    }
-  }, [currentPath]);
-  return (
+	useEffect(() => {
+		// Based on the current path, update the active state
+		if (currentPath === ROUTE.SELLER_DASHBOARD) {
+			setActive("dashboard");
+		} else if (
+			currentPath === ROUTE.SELLER_PRODUCTS ||
+			currentPath === ROUTE.SELLER_ADDPRODUCT ||
+			currentPath === ROUTE.SELLER_NEWPRODUCT
+		) {
+			setActive("products");
+		} else if (currentPath === "#") {
+			setActive("orders");
+		} else if (
+			currentPath === ROUTE.SELLER_PAYMENT ||
+			currentPath.includes(ROUTE.SELLER_PAYMENT_REG)
+		) {
+			setActive("payments");
+		} else if (currentPath === ROUTE.SELLER_REVIEWS) {
+			setActive("reviews");
+		} else if (currentPath === ROUTE.SELLER_STORESETTINGS) {
+			setActive("settings");
+		} else if (currentPath === ROUTE.SELLER_PROFILE) {
+			setActive("profile");
+		} else {
+			setActive(""); // Set default active state here
+		}
+	}, [currentPath]);
+	return (
 		<Wrapper>
 			<Sidebar>
 				<Dropdown

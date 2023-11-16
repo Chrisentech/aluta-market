@@ -24,7 +24,6 @@ import { useNavigate } from "react-router-dom";
 import { ROUTE } from "../../../Shared/Constants";
 import { useDispatch, useSelector } from "react-redux";
 
-
 import useAuthentication from "../../../Shared/Hooks/useAuth";
 import {
 	selectActiveModal,
@@ -90,7 +89,7 @@ const Screen: React.FC = () => {
 							{isAuthenticated ? (
 								<Button
 									onClick={() =>
-										me?.usertype === "seller" ?? nav(ROUTE.SELLER_DASHBOARD)
+										me?.usertype === "seller" ? nav(ROUTE.SELLER_DASHBOARD) : ""
 									}
 									width={150}
 									height={30}

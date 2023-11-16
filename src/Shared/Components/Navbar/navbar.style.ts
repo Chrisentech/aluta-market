@@ -43,69 +43,69 @@ export const Flex = styled.div`
 `;
 
 export const SearchContainer = styled.form`
-  border: 1px solid #bdc4cd;
-  flex: 0.7;
-  margin: 0 10px;
-  border-radius: 6px;
-  display: flex;
-  .searchbar {
-    position: relative;
-    width: 70%;
+	border: 1px solid #bdc4cd;
+	flex: 0.7;
+	margin: 0 10px;
+	border-radius: 6px;
+	display: flex;
+	.searchbar {
+		position: relative;
+		width: 70%;
 
-    input {
-      border: none;
-      outline: none;
-      padding: 12px;
-      width: 90%;
-      border-radius: 6px;
-        font-family: Inter;
-        font-size: 12px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-      color: ${AppColors.brandGray} !important;
-      &::placeholder {
-        color: var(--gray-500, #8B96A5);
-        font-family: Inter;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-      }
-    }
-  }
+		input {
+			border: none;
+			outline: none;
+			padding: 12px;
+			width: 90%;
+			border-radius: 6px;
+			font-family: Inter;
+			font-size: 12px;
+			font-style: normal;
+			font-weight: 400;
+			line-height: normal;
+			color: ${AppColors.brandGray} !important;
+			&::placeholder {
+				color: var(--gray-500, #8b96a5);
+				font-family: Inter;
+				font-size: 16px;
+				font-style: normal;
+				font-weight: 400;
+				line-height: normal;
+			}
+		}
+	}
 
-  select {
-    background: transparent;
-    outline: none;
-    border: 0;
-    border-left: 1px solid #bdc4cd;
-    padding: 12px;
-    cursor: pointer;
-    width: 15%;
-    padding-right: 15px;
-      font-size: 12px;
-    color: ${AppColors.brandGray} !important;
-    // font-weight: 700;
-    option{
-      font-family: Inter;
-      font-size: 12px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      color:black !important;
-    }
-  }
-  button {
-    flex: 1;
-    padding: 12px;
-    background: var(--pr, linear-gradient(180deg, #ff7612 0%, #ff001f 100%));
-    border: 0;
-    border-radius: 0 6px 6px 0;
-    outline: 0;
-    color: #fff;
-    cursor: pointer;
-  }
+	select {
+		background: transparent;
+		outline: none;
+		border: 0;
+		border-left: 1px solid #bdc4cd;
+		padding: 12px;
+		cursor: pointer;
+		width: 15%;
+		padding-right: 15px;
+		font-size: 12px;
+		color: ${AppColors.brandGray} !important;
+		// font-weight: 700;
+		option {
+			font-family: Inter;
+			font-size: 12px;
+			font-style: normal;
+			font-weight: 400;
+			line-height: normal;
+			color: black !important;
+		}
+	}
+	button {
+		flex: 1;
+		padding: 12px;
+		background: var(--pr, linear-gradient(180deg, #ff7612 0%, #ff001f 100%));
+		border: 0;
+		border-radius: 0 6px 6px 0;
+		outline: 0;
+		color: #fff;
+		cursor: pointer;
+	}
 `;
 
 export const Menu = styled.div`
@@ -203,62 +203,41 @@ export const MenuItem = styled(Link)`
 		font-size: inherit;
 		border: 0;
 		outline: 0;
-      background:transparent;
+		background: transparent;
 		cursor: pointer;
-    option{
-      background:transparent
-    }
+		option {
+			background: transparent;
+		}
 	}
 `;
 
-export const MenuItem = styled(Link)`
-	color: #1c1c1c;
-	font-feature-settings: "clig" off, "liga" off;
-	/* Text-title */
-	font-family: Inter;
-	font-size: 16px;
-	font-style: normal;
-	font-weight: 500;
-	line-height: 22px; /* 137.5% */
-	select {
-		font-size: inherit;
-		border: 0;
-		outline: 0;
-      background:transparent;
-		cursor: pointer;
-    option{
-      background:transparent
-    }
-	}
-`;
-
-// suggestions 
+// suggestions
 
 export const SearchSuggestions = styled.div<{ show: boolean }>`
-  display: ${({show}) => show ? "block" : "none"};
-  width: 100%;
-  border: solid 1px #bdc4cd;
-  border-top: none;
-  position: absolute;
-  background: #FFF;
-  left: -1px;
-  top: 95%;
-  border-radius: 0 0 12px 12px;
+	display: ${({ show }) => (show ? "block" : "none")};
+	width: 100%;
+	border: solid 1px #bdc4cd;
+	border-top: none;
+	position: absolute;
+	background: #fff;
+	left: -1px;
+	top: 95%;
+	border-radius: 0 0 12px 12px;
 `;
 
 export const Suggestion = styled.div`
-  border: none;
-  outline: none;
-  padding: 12px;
-    font-family: Inter;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  color: #505050;
-  cursor: pointer;
+	border: none;
+	outline: none;
+	padding: 12px;
+	font-family: Inter;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	color: #505050;
+	cursor: pointer;
 
-  &:hover {
-    background: ${AppColors.brandPink};
-  }
+	&:hover {
+		background: ${AppColors.brandPink};
+	}
 `;

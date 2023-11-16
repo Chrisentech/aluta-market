@@ -15,7 +15,7 @@ export const Wrapper = styled.div`
     // align-items: center;
     // flex-direction: column;
     padding: 30px;
-    margin: 100px auto 30px auto;
+    margin: 160px auto 30px auto;
     margin-left: 295.5px;
   }
 `;
@@ -25,7 +25,7 @@ export const Sidebar = styled.section`
   position: fixed;
   height: 100vh;
   background: #fff;
-  margin-top: 50px;
+  margin-top: 100px;
   width: 295px;
   padding-top: 60px;
 

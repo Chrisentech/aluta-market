@@ -47,27 +47,28 @@ const Layout: React.FC<LayoutProps<any>> = ({
     };
   }, []);
 
-  if (state) {
-    return <Loader />;
-  }
+ 
 
   return (
-    <>
-      <Popup
-        show={showModal && modals[showModal] ? modals[showModal] : false }
-        // width={modalWidth}
-        className="popup"
-        // onClose={closeModalHandler}
-      >
-        { popUpContent }
-      </Popup>
-      <Fragment>
-        <Navbar scrolled={scrolled} isMobile={isMobile} mode={navMode}/>
-        <Toast />
-        {Screen}
-      </Fragment>
-    </>
-  );
+		<>
+			<Popup
+				show={showModal && modals[showModal] ? modals[showModal] : false}
+				// width={modalWidth}
+				className="popup"
+				// onClose={closeModalHandler}
+			>
+				{popUpContent}
+			</Popup>
+			<Fragment>
+				{state && <Loader />}
+
+				<Navbar scrolled={scrolled} isMobile={isMobile} mode={navMode} />
+				<Toast />
+
+				{Screen}
+			</Fragment>
+		</>
+	);
 };
 
 Layout.defaultProps = {

@@ -1,16 +1,16 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import {
-  Wrapper,
-  FooterTop,
-  FooterItems,
-  FooterBottom,
-  FooterBrand,
+	Wrapper,
+	FooterTop,
+	FooterItems,
+	FooterBottom,
+	FooterBrand,
 } from "./footer.styles";
 import {
-  AiFillTwitterCircle,
-  AiFillInstagram,
-  AiFillYoutube,
+	AiFillTwitterCircle,
+	AiFillInstagram,
+	AiFillYoutube,
 } from "react-icons/ai";
 import { logo } from "../../../assets";
 import { BsFacebook } from "react-icons/bs";
@@ -18,7 +18,7 @@ import { TiSocialLinkedinCircular } from "react-icons/ti";
 import { appleStoreImg, googlePlayImg } from "../../../assets";
 import { ROUTE } from "../../Constants";
 const Footer: React.FC = () => {
-  return (
+	return (
 		<Wrapper>
 			<FooterTop>
 				<FooterBrand>
@@ -107,7 +107,9 @@ const Footer: React.FC = () => {
 				<FooterItems>
 					<h3>Get App</h3>
 					<li style={{ marginBottom: 15 }}>
-						<div className="logo_content" style={{margin:0}}>coming soon</div>
+						<div className="logo_content" style={{ margin: 0 }}>
+							coming soon
+						</div>
 					</li>
 				</FooterItems>
 			</FooterTop>
