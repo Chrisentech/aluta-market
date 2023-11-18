@@ -1,12 +1,12 @@
-import { useDispatch, useSelector } from "react-redux";
-
+import { useSelector } from "react-redux";
+import { isTokenExpired } from "../Utils/helperFunctions";
 
 function useAuthentication() {
 	// Get the access token from Redux state
 
 	const tokenFromRedux = useSelector(
 		(state: any) => state?.user?.user?.access_token
-	)   
+	);
 
 	// Function to read cookies
 	function getCookie(name: string) {
@@ -21,13 +21,13 @@ function useAuthentication() {
 
 	// Set the token using the Redux state or cookie value
 	const token = tokenFromRedux || accessToken;
+	const isNotValidToken = isTokenExpired(token);
 
 	// Check if the user is authenticated
-	const isAuthenticated = !!token;
+	const isAuthenticated = !!token && !isNotValidToken;
 
 	// Optionally return both token and isAuthenticated as an object
 	return { isAuthenticated };
-    
 }
 
 export default useAuthentication;

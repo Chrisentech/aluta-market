@@ -1,47 +1,57 @@
 import React, { ReactNode, useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-  Wrapper,
-  Sidebar,
-  SidebarMenu,
-  SidebarMenuLinks,
-  CustomLink,
-  MenuTop,
+	Wrapper,
+	Sidebar,
+	SidebarMenu,
+	SidebarMenuLinks,
+	CustomLink,
+	MenuTop,
 } from "./dashboard.style";
 // import { PiGridFourFill } from "react-icons/pi";
 
 // import { HiMiniShoppingCart, HiOutlineDocumentText } from "react-icons/hi";
 import { ROUTE } from "../../Shared/Constants";
 import { Dropdown } from "../../Shared/Components";
-import { 
-  dashboard, dashboardUnfilled, 
-  documentText, documentTextUnfilled, 
-  emptyWallet, emptyWalletUnfilled, 
-  sendSquare, settings, settingsUnfilled, 
-  shop, shopUnfilled, shoppingCart, 
-  shoppingCartUnfilled, userTag, userTagUnfilled 
+import {
+	dashboard,
+	dashboardUnfilled,
+	documentText,
+	documentTextUnfilled,
+	emptyWallet,
+	emptyWalletUnfilled,
+	sendSquare,
+	settings,
+	settingsUnfilled,
+	shop,
+	shopUnfilled,
+	shoppingCart,
+	shoppingCartUnfilled,
+	userTag,
+	userTagUnfilled,
 } from "../../assets";
+import useStore from "../../Features/store/storeAction";
+import { useSelector } from "react-redux";
 interface IScreenProps {
-  children: ReactNode;
+	children: ReactNode;
 }
 
 const Screen: React.FC<IScreenProps> = ({ children }) => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const currentPath = location.pathname;
-  const [hover, setHover] = useState("");
+	const location = useLocation();
+	const navigate = useNavigate();
+	const currentPath = location.pathname;
 
-  const options = ["+ Create a new Store"];
-  const [active, setActive] = useState("");
-  const [selectedOption, setSelectedOption] = useState(" Arike Collection");
+	const options = ["+ Create a new Store"];
+	const [active, setActive] = useState("");
+	const [selectedOption, setSelectedOption] = useState("null");
 
-  const handleOptionClick = (option: string) => {
-    if (option === "+ Create a new Store") {
-      navigate(ROUTE.SELLER_CREATESTORE )
-    } else {
-      setSelectedOption(option);
-    }
-  };
+	const handleOptionClick = (option: string) => {
+		if (option === "+ Create a new Store") {
+			navigate(ROUTE.SELLER_CREATESTORE);
+		} else {
+			setSelectedOption(option);
+		}
+	};
 
 
   useEffect(() => {

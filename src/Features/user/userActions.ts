@@ -17,6 +17,7 @@ import {
 	MY_PROFILE,
 } from "../../Services/graphql/users";
 import { actions } from "./userSlice";
+import { setCookie } from "../../Shared/Utils/helperFunctions";
 
 export default function useUsers() {
 	const dispatch = useDispatch();
@@ -45,6 +46,7 @@ export default function useUsers() {
 		});
 		if (response.data.loginUser) {
 			dispatch(actions.setToken(response?.data?.loginUser?.access_token));
+			setCookie("access_token", response?.data?.access_token,7)
 			await getMe(response.data.loginUser.id);
 			getWishlist(response.data.loginUser.id);
 			return response.data.loginUser;

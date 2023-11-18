@@ -190,7 +190,7 @@ const StoreSettings = () => {
       <Layout 
           layout={"dashboard"} 
           component={Screen} 
-          state={false} 
+          state={true} 
           showModal={activeModal}
           popUpContent={<ModalContent active={activeModal}/>}
       />

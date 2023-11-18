@@ -203,7 +203,6 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
 	// let isAuthenticated = true;
 
 	useEffect(() => {
-    console.log(route)
 		if (route) {
 			setRedirectPath(route);
 		} 
