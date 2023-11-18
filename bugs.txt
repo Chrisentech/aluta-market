@@ -1,0 +1,1 @@
+When You Refresh page and login,the token is null for stores endpoint

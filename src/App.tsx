@@ -43,7 +43,7 @@ const App: React.FC = () => {
 	}, []);
 	useEffect(() => {
 		user?.usertype === "seller" &&
-			getMyStores({user:parseInt(getCookie("user_id") || "0"),limit:100,offset:0});
+			getMyStores({user:user?.id,limit:100,offset:0});
 			
 	}, [user]);
 
