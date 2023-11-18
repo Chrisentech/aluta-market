@@ -4,7 +4,7 @@ export const Page = styled.div`
     min-height: 50vh;
     width: 100%;
 
-    margin: 30px auto;
+    margin: 20px auto;
     background: #f7fafc;
 `;
 
@@ -27,11 +27,14 @@ export const Container = styled.div`
         gap: 80px;
         margin: 30px 0;
     }
+    .banner-wrapper {
+      margin: 20px 0 90px 0;
+    }
 `;
 
-export const Product = styled.div`
+export const Product = styled.div<{ empty: boolean }>`
     box-sizing: border-box;
-    width: 880px;
+    width: ${({ empty }) => empty ? '100%' : '880px'};
     border-radius: 6px;
     border: 1px solid #DEE2E7;
     background: #FFFFFF;
@@ -60,20 +63,59 @@ export const SectionCard = styled.div`
     align-items: center;
 
     .title {
-        font-family: inter;
-        font-size: 20px;
-        font-weight: 600;
-        line-height: 28px;
-        letter-spacing: -0.2px;
-        color: #1c1c1c;
-        margin-top: 20px;
-        align-self: flex-start;
-        margin-left: 25px;
-      }
+      font-family: inter;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 28px;
+      letter-spacing: -0.2px;
+      color: #1c1c1c;
+      margin-top: 20px;
+      align-self: flex-start;
+      margin-left: 25px;
+    }
+    .card {
+      box-shadow: none!important;
+    }
+    .view {
+      padding: 0;
+    }
 `;
 
 export const Empty = styled.div`
-    
+    width: 100%;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    .text {
+      color: #505050;
+      text-align: center;
+      font-family: Inter;
+      letter-spacing: -0.2px;
+      font-weight: 600px;
+
+      .header {
+        font-size: 24px;
+        line-height: 32px;
+      }
+      .info {
+        font-size: 20px;
+        line-height: 28px;
+      }
+    }
+
+  .icon {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: #D9D9D9;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 export const RightSection = styled.div`
@@ -275,4 +317,68 @@ export const InfoCard = styled.div`
     justify-content: center;
   }
 
+`;
+
+export const GridProductCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  // height: 270px;
+
+  .image {
+    height: 200px;
+    width: 220px;
+    background: #EEE;
+    border-radius: 10px;
+    padding: 20px;
+    // flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`;
+
+
+export const GridProductDetails = styled.div`
+  flex: 0.8;
+  background: #fff;
+  height: 60px;
+  padding: 0 10px;
+  font-family: Inter;
+
+  h1 {
+    color: var(--base-color-gray-800, #606060);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px; 
+    letter-spacing: -0.2px;
+    margin: 10px 0;
+  }
+  .flex {
+    display: flex;
+    justify-content: space-between;
+  }
+  .price {
+    display: flex;
+    gap: 5px;
+    margin: 8px 0;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 28px; 
+    letter-spacing: -0.2px;
+    span:nth-child(2) {
+      text-decoration: line-through;
+      color: #8b96a5;
+      font-size: 16px;
+    }
+  }
+
+  .button {
+    display: flex;
+    flex-direction: row;
+
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+  }
 `;

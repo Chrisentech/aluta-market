@@ -65,6 +65,6 @@ const Screen: React.FC = () => {
   );
 };
 const NewProduct = () => {
-  return <Layout layout={"dashboard"} component={Screen} state={false} />;
+      return <Layout layout={"dashboard"} component={Screen} state={false} navMode="noSearch"/>;
 };
 export default NewProduct;

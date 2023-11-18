@@ -245,6 +245,7 @@ const LoginPage = () => {
       showModal={activeModal}
       layout={"blank"}
       component={Screen}
+      navMode="blank"
       state={false}
     />
   );

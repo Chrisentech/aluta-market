@@ -13,8 +13,9 @@ interface IVeiw {
   itempergrid?: number;
   className?: string;
   gridItems?: any[];
+  cardStyle?: string;
 }
-const View: React.FC<IVeiw> = ({ mode, type, className, gap, gridItems, itempergrid }) => {
+const View: React.FC<IVeiw> = ({ mode, type, className, gap, gridItems, itempergrid, cardStyle }) => {
   
   return (
     <Container>
@@ -28,6 +29,7 @@ const View: React.FC<IVeiw> = ({ mode, type, className, gap, gridItems, itemperg
           gridItems={gridItems}
           className={className}
           cardType="type1"
+          cardStyle={cardStyle}
           showPagination
         />
       )}

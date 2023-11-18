@@ -5,20 +5,24 @@ export const Wrapper = styled.div<{ show: boolean | undefined }>`
   top: 0;
   left: 0;
   overflow-x: scroll;
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
   display: ${({ show }) => (show ? "flex" : "none")};
   justify-content: center;
   align-items: center;
   z-index: 10000000;
+  
+  .card {
+    margin: auto;
+  }
 `;
 
 export const BlurredBackground = styled.div<{ show: boolean | undefined }>`
   position: fixed;
   top: 0;
   left: 0;
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(15px);
   opacity: ${(props) => (props.show ? 1 : 0)};

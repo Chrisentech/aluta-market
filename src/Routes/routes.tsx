@@ -24,6 +24,8 @@ import {
 	CreateStore,
 	StoreSettings,
 	SellerReviews,
+	SellerOrders,
+	OrderDetail,
 } from "../Pages/Private";
 import useAuthentication from "../Shared/Hooks/useAuth";
 import { setRedirectPath } from "../Shared/Utils/helperFunctions";
@@ -131,6 +133,26 @@ const Router: React.FC = () => {
 					}
 				/>
 				<Route
+					path={ROUTE.SELLER_ORDERS}
+					element={
+						<PrivateRoute
+							component={SellerOrders}
+							authRoute
+							route={ROUTE.SELLER_ORDERS}
+						/>
+					}
+				/>
+				<Route
+					path={ROUTE.SELLER_ORDER_DETAIL + "/:id"}
+					element={
+						<PrivateRoute
+							component={OrderDetail}
+							authRoute
+							route={ROUTE.SELLER_ORDERS}
+						/>
+					}
+				/>
+				<Route
 					path={ROUTE.SELLER_REVIEWS}
 					element={
 						<PrivateRoute
@@ -177,8 +199,8 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
 	authRoute,
 	route,
 }) => {
-	// const { isAuthenticated } = useAuthentication();
-	let isAuthenticated = true;
+	const { isAuthenticated } = useAuthentication();
+	// let isAuthenticated = true;
 
 	useEffect(() => {
     console.log(route)

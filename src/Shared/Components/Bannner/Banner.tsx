@@ -11,8 +11,10 @@ const Banner: React.FC = () => {
       </div>
       <Button 
         className="button"
+        color="#FFF"
+        background="#FF9017"
       >
-
+        Shop now
       </Button>
     </Wrapper>
   )

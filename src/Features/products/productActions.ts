@@ -119,6 +119,8 @@ export default function useProducts() {
     createProduct,
 		getCategories,
 		getCategory,
+		getSearchProducts,
+		getSearchSuggestions,
     // updateProduct,
     // deleteProduct,
     // products,

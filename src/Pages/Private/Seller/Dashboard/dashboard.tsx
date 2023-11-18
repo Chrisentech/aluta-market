@@ -235,6 +235,7 @@ const Dashboard = () => {
       component={Screen}
       state={false}
       showModal={activeModal}
+      navMode="noSearch"
       popUpContent={<LogoutModal />}
     />
   )

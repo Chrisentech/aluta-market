@@ -18,9 +18,10 @@ interface TableColumn {
 interface ResponsiveTableProps {
   data: any[];
   columns: TableColumn[];
+  className?: string;
 }
 
-const Table: React.FC<ResponsiveTableProps> = ({ data, columns }) => {
+const Table: React.FC<ResponsiveTableProps> = ({ data, columns, className }) => {
   const [toggle, setToggle] = useState<number[]>([]);
 
   const handleAddtoWishList = (id: number) => {
@@ -32,7 +33,7 @@ const Table: React.FC<ResponsiveTableProps> = ({ data, columns }) => {
   };
 
   return (
-    <TableContainer>
+    <TableContainer className={className}>
       <TableWrapper>
         <thead>
           <TableRow isHeader>
@@ -49,7 +50,9 @@ const Table: React.FC<ResponsiveTableProps> = ({ data, columns }) => {
                   key={column.accessor}
                   className={item[column.accessor]}
                 >
-                  {column.accessor === "img" ? (
+                  {column.accessor === "order" ? (
+                    <></>
+                  ) : column.accessor === "img" ? (
                     <img width={50} src={item[column.accessor]} alt="Image" />
                   ) : column.accessor === "options" ? (
                     <div className="flexy">

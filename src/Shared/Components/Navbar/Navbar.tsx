@@ -126,98 +126,106 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
           <img width={"150"} src={logo} alt="logo" />
         </NavLink>
         {/* Search container */}
-        {(mode !== "blank") &&
-          <SearchContainer>
-            <div className="searchbar">
-              <input 
-                placeholder="Search products, brands and services" 
-                value={query}
-                onChange={handleSuggestions}
-              />
-              <SearchSuggestions show={searching}>
-              {searchOptions.map((suggestion, index) => (
-                  <Suggestion key={index}>{suggestion}</Suggestion>
-              ))}
-              </SearchSuggestions>
-            </div>
-            <select>
-              <option selected disabled value="">
-                All Category
-              </option>
-              {categories.map((category, i) => {
-                return <option key={i}>{category.title}</option>;
-              })}
-            </select>
-            <button 
-              onClick={() => handleSearch()}
-            >Search</button>
-          </SearchContainer>
-        }
-        {/* Menu icons */}
-				<Menu>
-					{isAuthenticated ? (
-						<>
-							<IconWrapper>
-								<FaUser color="#BDC4CD" />
-								<label>Profile</label>
-							</IconWrapper>
-							<IconWrapper>
-								{message > 0 && (
-									<Badge
-										count={
-											message < 10 ? (
-												message
-											) : (
-												<small>
-													9<span>+</span>
-												</small>
-											)
-										}
-									/>
-								)}
+        {(mode !== "blank") && <>
+					{
+						(mode !== "noSearch") &&
+						<SearchContainer>
+							<div className="searchbar">
+								<input 
+									placeholder="Search products, brands and services" 
+									value={query}
+									onChange={handleSuggestions}
+								/>
+								<SearchSuggestions show={searching}>
+								{searchOptions.map((suggestion, index) => (
+										<Suggestion key={index}>{suggestion}</Suggestion>
+								))}
+								</SearchSuggestions>
+							</div>
+							<select>
+								<option selected disabled value="">
+									All Category
+								</option>
+								{categories.map((category, i) => {
+									return <option key={i}>{category.title}</option>;
+								})}
+							</select>
+							<button 
+								onClick={() => handleSearch()}
+							>Search</button>
+						</SearchContainer>
+					}    
+					{/* Menu icons */}
+					<Menu>
+						{isAuthenticated ? (
+							<>
+								<IconWrapper>
+									<FaUser color="#BDC4CD" />
+									<label>Profile</label>
+								</IconWrapper>
+								<IconWrapper>
+									{message > 0 && (
+										<Badge
+											count={
+												message < 10 ? (
+													message
+												) : (
+													<small>
+														9<span>+</span>
+													</small>
+												)
+											}
+										/>
+									)}
 
-								<MdMessage color="#BDC4CD" />
-								<label>Message</label>
-							</IconWrapper>
-							<IconWrapper onClick={() => dispatch(newMessage())}>
-								<MdFavorite background="#BDC4CD" />
-								<label>Orders</label>
-							</IconWrapper>
-							<IconWrapper href={ROUTE.CART}>
-								<Badge count={4} />
-								<BsFillCartFill color="#BDC4CD" />
-								<label>My cart</label>
-							</IconWrapper>
-						</>
-					) : (
-						<>
-							<IconWrapper>
-								<Badge count={4} />
-								<BsFillCartFill color="#BDC4CD" />
-								<label>My cart</label>
-							</IconWrapper>
-							<IconWrapper onClick={() => nav(ROUTE.LOGIN)}>
-								<FaUserAlt background="#BDC4CD" />
-								<label>Sign in/ Sign Up</label>
-							</IconWrapper>
-						</>
-					)}
-				</Menu>
+									<MdMessage color="#BDC4CD" />
+									<label>Message</label>
+								</IconWrapper>
+								<IconWrapper onClick={() => dispatch(newMessage())}>
+									<MdFavorite background="#BDC4CD" />
+									<label>Orders</label>
+								</IconWrapper>
+								<IconWrapper href={ROUTE.CART}>
+									<Badge count={4} />
+									<BsFillCartFill color="#BDC4CD" />
+									<label>My cart</label>
+								</IconWrapper>
+							</>
+						) : (
+							<>
+								<IconWrapper>
+									<Badge count={4} />
+									<BsFillCartFill color="#BDC4CD" />
+									<label>My cart</label>
+								</IconWrapper>
+								<IconWrapper onClick={() => nav(ROUTE.LOGIN)}>
+									<FaUserAlt background="#BDC4CD" />
+									<label>Sign in/ Sign Up</label>
+								</IconWrapper>
+							</>
+						)}
+					</Menu>
+					</>
+				}
 			</Wrapper>
-			<hr />
-			<SecondWrapper>
-				<GiHamburgerMenu size={20}/>
-				<MenuItem to="#">All Categories</MenuItem>
-				<MenuItem to="#">Hot Offers</MenuItem>
-				<MenuItem to="#">Skynet</MenuItem>
-				<MenuItem to="#">Food Basket</MenuItem>
-				<MenuItem to="#">Resturants</MenuItem>
-				<MenuItem to="#">
-					<select name="" id="">
-						<option value="">Help</option>
-					</select>
-				</MenuItem>
-			</SecondWrapper>
+			{
+				(mode !== "blank" && mode !== "noSearch" ) && <>
+				<hr />
+				<SecondWrapper>
+					<GiHamburgerMenu size={20}/>
+					<MenuItem to="#">All Categories</MenuItem>
+					<MenuItem to="#">Hot Offers</MenuItem>
+					<MenuItem to="#">Skynet</MenuItem>
+					<MenuItem to="#">Food Basket</MenuItem>
+					<MenuItem to="#">Resturants</MenuItem>
+					<MenuItem to="#">
+						<select name="" id="">
+							<option value="">Help</option>
+						</select>
+					</MenuItem>
+				</SecondWrapper>
+				</>
+			}
 		</Container>
 	);
 };

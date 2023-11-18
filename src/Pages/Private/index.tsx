@@ -10,3 +10,5 @@ export { default as SellerProfile } from "./Seller/Profile/profile";
 export { default as CreateStore } from "./Seller/Dashboard/CreateStore/CreateStore";
 export { default as StoreSettings } from "./Seller/StoreSettings/StoreSettings";
 export { default as SellerReviews } from "./Seller/Reviews/Reviews";
+export { default as SellerOrders } from "./Seller/Orders/Orders";
+export { default as OrderDetail } from "./Seller/Orders/detail/detail";

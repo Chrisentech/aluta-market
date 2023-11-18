@@ -27,6 +27,7 @@ import ItemCounter from "./ItemCounter/ItemCounter";
 import LogoutModal from "./LogoutModal/Logout";
 import Banner from "./Bannner/Banner";
 import SkeletonLoader from "./SkeletonLoader/SkeletonLoader";
+import AddProductImage from "./AddProductImage/AddProductImage";
 export {
 	Loader,
 	Navbar,
@@ -58,4 +59,5 @@ export {
 	LogoutModal,
 	Banner,
 	SkeletonLoader,
+	AddProductImage,
 };

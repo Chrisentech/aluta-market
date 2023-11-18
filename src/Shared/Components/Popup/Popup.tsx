@@ -1,7 +1,6 @@
 import React, { ReactNode } from "react";
 import { Wrapper, BlurredBackground } from "./popup.styles";
 import { Card, Toast } from "..";
-import { useDispatch } from "react-redux";
 
 interface IPopupProps {
   show: boolean | undefined;
@@ -17,6 +16,7 @@ const Popup: React.FC<IPopupProps> = ({
   // width,
   height,
 }) => {
+
   return (
     <Wrapper show={show} className={className}>
       <BlurredBackground show={show} />

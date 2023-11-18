@@ -3,6 +3,7 @@ import { AppColors } from "../../Constants";
 import { NavLink } from "react-router-dom";
 
 export const Container = styled.div<{background?: string}>`
+ 
 `;
 
 export const ListWrapper = styled.div<{ gap?: string | undefined, type?:string| undefined}>`
@@ -136,3 +137,7 @@ export const GridWrapper = styled.div<{
   grid-template-columns: ${({ itempergrid }) =>
     itempergrid ? `repeat(${itempergrid},1fr)` : "repeat(3,1fr)"};
 `;
+
+
+
+

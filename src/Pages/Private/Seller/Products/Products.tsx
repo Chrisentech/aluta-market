@@ -8,6 +8,7 @@ const categoryOptions = ["category", "Food", "Books", "Perfumes & Deodorant"];
 const options = ["Last added"];
 import { cloth, phone, wallet, watch } from "../../../../assets";
 import { ROUTE } from "../../../../Shared/Constants";
+import Dropdown2 from "../../../../Shared/Components/Dropdown/Dropdown2";
 const data = [
   {
     id: 1,
@@ -101,7 +102,7 @@ const Screen: React.FC = () => {
       <div className="flex">
         <h2>Products</h2>
         <NavLink to={ROUTE.SELLER_NEWPRODUCT}>
-          <button>
+          <button className="button">
             <AiOutlinePlus /> Create new
           </button>
         </NavLink>
@@ -111,20 +112,19 @@ const Screen: React.FC = () => {
           <AiOutlineSearch color="#8b96a5" className="diff" />
           <input type="search" placeholder="Search Products or services" />
           <div className="dropdown">
-            <Dropdown
+            <Dropdown2
               options={categoryOptions}
               selectedOption={selectedOption}
               padding={"10"}
-              handleOptionClick={handleOptionClick}
-              offset="10px"
+              handleOptionEvent={handleOptionClick}
+              className="drpdwn"
             />
-            <Dropdown
+            <Dropdown2
               options={options}
               padding={"10"}
-              // dropDown_one={false}
               selectedOption={options[0]}
-              offset="12px"
-              handleOptionClick={handleOptionClick}
+              handleOptionEvent={handleOptionClick}
+              className="drpdwn"
             />
           </div>
         </div>
@@ -135,7 +135,7 @@ const Screen: React.FC = () => {
 };
 
 const Products = () => {
-  return <Layout layout={"dashboard"} component={Screen} state={false} />;
+  return <Layout layout={"dashboard"} component={Screen} state={false} navMode="noSearch"/>;
 };
 
 export default Products;

@@ -192,34 +192,11 @@ export const BlurredBackground = styled.div<{ show: boolean }>`
 
 export const MenuItem = styled(Link)`
 	color: #1c1c1c;
-	font-feature-settings: "clig" off, "liga" off;
-	/* Text-title */
 	font-family: Inter;
 	font-size: 16px;
 	font-style: normal;
 	font-weight: 500;
-	line-height: 22px; /* 137.5% */
-	select {
-		font-size: inherit;
-		border: 0;
-		outline: 0;
-      background:transparent;
-		cursor: pointer;
-    option{
-      background:transparent
-    }
-	}
-`;
-
-export const MenuItem = styled(Link)`
-	color: #1c1c1c;
-	font-feature-settings: "clig" off, "liga" off;
-	/* Text-title */
-	font-family: Inter;
-	font-size: 16px;
-	font-style: normal;
-	font-weight: 500;
-	line-height: 22px; /* 137.5% */
+	line-height: 22px; 
 	select {
 		font-size: inherit;
 		border: 0;

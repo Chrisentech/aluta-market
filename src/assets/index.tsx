@@ -73,3 +73,19 @@ export { default as tutoringImg } from "./tutoring.png";
 export { default as uploadImg } from "./uploadanimage.svg";
 export { default as setting } from "./setting.svg";
 export { default as wristwatch } from "./wristwatch.png";
+export { default as bagTick } from "./bag-tick.svg";
+export { default as cartVector } from "./cartVector.svg";
+export { default as people } from "./people.svg";
+export { default as link } from "./link.svg";
+export { default as documentCopy } from "./document-copy.svg";
+export { default as bagHappy } from "./bag-happy.svg";
+export { default as calendar } from "./calendar.svg";
+export { default as shopGrayScale } from "./shopGrayScale.svg";
+export { default as rectangle } from "./Rectangle.png";
+
+
+
+
+
+
+

@@ -28,6 +28,8 @@ export const ROUTE = {
   SELLER_REVIEWS: "/seller/reviews",
   SELLER_PAYMENT_REG: "/seller/payment/reg",
   SELLER_PROFILE: "/seller/profile/",
+  SELLER_ORDERS: "/seller/orders",
+  SELLER_ORDER_DETAIL: "/seller/orders/order-details",
   REMOVEPRODUCT: "/product/remove",
   EDITPRODUCT: "/product/edit",
   SELLER_STORESETTINGS: "/seller/store-settings",

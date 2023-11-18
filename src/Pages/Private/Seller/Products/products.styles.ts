@@ -5,13 +5,12 @@ export const Wrapper = styled.div`
     display: flex;
     justify-content: space-between;
     margin: 0px 0 30px 0;
-        align-items:center;
+    align-items:center;
     position: relative;
     
     h2 {
       color: var(--dark, #1c1c1c);
       font-feature-settings: "clig" off, "liga" off;
-      /* Title-H3 */
       font-family: Inter;
       font-size: 24px;
       font-style: normal;
@@ -19,7 +18,7 @@ export const Wrapper = styled.div`
       line-height: 32px; /* 133.333% */
       letter-spacing: -0.2px;
     }
-    button {
+    .button {
       background: #00b517;
       color: #fff;
       border: 0;
@@ -41,12 +40,19 @@ export const Wrapper = styled.div`
       top: 34px;
       left: 10px;
     }
-    .dropdown{
-        flex:0.3;
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        margin-right:50px
+    .dropdown {
+        flex: 0.3;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-right: 50px
+        color: black;
+
+        .drpdwn {
+          border: solid 1px #DEE2E7;
+          border-radius: 6px;
+          padding: 10px;
+        }
     }
   }
 `;

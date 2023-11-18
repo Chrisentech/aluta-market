@@ -181,19 +181,20 @@ export const ImageWrapper = styled.div`
   }
 `;
 export const FormControl = styled.div`
+  box-sizing: border-box;
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 10px;
   position: relative;
 
-  svg {
-    position: absolute;
-    right: 20px;
-    top: 56px;
-    cursor: pointer;
-    transition: 0.5s ease;
-  }
+  // svg {
+  //   position: absolute;
+  //   right: 20px;
+  //   top: 56px;
+  //   cursor: pointer;
+  //   transition: 0.5s ease;
+  // }
   .check {
     margin: -10px 0;
   }
@@ -205,7 +206,7 @@ export const Flex = styled.div`
 
 export const Label = styled.label`
   color: #505050;
-  font-feature-settings: "clig" off, "liga" off;
+  position: relative;
   font-family: Inter;
   font-size: 16px;
   font-style: normal;
@@ -216,13 +217,10 @@ export const Label = styled.label`
     color: ${AppColors.brandOrange};
   }
   .info {
-    color: var(--gray-600, #505050);
-    font-feature-settings: "clig" off, "liga" off;
+    color: #505050;
     font-family: Inter;
     font-size: 12px;
-    font-style: normal;
     font-weight: 400;
-    line-height: normal;
   }
 `;
 
@@ -289,16 +287,17 @@ export const TextEditor = styled.div<{
   }
 `;
 
-export const Incrementor = styled.div<{ width?: string }>`
+export const Incrementor = styled.div<{ small?: boolean }>`
 display:flex;
 position:relative;
-width:${({ width }) => (width ? width : "200px")};
+width:${({ small }) => (small ? "84px" : "200px")};
+height:${({ small }) => (small ? "28px" : "unset")};
 .leftButton{
   border-radius:6px 0 0 6px;
   display:flex;
   justify-content:center;
   align-items:center;
-  padding:10px;
+  padding: ${({ small }) => small ? "5px" : "10px"};
   border:1px solid ${AppColors.brandGray};
   cursor:pointer;
   flex:0.2; 
@@ -311,7 +310,7 @@ width:${({ width }) => (width ? width : "200px")};
   display:flex;
   border:1px solid ${AppColors.brandGray};
   justify-content:center;
-  padding:10px;
+  padding: ${({ small }) => small ? "5px" : "10px"};
   flex:0.2;
   cursor:pointer;
   align-items:center;
@@ -328,8 +327,6 @@ width:${({ width }) => (width ? width : "200px")};
   align-items:center;
   cursor:not-allowed;
   outline:0
-
-}
 }
 `;
 export const OptionButton = styled.button`
@@ -339,9 +336,9 @@ export const OptionButton = styled.button`
   color: ${AppColors.brandOrange};
   padding: 12px 10px !important;
   font-family: Inter;
-  width: 200px;
+  width: 100%;
   font-size: 16px;
-  margin: auto auto auto 91px;
+  // margin: 20px 0;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -351,6 +348,10 @@ export const OptionButton = styled.button`
 `;
 
 export const Modal = styled.div`
+  box-sizing: border-box;
+  padding: 50px;
+  min-height: 400px;
+
   .label {
     display: flex;
     justify-content: space-between; 
@@ -386,18 +387,24 @@ export const Modal = styled.div`
   .addNewBtn {
     margin: unset;
     float: right;
-    width: 100px;
-    margin-right: 20px;
+    width: 157px;
+    height: 56px;
+    border: 1px solid var(--gray-300, #DEE2E7);
     margin-bottom: 30px;
   }
   .drpDwn {
-    margin: 10px 20px;
+    margin: 10px 0;
+    width: 100%;
   }
+  // .invisible {
+  //   visibility: none;
+  // }
  
   }
   .input {
     padding: 15px;
-    width: 86%;
+    width: 100%;
+    box-sizing: border-box;
     border-radius: 6px;
     margin: 0px auto 20px auto;
     &[readonly] {
@@ -406,11 +413,127 @@ export const Modal = styled.div`
     }
   }
   .lsxaj2 {
-    width: 86%;
+    width: 100%;
+    height: 56px;
+    border-radius: 10px;
     margin: 40px auto;
+    color: #FFF;
+    text-align: center;
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 700;
   }
-   .popup {
-    .card {
-      padding-bottom: 74px;
+  .popup {
+  .card {
+    padding-bottom: 74px;
+  }
+  .size-variant {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 10px;
+    flex-direction: row;
+    width: 100%;
+
+    .close {
+      position: absolute;
+      right: 10px;
+      top: calc(50% - 12px);
     }
+    .input {
+      border: none; 
+      outline: none;
+      border-radius: 10px;
+      background: #F7FAFC;
+
+      color: #1C1C1C;
+      font-family: Inter;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 100%; 
+      letter-spacing: -0.32px;
+    }
+    .price {
+      padding: 15px 20px; 
+    }
+  }
+`;
+
+export const ModalWrapper = styled.div`
+    width: 400px;
+    box-sizing: border-box;
+`;
+
+export const SizeVariantCard = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+
+  padding: 5px 20px;
+  background: #F7FAFC;
+  border-radius: 10px;
+
+  .left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: gree;
+
+    .info {
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100%;
+  }
+
+  .right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: green;
+
+    .icon {
+      
+    }
+  }
+`;
+
+export const Img = styled.div<{background: string}>`
+  min-width: 50px;
+  min-height: 50px;
+  border-radius: 6px;
+  border: 1px solid #DEE2E7;
+  background: ${({background}) => background ? `url(${background})`: "#FFF"};
+  background-size: contain;
+  background-repeat: no-repeat;
+`;
+
+export const ColorVariantCard = styled.div`
+  font-family: Inter;
+
+  label {
+    color: #505050;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: -0.2px;
+
+    input {
+      height: 50px;
+      border: none;
+      outline: none;
+      background: #F7FAFC;
+      font-size: 16px;
+    }
+  }
+`;
+
+export const ConditionVariantCard = styled.div`
+
 `;

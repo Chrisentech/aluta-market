@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Layout from '../../../../Layouts';
 import { 
     Container, Empty, 
@@ -8,19 +8,70 @@ import {
     ProductDetails,
     InfoCard,
     SectionCard,
+    GridProductCard,
+    GridProductDetails,
 } from './CartStyles';
-import { Banner, Button, Card, ItemCounter, View } from '../../../../Shared/Components';
-import { amexpress, applepay, deliveryTruckGray, lockGray, masterpay, messageGray, paypal, phone, visa } from '../../../../assets';
-import GridView from '../../../../Shared/Components/ViewSelector/GridView';
+import { Banner, Button, Card, ImageCard, ItemCounter, View } from '../../../../Shared/Components';
+import { amexpress, applepay, deliveryTruckGray, image34, lockGray, masterpay, messageGray, paypal, phone, shop, shopGrayScale, shopUnfilled, visa } from '../../../../assets';
+import { CartProduct } from '../../../../test-data/data';
+import { formatCurrency } from '../../../../Shared/Utils/helperFunctions';
+import { useNavigate } from 'react-router-dom';
+import { MdOutlineShoppingCart } from 'react-icons/md';
 
-const hasProduct: boolean = true;
-const items: number = 4;
+
+const costOfDelivery = 2000
+const discount = 60
+const tax = 14
 
 const Screen: React.FC = () => {
+    const [products, setProducts] = useState<any[]>(CartProduct)
+    const navigate = useNavigate();
+
+    const sumOfPrices = products.reduce((accumulator, currentObject) => {
+        const price = Number(currentObject.price) || 0; 
+        return accumulator + price;
+      }, 0);
+
+    const hasProduct: boolean = products.length > 0;
+
+    const getGridItems = () => {
+        let currentArray: any[] = []
+
+        //logic to handle which data to map.... example
+        Array(4).fill('.').map((item, index) => {
+          currentArray.push(
+            <GridProductCard>
+                <div className="image">
+                    <ImageCard view="grid" src={image34}/>
+                </div>
+                <GridProductDetails>
+                    <div className="flex">
+                        <div className="price">
+                        <span>&#8358;32,000</span>
+                        </div>
+                    </div>
+                    <h1>Xiaomi Redmi 8 Original </h1>
+                    <Button 
+                        border="1px solid #DEE2E7"
+                        background='#FFF'
+                        width="auto"
+                        padding={9}
+                        color="#FF001F"
+                        className="button"
+                    >
+                        <MdOutlineShoppingCart /> Move to Cart
+                    </Button>
+                </GridProductDetails>
+            </GridProductCard>
+          )
+        })
+        return currentArray
+    }
+
     return (
         <Page>
             <Container>
-                <h1>My Cart <span>{'(' + items + ')'}</span></h1>
+                <h1>My Cart <span>{'(' + products.length + ')'}</span></h1>
                 {hasProduct && 
                 <RightSection>
                     <div className="coupon">
@@ -31,12 +82,12 @@ const Screen: React.FC = () => {
                         </form>
                     </div>
                     <div className="checkout">
-                        <p><span className="label">Subtotal:</span><span className="cost">N113,099.49</span></p>
-                        <p><span className="label">Delivery:</span><span className="cost">N2,000.00</span></p>
-                        <p><span className="label">Discount:</span><span className="cost discount">- N60.00</span></p>
-                        <p><span className="label">Tax:</span><span className="cost tax">+ N14.00</span></p>
+                        <p><span className="label">Subtotal:</span><span className="cost">{formatCurrency(sumOfPrices)}</span></p>
+                        <p><span className="label">Delivery:</span><span className="cost">{formatCurrency(costOfDelivery)}</span></p>
+                        <p><span className="label">Discount:</span><span className="cost discount">- {formatCurrency(discount)}</span></p>
+                        <p><span className="label">Tax:</span><span className="cost tax">+ {formatCurrency(tax)}</span></p>
                         <div className="bottom">
-                            <p className="total"><span>Total:</span><span>N113,053.49</span></p>
+                            <p className="total"><span>Total:</span><span>{formatCurrency(sumOfPrices + costOfDelivery + tax - discount)}</span></p>
                             <Button className="button" 
                             width="100%" height="54px" 
                             background='#00B517' color="#fff"
@@ -52,9 +103,9 @@ const Screen: React.FC = () => {
                     </div>
                 </RightSection>
                 }
-                <Product>
+                <Product empty={!hasProduct}>
                     {hasProduct ? 
-                        Array(items).fill(null).map((_, index) => (
+                        products.map((item, index) => (
                             <Card
                                 key={index}
                                 hasBoxShadow={false}
@@ -67,10 +118,10 @@ const Screen: React.FC = () => {
                                     <ProductCard>
                                         <div className="left-side">
                                             <div className="image">
-                                                <img src={phone} alt=''/>
+                                                <img src={item.img} alt=''/>
                                             </div>
                                             <ProductDetails>
-                                                <h2>Canon Camera EOS 2000, Black 10x zoom</h2>
+                                                <h2>{item.item}</h2>
                                                 <ProductDescr>
                                                     <div className="text">
                                                         <p className='Variations'>
@@ -104,25 +155,48 @@ const Screen: React.FC = () => {
                                             </ProductDetails>
                                         </div>
                                         <div className="right-side">
-                                            <p>N7,098.99</p>
-                                            <ItemCounter initialValue={1} />
+                                            <p>{formatCurrency(Number(item.price))}</p>
+                                            <ItemCounter initialValue={Number(item.quantity)} />
                                         </div>
                                     </ProductCard>
                                 </Card>
                         )) :
-                        <Empty>No Product in Cart</Empty>}
-                    <footer>
-                        <Button 
-                            border="1px solid #DEE2E7"
-                            background='#F7FAFC'
-                            width="auto"
-                            padding={9}
-                            color="#FF001F"
-                        >
-                            Back to shop
-                        </Button>
-                        {hasProduct && <Button background="#FA3434" color="#fff" width="auto" padding={16}>Remove all</Button>}
-                    </footer>
+                        <Empty>
+                            <div className="icon"><img src={shopGrayScale} alt="" /></div>
+                            <div className="text">
+                            <p className="header">No Orders</p>
+                            <p className="info">You have no items added</p>
+                            </div>
+                            <Button 
+                                border="1px solid #DEE2E7"
+                                background='linear-gradient(180deg, #FF7612 0%, #FF001F 100%)'
+                                width="275px"
+                                padding={9}
+                                color="#FFF"
+                                onClick={() => navigate('/')}
+                            >
+                                Go to Market
+                            </Button>
+                        </Empty>}
+                    {hasProduct && 
+                        <footer>
+                            <Button 
+                                border="1px solid #DEE2E7"
+                                background='#F7FAFC'
+                                width="auto"
+                                padding={9}
+                                color="#FF001F"
+                                onClick={() => navigate('/')}
+                            >
+                                Back to shop
+                            </Button>
+                            <Button 
+                                background="#FA3434" 
+                                color="#fff" width="auto" 
+                                padding={16}
+                                onClick={() => setProducts([])}
+                            >Remove all</Button>
+                        </footer>}
                 </Product>
                 <div className='info-container'>
                     <InfoCard>
@@ -152,58 +226,29 @@ const Screen: React.FC = () => {
 
                 <SectionCard>
                     <h3 className="title">Saved for later</h3>
-                    {/* <View
+                    <View
+                        mode="grid"
                         itempergrid={4}
-                        gridItems={[
-                            Array(4).fill('').map(_, index) => (
-                                <Card
-                                    key={index}
-                                    width="100%"
-                                    hasBoxShadow={true}
-                                    height="200px"
-                                    onHover
-                                    className="card"
-                                >
-                                    <ProductCard >
-                                        <ImageCard view="grid" src={phone} />
-
-                                        <ProductDetails view="grid">
-                                            <div className="flex">
-                                            <div className="price">
-                                                <span>&#8358;80,000</span>
-                                                <span>&#8358;92,000</span>
-                                            </div>
-                                            <WishCard />
-                                            </div>
-                                            <ProductFlex>
-                                            <div>
-                                                <Rating numberOfRates={7.5} />
-                                                <span className="rating">7.5</span>
-                                            </div>
-                                            </ProductFlex>
-
-                                            <h1>Canon Camera EOS 2000, Black 10x zoom</h1>
-                                        </ProductDetails>
-                                    </ProductCard>
-                                </Card> 
-                            ),
-                        ]}
-                    /> */}
-                    <GridView 
-                        gridItems={Array(4).fill(null)} 
-                        gap="10px" 
-                        itempergrid={4} 
-                        cardType="type2" 
-                        type="productGrid"
-                        background="#EEEEEE"  
+                        gridItems={getGridItems()}
+                        cardStyle='card'
+                        gap='5px'
                     />
-
                 </SectionCard>
                 <div style={{ height: "30px" }}></div>
                 <SectionCard>
                     <h3 className="title">Recently viewed</h3>
+                    <View
+                        mode="grid"
+                        itempergrid={4}
+                        gridItems={getGridItems()}
+                        cardStyle='card'
+                        gap='5px'
+                        className='view'
+                    />
                 </SectionCard>
-                <Banner />
+                <div className="banner-wrapper">
+                    <Banner />
+                </div>
             </Container>
         </Page>
     )
@@ -211,7 +256,7 @@ const Screen: React.FC = () => {
 
 const Cart = () => {
     // const { loading } = useSelector((store: any) => store.products);
-    return <Layout layout={"full"} component={Screen} state={false} />;
+    return <Layout layout={"full"} component={Screen} state={false} navMode='noSearch'/>;
 };
 
 export default Cart;

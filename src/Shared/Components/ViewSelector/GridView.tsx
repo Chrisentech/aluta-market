@@ -16,6 +16,7 @@ interface IGridProps {
   className?:string
   gridItems?: any[];
   cardType?: string;
+  cardStyle?: string;
   showPagination?: boolean;
   background?: string;
 } 
@@ -27,6 +28,7 @@ const GridView: React.FC<IGridProps> = ({
   className, 
   gridItems, 
   cardType, 
+  cardStyle,
   showPagination, 
   background,
 }) => {
@@ -126,7 +128,7 @@ const GridView: React.FC<IGridProps> = ({
                 hasBoxShadow={true}
                 height="92px"
                 onHover
-                className="card"
+                className={cardStyle}
               >
                 {gridItem}
               </Card>

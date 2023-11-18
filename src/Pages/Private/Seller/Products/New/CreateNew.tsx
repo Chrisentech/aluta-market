@@ -20,11 +20,16 @@ import {
 	Label,
 	ErrorMessageWrapper,
 	Modal,
+	ModalWrapper,
+	SizeVariantCard,
+	Img,
+	ColorVariantCard,
+	ConditionVariantCard,
 } from "./createnew.styles";
-import { Card, Dropdown } from "../../../../../Shared/Components";
+import { AddProductImage, Card, Dropdown } from "../../../../../Shared/Components";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { MdOutlineAddHomeWork, MdOutlineCancel } from "react-icons/md";
+import { MdDeleteOutline, MdOutlineAddHomeWork, MdOutlineCancel } from "react-icons/md";
 import { NavLink, useLocation } from "react-router-dom";
 import { Formik, Form, useFormikContext, useField } from "formik";
 import * as yup from "yup";
@@ -41,6 +46,10 @@ import {
 	selectCategories,
 	selectCategory,
 } from "../../../../../Features/products/productSlice";
+import Dropdown2 from "../../../../../Shared/Components/Dropdown/Dropdown2";
+import useVariants from "../../../../../test-data/variant-data";
+import { IoMdClose } from "react-icons/io";
+import { image34 } from "../../../../../assets";
 
 const initialValues: IProductProps = {
 	name: "",
@@ -74,6 +83,8 @@ const Screen: React.FC = () => {
 	const [imageUrls, setImageUrls] = useState<string[]>([]);
 	const [quantity, setQuantity] = useState<number>(1);
 	const hiddenInputRef = useRef<HTMLInputElement | null>(null);
+
+
 	useEffect(() => {
 		// Retrieve the URL parameter containing the file data
 		if (files) {
@@ -457,30 +468,81 @@ const CustomField: React.FC<{
 		</>
 	);
 };
-const variations = ["color", "size", "condition"];
+const variations = ["size", "color", "condition"];
 
 const NewProduct = () => {
 	const dispatch = useDispatch();
 	const { modals } = useSelector((state: any) => state.modal);
+	const [sizeStep, setSizeStep] = useState(1)
+	const [colorStep, setColorStep] = useState(1)
+	const [moreOption, setMoreOption] = useState<string>('No')
 	const [selectedOption, setSelectedOption] =
-		useState<string>("Select an Option");
+		useState<string | null>(null);		
+	const [selectedCondition, setselectedCondition] = useState<string | null>(null)
+	const [showMainDropdown, setShowMainDropdown] = useState<boolean>(true)
 
 	const handleModalSubmit = () => {
 		alert("ffff");
 	};
-	// const handleOption = (arr, index, val) => {
-	//   if (arr.includes.arr[index]) {
-	//     setSizeOptions(arr.filter((val) => val !== arr[index]));
-	//   } else {
-	//     setSizeOptions([...arr, val]);
-	//   }
-	// };
+
+	const {
+		addNewVariant,
+		handleVariantChange,
+		deleteVariant,
+		getVariants,
+		increaseQuantity,
+		decreaseQuantity,
+	} = useVariants();
+
+	const sizeVariant = getVariants('size')
+	const colorVariant = getVariants('color')
+	const conditionVariant = getVariants('condition')
+
+	const handleDropdownEvent = (option: string) => {
+		setSelectedOption(option)
+	}
+	const handleMoreOption = (option: string) => {
+		setMoreOption(option)
+	}
+	const hasNextStep = (option: string) => {
+		if (
+			option === 'size' && sizeStep < 2
+		) {
+			return true
+		} else if (option === 'color' && moreOption === "No") {
+			if (colorStep < 2) {
+				return true
+			} else return false
+		} else if (option === 'color' && moreOption === "Yes" ) {
+			if (colorStep < 4) {
+				return true
+			} else return false
+	
+		} else return false
+	}
+	
+	const handleNextStep = (option: string, decrement?: boolean) => {
+		if (decrement) {
+			if (option === 'size') setSizeStep(sizeStep - 1)
+			if (option === 'color') setColorStep(colorStep - 1)
+		} else {
+			if (option === 'size') setSizeStep(sizeStep + 1)
+			if (option === 'color') setColorStep(colorStep + 1)
+		}
+	}
+
+	const handleAdd = (option: string) => {
+		if (option === 'size') setSizeStep(1)
+		if (option === 'color') setColorStep(1)
+	}
+
+
 	const ModalContent: JSX.Element = (
 		<Modal>
 			{modals.addOptions && (
-				<>
+				<ModalWrapper>
 					<div className="label">
-						<BiArrowBack size={32} color="#bdc4cd" />
+						<BiArrowBack size={32} color="#bdc4cd" onClick={() => handleNextStep(selectedOption as string, true)}/>
 						<MdOutlineCancel
 							className="svg"
 							size={32}
@@ -498,15 +560,16 @@ const NewProduct = () => {
 							This Option is for Products that have different size or colors
 						</div>
 					)}
-					<Dropdown
+		
+					<Dropdown2
 						options={variations}
 						selectedOption={selectedOption}
-						handleOptionClick={(e) => setSelectedOption(e)}
+						handleOptionEvent={handleDropdownEvent}
 						padding="15px"
 						background="#f7fafc"
-						offset="15px"
-						className="drpDwn"
-					/>
+						className='drpdwn'
+					>Choose Option</Dropdown2>
+			
 					<Formik
 						initialValues={initialValues}
 						onSubmit={handleModalSubmit}
@@ -514,39 +577,189 @@ const NewProduct = () => {
 					>
 						<Form>
 							{selectedOption === "size" && (
+									<FormControl>
+										{sizeStep === 1 && (
+											<>
+												{sizeVariant.map((variant, index) => {
+													return (
+														<div className="size-variant" key={variant.id}>
+															<Label>
+																Add Size
+																<input
+																	className="input price"
+																	value={variant.variant}
+																	onChange={(e) => handleVariantChange(
+																		selectedOption, 
+																		index, 
+																		'variant', 
+																		e.target.value)}
+																/>
+																<IoMdClose className="close" size={24} onClick={() => deleteVariant(selectedOption, index)}/>
+															</Label>
+															<Label>
+																Price
+																<input
+																	className="input"
+																	value={variant.price}
+																	onChange={(e) => handleVariantChange(
+																		selectedOption, 
+																		index, 
+																		'price', 
+																		e.target.value)}
+																/>
+															</Label>
+														</div>
+													);
+												})}
+											</>
+										)}
+										{sizeStep === 2 && (
+											<>
+											{sizeVariant.map((variant, index) => (
+													<SizeVariantCard key={variant.id}>
+														<div className="left">
+															<Img background={image34}/>
+															<div className="info">
+																<p>{variant.variant}</p>
+																<p>{variant.price}</p>
+															</div>
+														</div>
+														<div className="right">
+															<MdDeleteOutline size={19} color="#FA3434" className="icon" onClick={() => deleteVariant(selectedOption, index)}/>
+															<Incrementor small>
+																<div
+																	className="leftButton"
+																	onClick={() => decreaseQuantity(selectedOption, index)}
+																>
+																	<BiMinus />
+																</div>
+																<div className="main">{variant.quantity}</div>
+																<div
+																	className="rightButton"
+																	onClick={() => increaseQuantity(selectedOption, index)}
+																>
+																	<BiPlus />
+																</div>
+															</Incrementor>
+														</div>
+													</SizeVariantCard>
+											))}
+											</>
+										)}
+									</FormControl>
+							)}
+							{selectedOption === "color" && (
 								<FormControl>
-									<Label className="label">Add Size</Label>
-									{Array(1)
-										.fill("*")
-										.map((_, index: number) => {
-											return (
-												<input
-													className="input"
-													key={index}
-													readOnly
-													value={"S"}
-												/>
-											);
-										})}
+									{
+										colorStep > 1 ? 
+										<>
+										{
+											moreOption ? 
+											<>
+											{colorStep === 2 && (
+												<ColorVariantCard>
+													<label>
+															Input value for the option e.g. size?
+															<input
+																placeholder=""
+																className="input"
+															/>
+														</label>
+												</ColorVariantCard>
+											)}
+											</> :
+											<>
+												{colorVariant.map((variant, index) => (
+													<SizeVariantCard key={variant.id}>
+														<div className="left">
+															<Img background={image34}/>
+															<div className="info">
+																<p>{variant.variant}</p>
+																<p>{variant.price}</p>
+															</div>
+														</div>
+														<div className="right">
+															<MdDeleteOutline size={19} color="#FA3434" className="icon" onClick={() => deleteVariant(selectedOption, index)}/>
+															<Incrementor small>
+																<div
+																	className="leftButton"
+																	onClick={() => decreaseQuantity(selectedOption, index)}
+																>
+																	<BiMinus />
+																</div>
+																<div className="main">{variant.quantity}</div>
+																<div
+																	className="rightButton"
+																	onClick={() => increaseQuantity(selectedOption, index)}
+																>
+																	<BiPlus />
+																</div>
+															</Incrementor>
+														</div>
+													</SizeVariantCard>
+											))}
+											</>
+										}
+										</> : 
+										<>
+										{colorStep === 1 && (
+											<>
+												<label>
+													Does this colour have extra option e.g. size?
+													<Dropdown2
+														options={['Yes','No']}
+														selectedOption={moreOption}
+														handleOptionEvent={(handleMoreOption)}
+														padding="15px"
+														background="#f7fafc"
+														className="drpDwn"
+													/>
+												</label>
+												<AddProductImage />
+											</>
+										)}
+										</>
+									}
 								</FormControl>
+							)}
+							{selectedOption === "condition" && (
+								<FormControl>
+										<>
+											<Dropdown2
+												options={['new', 'fairly used', 'refurbished']}
+												selectedOption={selectedCondition}
+												handleOptionEvent={(option) => setselectedCondition(option)}
+												padding="15px"
+												background="#f7fafc"
+												className="drpDwn"
+											>Choose Option</Dropdown2>
+										</>
+							</FormControl>
 							)}
 						</Form>
 					</Formik>
-					{selectedOption !== "Select an Option" && (
+					{selectedOption && (
 						<>
+						{(!(selectedOption === 'color' && colorStep === 1) && hasNextStep(selectedOption)) &&
 							<OptionButton
-								type="button"
-								className="addNewBtn"
-								// onClick={() => handleOption(sizeOptions, 0, "D")}
-							>
-								Add New
-							</OptionButton>
-							<button className="submit lsxaj2" type="button">
-								Add Option
+									type="button"
+									className="addNewBtn"
+									onClick={() => addNewVariant(selectedOption)}
+								>
+									Add New
+								</OptionButton>
+						}
+						{hasNextStep(selectedOption) ?
+							<button className="submit lsxaj2" type="button" onClick={() => handleNextStep(selectedOption)}>
+								Next
+							</button> : 
+							<button className="submit lsxaj2" type="button" onClick={() => handleAdd(selectedOption)}>
+							  Add Option
 							</button>
+						}
 						</>
 					)}
-				</>
+				</ModalWrapper>
 			)}
 		</Modal>
 	);
@@ -557,6 +770,7 @@ const NewProduct = () => {
 			component={Screen}
 			popUpContent={ModalContent}
 			state={false}
+			navMode="noSearch"
 		/>
 	);
 };

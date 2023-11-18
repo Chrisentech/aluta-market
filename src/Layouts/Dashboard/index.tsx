@@ -63,7 +63,9 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
       setActive("payments");
     } else if (currentPath === ROUTE.SELLER_REVIEWS) {
       setActive("reviews");
-    } else if (currentPath === ROUTE.SELLER_STORESETTINGS) {
+    } else if (currentPath === ROUTE.SELLER_ORDERS) {
+			setActive("orders")
+		} else if (currentPath === ROUTE.SELLER_STORESETTINGS) {
       setActive("settings");
     } else if (currentPath === ROUTE.SELLER_PROFILE) {
       setActive("profile");
@@ -119,7 +121,7 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 								setActive("orders");
 							}}
 						>
-							<Link to="#">
+							<Link to={ROUTE.SELLER_ORDERS}>
 								{active === "orders" ? (
 									<img src={shop} />
 								) : (
