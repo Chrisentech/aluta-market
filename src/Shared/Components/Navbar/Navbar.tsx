@@ -15,7 +15,7 @@ import {
 } from "./navbar.style";
 import { FaUser, FaUserAlt } from "react-icons/fa";
 import { MdMessage, MdFavorite } from "react-icons/md";
-import { BsCart3, BsFillCartFill, BsMenuApp } from "react-icons/bs";
+import { BsCart3, BsFillCartFill } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ROUTE } from "../../Constants";
@@ -27,8 +27,6 @@ import { categories } from "../../../test-data";
 import { Badge } from "..";
 import { useDispatch, useSelector } from "react-redux";
 import { newMessage } from "../../../Features/notifications/notificationSlice";
-import { debounce, getCookie } from "../../Utils/helperFunctions";
-import { TbUvIndex } from "react-icons/tb";
 import { searchSuggestions } from "../../../Features/products/productSlice";
 import useProducts from "../../../Features/products/productActions";
 import useAuthentication from "../../Hooks/useAuth";
@@ -98,7 +96,7 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
   const [searching, setSearching] = useState(false);
   const searchOptions = useSelector(searchSuggestions)
   const [query, setQuery] = useState('')
-  const { getSearchSuggestions, getSearchProducts } = useProducts()
+  const { getSearchSuggestions } = useProducts()
 
   const handleSuggestions = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value)

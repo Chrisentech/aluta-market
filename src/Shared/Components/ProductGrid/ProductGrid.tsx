@@ -12,10 +12,10 @@ const ProductGrid: React.FC<IProductGridProps> = ({
 	row,
 	cardWidth,
 	cardHeight,
-	image,
+	// image,
 	alt,
 	background,
-	children,
+	// children,
 }) => {
 	const { getProducts } = useProducts();
 	const products = useSelector(selectProducts);

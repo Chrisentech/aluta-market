@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import Layout from '../../../Layouts';
 import { Container, FilterTag, Filters, MainView, Page, SelectIcon, Selector, Sidebar, Wrapper } from './search.styles';
 import { Breadcrumb, FilterMenu, View } from '../../../Shared/Components';
 import { BiSolidGridAlt } from 'react-icons/bi';
 import { PiListFill } from 'react-icons/pi';
 import { HiXMark } from 'react-icons/hi2';
-import useProducts from '../../../Features/products/productActions';
+// import useProducts from '../../../Features/products/productActions';
 
 const Screen: React.FC = () => {
     const [mode, setMode] = useState<string>('grid')

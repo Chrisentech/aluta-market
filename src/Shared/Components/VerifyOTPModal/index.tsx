@@ -3,10 +3,9 @@ import { Container, FormControl, Img, Input, ResendButton, SuccessContainer, Top
 import { useNavigate } from "react-router-dom";
 import { closeModal } from "../../../Features/modal/modalSlice";
 import { useDispatch } from "react-redux";
-import { MdCancel } from "react-icons/md";
 import { alertError, alertSuccess } from "../../../Features/alert/alertSlice";
 import useUsers from "../../../Features/user/userActions";
-import { keySquare, marketLogo, tickCircle } from "../../../assets";
+import { keySquare, tickCircle } from "../../../assets";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
 const VerifyOTPModal: React.FC<{ url: any }> = ({ url }) => {
@@ -26,6 +25,8 @@ const VerifyOTPModal: React.FC<{ url: any }> = ({ url }) => {
     for (let i = 0; i < otp.length; i++) {
       if (otp[i]) {
         key++;
+        setTimer(30000)
+        setVerified(false)
       }
       if (key === otp.length) {
         let value = {
@@ -86,7 +87,7 @@ const VerifyOTPModal: React.FC<{ url: any }> = ({ url }) => {
     e: React.KeyboardEvent<HTMLInputElement>,
     index: number
   ) => {
-    //  handleOnChange(e, index);
+     console.log(e, index);
   };
 
   useEffect(() => {

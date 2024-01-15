@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { shop } from '../../../../assets';
 
 export const Wrapper = styled.section`
     box-sizing: border-box;

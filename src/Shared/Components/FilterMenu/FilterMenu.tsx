@@ -2,13 +2,13 @@ import React, { useEffect, useState } from  'react';
 import { DropdownContainer, FilterContainer, OptionsContainer } from './FilterMenu.styles'
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { RangeSlider } from '..';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import useProducts from '../../../Features/products/productActions';
 
 const brands: string[] = ['Samsung', 'Apple', 'Huawei', 'Pocco', 'Lenovo'];
 const categories: string[] = ['Mobile Accessories', 'Electronics', 'Smartphones', 'Modern Tech'];
 const features: string[] = ['Metallic', 'Plastic', '8GB RAM', 'Super Power', 'Large Memory'];
-const condition: string[] = ['Any', 'Refurbished', 'Fairly Used', 'New']
+// const condition: string[] = ['Any', 'Refurbished', 'Fairly Used', 'New']
 
 const Dropdown: React.FC<{ 
   category: string; 

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../../../Layouts";
-import { NavLink } from "react-router-dom";
 import { 
   AddImg, BackgroundImg, 
   BottomPanel, Cardbox, ContactDetails, InputField, Main, 

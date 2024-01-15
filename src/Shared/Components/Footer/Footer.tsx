@@ -15,7 +15,7 @@ import {
 import { logo } from "../../../assets";
 import { BsFacebook } from "react-icons/bs";
 import { TiSocialLinkedinCircular } from "react-icons/ti";
-import { appleStoreImg, googlePlayImg } from "../../../assets";
+// import { appleStoreImg, googlePlayImg } from "../../../assets";
 import { ROUTE } from "../../Constants";
 const Footer: React.FC = () => {
 	return (

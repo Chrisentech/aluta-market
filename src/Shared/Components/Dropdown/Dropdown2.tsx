@@ -105,7 +105,7 @@ const Dropdown2: React.FC<DropdownProps> = ({
   width,
   margin,
   optionBackground,
-  disabled,
+  // disabled,
   className,
   children,
 }) => {

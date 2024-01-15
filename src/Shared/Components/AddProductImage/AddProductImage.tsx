@@ -3,9 +3,6 @@ import { ImageWrapper, PriceInput } from './AddProductImage.style'
 import { MdOutlineCancel } from "react-icons/md";
 import { useLocation } from "react-router-dom";
 import { AiOutlinePlus } from "react-icons/ai";
-import useVariants from '../../../test-data/variant-data';
-import { FaPen } from 'react-icons/fa';
-
 
 const AddProductImage: React.FC = () => {
 	const location = useLocation();

@@ -10,7 +10,7 @@ import {
   CustomCheckbox,
   Modal,
 } from "./login.styles";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import Layout from "../../../Layouts";
 import { Formik, Form, useField } from "formik";
 import * as yup from "yup";
@@ -28,7 +28,7 @@ import { closeModal, selectActiveModal, showModal } from "../../../Features/moda
 import { Puff } from "react-loading-icons";
 import useUsers from "../../../Features/user/userActions";
 import { alertError, alertSuccess } from "../../../Features/alert/alertSlice";
-import { getCookie, setCookie } from "../../../Shared/Utils/helperFunctions";
+import {  setCookie } from "../../../Shared/Utils/helperFunctions";
 const initialValues: LoginFormValues = {
   email: "",
   password: "",

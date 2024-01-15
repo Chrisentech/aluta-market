@@ -29,7 +29,7 @@ import {
 } from "../Pages/Private";
 import useAuthentication from "../Shared/Hooks/useAuth";
 import { setRedirectPath } from "../Shared/Utils/helperFunctions";
-import { Reviews } from "../Shared/Components";
+// import { Reviews } from "../Shared/Components";
 
 const Router: React.FC = () => {
 	return (

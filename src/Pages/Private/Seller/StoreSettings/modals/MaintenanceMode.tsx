@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Button } from '../../../../../Shared/Components';
 import { CloseButton, FormContainer, FormImage, Info } from './MaintenanceMode.style';

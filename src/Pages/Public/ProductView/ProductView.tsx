@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { 
   CardIcon, Container, 
   DeliveryInfo, Description, 
@@ -12,7 +12,7 @@ import Layout from "../../../Layouts";
 import { BsCheckLg } from 'react-icons/bs'
 import { FaXmark } from 'react-icons/fa6'
 import { MdOutlineMessage, MdOutlineShoppingBasket } from 'react-icons/md'
-import { ProductImages, colorData } from "../../../test-data/data";
+import { colorData } from "../../../test-data/data";
 import { 
   Breadcrumb, Button, Card, 
   ColorList, ImageCard, 
@@ -29,7 +29,7 @@ import { selectActiveModal } from "../../../Features/modal/modalSlice";
 import useProducts from "../../../Features/products/productActions";
 import { calculateDiscount, formatCurrency, getCookie } from "../../../Shared/Utils/helperFunctions";
 import { RootState } from "../../../store";
-import { setLoading } from "../../../Features/loading/loadingSlice";
+// import { setLoading } from "../../../Features/loading/loadingSlice";
 import { useParams } from "react-router-dom";
 import useUsers from "../../../Features/user/userActions";
 import { ModifyCartItemInput } from "../../../Interfaces";
@@ -62,13 +62,13 @@ const Screen: React.FC = () => {
   ];
     
   useEffect(() => {
-    dispatch(setLoading(true));
+    // dispatch(setLoading(true));
     try {
       getProduct(product_id);
-      dispatch(setLoading(false));
+      // dispatch(setLoading(false));
     } catch(errors) {
       console.error('GraphQL Validation Errors:', errors);
-      dispatch(setLoading(false))
+      // dispatch(setLoading(false))
     }
   }, [product]);
   return (

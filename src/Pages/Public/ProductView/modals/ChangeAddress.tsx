@@ -20,12 +20,12 @@ const DeliveryAddressFormModal: React.FC<{ active: string }> = ({ active }) => {
 
   const handleSubmit = () => {
     // Handle form submission logic here
-    const formData = {
-      receiverName,
-      phoneNumber,
-      address,
-      additionalInfo,
-    }
+    // const formData = {
+    //   receiverName,
+    //   phoneNumber,
+    //   address,
+    //   additionalInfo,
+    // }
   };
 
 

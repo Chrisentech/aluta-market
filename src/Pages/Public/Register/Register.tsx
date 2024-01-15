@@ -30,7 +30,7 @@ import { generateSlug } from "../../../Shared/Utils/helperFunctions";
 import { FaArrowLeft } from "react-icons/fa";
 import { registerImg } from "../../../assets";
 import { Campus } from "../../../Shared/Constants/data";
-import useUsers from "../../../Features/user/userActions";
+// import useUsers from "../../../Features/user/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import { alertError, alertSuccess } from "../../../Features/alert/alertSlice";
 import { VerifyOTPModal } from "../../../Shared/Components";
@@ -82,7 +82,7 @@ const Screen: React.FC = () => {
 	const [formValues, setFormValues] = useState(initialValues); // Manage form values at a higher level
 
 	const dispatch = useDispatch();
-	const { createUser } = useUsers();
+	// const { createUser } = useUsers();
 
 	const handleSameNumber = () => {
 		if (!isSameNumber) setStoreNumber(buyerNumber);
@@ -91,7 +91,7 @@ const Screen: React.FC = () => {
 
 	const handleSubmit = async (values: RegisterFormValues) => {
 		let { campus, usertype, phone, ...rest } = values;
-
+		setFormValues(initialValues);
 		let payload = {
 			campus: studentCampus,
 			usertype: userType,
@@ -197,32 +197,32 @@ const Screen: React.FC = () => {
 									Category<span>*</span>
 								</Label>
 
-                <CustomField
-                  name={userType ? "none" : "usertype"}
-                  type="select"
-                  defaultText="I am a..."
-                  onChange={(e: any) => setUserType(e.target.value)}
-                  options={[
-                    { label: "I am a Buyer", value: "buyer" },
-                    { label: "I am a Seller", value: "seller" },
-                  ]}
-                  value={userType}
-                />
-              </FormControl>
-              <SubmitButton active type="submit" loading={loading}>
-                {loading ? (
-                  <Puff stroke={AppColors.brandOrange} strokeOpacity={0.125} />
-                ) : (
-                  "Continue"
-                )}
-              </SubmitButton>
+								<CustomField
+									name={userType ? "none" : "usertype"}
+									type="select"
+									defaultText="I am a..."
+									onChange={(e: any) => setUserType(e.target.value)}
+									options={[
+										{ label: "I am a Buyer", value: "buyer" },
+										{ label: "I am a Seller", value: "seller" },
+									]}
+									value={userType}
+								/>
+							</FormControl>
+							<SubmitButton active type="submit" loading={loading}>
+								{loading ? (
+									<Puff stroke={AppColors.brandOrange} strokeOpacity={0.125} />
+								) : (
+									"Continue"
+								)}
+							</SubmitButton>
 
-              <div className="option">
-                <span className="line"></span>
-                <p>or</p>
-                <span className="line"></span>
-              </div>
-              {/* <GoogleLogin
+							<div className="option">
+								<span className="line"></span>
+								<p>or</p>
+								<span className="line"></span>
+							</div>
+							{/* <GoogleLogin
                 clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
                 buttonText="Create account with Google"
                 onSuccess={responseGoogle}
@@ -230,20 +230,20 @@ const Screen: React.FC = () => {
                 cookiePolicy={"single_host_origin"}
                 className="googleSignin"
               /> */}
-              <GoogleLogin
-                onSuccess={responseGoogle}
-                onError={() => responseGoogle}
-                // cookiePolicy={"single_host_origin"}
-              />
-              <p>
-                Already have an account?{" "}
-                <NavLink to={ROUTE.LOGIN}>Login here</NavLink>
-              </p>
-            </Form>
-          </Formik>
-        </FirstScreen>
-        <SecondScreen userType={userType}>
-          <FaArrowLeft className="back" onClick={() => setUserType("buyer")} />
+							<GoogleLogin
+								onSuccess={responseGoogle}
+								onError={() => responseGoogle}
+								// cookiePolicy={"single_host_origin"}
+							/>
+							<p>
+								Already have an account?{" "}
+								<NavLink to={ROUTE.LOGIN}>Login here</NavLink>
+							</p>
+						</Form>
+					</Formik>
+				</FirstScreen>
+				<SecondScreen userType={userType}>
+					<FaArrowLeft className="back" onClick={() => setUserType("buyer")} />
 
 					<Heading>
 						<h2>Aluta Continua...</h2>

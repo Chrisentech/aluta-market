@@ -2,7 +2,6 @@ import { Field } from "formik";
 import styled from "styled-components";
 import { AppColors, BreakPoints } from "../../../Shared/Constants";
 import { check } from "../../../assets";
-import { boolean, string } from "yup";
 
 
 export const Container = styled.div`

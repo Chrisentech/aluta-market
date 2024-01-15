@@ -18,7 +18,7 @@ import {
 	ProductGrid,
 	LogoutModal,
 } from "../../../Shared/Components";
-import { image26, image104 } from "../../../assets";
+import {  image104 } from "../../../assets";
 import { MdOutlineInventory2 } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { ROUTE } from "../../../Shared/Constants";

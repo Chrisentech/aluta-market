@@ -3,7 +3,7 @@ import Layout from "../../../../Layouts";
 import { NavLink } from "react-router-dom";
 import { Wrapper } from "./products.styles";
 import { AiOutlinePlus, AiOutlineSearch } from "react-icons/ai";
-import { Card, Dropdown, Table } from "../../../../Shared/Components";
+import { Card, Table } from "../../../../Shared/Components";
 const categoryOptions = ["category", "Food", "Books", "Perfumes & Deodorant"];
 const options = ["Last added"];
 import { cloth, phone, wallet, watch } from "../../../../assets";

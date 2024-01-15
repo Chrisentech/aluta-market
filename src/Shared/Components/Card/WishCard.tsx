@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, {  useEffect } from "react";
 import { WishWrapper } from "./card.styles";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
-import { actions, isInWishlist, fetchWishlist } from "../../../Features/user/userSlice";
+import {  useSelector } from "react-redux";
+import {  isInWishlist, fetchWishlist } from "../../../Features/user/userSlice";
 import useUsers from "../../../Features/user/userActions";
 
 
@@ -15,7 +15,7 @@ interface IWishCardProp {
 
 
 const WishCard: React.FC<IWishCardProp> = ({ size, boxShadow, userId, productId }) => {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const { addToWishlist, getWishlist } = useUsers();
     const wishlist = { fetchWishlist }
     const isListed = useSelector(isInWishlist(productId as number));

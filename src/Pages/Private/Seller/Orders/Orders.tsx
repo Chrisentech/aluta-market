@@ -81,7 +81,7 @@ const Screen: React.FC = () => {
                       option === 'canceled' ? 5 : 
                       option === 'refunded' ? 0 : 1;
 
-    Array(arrayLength).fill('.').map((item, index) => {
+    Array(arrayLength).fill('.').map((_, index) => {
       currentArray.push(
         <NavLink key={index} to={ROUTE.SELLER_ORDER_DETAIL + `/${index}`}>
           <OrderCard>

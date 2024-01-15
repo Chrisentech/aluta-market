@@ -9,7 +9,7 @@ import { deleteCookie } from "../../Utils/helperFunctions";
 import { actions } from "../../../Features/user/userSlice";
 
 
-const LogoutModal:React.FC<{url?: string}> = ({ url }) => {
+const LogoutModal:React.FC<{url?: string}> = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 

@@ -1,7 +1,6 @@
 import React, { useState, ReactNode } from "react";
 import {
 	PiCaretDownBold,
-	PiCaretUpDownBold,
 	PiCaretUpBold,
 } from "react-icons/pi";
 import {
@@ -32,7 +31,7 @@ interface DropdownProps {
 
 const Dropdown: React.FC<DropdownProps> = ({
 	options,
-	selectedOption,
+	// selectedOption,
 	handleOptionClick,
 	background,
 	state,

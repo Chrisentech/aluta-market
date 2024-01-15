@@ -3,20 +3,15 @@ import Layout from "../../../../Layouts";
 import { Button, Card, View } from "../../../../Shared/Components";
 import { GridItem, SearchTab, Wrapper } from "./Reviews.styles";
 import {
-  BsFillArrowRightSquareFill,
-  BsFillCreditCard2BackFill,
   BsSearch,
 } from "react-icons/bs";
-import { AiFillDollarCircle } from "react-icons/ai";
-import { IoWalletOutline } from "react-icons/io5";
-import { TbClockHeart } from "react-icons/tb";
-import { useNavigate } from "react-router-dom";
-import { ROUTE } from "../../../../Shared/Constants";
+// import { useNavigate } from "react-router-dom";
+// import { ROUTE } from "../../../../Shared/Constants";
 import { Top } from "../../../Public/Store/Store.styles";
 import { wristwatch } from "../../../../assets";
 
 const Screen: React.FC = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   return (
     <Wrapper>
       <h2>Product Reviews</h2>
