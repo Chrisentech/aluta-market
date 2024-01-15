@@ -7,4 +7,5 @@ export const Wrapper = styled.div`
     color: ${(props) => props.color};
     position: absolute;
     top: 80px;
+    width:100%
 `;

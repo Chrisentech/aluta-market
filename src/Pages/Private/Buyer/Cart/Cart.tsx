@@ -12,7 +12,7 @@ import {
     GridProductDetails,
 } from './CartStyles';
 import { Banner, Button, Card, ImageCard, ItemCounter, View } from '../../../../Shared/Components';
-import { amexpress, applepay, deliveryTruckGray, image34, lockGray, masterpay, messageGray, paypal, phone, shop, shopGrayScale, shopUnfilled, visa } from '../../../../assets';
+import { amexpress, applepay, deliveryTruckGray, image34, lockGray, masterpay, messageGray, paypal, shopGrayScale, visa } from '../../../../assets';
 import { CartProduct } from '../../../../test-data/data';
 import { formatCurrency } from '../../../../Shared/Utils/helperFunctions';
 import { useNavigate } from 'react-router-dom';
@@ -38,9 +38,9 @@ const Screen: React.FC = () => {
         let currentArray: any[] = []
 
         //logic to handle which data to map.... example
-        Array(4).fill('.').map((item, index) => {
+        Array(4).fill('.').map((_, index) => {
           currentArray.push(
-            <GridProductCard>
+            <GridProductCard key={index}>
                 <div className="image">
                     <ImageCard view="grid" src={image34}/>
                 </div>

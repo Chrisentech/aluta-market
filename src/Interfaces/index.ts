@@ -94,7 +94,7 @@ export interface IProductProps {
   id?: number;
   status?: boolean;
   image?: string[];
-  option: [];
+  option?: [];
 }
 
 export interface ModifyCartItemInput {

@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import Layout from "../../../../../Layouts";
 import { useDispatch, useSelector } from "react-redux";
 
-import { convertFromRaw, EditorState } from "draft-js";
+// import { convertFromRaw, EditorState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
@@ -24,13 +24,13 @@ import {
 	SizeVariantCard,
 	Img,
 	ColorVariantCard,
-	ConditionVariantCard,
+	// ConditionVariantCard,
 } from "./createnew.styles";
 import { AddProductImage, Card, Dropdown } from "../../../../../Shared/Components";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { MdDeleteOutline, MdOutlineAddHomeWork, MdOutlineCancel } from "react-icons/md";
-import { NavLink, useLocation } from "react-router-dom";
+import {useLocation } from "react-router-dom";
 import { Formik, Form, useFormikContext, useField } from "formik";
 import * as yup from "yup";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -42,7 +42,7 @@ import {
 } from "../../../../../Features/modal/modalSlice";
 import useProducts from "../../../../../Features/products/productActions";
 import {
-	actions,
+	// actions,
 	selectCategories,
 	selectCategory,
 } from "../../../../../Features/products/productSlice";
@@ -111,6 +111,7 @@ const Screen: React.FC = () => {
 	const { createProduct, getCategories, getCategory } = useProducts();
 	const handleContentChange = (text: any) => {
 		console.log(text.blocks);
+		console.log(content);
 
 		setContent(text.blocks);
 		// console.log(convertFromRaw(text.blocks))
@@ -414,7 +415,7 @@ const CustomField: React.FC<{
 	onChange,
 }) => {
 	const [field, meta] = useField(name);
-	const inputHasError = meta?.error?.length;
+	const inputHasError = !!meta?.error?.length;
 	if (type === "select") {
 		return (
 			<Dropdown
@@ -479,7 +480,7 @@ const NewProduct = () => {
 	const [selectedOption, setSelectedOption] =
 		useState<string | null>(null);		
 	const [selectedCondition, setselectedCondition] = useState<string | null>(null)
-	const [showMainDropdown, setShowMainDropdown] = useState<boolean>(true)
+	// const [showMainDropdown, setShowMainDropdown] = useState<boolean>(true)
 
 	const handleModalSubmit = () => {
 		alert("ffff");
@@ -496,7 +497,7 @@ const NewProduct = () => {
 
 	const sizeVariant = getVariants('size')
 	const colorVariant = getVariants('color')
-	const conditionVariant = getVariants('condition')
+	// const conditionVariant = getVariants('condition')
 
 	const handleDropdownEvent = (option: string) => {
 		setSelectedOption(option)
@@ -587,7 +588,7 @@ const NewProduct = () => {
 																Add Size
 																<input
 																	className="input price"
-																	value={variant.variant}
+																	value={"variant.variant"}
 																	onChange={(e) => handleVariantChange(
 																		selectedOption, 
 																		index, 
@@ -620,7 +621,7 @@ const NewProduct = () => {
 														<div className="left">
 															<Img background={image34}/>
 															<div className="info">
-																<p>{variant.variant}</p>
+																<p>{"variant?.variant"}</p>
 																<p>{variant.price}</p>
 															</div>
 														</div>
@@ -674,7 +675,7 @@ const NewProduct = () => {
 														<div className="left">
 															<Img background={image34}/>
 															<div className="info">
-																<p>{variant.variant}</p>
+																<p>{"variant.variant"}</p>
 																<p>{variant.price}</p>
 															</div>
 														</div>

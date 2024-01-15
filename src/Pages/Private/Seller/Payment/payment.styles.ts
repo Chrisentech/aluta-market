@@ -213,8 +213,8 @@ export const FormControl = styled.div`
 `;
 
 export const Input = styled(Field)<{
-  error: boolean;
-  type: string;
+  error?: boolean;
+  type?: string;
   readOnly?: boolean;
   height?: string;
 }>`

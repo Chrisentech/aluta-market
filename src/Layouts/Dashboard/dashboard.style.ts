@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { StringLiteral } from "typescript";
 // import { AppColors } from "../../Shared/Constants";
 
 export const Wrapper = styled.div`

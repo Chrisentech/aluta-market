@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import Layout from "../../../../Layouts";
 import { NavLink } from "react-router-dom";
 
-import { bagHappy, bagTick, cartVector, documentCopy, link, messageEdit, people, uploadImg, wristwatch } from "../../../../assets";
-import { Button, Card, View } from "../../../../Shared/Components";
-import { useDispatch, useSelector } from "react-redux";
-import { selectActiveModal, showModal } from "../../../../Features/modal/modalSlice";
-import { GridItem, Main, OrderCard, TabContent, TabOption, Tabs, Wrapper } from "./orders.styles";
+import { bagHappy, bagTick, cartVector, documentCopy, link, people, wristwatch } from "../../../../assets";
+import {  Card, View } from "../../../../Shared/Components";
+import {  useSelector } from "react-redux";
+import { selectActiveModal } from "../../../../Features/modal/modalSlice";
+import { GridItem,  OrderCard, TabContent, TabOption, Tabs, Wrapper } from "./orders.styles";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { ROUTE } from "../../../../Shared/Constants";
 
@@ -69,7 +69,7 @@ const gridItem = [
 
 
 const Screen: React.FC = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState<string>('pending')
 
   const getGridItems = (option: string) => {

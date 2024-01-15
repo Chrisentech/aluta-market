@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import React from "react";
+import {  useParams } from "react-router-dom";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Card, Table } from "../../../../../Shared/Components";
 import Layout from "../../../../../Layouts";
 import { selectActiveModal } from "../../../../../Features/modal/modalSlice";
@@ -49,7 +49,7 @@ const columns = [
 ];
 
 const Screen: React.FC = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { id } = useParams();
   
   return (
@@ -104,7 +104,7 @@ const Screen: React.FC = () => {
   );
 };
 
-const Modal: React.FC<{ confirmed?: boolean }> = ({ confirmed }) => {
+const Modal: React.FC<{ confirmed?: boolean }> = () => {
   return (
     <ModalWrapper>
       <div className="top">

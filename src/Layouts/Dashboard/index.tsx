@@ -30,8 +30,8 @@ import {
 	userTag,
 	userTagUnfilled,
 } from "../../assets";
-import useStore from "../../Features/store/storeAction";
-import { useSelector } from "react-redux";
+// import useStore from "../../Features/store/storeAction";
+// import { useSelector } from "react-redux";
 interface IScreenProps {
 	children: ReactNode;
 }
