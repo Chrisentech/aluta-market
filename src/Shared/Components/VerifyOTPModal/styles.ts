@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-export const Container = styled.div<{success: boolean}>`
+export const Container = styled.div<{ success: boolean }>`
   box-sizing: border-box;
-  width: 400px;
-  height: ${({success}) => success ? "390px" : "450px"};
+  // width: 400px;
+  height: ${({ success }) => (success ? "390px" : "450px")};
   cursor: auto;
 
   .title {
@@ -33,105 +33,103 @@ export const Container = styled.div<{success: boolean}>`
  `;
 
 export const Input = styled.input`
-  height: 50px;
-  width: 50px;
-  border-radius: 7px;
-  outline: none;
-  border: none;
-  background: #F7FAFC;
-  text-align: center;
-  font-size: 42px;
-  &::-webkit-inner-spin-button,
-  &::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  
+	height: 50px;
+	width: 50px;
+	border-radius: 7px;
+	outline: none;
+	border: none;
+	background: #f7fafc;
+	text-align: center;
+	font-size: 42px;
+	&::-webkit-inner-spin-button,
+	&::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
 `;
 
-
 export const FormControl = styled.div`
-  width: 100%;
-  // position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+	width: 100%;
+	// position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 
-  .message {
-    font-family: Inter;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    letter-spacing: -0.2px;
+	.message {
+		font-family: Inter;
+		font-size: 14px;
+		font-style: normal;
+		font-weight: 400;
+		line-height: normal;
+		letter-spacing: -0.2px;
 
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  div {
-    display: flex;
-    gap: 6px;
-    margin: 30px 0 20px 0;
-  }
-  svg {
-    position: absolute;
-    right: 20px;
-    top: 56px;
-    cursor: pointer;
-    transition: 0.5s ease;
-  }
-  .check {
-    margin: -10px 0;
-  }
-  .error {
-    color: red;
-    margin-bottom: 5px;
-  }
+		margin-top: 10px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	div {
+		display: flex;
+		gap: 6px;
+		margin: 30px 0 20px 0;
+	}
+	svg {
+		position: absolute;
+		right: 20px;
+		top: 56px;
+		cursor: pointer;
+		transition: 0.5s ease;
+	}
+	.check {
+		margin: -10px 0;
+	}
+	.error {
+		color: red;
+		margin-bottom: 5px;
+	}
 `;
 
 export const Img = styled.div<{ background: string }>`
-  width: 80px;
-  height: 80px;
-  margin: 18px 0 18pxpx 0;
-  background: ${({background}) => background};
-  border-radius: 50%;
+	width: 80px;
+	height: 80px;
+	margin: 18px 0 18pxpx 0;
+	background: ${({ background }) => background};
+	border-radius: 50%;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 `;
 
 export const Top = styled.div`
-  height: 70px;
-  background: #F7FAFC;
-  position: relative;
-  .close-button {
-    position: absolute;
-    right: 18px;
-    top: 18px;
-    cursor: pointer;
-  }
+	height: 70px;
+	background: #f7fafc;
+	position: relative;
+	.close-button {
+		position: absolute;
+		right: 18px;
+		top: 18px;
+		cursor: pointer;
+	}
 `;
 
 export const ResendButton = styled.button`
-  display: inline-block;
-  color: #000;
-  border:0;
-  outline:0;
-  cursor:pointer;
-  font-size:14px;
-  background:transparent;
-  font-weight: 700 !important;
-`
+	display: inline-block;
+	color: #000;
+	border: 0;
+	outline: 0;
+	cursor: pointer;
+	font-size: 14px;
+	background: transparent;
+	font-weight: 700 !important;
+`;
 
 export const SuccessContainer = styled.div`
-  display: flex; 
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 18px;
-  height: calc(100% - 100px);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	gap: 18px;
+	height: calc(100% - 100px);
 `;

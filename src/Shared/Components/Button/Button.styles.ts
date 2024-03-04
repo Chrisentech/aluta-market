@@ -22,6 +22,7 @@ export const Container = styled.button<IButtonInterface>`
   justify-content: center;
   cursor:pointer;
   align-items: center;
+  font-size:14px;
   gap: ${({ gap }) => (gap ? gap : "10px")};
   width: ${({ width }) => (width ? width : "150px")};
   height: ${({ height }) => (height ? height : "40px")};

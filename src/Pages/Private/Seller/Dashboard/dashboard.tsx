@@ -20,12 +20,12 @@ import { IoWalletOutline, IoCartOutline } from "react-icons/io5";
 import {
 	BsThreeDotsVertical,
 	BsDot,
-	BsThreeDots,
 	BsCalendar,
 	BsCaretUpFill,
 } from "react-icons/bs";
 import { FiBarChart2 } from "react-icons/fi";
 import { IoIosCheckmarkCircle } from "react-icons/io";
+import { cloth, phone, wallet, watch, wristwatch } from "../../../../assets";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -37,11 +37,15 @@ import {
 	selectStores,
 } from "../../../../Features/store/storeSlice";
 import { ROUTE } from "../../../../Shared/Constants";
+import { OrderCard } from "../Orders/orders.styles";
 const { Charts, Pie } = Visuals;
 
 const Screen: React.FC = () => {
 	const store = useSelector(selectStore);
 	const nav = useNavigate();
+	let isMobile: any = localStorage.getItem("isMobile") ?? "";
+	isMobile = isMobile === "true" ? true : false;
+
 	const gridItem = [
 		<GridItem background="#00B517">
 			<div className="topIcon">
@@ -89,7 +93,7 @@ const Screen: React.FC = () => {
 					<IoWalletOutline color="#fff" size="24" />
 				</div>
 			</div>
-			{!store?.bank&&store ? (
+			{!store?.bank && store ? (
 				<div
 					style={{
 						cursor: "pointer",
@@ -113,75 +117,68 @@ const Screen: React.FC = () => {
 	];
 	const data = [
 		{
-			id: 1,
-			name: "John Doe",
-			email: "lorem@gmail.com",
+			img: cloth,
+			item: "Hoodie",
+			// category: "Cloth",
 			price: "N3000",
-			status: "Pending",
-			date: "18 Aug 2023",
+			// quantity: "10",
+			options: "10",
+			stock: "18 Aug 2023",
 		},
 		{
-			id: 2,
-			name: "Jane Smith",
-			email: "ipsum@gmail.com",
+			img: phone,
+			item: "Iphone 13 pro",
+			// category: "Mobile Phone & PC",
 			price: "N7000",
-			date: "12 Aug 2023",
-			status: "Delivered",
+			options: "10",
+			stock: "12 Aug 2023",
+			// quantity: "5",
 		},
 		{
-			id: 3,
-			name: "Mike Johnson",
-			email: "dolor@gmail.com",
-			date: "16 Aug 2023",
+			options: "10",
+			img: wallet,
+			item: "Mini Wallet",
+			// category: "Accessories",
+			stock: "16 Aug 2023",
 			price: "N2000",
-			status: "Cancelled",
+			// quantity: "1",
 		},
 		{
-			id: 4,
-			name: "Alice Brown",
-			email: "alice@gmail.com",
-			date: "19 Aug 2023",
+			img: watch,
+			options: "10",
+			item: "Rolex watch",
+			// category: "Accessories",
+			stock: "19 Aug 2023",
 			price: "N4000",
-			status: "Pending",
+			// quantity: "10",
 		},
 		{
-			id: 5,
-			name: "Bob Smith",
-			email: "bob@gmail.com",
-			date: "20 Aug 2023",
+			img: phone,
+			options: "10",
+			item: "Iphone 12",
+			// category: "Mobile Phone & PC",
+			stock: "20 Aug 2023",
 			price: "N6000",
-			status: "Delivered",
-		},
-		{
-			id: 6,
-			name: "Eve Johnson",
-			email: "eve@gmail.com",
-			date: "22 Aug 2023",
-			price: "N3500",
-			status: "Pending",
-		},
-		{
-			id: 7,
-			name: "Michael Brown",
-			email: "michael@gmail.com",
-			date: "25 Aug 2023",
-			price: "N5000",
-			status: "Delivered",
+			// quantity: "5",
 		},
 	];
 
 	const columns = [
-		{ header: "ID", accessor: "id" },
-		{ header: "Name", accessor: "name" },
-		{ header: "Email", accessor: "email" },
+		{ header: "", accessor: "img" },
+		{ header: "Item", accessor: "item" },
 		{ header: "Price", accessor: "price" },
-		{ header: "Status", accessor: "status" },
-		{ header: "Date", accessor: "date" },
+		{ header: "Options", accessor: "options" },
+		{ header: "in-stock", accessor: "stock" },
 	];
 	return (
 		<Wrapper>
 			<h2>Seller Dashboard</h2>
-			<View mode="grid" gridItems={gridItem} />
+			<View
+				mode="grid"
+				gridItems={gridItem}
+				itempergrid={isMobile ? 2 : 4}
+				className="dash_grid"
+			/>
 			<Main>
 				<div className="first-section">
 					<Card
@@ -237,7 +234,53 @@ const Screen: React.FC = () => {
 					</Card>
 				</div>
 			</Main>
-			<TableWrapper>
+			<Main>
+				<div className="first-section">
+					<TableWrapper>
+						<Card height="200px" width="100%">
+							<div className="flex">
+								<h2>Top Products</h2>
+							</div>
+							<Table data={data} columns={columns} />
+						</Card>
+					</TableWrapper>
+				</div>
+				<div className="second-section">
+					<Card width="inherit" borderRadius="20px" padding={"20px 30px "}>
+						<div className="flex">
+							<h2>Latest Orders</h2>
+						</div>
+						{Array(4)
+							.fill(".")
+							.map((_, index) => {
+								return (
+									<div className="order-card" key={index}>
+										<OrderCard>
+											<div className="top">
+												<div className="right">
+													<img src={wristwatch} className="img" />
+													<div className="info">
+														<p className="title">Headset and 2 other items</p>
+														<p className="price">N9,600</p>
+													</div>
+												</div>
+												<div className="icon">A</div>
+											</div>
+											<div className="bottom">
+												<label className="option">
+													<input type="checkbox" />
+													<span className="custom"></span>
+													Mark as Delivered
+												</label>
+											</div>
+										</OrderCard>
+									</div>
+								);
+							})}
+					</Card>
+				</div>
+			</Main>
+			{/* <TableWrapper>
 				<Card height="200px" width="100%">
 					<div className="flex">
 						<h2>Latest Orders</h2>
@@ -247,7 +290,7 @@ const Screen: React.FC = () => {
 					</div>
 					<Table data={data} columns={columns} />
 				</Card>
-			</TableWrapper>
+			</TableWrapper> */}
 		</Wrapper>
 	);
 };
@@ -264,9 +307,11 @@ const Dashboard = () => {
 		<Layout
 			layout="dashboard"
 			component={Screen}
-			state={stores.length === 0}
+			isLoading={false}
+			// isLoading={stores.length === 0}
 			showModal={activeModal}
 			popUpContent={<LogoutModal />}
+			navMode="noSearch"
 		/>
 	);
 };

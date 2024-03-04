@@ -3,6 +3,7 @@ import styled from "styled-components";
 // import { AppColors } from "../../../../../Shared/Constants";
 
 export const Wrapper = styled.div`
+margin:30px 0;
   .top {
     display: flex;
     flex-direction: row;
@@ -148,43 +149,43 @@ export const Wrapper = styled.div`
 `;
 
 export const GridItem = styled.div<{ background: string }>`
-  border-radius: 6px;
-  background: ${({ background }) => (background ? background + "4d" : "")};
-  height: 265px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  flex-direction: column;
-  width: 100%;
-  .badge {
-    width: 50px;
-    height: 50px;
-    background: #fff;
-  }
+	border-radius: 6px;
+	background: ${({ background }) => (background ? background + "4d" : "")};
+	height: 265px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	flex-direction: column;
+	width: 100%;
+	.badge {
+		width: 50px;
+		height: 50px;
+		background: #fff;
+	}
 
-  .title {
-    color: #000;
-    text-align: center;
-    font-feature-settings: "clig" off, "liga" off;
-    /* Title-H4 */
-    font-family: Inter;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 28px; /* 140% */
-    letter-spacing: -0.2px;
-  }
-  .label {
-    color: var(--gray-600, #505050);
-    text-align: center;
-    font-feature-settings: "clig" off, "liga" off;
-    font-family: Inter;
-    font-size: 13px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    width: 80%;
-    margin: 20px auto;
-  }
+	.title {
+		color: #000;
+		text-align: center;
+		font-feature-settings: "clig" off, "liga" off;
+		/* Title-H4 */
+		font-family: Inter;
+		font-size: 20px;
+		font-style: normal;
+		font-weight: 600;
+		line-height: 28px; /* 140% */
+		letter-spacing: -0.2px;
+	}
+	.label {
+		color: var(--gray-600, #505050);
+		text-align: center;
+		font-feature-settings: "clig" off, "liga" off;
+		font-family: Inter;
+		font-size: 13px;
+		font-style: normal;
+		font-weight: 400;
+		line-height: normal;
+		width: 80%;
+		margin: 20px auto;
+	}
 `;

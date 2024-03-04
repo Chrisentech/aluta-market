@@ -43,27 +43,10 @@ const Footer: React.FC = () => {
 							<NavLink to="#">About Us</NavLink>
 						</li>
 						<li>
-							<NavLink to="#">Find store</NavLink>
+							<NavLink to="#">FAQs</NavLink>
 						</li>
 						<li>
-							<NavLink to="#">Categories</NavLink>
-						</li>
-						<li>
-							<NavLink to="#">Blogs</NavLink>
-						</li>
-					</ul>
-				</FooterItems>
-				<FooterItems>
-					<h3>Partnership</h3>
-					<ul>
-						<li>
-							<NavLink to="#">About Us</NavLink>
-						</li>
-						<li>
-							<NavLink to="#">Find store</NavLink>
-						</li>
-						<li>
-							<NavLink to="#">Categories</NavLink>
+							<NavLink to="#">Our Stations</NavLink>
 						</li>
 						<li>
 							<NavLink to="#">Blogs</NavLink>
@@ -74,16 +57,16 @@ const Footer: React.FC = () => {
 					<h3>Information</h3>
 					<ul>
 						<li>
-							<NavLink to="#">Help center</NavLink>
+							<NavLink to="#">Categories</NavLink>
 						</li>
 						<li>
-							<NavLink to="#">Money Refund</NavLink>
+							<NavLink to="#">Return Policy</NavLink>
 						</li>
 						<li>
-							<NavLink to="#">Shipping</NavLink>
+							<NavLink to="#">Contact Us</NavLink>
 						</li>
 						<li>
-							<NavLink to="#">Contact us</NavLink>
+							<NavLink to="#">Terms and Conditions</NavLink>
 						</li>
 					</ul>
 				</FooterItems>

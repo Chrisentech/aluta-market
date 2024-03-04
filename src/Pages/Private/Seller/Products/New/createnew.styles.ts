@@ -116,12 +116,12 @@ export const Wrapper = styled.div`
   }
 `;
 export const ErrorMessageWrapper = styled.div`
-  color: red;
-  margin-bottom: 5px;
+	color: red;
+	margin-bottom: 5px;
 `;
 export const Container = styled.div`
-  width: 600px;
-  margin: 30px auto;
+	width: 600px;
+	margin: 30px auto;
 `;
 
 export const ImageWrapper = styled.div`
@@ -181,170 +181,176 @@ export const ImageWrapper = styled.div`
   }
 `;
 export const FormControl = styled.div`
-  box-sizing: border-box;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  position: relative;
+	box-sizing: border-box;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	position: relative;
 
-  // svg {
-  //   position: absolute;
-  //   right: 20px;
-  //   top: 56px;
-  //   cursor: pointer;
-  //   transition: 0.5s ease;
-  // }
-  .check {
-    margin: -10px 0;
-  }
+	// svg {
+	//   position: absolute;
+	//   right: 20px;
+	//   top: 56px;
+	//   cursor: pointer;
+	//   transition: 0.5s ease;
+	// }
+	.check {
+		margin: -10px 0;
+	}
 `;
 export const Flex = styled.div`
-  display: flex;
-  gap: 15px;
+	display: flex;
+	gap: 15px;
 `;
 
 export const Label = styled.label`
-  color: #505050;
-  position: relative;
-  font-family: Inter;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  display: block;
-  span {
-    color: ${AppColors.brandOrange};
-  }
-  .info {
-    color: #505050;
-    font-family: Inter;
-    font-size: 12px;
-    font-weight: 400;
-  }
+	color: #505050;
+	position: relative;
+	font-family: Inter;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+	display: block;
+	span {
+		color: ${AppColors.brandOrange};
+	}
+	.info {
+		color: #505050;
+		font-family: Inter;
+		font-size: 12px;
+		font-weight: 400;
+	}
 `;
 
 export const Input = styled(Field)<{
-  error?: boolean;
-  type?: string;
-  readOnly?: boolean;
-  height?: string;
+	error?: boolean;
+	type?: string;
+	readOnly?: boolean;
+	height?: string;
 }>`
-  width: ${(props: any) =>
-    props.type === "checkbox" ? "unset" : "calc(100% -  40px)"};
-  height: ${(props: any) => (props.height ? props.height : "inherit")};
-  padding: 20px;
-  border-radius: 10px;
-  color: ${(props: any) =>
-    props.readOnly ? `${AppColors.brandColor}` : "inherit"};
-  background: ${(props: any) => (props.readOnly ? "#bdc4cd" : "#f7fafc")};
-  border: ${(props: any) => (props.error ? "1px solid red" : "0")};
-  outline: 0;
-  margin: 5px 0px 10px 0;
-  cursor: ${(props: any) => (props.readOnly ? `not-allowed` : "inherit")};
+	width: ${(props: any) =>
+		props.type === "checkbox" ? "unset" : "calc(100% -  40px)"};
+	height: ${(props: any) => (props.height ? props.height : "inherit")};
+	padding: 20px;
+	border-radius: 10px;
+	color: ${(props: any) =>
+		props.readOnly ? `${AppColors.brandColor}` : "inherit"};
+	background: ${(props: any) => (props.readOnly ? "#bdc4cd" : "#f7fafc")};
+	border: ${(props: any) => (props.error ? "1px solid red" : "0")};
+	outline: 0;
+	margin: 5px 0px 10px 0;
+	cursor: ${(props: any) => (props.readOnly ? `not-allowed` : "inherit")};
 `;
 
 export const TextEditor = styled.div<{
-  error?: boolean;
-  type?: string;
-  readOnly?: boolean;
-  height?: string;
+	error?: boolean;
+	type?: string;
+	readOnly?: boolean;
+	height?: string;
+	width?: string;
 }>`
-  .ql-container {
-    width: ${(props: any) =>
-      props.type === "checkbox" ? "unset" : "calc(100% -  40px)"};
-    height: ${(props: any) => (props.height ? props.height : "inherit")};
-    padding: 20px;
-    border-radius: 10px;
-    color: ${(props: any) =>
-      props.readOnly ? `${AppColors.brandColor}` : "inherit"};
-    background: ${(props: any) => (props.readOnly ? "#bdc4cd" : "#f7fafc")};
-    border: ${(props: any) => (props.error ? "1px solid red" : "0")};
-    outline: 0;
-    margin: 5px 0px 10px 0;
-    cursor: ${(props: any) => (props.readOnly ? `not-allowed` : "inherit")};
-  }
-  // Overiding Editor styles
-  .rdw-editor-toolbar {
-    border-radius: 10px !important;
-  }
-  .rdw-editor-main {
-    background: #f7fafc;
-    height: 150px;
-    overflow: auto;
-    margin-bottom: 10px;
-    padding: 0 10px;
-    li, ol {
-      list-style: square !important;
-    }
-  }
-  .rdw-option-wrapper{
-    border:none !important
-  }
-  .rdw-option-active{
-    box-shadow:none !immportant;
-    background:#f7fafc !important;
-  }
+	.ql-editor {
+		padding: unset;
+	}
+	.ql-container {
+		width: ${(props: any) =>
+			props.width ? props.width : "calc(100% -  40px)"};
+		height: ${(props: any) => (props.height ? props.height : "inherit")};
+		overflow-y: ${(props: any) => (props.height ? "auto" : "inherit")};
+		padding: 20px;
+		border-radius: 10px;
+		color: ${(props: any) =>
+			props.readOnly ? `${AppColors.brandColor}` : "inherit"};
+		background: ${(props: any) => (props.readOnly ? "#bdc4cd" : "#f7fafc")};
+		border: ${(props: any) => (props.error ? "1px solid red" : "0")};
+		outline: 0;
+		margin: 5px 0px 10px 0;
+		cursor: ${(props: any) => (props.readOnly ? `not-allowed` : "inherit")};
+	}
+	// Overiding Editor styles
+	.rdw-editor-toolbar {
+		border-radius: 10px !important;
+	}
+	.rdw-editor-main {
+		background: #f7fafc;
+		height: 150px;
+		overflow: auto;
+		margin-bottom: 10px;
+		padding: 0 10px;
+		li,
+		ol {
+			list-style: square !important;
+		}
+	}
+	.rdw-option-wrapper {
+		border: none !important;
+	}
+	.rdw-option-active {
+		box-shadow: none !immportant;
+		background: #f7fafc !important;
+	}
 `;
 
 export const Incrementor = styled.div<{ small?: boolean }>`
-display:flex;
-position:relative;
-width:${({ small }) => (small ? "84px" : "200px")};
-height:${({ small }) => (small ? "28px" : "unset")};
-.leftButton{
-  border-radius:6px 0 0 6px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding: ${({ small }) => small ? "5px" : "10px"};
-  border:1px solid ${AppColors.brandGray};
-  cursor:pointer;
-  flex:0.2; 
-  svg{
-    position:unset !important
-  }
-}
-.rightButton{
-  border-radius: 0  6px 6px 0;
-  display:flex;
-  border:1px solid ${AppColors.brandGray};
-  justify-content:center;
-  padding: ${({ small }) => small ? "5px" : "10px"};
-  flex:0.2;
-  cursor:pointer;
-  align-items:center;
-  svg{
-    position:unset !important
-  }
-}
-.main{
-  display:flex;
-  justify-content:center;
-  border:1px solid ${AppColors.brandGray};
-  padding:10px;
-  flex:0.6;
-  align-items:center;
-  cursor:not-allowed;
-  outline:0
-}
+	display: flex;
+	position: relative;
+	width: ${({ small }) => (small ? "84px" : "200px")};
+	height: ${({ small }) => (small ? "28px" : "unset")};
+	.leftButton {
+		border-radius: 6px 0 0 6px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: ${({ small }) => (small ? "5px" : "10px")};
+		border: 1px solid ${AppColors.brandGray};
+		cursor: pointer;
+		flex: 0.2;
+		svg {
+			position: unset !important;
+		}
+	}
+	.rightButton {
+		border-radius: 0 6px 6px 0;
+		display: flex;
+		border: 1px solid ${AppColors.brandGray};
+		justify-content: center;
+		padding: ${({ small }) => (small ? "5px" : "10px")};
+		flex: 0.2;
+		cursor: pointer;
+		align-items: center;
+		svg {
+			position: unset !important;
+		}
+	}
+	.main {
+		display: flex;
+		justify-content: center;
+		border: 1px solid ${AppColors.brandGray};
+		padding: 10px;
+		flex: 0.6;
+		align-items: center;
+		cursor: not-allowed;
+		outline: 0;
+	}
 `;
 export const OptionButton = styled.button`
-  background: #f7fafc;
-  border: none;
-  outline: none;
-  color: ${AppColors.brandOrange};
-  padding: 12px 10px !important;
-  font-family: Inter;
-  width: 100%;
-  font-size: 16px;
-  // margin: 20px 0;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  border-radius: 6px;
-  margin-top: 23px;
-  cursor: pointer;
+	background: #f7fafc;
+	border: none;
+	outline: none;
+	color: ${AppColors.brandOrange};
+	padding: 12px 10px !important;
+	font-family: Inter;
+	width: 100%;
+	font-size: 16px;
+	// margin: 20px 0;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+	border-radius: 6px;
+	margin-top: 23px;
+	cursor: pointer;
 `;
 
 export const Modal = styled.div`
@@ -459,8 +465,8 @@ export const Modal = styled.div`
 `;
 
 export const ModalWrapper = styled.div`
-    width: 400px;
-    box-sizing: border-box;
+	width: 400px;
+	box-sizing: border-box;
 `;
 
 export const SizeVariantCard = styled.div`
@@ -505,35 +511,34 @@ export const SizeVariantCard = styled.div`
   }
 `;
 
-export const Img = styled.div<{background: string}>`
-  min-width: 50px;
-  min-height: 50px;
-  border-radius: 6px;
-  border: 1px solid #DEE2E7;
-  background: ${({background}) => background ? `url(${background})`: "#FFF"};
-  background-size: contain;
-  background-repeat: no-repeat;
+export const Img = styled.div<{ background: string }>`
+	min-width: 50px;
+	min-height: 50px;
+	border-radius: 6px;
+	border: 1px solid #dee2e7;
+	background: ${({ background }) =>
+		background ? `url(${background})` : "#FFF"};
+	background-size: contain;
+	background-repeat: no-repeat;
 `;
 
 export const ColorVariantCard = styled.div`
-  font-family: Inter;
+	font-family: Inter;
 
-  label {
-    color: #505050;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: -0.2px;
+	label {
+		color: #505050;
+		font-size: 12px;
+		font-weight: 500;
+		letter-spacing: -0.2px;
 
-    input {
-      height: 50px;
-      border: none;
-      outline: none;
-      background: #F7FAFC;
-      font-size: 16px;
-    }
-  }
+		input {
+			height: 50px;
+			border: none;
+			outline: none;
+			background: #f7fafc;
+			font-size: 16px;
+		}
+	}
 `;
 
-export const ConditionVariantCard = styled.div`
-
-`;
+export const ConditionVariantCard = styled.div``;

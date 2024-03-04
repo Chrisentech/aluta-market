@@ -11,8 +11,10 @@ const Card: React.FC<ICardInterface> = ({
 	onHover,
 	className,
 	padding,
+	allowBorders,
 	color,
 	children,
+	onClick,
 }) => {
 	return (
 		<Container
@@ -23,9 +25,11 @@ const Card: React.FC<ICardInterface> = ({
 				typeof borderRadius === "number" ? borderRadius + "px" : borderRadius
 			}
 			hasBoxShadow={hasBoxShadow}
+			allowBorders={allowBorders}
 			background={background}
 			className={className}
 			onHover={onHover}
+			onClick={onClick}
 			padding={typeof padding === "number" ? padding + "px" : padding}
 		>
 			{children}
@@ -39,6 +43,7 @@ Card.defaultProps = {
 	borderRadius: 4,
 	background: "white",
 	onHover: true,
+	className: "card",
 };
 
 export default Card;

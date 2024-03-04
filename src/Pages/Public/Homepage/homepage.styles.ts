@@ -25,26 +25,67 @@ export const Hero = styled.section`
 	border: 1px solid var(--gray-300);
 	margin: 30px auto;
 	padding: 10px 20px;
-
+	border-radius: 10px;
+	@media (max-width: 780px) {
+		display: block !important;
+	}
+	@media (max-width: 480px) {
+		height: unset !important;
+		min-height: 400px;
+	}
+	.flex {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		@media (max-width: 1530px) {
+			&.tt {
+				// margin-top: 62px;
+			}
+			span {
+				font-weight: 700;
+				font-size: 48px;
+				background: linear-gradient(to right, #ff7612, #ff001f, #ff7612);
+				-webkit-background-clip: text;
+				background-clip: text;
+				color: transparent;
+				@media (max-width: 780px) {
+					font-size: 37px;
+				}
+			}
+		}
+		@media (max-width: 780px) {
+			flex-direction: column-reverse;
+		}
+		@media (min-width: 1531px) {
+			div {
+				flex: 1;
+				font-weight: 400;
+				line-height: 36.99px;
+				&.tt {
+					padding: 20px 40px;
+				}
+				span {
+					font-weight: 700;
+					font-size: 61px;
+					background: linear-gradient(to right, #ff7612, #ff001f, #ff7612);
+					-webkit-background-clip: text;
+					background-clip: text;
+					color: transparent;
+				}
+			}
+		}
+	}
 	.banner {
 		background-size: cover;
 		background-position: top center;
 		margin: auto;
-		div {
-			position: relative;
-			top: 56px;
-			left: 44px;
-			p:first-child {
-				font-size: 28px;
-			}
-			p:nth-child(2) {
-				font-size: 32px;
-				font-weight: 700;
-			}
-			button {
-				margin-top: 17px;
-				font-size: 16px;
-				font-weight: 500;
+		@media (max-width: 780px) {
+			width: 93% !important;
+			border: 0 !important;
+			&:hover {
+				box-shadow: none !important;
+				transform: translateY(0px) !important;
 			}
 		}
 	}
@@ -58,7 +99,9 @@ export const Hero = styled.section`
 		justify-content: space-between;
 		flex-direction: column;
 		font-size: 16px;
-
+		@media (max-width: 780px) {
+			display: none;
+		}
 		.category {
 			border-radius: 6px;
 			padding: 10px;
@@ -75,6 +118,9 @@ export const Hero = styled.section`
 		}
 	}
 	.card-section {
+		@media (max-width: 780px) {
+			display: none;
+		}
 		.card1 {
 			display: flex;
 			flex-direction: column;
@@ -199,7 +245,13 @@ export const GridContainer = styled.div`
 	grid-template-columns: 288px repeat(4, 4fr);
 	grid-template-rows: repeat(2, 127px);
 	font-family: inter;
-
+	@media (max-width: 1280px) {
+		grid-template-columns: 216px repeat(4, 4fr);
+	}
+	@media (max-width: 1200px) {
+		height: unset;
+		display: block;
+	}
 	.first {
 		padding: 22px;
 		background-position: center center;
@@ -207,7 +259,8 @@ export const GridContainer = styled.div`
 			display: flex;
 			flex-direction: column;
 			gap: 10px;
-			width: 30%;
+			margin-top: 58px;
+			// width: 30%;
 			font-size: 20px;
 			font-weight: 600;
 			line-height: 26px;
@@ -248,11 +301,13 @@ export const GridItem = styled.div<GridItemProps>`
 	transition: background-size 5s ease;
 	background-size: cover;
 
-	p {
+	h2 {
 		// justify-self: flex-start;
 		// align-self: flex-start;
-		font-size: 16px;
-		font-weight: 400;
+		font-size: 20px;
+		font-weight: 600;
+		line-height: 26px;
+		width: 100%;
 	}
 `;
 
@@ -274,7 +329,13 @@ export const ProductRequestForm = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	overflow: hidden;
-
+	@media (max-width: 1280px) {
+		flex-direction: column;
+		height: unset;
+	}
+	@media (max-width: 780px) {
+		padding: 20px;
+	}
 	&::before {
 		content: "";
 		position: absolute;
@@ -295,10 +356,18 @@ export const ProductRequestForm = styled.div`
 		height: 346px;
 		color: #fff;
 		z-index: 2;
+		@media (max-width: 1280px) {
+			width: unset;
+			height: unset;
+			margin: 20px 0;
+		}
 		h2 {
 			font-size: 32px;
 			font-weight: 600;
 			letter-spacing: -0.2px;
+			@media (max-width: 780px) {
+				font-size: 24px;
+			}
 		}
 		p {
 			margin-top: 10px;
@@ -306,6 +375,9 @@ export const ProductRequestForm = styled.div`
 			font-weight: 400;
 			line-height: 24px;
 			letter-spacing: -0.2px;
+			@media (max-width: 780px) {
+				font-size: 14px;
+			}
 		}
 	}
 `;
@@ -323,6 +395,20 @@ export const FormContainer = styled.form`
   padding: 20px;
   z-index: 2;
   border-radius: 6px;
+  	@media(max-width: 1280px) {
+			width: unset;
+			height: unset;
+			input,textarea,select{
+				margin:5px 0
+			}
+		}
+		@media(max-width: 680px) {
+			width: unset;
+			input,textarea,select{
+							width: unset !important;
+
+			}
+		}
   h2 {
     font-size: 20px;
     font-weight: 600;
@@ -339,6 +425,10 @@ export const FormContainer = styled.form`
     padding-left: 10px;
     border-radius: 6px;
   }
+  select{
+	@media(max-width: 1280px) {
+			    width: 100%
+		}}
   textarea {
     box-sizing: border-box;
     width: 440px;
@@ -377,6 +467,10 @@ export const FormContainer = styled.form`
     color: #fff;
     border: none;
     width: 200px;
+		@media(max-width: 1280px) {
+			    width: 100%;
+				margin:20px 0
+		}
     &:hover {
       box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
       transform: translateY(-1px);
@@ -393,19 +487,25 @@ export const Services = styled.form`
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-
+	@media (max-width: 780px) {
+		flex-direction: column;
+	}
 	.service-card {
 		overflow: hidden;
 		display: flex;
 		flex-direction: column;
 		width: 24%;
-		height: 200px;
+		min-height: 200px;
 		border: 1px solid #dee2e7;
 		border-radius: 6px;
+		@media (max-width: 780px) {
+			width: 100%;
+			margin: 10px 0;
+		}
 		.card-top {
 			position: relative;
 			img {
-				height: 100%;
+				width: 100%;
 			}
 			&::before {
 				content: "";
@@ -419,17 +519,24 @@ export const Services = styled.form`
 			}
 		}
 		.card-bottom {
-			height: 200px;
+			// height: 200px;
 			background: white;
 			.divider {
 				position: relative;
 				top: -35px;
 				left: 80%;
+				@media (max-width: 780px) {
+					left: 88%;
+				}
+				@media (max-width: 500px) {
+					left: 80%;
+				}
 			}
 			p {
 				position: relative;
 				top: -40px;
 				left: 20px;
+				width: 60%;
 				color: #1c1c1c;
 				font-family: inter;
 				font-size: 16px;
@@ -458,6 +565,45 @@ export const Divider = styled.div<{ color?: string }>`
 
 export const Header1 = styled.h2`
 	width: 90%;
-	margin: 25px auto;
 	margin: 30px auto;
+	// @media (max-width: 780px) {
+	// 	font-size: 13px;
+	// }
+`;
+
+export const Newsletter = styled.div`
+	// width: 100%;
+	padding: 60px 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	background: #eff2f4;
+	h2 {
+		font-size: 20px;
+		font-weight: 600;
+		letter-spacing: -0.2px;
+	}
+	p {
+		color: #606060;
+		margin: 15px 0;
+	}
+	input {
+		padding: 8px 12px;
+		padding-left: 27px;
+		background: #fff;
+		border-radius: 5px;
+		border: 0;
+		outline: 0;
+	}
+	div {
+		display: flex;
+		gap: 8px;
+	}
+	svg {
+		position: absolute;
+		bottom: 68px;
+		margin-left: 5px;
+	}
 `;

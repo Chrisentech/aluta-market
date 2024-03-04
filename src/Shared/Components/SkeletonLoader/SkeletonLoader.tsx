@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
+import logo from "../../../assets/gray_logo.png";
 
 // Skeleton styles
 const skeletonAnimation = keyframes`
@@ -37,11 +38,14 @@ const SkeletonContainer = styled.div`
 
 const SkeletonImage = styled.div<any>`
 	height: 200px;
-	width: ${({width})=>(width ? width:"200px")};
+	width: ${({ width }) => (width ? width : "200px")};
 	border-radius: 6px;
 	background: #e5e4e2;
 	margin-top: 10px;
 	animation: ${skeletonAnimation} 1.5s infinite;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 `;
 
 // const SkeletonFooter = styled.div`
@@ -53,14 +57,13 @@ const SkeletonImage = styled.div<any>`
 // 	animation: ${skeletonAnimation} 1.5s infinite;
 // `;
 
-const SkeletonLoader: React.FC<any> = ({width}) => {
+const SkeletonLoader: React.FC<any> = ({ width, className }) => {
 	return (
-		<SkeletonContainer>
+		<SkeletonContainer className={className}>
 			{/* <SkeletonAvatar /> */}
-			<SkeletonImage width={width}/>
-			{/* <SkeletonAuthor /> */}
-
-			{/* <SkeletonFooter /> */}
+			<SkeletonImage width={width}>
+				<img src={logo} alt="" width={50} />
+			</SkeletonImage>
 		</SkeletonContainer>
 	);
 };

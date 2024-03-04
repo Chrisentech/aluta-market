@@ -26,8 +26,9 @@ export default function useUsers() {
 			mutation: CREATE_USER,
 			variables: { input },
 		});
-		if (response.data.createUser)
+		if (response.data.createUser) {
 			dispatch(actions.registerUser(response.data.createUser));
+		}
 	};
 
 	const verifyOTP = async (input: IVerifyOTPProps) => {
@@ -46,7 +47,7 @@ export default function useUsers() {
 		});
 		if (response.data.loginUser) {
 			dispatch(actions.setToken(response?.data?.loginUser?.access_token));
-			setCookie("access_token", response?.data?.access_token,7)
+			setCookie("access_token", response?.data?.access_token, 7);
 			await getMe(response.data.loginUser.id);
 			getWishlist(response.data.loginUser.id);
 			return response.data.loginUser;

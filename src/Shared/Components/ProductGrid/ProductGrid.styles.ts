@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { IProductGridProps } from '../../../Interfaces';
+import styled from "styled-components";
+import { IProductGridProps } from "../../../Interfaces";
 
 export const Container = styled.div<IProductGridProps>`
 	box-sizing: border-box;
@@ -13,10 +13,20 @@ export const Container = styled.div<IProductGridProps>`
 	grid-row-gap: 20px;
 	margin: 20px auto;
 	gap: 10px;
+	@media (max-width: 800px) {
+		grid-template-columns: repeat(1, 1fr);
+		grid-template-rows: repeat(4, 1fr);
+	}
+	.ad {
+		@media (max-width: 800px) {
+			color: red;
+		}
+	}
 	.card {
 		display: flex;
 		flex-direction: column;
 		border: solid 1px #dee2e7;
+
 		.image {
 			background: ${({ background }) => (background ? background : "#FFF")};
 			display: flex;
@@ -37,7 +47,7 @@ export const Container = styled.div<IProductGridProps>`
 				font-style: normal;
 				font-weight: 500;
 				line-height: 22px; /* 137.5% */
-				margin:10px 0;
+				margin: 10px 0;
 			}
 			.name {
 				color: var(--gray-500, #8b96a5);

@@ -53,37 +53,40 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 		}
 	};
 
-
-  useEffect(() => {
-    // Based on the current path, update the active state
-    if (currentPath === ROUTE.SELLER_DASHBOARD) {
-      setActive("dashboard");
-    } else if (
-      currentPath === ROUTE.SELLER_PRODUCTS ||
-      currentPath === ROUTE.SELLER_ADDPRODUCT ||
-      currentPath === ROUTE.SELLER_NEWPRODUCT
-    ) {
-      setActive("products");
-    } else if (currentPath === "#") {
-      setActive("orders");
-    } else if (
-      currentPath === ROUTE.SELLER_PAYMENT ||
-      currentPath.includes(ROUTE.SELLER_PAYMENT_REG)
-    ) {
-      setActive("payments");
-    } else if (currentPath === ROUTE.SELLER_REVIEWS) {
-      setActive("reviews");
-    } else if (currentPath === ROUTE.SELLER_ORDERS) {
-			setActive("orders")
+	useEffect(() => {
+		localStorage.setItem("isDashboard", "true");
+	}, []);
+	useEffect(() => {
+		// Based on the current path, update the active state
+		if (currentPath === ROUTE.SELLER_DASHBOARD) {
+			setActive("dashboard");
+		} else if (
+			currentPath === ROUTE.SELLER_PRODUCTS ||
+			currentPath === ROUTE.SELLER_ADDPRODUCT ||
+			currentPath === ROUTE.SELLER_NEWPRODUCT ||
+			currentPath === ROUTE.SELLER_PRODUCTTYPE
+		) {
+			setActive("catalog");
+		} else if (currentPath === "#") {
+			setActive("orders");
+		} else if (
+			currentPath === ROUTE.SELLER_PAYMENT ||
+			currentPath.includes(ROUTE.SELLER_PAYMENT_REG)
+		) {
+			setActive("payments");
+		} else if (currentPath === ROUTE.SELLER_REVIEWS) {
+			setActive("reviews");
+		} else if (currentPath === ROUTE.SELLER_ORDERS) {
+			setActive("orders");
 		} else if (currentPath === ROUTE.SELLER_STORESETTINGS) {
-      setActive("settings");
-    } else if (currentPath === ROUTE.SELLER_PROFILE) {
-      setActive("profile");
-    } else {
-      setActive(""); // Set default active state here
-    }
-  }, [currentPath]);
-  return (
+			setActive("settings");
+		} else if (currentPath === ROUTE.SELLER_PROFILE) {
+			setActive("profile");
+		} else {
+			setActive(""); // Set default active state here
+		}
+	}, [currentPath]);
+	return (
 		<Wrapper>
 			<Sidebar>
 				<Dropdown
@@ -111,17 +114,17 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 							</Link>
 						</SidebarMenuLinks>
 						<SidebarMenuLinks
-							active={active === "products"}
-							onClick={() => setActive("products")}
+							active={active === "catalog"}
+							onClick={() => setActive("catalog")}
 							color="#FF001F"
 						>
 							<Link to={ROUTE.SELLER_PRODUCTS}>
-								{active === "products" ? (
+								{active === "catalog" ? (
 									<img src={shoppingCart} />
 								) : (
 									<img src={shoppingCartUnfilled} />
 								)}{" "}
-								Products
+								Catalog
 							</Link>
 						</SidebarMenuLinks>
 						<SidebarMenuLinks

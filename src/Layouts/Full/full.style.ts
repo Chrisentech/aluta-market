@@ -7,4 +7,7 @@ export const Wrapper = styled.div`
 	width: 100%;
 	position: absolute;
 	top: 80px;
+	@media (max-width: 780px) {
+		position: unset;
+	}
 `;

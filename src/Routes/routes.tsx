@@ -26,6 +26,7 @@ import {
 	SellerReviews,
 	SellerOrders,
 	OrderDetail,
+	ProductType,
 } from "../Pages/Private";
 import useAuthentication from "../Shared/Hooks/useAuth";
 import { setRedirectPath } from "../Shared/Utils/helperFunctions";
@@ -89,6 +90,16 @@ const Router: React.FC = () => {
 							component={SellerProducts}
 							authRoute
 							route={ROUTE.SELLER_PRODUCTS}
+						/>
+					}
+				/>
+				<Route
+					path={ROUTE.SELLER_PRODUCTTYPE}
+					element={
+						<PrivateRoute
+							component={ProductType}
+							authRoute
+							route={ROUTE.SELLER_PRODUCTTYPE}
 						/>
 					}
 				/>
@@ -205,7 +216,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
 	useEffect(() => {
 		if (route) {
 			setRedirectPath(route);
-		} 
+		}
 	}, [route]);
 
 	if (authRoute && !isAuthenticated) {

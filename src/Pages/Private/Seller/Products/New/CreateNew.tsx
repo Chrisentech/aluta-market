@@ -2,10 +2,6 @@ import React, { useRef, useState, useEffect } from "react";
 import Layout from "../../../../../Layouts";
 import { useDispatch, useSelector } from "react-redux";
 
-// import { convertFromRaw, EditorState } from "draft-js";
-import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-
 // import * as Icons from "images/icons";
 import {
 	Wrapper,
@@ -26,11 +22,19 @@ import {
 	ColorVariantCard,
 	// ConditionVariantCard,
 } from "./createnew.styles";
-import { AddProductImage, Card, Dropdown } from "../../../../../Shared/Components";
+import {
+	AddProductImage,
+	Card,
+	Dropdown,
+} from "../../../../../Shared/Components";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { MdDeleteOutline, MdOutlineAddHomeWork, MdOutlineCancel } from "react-icons/md";
-import {useLocation } from "react-router-dom";
+import {
+	MdDeleteOutline,
+	MdOutlineAddHomeWork,
+	MdOutlineCancel,
+} from "react-icons/md";
+import { useLocation } from "react-router-dom";
 import { Formik, Form, useFormikContext, useField } from "formik";
 import * as yup from "yup";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -58,6 +62,7 @@ const initialValues: IProductProps = {
 	category: 0,
 	subcategory: 0,
 	description: "",
+	thumbnail: "",
 	// option: [],
 };
 
@@ -81,9 +86,9 @@ const Screen: React.FC = () => {
 		location.state?.fileData ?? []
 	); // Changed the type to string[] to hold Blob URLs
 	const [imageUrls, setImageUrls] = useState<string[]>([]);
+	const [description, setDescription] = useState("");
 	const [quantity, setQuantity] = useState<number>(1);
 	const hiddenInputRef = useRef<HTMLInputElement | null>(null);
-
 
 	useEffect(() => {
 		// Retrieve the URL parameter containing the file data
@@ -103,19 +108,11 @@ const Screen: React.FC = () => {
 	}, [files]);
 	const reduxCategory = useSelector(selectCategory);
 	const reduxCategories = useSelector(selectCategories);
-	const [thumbnail, setthumbnail] = useState<string | undefined>(
-		imageUrls[0]
-	);
+	const [thumbnail, setthumbnail] = useState<string | undefined>(imageUrls[0]);
 
 	const [content, setContent] = useState("");
 	const { createProduct, getCategories, getCategory } = useProducts();
-	const handleContentChange = (text: any) => {
-		console.log(text.blocks);
-		console.log(content);
 
-		setContent(text.blocks);
-		// console.log(convertFromRaw(text.blocks))
-	};
 	const handleSelectCategory = async (name: string) => {
 		const cat = reduxCategories.find((el: any) => el.name === name);
 		await getCategory(cat.id);
@@ -136,15 +133,15 @@ const Screen: React.FC = () => {
 	};
 
 	const handleSubmit = async (values: IProductProps) => {
-		let payload:any = {
+		let payload: any = {
 			...values,
-      option:null,
+			option: null,
 			category: parseInt(reduxCategory.id ?? ""),
 			subcategory: "",
 			images: imageUrls,
-      thumbnail,
-      quantity,
-      store:"Fola's Store",
+			thumbnail,
+			quantity,
+			store: "Fola's Store",
 		};
 		try {
 			console.log("Form submitted:", payload);
@@ -174,6 +171,83 @@ const Screen: React.FC = () => {
 	};
 	const handleDecreaseQuantity = (q: number) => {
 		if (quantity > 1) setQuantity(--q);
+	};
+	const handleProcedureContentChange = (content: any) => {
+		setDescription(content);
+	};
+	const formats = [
+		"header",
+		"height",
+		"bold",
+		"italic",
+		"underline",
+		"strike",
+		"blockquote",
+		"list",
+		"color",
+		"bullet",
+		"indent",
+		"link",
+		"image",
+		"align",
+		"size",
+	];
+	const modules = {
+		toolbar: [
+			[{ size: ["small", false, "large", "huge"] }],
+			["bold", "italic", "underline", "strike", "blockquote"],
+			[{ list: "ordered" }, { list: "bullet" }],
+			["link", "image"],
+			[
+				{ list: "ordered" },
+				{ list: "bullet" },
+				{ indent: "-1" },
+				{ indent: "+1" },
+				{ align: [] },
+			],
+			[
+				{
+					color: [
+						"#000000",
+						"#e60000",
+						"#ff9900",
+						"#ffff00",
+						"#008a00",
+						"#0066cc",
+						"#9933ff",
+						"#ffffff",
+						"#facccc",
+						"#ffebcc",
+						"#ffffcc",
+						"#cce8cc",
+						"#cce0f5",
+						"#ebd6ff",
+						"#bbbbbb",
+						"#f06666",
+						"#ffc266",
+						"#ffff66",
+						"#66b966",
+						"#66a3e0",
+						"#c285ff",
+						"#888888",
+						"#a10000",
+						"#b26b00",
+						"#b2b200",
+						"#006100",
+						"#0047b2",
+						"#6b24b2",
+						"#444444",
+						"#5c0000",
+						"#663d00",
+						"#666600",
+						"#003700",
+						"#002966",
+						"#3d1466",
+						"custom-color",
+					],
+				},
+			],
+		],
 	};
 	return (
 		<Wrapper>
@@ -282,60 +356,14 @@ const Screen: React.FC = () => {
 								<Label>
 									Product description<span>*</span>{" "}
 								</Label>
-								<TextEditor>
-									<Editor
-										// editorState={editorState}
-										wrapperClassName="wrapper-class"
-										editorClassName="editor-class"
-										toolbarClassName="toolbar-class"
-										onContentStateChange={handleContentChange}
-										toolbar={{
-											options: [
-												"inline",
-												"blockType",
-												"fontSize",
-												"fontFamily",
-												"list",
-												"textAlign",
-												"link",
-												"embedded",
-												"image",
-												"remove",
-												"history",
-											],
-
-											link: {
-												popupClassName: "demo-popup-custom",
-												link: { className: "demo-option-custom" },
-												unlink: { className: "demo-option-custom" },
-											},
-											blockType: {
-												inDropdown: true,
-												options: [
-													"Normal",
-													"H1",
-													"H2",
-													"H3",
-													"H4",
-													"H5",
-													"H6",
-													"Blockquote",
-													"Code",
-												],
-												className: undefined,
-												component: undefined,
-												dropdownClassName: undefined,
-											},
-											fontSize: {
-												options: [
-													8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72,
-													96,
-												],
-												className: undefined,
-												component: undefined,
-												dropdownClassName: undefined,
-											},
-										}}
+								<TextEditor width={"100%"} height="209px">
+									<ReactQuill
+										theme="snow"
+										modules={modules}
+										formats={formats}
+										placeholder="Describe your product to your customer"
+										onChange={handleProcedureContentChange}
+										// style={{ height: "109px", width: "100%" }}ss
 									/>
 								</TextEditor>
 								{/* <CustomField
@@ -474,12 +502,13 @@ const variations = ["size", "color", "condition"];
 const NewProduct = () => {
 	const dispatch = useDispatch();
 	const { modals } = useSelector((state: any) => state.modal);
-	const [sizeStep, setSizeStep] = useState(1)
-	const [colorStep, setColorStep] = useState(1)
-	const [moreOption, setMoreOption] = useState<string>('No')
-	const [selectedOption, setSelectedOption] =
-		useState<string | null>(null);		
-	const [selectedCondition, setselectedCondition] = useState<string | null>(null)
+	const [sizeStep, setSizeStep] = useState(1);
+	const [colorStep, setColorStep] = useState(1);
+	const [moreOption, setMoreOption] = useState<string>("No");
+	const [selectedOption, setSelectedOption] = useState<string | null>(null);
+	const [selectedCondition, setselectedCondition] = useState<string | null>(
+		null
+	);
 	// const [showMainDropdown, setShowMainDropdown] = useState<boolean>(true)
 
 	const handleModalSubmit = () => {
@@ -495,55 +524,55 @@ const NewProduct = () => {
 		decreaseQuantity,
 	} = useVariants();
 
-	const sizeVariant = getVariants('size')
-	const colorVariant = getVariants('color')
+	const sizeVariant = getVariants("size");
+	const colorVariant = getVariants("color");
 	// const conditionVariant = getVariants('condition')
 
 	const handleDropdownEvent = (option: string) => {
-		setSelectedOption(option)
-	}
+		setSelectedOption(option);
+	};
 	const handleMoreOption = (option: string) => {
-		setMoreOption(option)
-	}
+		setMoreOption(option);
+	};
 	const hasNextStep = (option: string) => {
-		if (
-			option === 'size' && sizeStep < 2
-		) {
-			return true
-		} else if (option === 'color' && moreOption === "No") {
+		if (option === "size" && sizeStep < 2) {
+			return true;
+		} else if (option === "color" && moreOption === "No") {
 			if (colorStep < 2) {
-				return true
-			} else return false
-		} else if (option === 'color' && moreOption === "Yes" ) {
+				return true;
+			} else return false;
+		} else if (option === "color" && moreOption === "Yes") {
 			if (colorStep < 4) {
-				return true
-			} else return false
-	
-		} else return false
-	}
-	
+				return true;
+			} else return false;
+		} else return false;
+	};
+
 	const handleNextStep = (option: string, decrement?: boolean) => {
 		if (decrement) {
-			if (option === 'size') setSizeStep(sizeStep - 1)
-			if (option === 'color') setColorStep(colorStep - 1)
+			if (option === "size") setSizeStep(sizeStep - 1);
+			if (option === "color") setColorStep(colorStep - 1);
 		} else {
-			if (option === 'size') setSizeStep(sizeStep + 1)
-			if (option === 'color') setColorStep(colorStep + 1)
+			if (option === "size") setSizeStep(sizeStep + 1);
+			if (option === "color") setColorStep(colorStep + 1);
 		}
-	}
+	};
 
 	const handleAdd = (option: string) => {
-		if (option === 'size') setSizeStep(1)
-		if (option === 'color') setColorStep(1)
-	}
-
+		if (option === "size") setSizeStep(1);
+		if (option === "color") setColorStep(1);
+	};
 
 	const ModalContent: JSX.Element = (
 		<Modal>
 			{modals.addOptions && (
 				<ModalWrapper>
 					<div className="label">
-						<BiArrowBack size={32} color="#bdc4cd" onClick={() => handleNextStep(selectedOption as string, true)}/>
+						<BiArrowBack
+							size={32}
+							color="#bdc4cd"
+							onClick={() => handleNextStep(selectedOption as string, true)}
+						/>
 						<MdOutlineCancel
 							className="svg"
 							size={32}
@@ -561,16 +590,18 @@ const NewProduct = () => {
 							This Option is for Products that have different size or colors
 						</div>
 					)}
-		
+
 					<Dropdown2
 						options={variations}
 						selectedOption={selectedOption}
 						handleOptionEvent={handleDropdownEvent}
 						padding="15px"
 						background="#f7fafc"
-						className='drpdwn'
-					>Choose Option</Dropdown2>
-			
+						className="drpdwn"
+					>
+						Choose Option
+					</Dropdown2>
+
 					<Formik
 						initialValues={initialValues}
 						onSubmit={handleModalSubmit}
@@ -578,186 +609,231 @@ const NewProduct = () => {
 					>
 						<Form>
 							{selectedOption === "size" && (
-									<FormControl>
-										{sizeStep === 1 && (
-											<>
-												{sizeVariant.map((variant, index) => {
-													return (
-														<div className="size-variant" key={variant.id}>
-															<Label>
-																Add Size
-																<input
-																	className="input price"
-																	value={"variant.variant"}
-																	onChange={(e) => handleVariantChange(
-																		selectedOption, 
-																		index, 
-																		'variant', 
-																		e.target.value)}
-																/>
-																<IoMdClose className="close" size={24} onClick={() => deleteVariant(selectedOption, index)}/>
-															</Label>
-															<Label>
-																Price
-																<input
-																	className="input"
-																	value={variant.price}
-																	onChange={(e) => handleVariantChange(
-																		selectedOption, 
-																		index, 
-																		'price', 
-																		e.target.value)}
-																/>
-															</Label>
-														</div>
-													);
-												})}
-											</>
-										)}
-										{sizeStep === 2 && (
-											<>
+								<FormControl>
+									{sizeStep === 1 && (
+										<>
+											{sizeVariant.map((variant, index) => {
+												return (
+													<div className="size-variant" key={variant.id}>
+														<Label>
+															Add Size
+															<input
+																className="input price"
+																value={"variant.variant"}
+																onChange={(e) =>
+																	handleVariantChange(
+																		selectedOption,
+																		index,
+																		"variant",
+																		e.target.value
+																	)
+																}
+															/>
+															<IoMdClose
+																className="close"
+																size={24}
+																onClick={() =>
+																	deleteVariant(selectedOption, index)
+																}
+															/>
+														</Label>
+														<Label>
+															Price
+															<input
+																className="input"
+																value={variant.price}
+																onChange={(e) =>
+																	handleVariantChange(
+																		selectedOption,
+																		index,
+																		"price",
+																		e.target.value
+																	)
+																}
+															/>
+														</Label>
+													</div>
+												);
+											})}
+										</>
+									)}
+									{sizeStep === 2 && (
+										<>
 											{sizeVariant.map((variant, index) => (
-													<SizeVariantCard key={variant.id}>
-														<div className="left">
-															<Img background={image34}/>
-															<div className="info">
-																<p>{"variant?.variant"}</p>
-																<p>{variant.price}</p>
+												<SizeVariantCard key={variant.id}>
+													<div className="left">
+														<Img background={image34} />
+														<div className="info">
+															<p>{"variant?.variant"}</p>
+															<p>{variant.price}</p>
+														</div>
+													</div>
+													<div className="right">
+														<MdDeleteOutline
+															size={19}
+															color="#FA3434"
+															className="icon"
+															onClick={() =>
+																deleteVariant(selectedOption, index)
+															}
+														/>
+														<Incrementor small>
+															<div
+																className="leftButton"
+																onClick={() =>
+																	decreaseQuantity(selectedOption, index)
+																}
+															>
+																<BiMinus />
 															</div>
-														</div>
-														<div className="right">
-															<MdDeleteOutline size={19} color="#FA3434" className="icon" onClick={() => deleteVariant(selectedOption, index)}/>
-															<Incrementor small>
-																<div
-																	className="leftButton"
-																	onClick={() => decreaseQuantity(selectedOption, index)}
-																>
-																	<BiMinus />
-																</div>
-																<div className="main">{variant.quantity}</div>
-																<div
-																	className="rightButton"
-																	onClick={() => increaseQuantity(selectedOption, index)}
-																>
-																	<BiPlus />
-																</div>
-															</Incrementor>
-														</div>
-													</SizeVariantCard>
+															<div className="main">{variant.quantity}</div>
+															<div
+																className="rightButton"
+																onClick={() =>
+																	increaseQuantity(selectedOption, index)
+																}
+															>
+																<BiPlus />
+															</div>
+														</Incrementor>
+													</div>
+												</SizeVariantCard>
 											))}
-											</>
-										)}
-									</FormControl>
+										</>
+									)}
+								</FormControl>
 							)}
 							{selectedOption === "color" && (
 								<FormControl>
-									{
-										colorStep > 1 ? 
+									{colorStep > 1 ? (
 										<>
-										{
-											moreOption ? 
-											<>
-											{colorStep === 2 && (
-												<ColorVariantCard>
-													<label>
-															Input value for the option e.g. size?
-															<input
-																placeholder=""
-																className="input"
-															/>
-														</label>
-												</ColorVariantCard>
-											)}
-											</> :
-											<>
-												{colorVariant.map((variant, index) => (
-													<SizeVariantCard key={variant.id}>
-														<div className="left">
-															<Img background={image34}/>
-															<div className="info">
-																<p>{"variant.variant"}</p>
-																<p>{variant.price}</p>
+											{moreOption ? (
+												<>
+													{colorStep === 2 && (
+														<ColorVariantCard>
+															<label>
+																Input value for the option e.g. size?
+																<input placeholder="" className="input" />
+															</label>
+														</ColorVariantCard>
+													)}
+												</>
+											) : (
+												<>
+													{colorVariant.map((variant, index) => (
+														<SizeVariantCard key={variant.id}>
+															<div className="left">
+																<Img background={image34} />
+																<div className="info">
+																	<p>{"variant.variant"}</p>
+																	<p>{variant.price}</p>
+																</div>
 															</div>
-														</div>
-														<div className="right">
-															<MdDeleteOutline size={19} color="#FA3434" className="icon" onClick={() => deleteVariant(selectedOption, index)}/>
-															<Incrementor small>
-																<div
-																	className="leftButton"
-																	onClick={() => decreaseQuantity(selectedOption, index)}
-																>
-																	<BiMinus />
-																</div>
-																<div className="main">{variant.quantity}</div>
-																<div
-																	className="rightButton"
-																	onClick={() => increaseQuantity(selectedOption, index)}
-																>
-																	<BiPlus />
-																</div>
-															</Incrementor>
-														</div>
-													</SizeVariantCard>
-											))}
-											</>
-										}
-										</> : 
-										<>
-										{colorStep === 1 && (
-											<>
-												<label>
-													Does this colour have extra option e.g. size?
-													<Dropdown2
-														options={['Yes','No']}
-														selectedOption={moreOption}
-														handleOptionEvent={(handleMoreOption)}
-														padding="15px"
-														background="#f7fafc"
-														className="drpDwn"
-													/>
-												</label>
-												<AddProductImage />
-											</>
-										)}
+															<div className="right">
+																<MdDeleteOutline
+																	size={19}
+																	color="#FA3434"
+																	className="icon"
+																	onClick={() =>
+																		deleteVariant(selectedOption, index)
+																	}
+																/>
+																<Incrementor small>
+																	<div
+																		className="leftButton"
+																		onClick={() =>
+																			decreaseQuantity(selectedOption, index)
+																		}
+																	>
+																		<BiMinus />
+																	</div>
+																	<div className="main">{variant.quantity}</div>
+																	<div
+																		className="rightButton"
+																		onClick={() =>
+																			increaseQuantity(selectedOption, index)
+																		}
+																	>
+																		<BiPlus />
+																	</div>
+																</Incrementor>
+															</div>
+														</SizeVariantCard>
+													))}
+												</>
+											)}
 										</>
-									}
+									) : (
+										<>
+											{colorStep === 1 && (
+												<>
+													<label>
+														Does this colour have extra option e.g. size?
+														<Dropdown2
+															options={["Yes", "No"]}
+															selectedOption={moreOption}
+															handleOptionEvent={handleMoreOption}
+															padding="15px"
+															background="#f7fafc"
+															className="drpDwn"
+														/>
+													</label>
+													<AddProductImage />
+												</>
+											)}
+										</>
+									)}
 								</FormControl>
 							)}
 							{selectedOption === "condition" && (
 								<FormControl>
-										<>
-											<Dropdown2
-												options={['new', 'fairly used', 'refurbished']}
-												selectedOption={selectedCondition}
-												handleOptionEvent={(option) => setselectedCondition(option)}
-												padding="15px"
-												background="#f7fafc"
-												className="drpDwn"
-											>Choose Option</Dropdown2>
-										</>
-							</FormControl>
+									<>
+										<Dropdown2
+											options={["new", "fairly used", "refurbished"]}
+											selectedOption={selectedCondition}
+											handleOptionEvent={(option) =>
+												setselectedCondition(option)
+											}
+											padding="15px"
+											background="#f7fafc"
+											className="drpDwn"
+										>
+											Choose Option
+										</Dropdown2>
+									</>
+								</FormControl>
 							)}
 						</Form>
 					</Formik>
 					{selectedOption && (
 						<>
-						{(!(selectedOption === 'color' && colorStep === 1) && hasNextStep(selectedOption)) &&
-							<OptionButton
+							{!(selectedOption === "color" && colorStep === 1) &&
+								hasNextStep(selectedOption) && (
+									<OptionButton
+										type="button"
+										className="addNewBtn"
+										onClick={() => addNewVariant(selectedOption)}
+									>
+										Add New
+									</OptionButton>
+								)}
+							{hasNextStep(selectedOption) ? (
+								<button
+									className="submit lsxaj2"
 									type="button"
-									className="addNewBtn"
-									onClick={() => addNewVariant(selectedOption)}
+									onClick={() => handleNextStep(selectedOption)}
 								>
-									Add New
-								</OptionButton>
-						}
-						{hasNextStep(selectedOption) ?
-							<button className="submit lsxaj2" type="button" onClick={() => handleNextStep(selectedOption)}>
-								Next
-							</button> : 
-							<button className="submit lsxaj2" type="button" onClick={() => handleAdd(selectedOption)}>
-							  Add Option
-							</button>
-						}
+									Next
+								</button>
+							) : (
+								<button
+									className="submit lsxaj2"
+									type="button"
+									onClick={() => handleAdd(selectedOption)}
+								>
+									Add Option
+								</button>
+							)}
 						</>
 					)}
 				</ModalWrapper>
@@ -770,8 +846,9 @@ const NewProduct = () => {
 			layout={"dashboard"}
 			component={Screen}
 			popUpContent={ModalContent}
-			state={false}
+			isLoading={false}
 			navMode="noSearch"
+			modalWidth="400px"
 		/>
 	);
 };

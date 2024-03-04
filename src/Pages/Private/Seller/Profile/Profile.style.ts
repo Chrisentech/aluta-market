@@ -1,10 +1,10 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Wrapper = styled.section`
     box-sizing: border-box;
     width: 100%;
     overflow-x: hidden;
-
+margin-top:30px;
     h1 {
         Copy
         color: #1C1C1C;
@@ -24,6 +24,9 @@ export const Wrapper = styled.section`
         font-style: normal;
         font-weight: 600;
         line-height: normal;
+        @media(max-width:1240px){
+margin-top:92px
+}
     }
 
     .password-panel {
@@ -55,7 +58,12 @@ export const Body = styled.section`
         grid-template-columns: 1fr 1fr;
         gap: 100px;
         height: 506px;
-
+@media(max-width:1346px){
+gap:20px;
+@media(max-width:1346px){
+display: inline-block;
+}
+}
         .left {
             display: flex;
             flex-direction: column;
@@ -101,7 +109,7 @@ export const Body = styled.section`
                     input, select {
                         box-sizing: border-box;
                         width: 100%;
-                        height: 50px;
+                        // height: 50px;
                         padding: 20px;
                         margin-top: 4px;
                         border: 1px solid #ccc;
@@ -162,47 +170,59 @@ export const Body = styled.section`
             gap: 10px;
             position: absolute;
             right: 0px;
+            @media(max-width:1346px){
+bottom:-100px
+}
         }
     }
 `;
 
 export const InputField = styled.input`
-    box-sizing: border-box;
-    width: 100%;
-    height: 50px;
-    padding: 20px;
-    margin-top: 4px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    background: #F7FAFC;
+	box-sizing: border-box;
+	width: 100%;
+	height: 50px;
+	padding: 20px;
+	margin-top: 4px;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+	border: none;
+	outline: none;
+	background: #f7fafc;
 `;
 
 export const ProfileImage = styled.div`
-    position: relative;
-    border: solid 5px #fff;
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    background: #EFF2F4;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	position: relative;
+	border: solid 5px #fff;
+	width: 180px;
+	height: 180px;
+	border-radius: 50%;
+	background: #eff2f4;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	@media (max-width: 1346px) {
+		width: 100px;
+		height: 100px;
+		@media (max-width: 1240px) {
+			position: absolute;
+			top: 184px;
+			margin-bottom: 40px;
+		}
+	}
 `;
 
 export const AddImage = styled.span`
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: #F7FAFC;
-    transition: 0.3s ease-in-out;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	background: #f7fafc;
+	transition: 0.3s ease-in-out;
 
-    &:hover {
-        background: #FFF;
-    }
+	&:hover {
+		background: #fff;
+	}
 `;

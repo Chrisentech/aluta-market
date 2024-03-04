@@ -16,7 +16,7 @@ import {
 	Footer,
 	// Trademark,
 } from "./register.styles";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import Layout from "../../../Layouts";
 import { Formik, Form, useField } from "formik";
 import * as yup from "yup";
@@ -26,7 +26,10 @@ import { NavLink } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { RegisterFormValues } from "../../../Interfaces";
 import { AppColors, ROUTE } from "../../../Shared/Constants";
-import { generateSlug } from "../../../Shared/Utils/helperFunctions";
+import {
+	generateSlug,
+	isValidPassword,
+} from "../../../Shared/Utils/helperFunctions";
 import { FaArrowLeft } from "react-icons/fa";
 import { registerImg } from "../../../assets";
 import { Campus } from "../../../Shared/Constants/data";
@@ -39,6 +42,7 @@ import {
 	showModal,
 } from "../../../Features/modal/modalSlice";
 import Puff from "react-loading-icons/dist/esm/components/puff";
+import useUsers from "../../../Features/user/userActions";
 
 const initialValues: RegisterFormValues = {
 	email: "",
@@ -47,21 +51,35 @@ const initialValues: RegisterFormValues = {
 	phone: "",
 	campus: "",
 	usertype: "",
+	storeName: "",
+	storePhone: "",
+	description: "",
 };
-const validationSchema = yup.object().shape({
-	// email: yup.string().email("Invalid email").required("Email is required"),
-	// fullname: yup.string().required("Fullname is required"),
-	// phone: yup.string().required("Phone is required"),
-	// campus: yup.string().required("Select your campus"),
-	// usertype: yup.string().required("Select an option"),
-	// password: yup
-	// 	.string()
-	// 	.required("Password is required")
-	// 	.min(8, "Password must be at least 8 characters")
-	// 	.matches(
-	// 		/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&])/,
-	// 		"Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character (@, $, !, #,%, *, ?, &)"
-	// 	),
+const validationSchemaOne = yup.object().shape({
+	email: yup.string().email("Invalid email").required("Email is required"),
+	fullname: yup.string().required("Fullname is required"),
+	phone: yup.string().required("Phone is required"),
+	campus: yup.string().required("Select your campus"),
+	usertype: yup.string().required("Select an option"),
+	password: yup
+		.string()
+		.required(
+			"Password must be at least 8 characters and contain at least one uppercase letter, one lowercase letter, one digit, and one special character (@, $, !, #,%, *, ?, &)"
+		)
+		.min(
+			8,
+			"Password must be at least 8 characters and contain at least one uppercase letter, one lowercase letter, one digit, and one special character (@, $, !, #,%, *, ?, &)"
+		)
+		.matches(
+			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&])/,
+			"Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character (@, $, !, #,%, *, ?, &)"
+		),
+});
+const validationSchemaTwo = yup.object().shape({
+	storeName: yup.string().required("Store Name is required"),
+	storePhone: yup.string().required("Store Phone is required"),
+	description: yup.string().required("Store Description is required"),
+	storeaddress: yup.string().required("Store Address is required"),
 });
 
 const responseGoogle = (response: any | void) => {
@@ -71,11 +89,17 @@ const responseGoogle = (response: any | void) => {
 const Screen: React.FC = () => {
 	const [showPwd, setShowPwd] = useState(false);
 	const [userType, setUserType] = useState("");
+	const [fullname, setFullname] = useState("");
+	const [password, setPassword] = useState("");
+	const [email, setEmail] = useState("");
 	const [studentCampus, setCampus] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [storeName, setStoreName] = useState("");
 	const [storeNumber, setStoreNumber] = useState("");
-
+	const [description, setDescription] = useState("");
+	const [storeaddress, setStoreAddress] = useState("");
+	const [hasPhysicalAddress, sethasPhysicalAddress] = useState(false);
+	const { createUser } = useUsers();
 	const [buyerNumber, setBuyerNumber] = useState("");
 
 	const [isSameNumber, setSameNumber] = useState<boolean>(false);
@@ -88,43 +112,99 @@ const Screen: React.FC = () => {
 		if (!isSameNumber) setStoreNumber(buyerNumber);
 		setSameNumber(!isSameNumber);
 	};
-
+	const buyerFormIsValid =
+		!!fullname &&
+		!!email &&
+		!!password &&
+		!!studentCampus &&
+		!!userType &&
+		!!buyerNumber;
 	const handleSubmit = async (values: RegisterFormValues) => {
-		let { campus, usertype, phone, ...rest } = values;
-		setFormValues(initialValues);
-		let payload = {
+		localStorage.setItem("number", buyerNumber);
+		setFormValues(values);
+		let payload: any = {
 			campus: studentCampus,
 			usertype: userType,
 			phone: buyerNumber,
-			...rest,
+			fullname,
+			email,
+			password,
 		};
-		console.log(payload);
-		setLoading(true);
+		if (userType === "seller") {
+			payload = {
+				...payload,
+				stores: {
+					address: storeaddress,
+					link: "https://www." + generateSlug(storeName) + ".alutamarket.com",
+					has_physical_address: hasPhysicalAddress,
+					name: storeName,
+					description,
+					phone: storeNumber,
+					user: 0,
+					wallet: 0,
+				},
+			};
+		}
+
 		try {
-			// await createUser(payload);
+			setLoading(true);
+			await createUser(payload);
 			dispatch(alertSuccess("Registration successful. Verify OTP!"));
 			setTimeout(() => {
+				setLoading(false);
 				dispatch(showModal("VerifyOTP"));
 			}, 1500);
 		} catch (error: any) {
 			setLoading(false);
 			if (error.graphQLErrors && error.graphQLErrors.length > 0) {
 				for (let index = 0; index < error.graphQLErrors.length; index++) {
-					dispatch(alertError(error.graphQLErrors[index].message));
+					dispatch(
+						alertError(JSON.parse(error.graphQLErrors[index].message).message)
+					);
+				}
+			}
+			if (error.protocolErrors && error.protocolErrors.length > 0) {
+				for (let index = 0; index < error.protocolErrors.length; index++) {
+					dispatch(
+						alertError(JSON.parse(error.protocolErrors[index].message).message)
+					);
+				}
+			}
+			if (error.clientErrors && error.clientErrors.length > 0) {
+				for (let index = 0; index < error.clientErrors.length; index++) {
+					dispatch(
+						alertError(JSON.parse(error.clientErrors[index].message).message)
+					);
+				}
+			}
+			if (error.networkErrors && error.networkErrors.length > 0) {
+				for (let index = 0; index < error.networkErrors.length; index++) {
+					dispatch(
+						alertError(JSON.parse(error.networkErrors[index].message).message)
+					);
 				}
 			}
 		}
 	};
 
-	useEffect(() => {
-		// Update formValid whenever form values change
-		// const isBuyerFormValid =
-		//   (initialValues.email !== "") &&
-		//   (initialValues.fullname !== "") &&
-		//   (initialValues.phone !== "") &&
-		//   (initialValues.campus !== "") &&
-		//   (initialValues.usertype !== "")
-	}, [initialValues]);
+	const handleChangeScreen = (e: any) => {
+		setUserType(e.target.value);
+
+		if (!fullname && !email && !password && !studentCampus && !buyerNumber) {
+			dispatch(alertError({ message: "All Fields are required" }));
+			return null;
+		}
+		let payload = {
+			email,
+			password,
+			fullname,
+			phone: buyerNumber,
+			campus: studentCampus,
+			usertype: userType,
+		};
+		setFormValues(payload);
+		console.log(formValues);
+	};
 
 	return (
 		<Container>
@@ -137,28 +217,46 @@ const Screen: React.FC = () => {
 					<Formik
 						initialValues={formValues}
 						onSubmit={handleSubmit}
-						validationSchema={validationSchema} // Specify the validation schema
+						validationSchema={!buyerFormIsValid && validationSchemaOne} // Specify the validation schema
 					>
 						<Form>
 							<FormControl>
 								<Label>
 									Fullname<span>*</span>
 								</Label>
-								<CustomField name="fullname" type="text" />
+								<CustomField
+									name={fullname != "" ? "none" : "fullname"}
+									type="text"
+									value={fullname}
+									onChange={(e: ChangeEvent<HTMLInputElement>) =>
+										setFullname(e.target.value)
+									}
+								/>
 							</FormControl>
 							<FormControl>
 								<Label>
 									Email<span>*</span>
 								</Label>
-								<CustomField name="email" type="email" />
+								<CustomField
+									name={email != "" ? "none" : "email"}
+									type="email"
+									value={email}
+									onChange={(e: ChangeEvent<HTMLInputElement>) =>
+										setEmail(e.target.value)
+									}
+								/>
 							</FormControl>
 							<FormControl>
 								<Label>
 									Password<span>*</span>
 								</Label>
 								<CustomField
-									name="password"
+									name={isValidPassword(password) ? "none" : "password"}
 									type={showPwd ? "text" : "password"}
+									value={password}
+									onChange={(e: ChangeEvent<HTMLInputElement>) =>
+										setPassword(e.target.value)
+									}
 								/>
 								{showPwd ? (
 									<AiFillEyeInvisible onClick={() => setShowPwd(!showPwd)} />
@@ -171,7 +269,7 @@ const Screen: React.FC = () => {
 									Phone Number<span>*</span>
 								</Label>
 								<CustomField
-									name={buyerNumber ? "none" : "phone"}
+									name={buyerNumber != "" ? "none" : "phone"}
 									type="text"
 									value={buyerNumber}
 									onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -201,7 +299,7 @@ const Screen: React.FC = () => {
 									name={userType ? "none" : "usertype"}
 									type="select"
 									defaultText="I am a..."
-									onChange={(e: any) => setUserType(e.target.value)}
+									onChange={handleChangeScreen}
 									options={[
 										{ label: "I am a Buyer", value: "buyer" },
 										{ label: "I am a Seller", value: "seller" },
@@ -252,7 +350,9 @@ const Screen: React.FC = () => {
 					<Formik
 						initialValues={formValues}
 						onSubmit={handleSubmit}
-						validationSchema={validationSchema} // Specify the validation schema
+						validationSchema={
+							!storeName && !storeNumber && !description && validationSchemaTwo
+						} // Specify the validation schema
 					>
 						<Form>
 							<FormControl>
@@ -260,7 +360,7 @@ const Screen: React.FC = () => {
 									Name of Store<span>*</span>
 								</Label>
 								<CustomField
-									name="storeName"
+									name={storeName ? "none" : "storeName"}
 									value={storeName}
 									onChange={(e: any) => setStoreName(e.target.value)}
 									type="text"
@@ -277,25 +377,25 @@ const Screen: React.FC = () => {
 									readOnly
 									value={
 										storeName
-											? "https://aluta-market.com/" +
+											? "https://www." +
 											  generateSlug(storeName) +
-											  "/store"
+											  ".alutamarket.com"
 											: ""
 									}
 								/>
-								<Hint>storename.alutamarket.com</Hint>
+								<Hint>storeName.alutamarket.com</Hint>
 							</FormControl>
 							<FormControl>
 								<Label>
 									Store Phone Number<span>*</span>
 								</Label>
 								<CustomField
-									name={storeNumber ? "none" : "phone"}
+									name={storeNumber ? "none" : "storenumber"}
 									type="text"
-									value={storeNumber}
-									// onChange={(e: ChangeEvent<HTMLInputElement>) =>
-									// 	setStoreNumber(e.target.value)
-									// }
+									value={isSameNumber ? buyerNumber : storeNumber}
+									onChange={(e: ChangeEvent<HTMLInputElement>) =>
+										setStoreNumber(e.target.value)
+									}
 									readOnly={isSameNumber}
 								/>
 								<Label checkbox small>
@@ -312,12 +412,35 @@ const Screen: React.FC = () => {
 								<Label>
 									Store Description<span>*</span>
 								</Label>
-								<CustomField name="storeDescription" type="text" />
+								<CustomField
+									name={description ? "none" : "description"}
+									type="text"
+									value={description}
+									onChange={(e: any) => setDescription(e.target.value)}
+								/>
 							</FormControl>
+							{hasPhysicalAddress && (
+								<FormControl>
+									<Label>
+										Store Address<span>*</span>
+									</Label>
+									<CustomField
+										name={storeaddress ? "none" : "storeaddress"}
+										type="text"
+										value={storeaddress}
+										onChange={(e: any) => setStoreAddress(e.target.value)}
+									/>
+								</FormControl>
+							)}
 							<FormControl>
 								<Label checkbox>
-									<CustomField name="havePhysicalAddress" type="checkbox" />I
-									have a physical address
+									<CustomField
+										name="havePhysicalAddress"
+										type="checkbox"
+										checked={hasPhysicalAddress}
+										onChange={() => sethasPhysicalAddress(!hasPhysicalAddress)}
+									/>
+									I have a physical address
 								</Label>
 								<Label checkbox>
 									<CustomField name="termsAndConditions" type="checkbox" />I
@@ -327,7 +450,7 @@ const Screen: React.FC = () => {
 									</NavLink>
 								</Label>
 							</FormControl>
-							<SubmitButton active={true} type="submit" disabled={loading}>
+							<SubmitButton active={true} type="submit" disabled={false}>
 								{loading ? (
 									<Puff stroke={AppColors.brandOrange} strokeOpacity={0.125} />
 								) : (
@@ -433,9 +556,11 @@ const RegisterPage = () => {
 			showModal={activeModal}
 			layout={"blank"}
 			component={Screen}
-			state={false}
+			isLoading={false}
 			navMode="blank"
-			popUpContent={<VerifyOTPModal url="" />}
+			popUpContent={
+				<VerifyOTPModal url="/" number={localStorage.getItem("number") ?? ""} />
+			}
 		/>
 	);
 };

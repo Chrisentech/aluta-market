@@ -20,8 +20,8 @@ export const Wrapper = styled.nav`
 	.logo {
 		flex: 0.2;
 	}
-	@media (${BreakPoints.large}) {
-		width: 90%;
+	@media (max-width: 1080px) {
+		width: 96%;
 	}
 `;
 
@@ -135,7 +135,7 @@ export const IconWrapper = styled.a`
 		text-align: center;
 		font-feature-settings: "clig" off, "liga" off;
 		font-family: Inter;
-		font-size: 12px;
+		font-size: 14px;
 		font-style: normal;
 		font-weight: 700;
 		line-height: normal;

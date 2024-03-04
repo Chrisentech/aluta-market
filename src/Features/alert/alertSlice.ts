@@ -21,9 +21,8 @@ const alertSlice = createSlice({
 			state.message = payload;
 		},
 		alertError: (state, { payload }) => {
-			state.message = payload.message;
-			state.code = payload.status;
 			state.status = "error";
+			state.message = payload;
 		},
 		alertPending: (state) => {
 			state.message = "";

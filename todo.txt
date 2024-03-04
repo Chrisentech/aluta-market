@@ -1,0 +1,9 @@
+First Week Of MArch
+
+1. Sign in,Up and verfify OTP working.
+
+2. Create Product ( Digital, Physical and Services ).
+
+3. Payments.
+
+4. Responsiveness of OTher screeens

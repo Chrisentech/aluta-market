@@ -11,7 +11,12 @@ export { default as logo } from "./logo.png";
 export { default as banner } from "./banner.png";
 export { default as image202 } from "./image102.png";
 export { default as image26 } from "./image26.png";
+export { default as loginLogo } from "./login.png";
 export { default as image104 } from "./image104.png";
+export { default as lor } from "./lor.png";
+export { default as lol } from "./lol.png";
+export { default as log } from "./log.png";
+export { default as secure } from "./secure.png";
 export { default as userPic } from "./userpic.jpg";
 export { default as color1 } from "./color1.png";
 export { default as color2 } from "./color2.png";
@@ -82,10 +87,4 @@ export { default as bagHappy } from "./bag-happy.svg";
 export { default as calendar } from "./calendar.svg";
 export { default as shopGrayScale } from "./shopGrayScale.svg";
 export { default as rectangle } from "./Rectangle.png";
-
-
-
-
-
-
-
+export { default as playBtn } from "./play-circle.png";

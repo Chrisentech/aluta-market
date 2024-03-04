@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../Layouts";
 import {
 	Home,
@@ -10,6 +10,7 @@ import {
 	Header1,
 	Services,
 	Divider,
+	Newsletter,
 } from "./homepage.styles";
 import { categories, services } from "../../../test-data";
 import {
@@ -18,24 +19,38 @@ import {
 	ProductGrid,
 	LogoutModal,
 } from "../../../Shared/Components";
-import {  image104 } from "../../../assets";
-import { MdOutlineInventory2 } from "react-icons/md";
+import { lol, lor, secure, log } from "../../../assets";
+import { MdOutlineInventory2, MdOutlineSearch, MdSend } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { ROUTE } from "../../../Shared/Constants";
 import { useDispatch, useSelector } from "react-redux";
+import { registerImg } from "../../../assets";
 
 import useAuthentication from "../../../Shared/Hooks/useAuth";
 import {
 	selectActiveModal,
 	showModal,
 } from "../../../Features/modal/modalSlice";
+import { GiCheckedShield } from "react-icons/gi";
+import { IoMailOutline } from "react-icons/io5";
 
 const Screen: React.FC = () => {
 	const nav = useNavigate();
 	const { isAuthenticated } = useAuthentication();
 	const me = useSelector((state: any) => state.user.me);
 	const dispatch = useDispatch();
+	const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
+	const handleResize = () => {
+		setIsMobile(window.innerWidth < 768); // Adjust the threshold as needed
+	};
+	useEffect(() => {
+		window.addEventListener("resize", handleResize);
+		handleResize(); // Set initial isMobile value on component mount
+		return () => {
+			window.removeEventListener("resize", handleResize);
+		};
+	}, []);
 	return (
 		<Home>
 			<Hero>
@@ -47,16 +62,15 @@ const Screen: React.FC = () => {
 					))}
 					<div className="category">All Categories</div>
 				</div>
-				<Card
-					className="banner"
-					width={"62%"}
-					height={333}
-					background={'url("src/assets/banner.png")'}
-				>
-					<div>
-						<p>Latest Trending</p>
-						<p>Electronic Items</p>
-						<Button color="#1C1C1C">Learn more</Button>
+				<Card className="banner" width={"62%"} height={333} allowBorders>
+					<div className="flex">
+						<div className="tt">
+							Welcome to the <br /> <span>STUDENTS’ MARKETPLACE</span>
+							<br /> designed just for your every needs!
+						</div>
+						<div>
+							<img src={registerImg} alt="register-image" width={310} />
+						</div>
 					</div>
 				</Card>
 				<div className="card-section">
@@ -154,39 +168,6 @@ const Screen: React.FC = () => {
 					</Card>
 				</div>
 			</Hero>
-			{/* <Offers>
-				<div className="info-card">
-					<div className="top">
-						<p>Deals and Offers</p>
-						<p>Hygiene equipments</p>
-					</div>
-					<Timer className="timer" />
-				</div>
-				<div className="product-cards">
-					{Array(6)
-						.fill("*")
-						.map((_, index) => (
-							<Card
-								className="card"
-								key={index}
-								width={"unset"}
-								padding={"2em"}
-								height="95px"
-								background="#fff"
-								borderRadius="none"
-							>
-								<div className="top">
-									<img src="src/assets/camera.png" alt="camera" />
-								</div>
-								<div className="bottom">
-									<p>Pro Cameras</p>
-									<span>-40%</span>
-								</div>
-							</Card>
-						))}
-				</div>
-			</Offers> */}
-			{/* Best Selling Section */}
 			<section
 				style={{
 					padding: 10,
@@ -197,7 +178,7 @@ const Screen: React.FC = () => {
 				}}
 			>
 				<Header1>Products Students in Your School are Buying</Header1>
-				<ProductGrid />
+				<ProductGrid isMobile={isMobile} />
 			</section>
 			{/* Product and Services section */}
 			<section>
@@ -208,7 +189,7 @@ const Screen: React.FC = () => {
 						className="first"
 					>
 						<div>
-							<p>Product Categories</p>
+							<h2>Product Categories</h2>
 							<Button
 								color="#1C1C1C"
 								gap={10}
@@ -216,7 +197,7 @@ const Screen: React.FC = () => {
 								width={90}
 								padding={16}
 							>
-								view all
+								View all
 							</Button>
 						</div>
 					</GridItem>
@@ -240,7 +221,7 @@ const Screen: React.FC = () => {
 						className="first"
 					>
 						<div>
-							<p>Skills and Services</p>
+							<h2>Skills and Services</h2>
 							<Button
 								color="#1C1C1C"
 								gap={10}
@@ -248,7 +229,7 @@ const Screen: React.FC = () => {
 								width={90}
 								padding={16}
 							>
-								view all
+								View all
 							</Button>
 						</div>
 					</GridItem>
@@ -276,15 +257,15 @@ const Screen: React.FC = () => {
 					}}
 				>
 					<Header1>Recommended Items</Header1>
-					<ProductGrid />
+					<ProductGrid isMobile={isMobile} />
 				</section>
 
 				<ProductRequestForm>
 					<div className="text" id="quote">
 						<h2>An easy way to make request for products</h2>
 						<p>
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-							eiusmod tempor incididunt.
+							Can't Find What You Need? Request It Here, and We'll Work Our
+							Magic to Make It Available!
 						</p>
 					</div>
 					<FormContainer>
@@ -312,27 +293,75 @@ const Screen: React.FC = () => {
 			<section>
 				<Header1>Our Extra Services</Header1>
 				<Services>
-					{Array(4)
-						.fill(".")
-						.map((_, index) => (
-							<div className="service-card" key={index}>
-								<div className="card-top">
-									<img src={image104} alt="" />
-								</div>
-								<div className="card-bottom">
-									<Divider className="divider">
-										<MdOutlineInventory2 />
-									</Divider>
-									<p>some random stuff</p>
-								</div>
-							</div>
-						))}
+					<div className="service-card">
+						<div className="card-top">
+							<img src={lor} alt="" />
+						</div>
+						<div className="card-bottom">
+							<Divider className="divider">
+								<MdOutlineSearch />
+							</Divider>
+							<p>Localized market for the students’ needs</p>
+						</div>
+					</div>
+					<div className="service-card">
+						<div className="card-top">
+							<img src={lol} alt="" />
+						</div>
+						<div className="card-bottom">
+							<Divider className="divider" color="#00B517">
+								<MdOutlineInventory2 />
+							</Divider>
+							<p>Product safety and return policy</p>
+						</div>
+					</div>
+					<div className="service-card">
+						<div className="card-top">
+							<img src={log} alt="" />
+						</div>
+						<div className="card-bottom">
+							<Divider className="divider" color="#FF9017">
+								<MdSend color="white" />
+							</Divider>
+							<p>Fast, reliable logistic service</p>
+						</div>
+					</div>
+					<div className="service-card">
+						<div className="card-top">
+							<img src={secure} alt="" />
+						</div>
+						<div className="card-bottom">
+							<Divider className="divider" color="#FA3434">
+								<GiCheckedShield />
+							</Divider>
+							<p>Secure payment methods</p>
+						</div>
+					</div>
 				</Services>
 			</section>
 
-			{/* <div style={{ width: 900, margin: "30px auto" }}>
-        <View mode="flex" itempergrid={3} type="productGrid" />
-      </div> */}
+			<Newsletter>
+				<h2>Subscribe on our newsletter</h2>
+				<p>
+					Get daily news on upcoming offers from many suppliers all over the
+					campuses
+				</p>
+				<div>
+					<IoMailOutline />
+					<input type="text" placeholder="Email" />
+
+					<Button
+						width={90}
+						height={30}
+						padding={10}
+						gap={10}
+						background="linear-gradient(180deg, #FF7612 0%, #FF001F 100%)"
+						color="#ffffff"
+					>
+						Subscribe
+					</Button>
+				</div>
+			</Newsletter>
 		</Home>
 	);
 };
@@ -344,8 +373,9 @@ const HomePage = () => {
 			layout={"full"}
 			component={Screen}
 			showModal={activeModal}
-			state={false}
+			isLoading={false}
 			popUpContent={<LogoutModal />}
+			modalWidth={560}
 		/>
 	);
 };

@@ -2,69 +2,79 @@ import React, { ReactNode, Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useLayoutHook from "../Shared/Hooks/useLayout";
 import { Loader, Navbar, Popup, Toast } from "../Shared/Components";
+
 type ILayout = "blank" | "full" | "dashboard";
 
 interface LayoutProps<T> {
-  layout: ILayout;
-  component: React.ComponentType<T>;
-  state: boolean;
-  showModal?: string | null; 
-  modalWidth?: string;
-  navMode?: string;
-  popUpContent?: ReactNode;
+	layout: ILayout;
+	component: React.ComponentType<T>;
+	isLoading: boolean;
+	showModal?: string | null;
+	modalPadding?: string | number;
+	modalWidth?: string | number;
+	navMode?: string;
+	popUpContent?: ReactNode;
 }
 
 const Layout: React.FC<LayoutProps<any>> = ({
-  layout,
-  component: Component,
-  state,
-  showModal,
-  // modalWidth,
-  navMode,
-  popUpContent,
+	layout,
+	component: Component,
+	isLoading,
+	showModal,
+	modalWidth,
+	modalPadding,
+	navMode,
+	popUpContent,
 }) => {
-  const Screen = useLayoutHook(layout, state, <Component />);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  const [scrolled, setScrolled] = useState(false);
-  const { modals } = useSelector((state: any) => state.modal);
+	const isDashboard = localStorage.getItem("isDashboard");
+	const Screen = useLayoutHook(layout, isLoading, <Component />);
+	const [isMobile, setIsMobile] = useState(
+		window.innerWidth < (isDashboard === "true" ? 1082 : 768)
+	);
+	const [scrolled, setScrolled] = useState(false);
+	const { modals } = useSelector((state: any) => state.modal);
 
-  const handleScroll = () => {
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-    setScrolled(scrollTop > 0);
-  };
+	const handleScroll = () => {
+		const scrollTop = window.scrollY || document.documentElement.scrollTop;
+		setScrolled(scrollTop > 0);
+	};
 
-  const handleResize = () => {
-    setIsMobile(window.innerWidth < 768); // Adjust the threshold as needed
-  };
+	const handleResize = () => {
+		const isMobileValue =
+			window.innerWidth < (isDashboard === "true" ? 1082 : 768);
+		setIsMobile(isMobileValue);
+		localStorage.setItem("isMobile", JSON.stringify(isMobileValue));
+	};
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", handleResize);
-    handleResize(); // Set initial isMobile value on component mount
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+	useEffect(() => {
+		window.addEventListener("scroll", handleScroll);
+		window.addEventListener("resize", handleResize);
+		handleResize(); // Set initial isMobile value on component mount
+		return () => {
+			window.removeEventListener("scroll", handleScroll);
+			window.removeEventListener("resize", handleResize);
+		};
+	}, []);
 
- 
-
-  return (
+	return (
 		<>
 			<Popup
+				padding={modalPadding}
 				show={showModal && modals[showModal] ? modals[showModal] : false}
-				// width={modalWidth}
+				width={modalWidth}
 				className="popup"
 				// onClose={closeModalHandler}
 			>
 				{popUpContent}
 			</Popup>
 			<Fragment>
-				{state && <Loader />}
-
-				<Navbar scrolled={scrolled} isMobile={isMobile} mode={navMode} />
+				{isLoading && <Loader />}
+				<Navbar
+					scrolled={scrolled}
+					isMobile={isMobile} // Use isMobile state here
+					mode={navMode}
+				/>
 				<Toast />
-
 				{Screen}
 			</Fragment>
 		</>
@@ -72,8 +82,8 @@ const Layout: React.FC<LayoutProps<any>> = ({
 };
 
 Layout.defaultProps = {
-  showModal: null,
-  modalWidth: "500px",
+	showModal: null,
+	modalWidth: "400px",
 };
 
 export default Layout;

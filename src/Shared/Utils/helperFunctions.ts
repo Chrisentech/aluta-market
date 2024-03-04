@@ -208,3 +208,20 @@ export const parseJSONString = (str: string) => {
 export const StringifyJSON = (js: any) => {
 	return JSON.stringify(js);
 };
+
+export const MaskNumber = (phoneNumber: string): string => {
+	// Check if the phone number is valid
+	if (!phoneNumber || phoneNumber.length !== 11) {
+		return "Invalid phone number";
+	}
+
+	// Replace digits with asterisks except the first 4 and the last 2 digits
+	const maskedNumber = phoneNumber.replace(/(\d{4})\d+(\d{2})/, "$1****$2");
+
+	return maskedNumber;
+};
+
+export const isValidPassword = (password: string): boolean => {
+	const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&])/;
+	return passwordPattern.test(password);
+};
