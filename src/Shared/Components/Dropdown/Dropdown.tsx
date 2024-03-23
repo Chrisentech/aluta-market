@@ -1,17 +1,14 @@
 import React, { useState, ReactNode } from "react";
-import {
-	PiCaretDownBold,
-	PiCaretUpBold,
-} from "react-icons/pi";
+import { PiCaretDownBold, PiCaretUpBold } from "react-icons/pi";
 import {
 	DropdownWrapper,
 	DropdownSelected,
 	DropdownOptions,
 	DropdownOption,
-	PiCaretIcon,
 } from "./dropdown.styles.ts";
 import { useSelector } from "react-redux";
 import { selectStore } from "../../../Features/store/storeSlice.ts";
+import { getCapitalizedFirstLetter } from "../../Utils/helperFunctions.ts";
 
 interface DropdownProps {
 	options: any;
@@ -60,15 +57,13 @@ const Dropdown: React.FC<DropdownProps> = ({
 			className={className}
 		>
 			<DropdownSelected padding={padding} onChange={() => alert("hi")}>
-				{(state ? state : isOpen) ? (
-					<PiCaretUpBold as={PiCaretIcon} />
-				) : (
-					<PiCaretDownBold as={PiCaretIcon} />
-				)}
+				{(state ? state : isOpen) ? <PiCaretUpBold /> : <PiCaretDownBold />}
 				{type === "dropdown_one" && store?.name ? (
 					<>
-						<span className="avatar">A</span>{" "}
-						<span className="store-title">{store?.name} Collection </span>
+						<span className="avatar">
+							{getCapitalizedFirstLetter(store?.name)}
+						</span>{" "}
+						<span className="store-title">{store?.name} </span>
 					</>
 				) : (
 					<span className="store-title">{"+ Create a new Store"} </span>

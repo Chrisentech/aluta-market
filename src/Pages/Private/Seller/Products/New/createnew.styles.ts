@@ -355,7 +355,7 @@ export const OptionButton = styled.button`
 
 export const Modal = styled.div`
   box-sizing: border-box;
-  padding: 50px;
+  // padding: 50px;
   min-height: 400px;
 
   .label {
@@ -398,10 +398,7 @@ export const Modal = styled.div`
     border: 1px solid var(--gray-300, #DEE2E7);
     margin-bottom: 30px;
   }
-  .drpDwn {
-    margin: 10px 0;
-    width: 100%;
-  }
+  
   // .invisible {
   //   visibility: none;
   // }
@@ -462,10 +459,14 @@ export const Modal = styled.div`
       padding: 15px 20px; 
     }
   }
+  .drpDwn {
+    margin: 10px 0;
+    width: 100% !important;
+  }
 `;
 
 export const ModalWrapper = styled.div`
-	width: 400px;
+	width: 100%;
 	box-sizing: border-box;
 `;
 

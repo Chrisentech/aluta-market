@@ -105,7 +105,6 @@ const VerifyOTPModal: React.FC<{ url?: string; number?: string }> = ({
 	useEffect(() => {
 		inputRef.current?.focus();
 	}, [activeOtpIndex]);
-
 	return (
 		<Container success={isVerified}>
 			<Top>

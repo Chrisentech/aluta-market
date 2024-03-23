@@ -44,6 +44,11 @@ export const ReviewContainer = styled.div`
 	justify-content: flex-start;
 	padding: 20px;
 	gap: 50px;
+	max-height: 400px;
+	@media (max-width: 800px) {
+		display: block;
+		overflow: scroll;
+	}
 	.heading {
 		color: #505050;
 		font-size: 16px;
@@ -53,7 +58,17 @@ export const ReviewContainer = styled.div`
 	}
 `;
 
-export const CustomerReviews = styled.div``;
+export const CustomerReviews = styled.div`
+	overflow: auto;
+	height: 400px;
+	@media (max-width: 800px) {
+		scrollbar-width: none; /* Firefox */
+		-ms-overflow-style: none;
+		&::-webkit-scrollbar {
+			display: none;
+		}
+	}
+`;
 
 export const Ratings = styled.div`
 	.ratings-wrapper {

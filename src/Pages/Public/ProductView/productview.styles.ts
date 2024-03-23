@@ -13,23 +13,36 @@ export const Container = styled.div`
 	width: 90%;
 	margin: auto;
 	position: relative;
+	.lol-order {
+		@media (max-width: 900px) {
+			grid-template-columns: 100% !important;
+		}
+	}
 `;
 
 export const OrderDetail = styled.div`
-  box-sizing: border-box;
-  width: 1180%
-  height: 551px;
-  border: 1px solid #dee2e7;
-  background: #fff;
-  border-radius: 6px;
-  padding: 20px;
-//   display: flex;
-gap:20px;
-    display: grid;
-    grid-template-columns: repeat(3, 3fr);
-  flex-direction: row;
-//   justify-content: space-between;
-  align-items: flex-start;
+	box-sizing: border-box;
+
+	// width: 100%;
+	min-height: 551px;
+	border: 1px solid #dee2e7;
+	background: #fff;
+	border-radius: 6px;
+	padding: 20px;
+	margin-top: 84px;
+	//   display: flex;
+	gap: 20px;
+	display: grid;
+	grid-template-columns: repeat(3, 3fr);
+	flex-direction: row;
+	//   justify-content: space-between;
+	align-items: flex-start;
+	@media (max-width: 1520px) {
+		grid-template-columns: repeat(2, 3fr);
+	}
+	@media (max-width: 978px) {
+		grid-template-columns: repeat(1, 3fr);
+	}
 `;
 
 interface ProductInfoProps {
@@ -43,7 +56,12 @@ export const ProductInfo = styled.div<ProductInfoProps>`
 	flex-direction: column;
 	justify-content: space-between;
 	font-family: inter;
-
+	@media (max-width: 978px) {
+		width: 100%;
+	}
+	@media (max-width: 678px) {
+		// width: 82%;
+	}
 	.average-rate {
 		font-size: 16px;
 		font-weight: 400;
@@ -76,12 +94,18 @@ export const ProductName = styled.div`
 		align-items: flex-start;
 		justify-content: space-between;
 		gap: 15px;
+		@media (max-width: 678px) {
+			display: block;
+		}
 		h2 {
 			font-size: 20px;
 			color: #1c1c1c;
 			font-weight: 600;
 			line-height: 28px;
 			letter-spacing: -0.2px;
+			@media (max-width: 678px) {
+				font-size: 16px;
+			}
 		}
 	}
 	.list {
@@ -93,6 +117,9 @@ export const ProductName = styled.div`
 		font-weight: 400px;
 		color: #787a80;
 		align-items: center;
+		@media (max-width: 678px) {
+			gap: 0;
+		}
 		.item {
 			display: flex;
 			align-items: center;
@@ -112,6 +139,9 @@ export const Variations = styled.div`
 			gap: 10px;
 			margin-top: 10px;
 			margin-bottom: 20px;
+			@media (max-width: 780px) {
+				flex-wrap: wrap;
+			}
 		}
 	}
 `;
@@ -126,6 +156,9 @@ export const DeliveryInfo = styled.div`
 	box-shadow: 0px 1px 2px 0px rgba(56, 56, 56, 0.08);
 	padding: 16px;
 	color: #1c1c1c;
+	@media (max-width: 1520px) {
+		display: none;
+	}
 	.store {
 		height: 120px;
 		display: flex;
@@ -163,6 +196,12 @@ export const PriceCard = styled.div<PriceCardProps>`
 	flex-direction: column;
 	justify-content: center;
 	font-family: inter;
+	@media (max-width: 780px) {
+		width: 100%;
+	}
+	@media (max-width: 450px) {
+		width: 82%;
+	}
 	p:first-child {
 		color: #fa343a;
 		font-size: 32px;
@@ -259,7 +298,8 @@ export const Description = styled.div`
 	box-shadow: 0px 1px 3px rgba(56, 56, 56, 0.1);
 	padding: 20px;
 	font-family: inter;
-
+	max-height: 500px;
+	overflow: auto;
 	.title {
 		font-size: 20px;
 		font-weight: 600;
@@ -350,7 +390,9 @@ export const SuggestionsWrapper = styled.div`
 		}
 		.name {
 			font-weight: 400;
-			margin-bottom: 10px;
+			@media (max-width: 800px) {
+				font-size: 16px;
+			}
 		}
 	}
 `;
@@ -368,6 +410,14 @@ export const RelatedWrapper = styled.div`
 	// align-items: center;
 	.grid-wrapper {
 		margin-top: 20px;
+		overflow: auto;
+		@media (max-width: 800px) {
+			scrollbar-width: none; /* Firefox */
+			-ms-overflow-style: none;
+			&::-webkit-scrollbar {
+				display: none;
+			}
+		}
 	}
 	.title {
 		font-family: inter;
@@ -383,7 +433,7 @@ export const RelatedWrapper = styled.div`
 `;
 
 export const DiscountBanner = styled.div`
-	width: 100%;
+	// width: 100%;
 	height: 70px;
 	border-radius: 5px;
 	background: #237cff;

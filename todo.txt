@@ -2,8 +2,16 @@ First Week Of MArch
 
 1. Sign in,Up and verfify OTP working.
 
-2. Create Product ( Digital, Physical and Services ).
+2. Dashboard - Store should have a totalSale field
+sales: month name,order total, store visit - link/search,bank
 
 3. Payments.
 
-4. Responsiveness of OTher screeens
+4. Responsiveness of OTher screeens.
+
+5. User avatar.
+
+6. Deactivate User and validate user password acoount endpoint
+
+7. Product should have ratings, reviews(rating,username,userImg,date,review)
+

@@ -24,11 +24,12 @@ const GlobalStyle = createGlobalStyle`
     list-style:none !important
   }
   button:disabled{
+    color:#fff !important;
     background:${AppColors.brandGray};
     cursor:not-allowed
   }
  input::disabled{
-    cursor:not-allowed
+    cursor:not-allowed,
   }
 `;
 

@@ -172,6 +172,20 @@ export const Main = styled.div`
 	}
 	.second-section {
 		flex: 0.3;
+		.card {
+			display: flex;
+			flex-direction: column;
+		}
+		.no_product {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			height: 90%;
+			width: 100%;
+			cursor: not-allowed;
+			flex: 0.8;
+		}
 		.order-card {
 			border: solid 1px #dee2e7 !important;
 			border-radius: 10px;
@@ -272,10 +286,25 @@ export const Income = styled.div`
 `;
 
 export const TableWrapper = styled.div`
+	.card {
+		display: flex;
+		flex-direction: column;
+	}
+	.no_product {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		height: 90%;
+		width: 100%;
+		cursor: not-allowed;
+		flex: 0.8;
+	}
 	.flex {
 		display: flex;
 		justify-content: space-between;
 		margin-bottom: 15px;
+
 		h2 {
 			color: var(--gray-600, #505050);
 			font-feature-settings: "clig" off, "liga" off;

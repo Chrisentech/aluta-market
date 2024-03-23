@@ -2,10 +2,6 @@ import React from "react";
 import Layout from "../../../../Layouts";
 import { Card, View } from "../../../../Shared/Components";
 import { GridItem, Wrapper2 } from "./products.styles";
-import {
-	BsFillArrowRightSquareFill,
-	BsFillCreditCard2BackFill,
-} from "react-icons/bs";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import { ROUTE } from "../../../../Shared/Constants";
@@ -54,7 +50,11 @@ const Screen: React.FC = () => {
 					gridItems={[
 						<GridItem
 							background="#00B517"
-							onClick={() => navigate(ROUTE.SELLER_ADDPRODUCT)}
+							onClick={() =>
+								navigate(ROUTE.SELLER_ADDPRODUCT, {
+									state: { type: "product" },
+								})
+							}
 						>
 							<section className="badge">
 								<GiBeachBag color="#00B517" size="24" />
@@ -65,7 +65,14 @@ const Screen: React.FC = () => {
 								appliances and every products
 							</div>
 						</GridItem>,
-						<GridItem background="#FF9017">
+						<GridItem
+							background="#FF9017"
+							onClick={() =>
+								navigate(ROUTE.SELLER_ADDPRODUCT, {
+									state: { type: "digital" },
+								})
+							}
+						>
 							<section className="badge">
 								<GiHamburgerMenu color="#FF9017" size="24" />
 							</section>
@@ -75,7 +82,14 @@ const Screen: React.FC = () => {
 								to events, collect departmental/faculty dues and other payments
 							</div>
 						</GridItem>,
-						<GridItem background="#FA3434">
+						<GridItem
+							background="#FA3434"
+							onClick={() =>
+								navigate(ROUTE.SELLER_ADDPRODUCT, {
+									state: { type: "service" },
+								})
+							}
+						>
 							<section className="badge">
 								<LuLayoutDashboard color="#FA3434" size="24" />
 							</section>
@@ -99,6 +113,7 @@ const Payment = () => {
 			component={Screen}
 			isLoading={false}
 			navMode="noSearch"
+			modalWidth={"400px"}
 		/>
 	);
 };

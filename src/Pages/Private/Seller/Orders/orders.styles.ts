@@ -36,7 +36,7 @@ export const Wrapper = styled.div`
 	.main {
 		margin-top: 40px;
 		// width: 100%;
-		height: 800px;
+		height: 600px;
 		border-radius: 20px;
 		background: #fff;
 		overflow: hidden;

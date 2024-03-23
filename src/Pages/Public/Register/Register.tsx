@@ -272,9 +272,10 @@ const Screen: React.FC = () => {
 									name={buyerNumber != "" ? "none" : "phone"}
 									type="text"
 									value={buyerNumber}
-									onChange={(e: ChangeEvent<HTMLInputElement>) =>
-										setBuyerNumber(e.target.value)
-									}
+									onChange={(e: ChangeEvent<HTMLInputElement>) => {
+										setBuyerNumber(e.target.value);
+										localStorage.setItem("number", buyerNumber);
+									}}
 								/>
 							</FormControl>
 							<FormControl>

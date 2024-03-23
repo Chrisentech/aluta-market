@@ -149,7 +149,7 @@ export const Input = styled(Field)<{ error: boolean; type: string }>`
 		props.type === "checkbox" ? "unset" : "calc(100% -  40px)"};
 	padding: 20px;
 	border-radius: 10px;
-	background: #f7fafc;
+	// background: #f7fafc;
 	border: ${(props) => (props.error ? "1px solid red" : "0")};
 	outline: 0;
 	margin: 5px 0px 20px 0;

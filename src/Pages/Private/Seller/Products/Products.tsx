@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import Layout from "../../../../Layouts";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Wrapper } from "./products.styles";
 import { AiOutlinePlus, AiOutlineSearch } from "react-icons/ai";
 import { Card, Table } from "../../../../Shared/Components";
 const categoryOptions = ["category", "Food", "Books", "Perfumes & Deodorant"];
 const options = ["Last added"];
-import { cloth, phone, wallet, watch } from "../../../../assets";
+import { cloth, noCatalog, phone, wallet, watch } from "../../../../assets";
 import { ROUTE } from "../../../../Shared/Constants";
 import Dropdown2 from "../../../../Shared/Components/Dropdown/Dropdown2";
+import { selectStore } from "../../../../Features/store/storeSlice";
+import { useSelector } from "react-redux";
 const data = [
 	{
 		id: 1,
@@ -97,6 +99,9 @@ const Screen: React.FC = () => {
 	const handleOptionClick = (option: string) => {
 		setSelectedOption(option);
 	};
+	const nav = useNavigate();
+	const store = useSelector(selectStore);
+
 	return (
 		<Wrapper>
 			<div className="flex">
@@ -109,7 +114,7 @@ const Screen: React.FC = () => {
 			</div>
 			<Card
 				width="100%"
-				height="500px"
+				height="600px"
 				borderRadius="20px"
 				onHover={false}
 				className="product"
@@ -134,7 +139,16 @@ const Screen: React.FC = () => {
 						/>
 					</div>
 				</div>
-				<Table data={data} columns={columns} />
+				{store?.products ? (
+					<Table data={data} columns={columns} />
+				) : (
+					<div
+						className="no_product"
+						onClick={() => nav(ROUTE.SELLER_PRODUCTTYPE)}
+					>
+						<img src={noCatalog} alt="" />{" "}
+					</div>
+				)}
 			</Card>
 		</Wrapper>
 	);

@@ -16,7 +16,7 @@ import { Formik, Form, useField } from "formik";
 import * as yup from "yup";
 import { loginLogo } from "../../../assets";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 // import { GoogleLogin } from "react-google-login";
 import { GoogleLogin } from "@react-oauth/google";
 import { LoginFormValues } from "../../../Interfaces";
@@ -33,6 +33,7 @@ import { Puff } from "react-loading-icons";
 import useUsers from "../../../Features/user/userActions";
 import { alertError, alertSuccess } from "../../../Features/alert/alertSlice";
 import { setCookie } from "../../../Shared/Utils/helperFunctions";
+import { VerifyOTPModal } from "../../../Shared/Components";
 const initialValues: LoginFormValues = {
 	email: "",
 	password: "",
@@ -63,14 +64,12 @@ const Screen: React.FC = () => {
 	const dispatch = useDispatch();
 	const { loginUser } = useUsers();
 	const url = sessionStorage.getItem("redirectPath") || "/";
-	const navigate = useNavigate();
 
 	const handleSubmit = async (values: LoginFormValues) => {
 		// Handle form submission here
 		let payload = {
 			...values,
 		};
-
 		setLoading(true);
 		try {
 			let user = await loginUser(payload);
@@ -79,11 +78,47 @@ const Screen: React.FC = () => {
 			setCookie("user_id", user?.id, stayLoggedIn ? 7 : 0);
 			setCookie("access_token", user?.access_token, stayLoggedIn ? 7 : 0);
 			sessionStorage.removeItem("redirectPath");
-			navigate(url);
+			window.location.replace(url);
 		} catch (error: any) {
 			setLoading(false);
-			for (let index = 0; index < error.graphQLErrors.length; index++) {
-				dispatch(alertError(JSON.parse(error.graphQLErrors[index].message)));
+			if (error.graphQLErrors && error.graphQLErrors.length > 0) {
+				for (let index = 0; index < error.graphQLErrors.length; index++) {
+					console.log(JSON.parse(error.graphQLErrors[index].message));
+					if (JSON.parse(error.graphQLErrors[index].message).status === 302) {
+						setTimeout(() => {
+							dispatch(showModal("VerifyOTP"));
+						}, 1500);
+					}
+					dispatch(
+						alertError(JSON.parse(error.graphQLErrors[index].message).message)
+					);
+				}
+			}
+			if (error.protocolErrors && error.protocolErrors.length > 0) {
+				console.log(2);
+				for (let index = 0; index < error.protocolErrors.length; index++) {
+					dispatch(
+						alertError(JSON.parse(error.protocolErrors[index].message).message)
+					);
+				}
+			}
+			if (error.clientErrors && error.clientErrors.length > 0) {
+				console.log(3);
+
+				for (let index = 0; index < error.clientErrors.length; index++) {
+					dispatch(
+						alertError(JSON.parse(error.clientErrors[index].message).message)
+					);
+				}
+			}
+			if (error.networkErrors && error.networkErrors.length > 0) {
+				console.log(4);
+
+				for (let index = 0; index < error.networkErrors.length; index++) {
+					dispatch(
+						alertError(JSON.parse(error.networkErrors[index].message).message)
+					);
+				}
 			}
 		}
 	};
@@ -192,7 +227,6 @@ const LoginPage = () => {
 	const [loading, setLoading] = useState(false);
 	const dispatch = useDispatch();
 	const activeModal = useSelector(selectActiveModal);
-
 	const handleSubmit = () => {
 		setLoading(true);
 	};
@@ -249,7 +283,16 @@ const LoginPage = () => {
 	);
 	return (
 		<Layout
-			popUpContent={ModalContent}
+			popUpContent={
+				activeModal === "VerifyOTP" ? (
+					<VerifyOTPModal
+						url="/"
+						number={localStorage.getItem("number") ?? ""}
+					/>
+				) : (
+					ModalContent
+				)
+			}
 			modalPadding={"20px 12px"}
 			showModal={activeModal}
 			layout={"blank"}

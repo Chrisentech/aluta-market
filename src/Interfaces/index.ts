@@ -38,6 +38,8 @@ export interface IUserProps {
 	avatar?: string;
 	phone?: string;
 	usertype?: string;
+	gender?: string;
+	dob?: string;
 	// password: string;
 	// stores?:
 	active?: boolean;

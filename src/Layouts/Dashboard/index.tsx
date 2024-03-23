@@ -14,6 +14,17 @@ import {
 import { ROUTE } from "../../Shared/Constants";
 import { Dropdown } from "../../Shared/Components";
 import {
+	BagFilled,
+	BagUnFilled,
+	BecomeFilled,
+	BecomeUnfilled,
+	DownloadUnfilled,
+	Download_Filled,
+	Follow,
+	FollowFilled,
+	HeartFilled,
+	HeartUnFilled,
+	RateFilled,
 	dashboard,
 	dashboardUnfilled,
 	documentText,
@@ -30,6 +41,9 @@ import {
 	userTag,
 	userTagUnfilled,
 } from "../../assets";
+import useStore from "../../Features/store/storeAction";
+import { useSelector } from "react-redux";
+import { fetchMe } from "../../Features/user/userSlice";
 // import useStore from "../../Features/store/storeAction";
 // import { useSelector } from "react-redux";
 interface IScreenProps {
@@ -40,10 +54,15 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const currentPath = location.pathname;
-
+	const me = useSelector(fetchMe);
+	const { getMyStores } = useStore();
 	const options = ["+ Create a new Store"];
 	const [active, setActive] = useState("");
 	const [selectedOption, setSelectedOption] = useState("null");
+	useEffect(() => {
+		me?.usertype === "seller" &&
+			getMyStores({ user: me?.id, limit: 100, offset: 0 });
+	}, [me]);
 
 	const handleOptionClick = (option: string) => {
 		if (option === "+ Create a new Store") {
@@ -80,142 +99,291 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 			setActive("orders");
 		} else if (currentPath === ROUTE.SELLER_STORESETTINGS) {
 			setActive("settings");
-		} else if (currentPath === ROUTE.SELLER_PROFILE) {
+		} else if (
+			currentPath === ROUTE.SELLER_PROFILE ||
+			currentPath === ROUTE.BUYER_PROFILE
+		) {
 			setActive("profile");
+		} else if (
+			currentPath === ROUTE.BUYER_ORDER ||
+			currentPath.includes(ROUTE.BUYER_ORDER)
+		) {
+			setActive("buyer_order");
+		} else if (
+			currentPath === ROUTE.BUYER_SAVED_ORDER ||
+			currentPath.includes(ROUTE.BUYER_SAVED_ORDER)
+		) {
+			setActive("saved");
+		} else if (
+			currentPath === ROUTE.BUYER_STORES_FOLLOWED ||
+			currentPath.includes(ROUTE.BUYER_STORES_FOLLOWED)
+		) {
+			setActive("follow");
+		} else if (
+			currentPath === ROUTE.BUYER_PRODUCT_REVIEW ||
+			currentPath.includes(ROUTE.BUYER_PRODUCT_REVIEW)
+		) {
+			setActive("rate");
+		} else if (
+			currentPath === ROUTE.BUYER_DOWNLOAD ||
+			currentPath.includes(ROUTE.BUYER_DOWNLOAD)
+		) {
+			setActive("download");
 		} else {
 			setActive(""); // Set default active state here
 		}
 	}, [currentPath]);
+	console.log(me?.usertype);
 	return (
 		<Wrapper>
-			<Sidebar>
-				<Dropdown
-					background="#eff2f4"
-					options={options}
-					type="dropdown_one"
-					selectedOption={selectedOption}
-					handleOptionClick={handleOptionClick}
-					className="dropdown-one"
-				/>
-				<SidebarMenu>
-					<MenuTop>
-						<SidebarMenuLinks
-							active={active === "dashboard"}
-							onClick={() => setActive("dashboard")}
-							color="#00B517"
-						>
-							<Link to={ROUTE.SELLER_DASHBOARD}>
-								{active === "dashboard" ? (
-									<img src={dashboard} />
-								) : (
-									<img src={dashboardUnfilled} />
-								)}{" "}
-								Dashboard
-							</Link>
-						</SidebarMenuLinks>
-						<SidebarMenuLinks
-							active={active === "catalog"}
-							onClick={() => setActive("catalog")}
-							color="#FF001F"
-						>
-							<Link to={ROUTE.SELLER_PRODUCTS}>
-								{active === "catalog" ? (
-									<img src={shoppingCart} />
-								) : (
-									<img src={shoppingCartUnfilled} />
-								)}{" "}
-								Catalog
-							</Link>
-						</SidebarMenuLinks>
-						<SidebarMenuLinks
-							active={active === "orders"}
-							color="#FF9017"
-							onClick={() => {
-								setActive("orders");
-							}}
-						>
-							<Link to={ROUTE.SELLER_ORDERS}>
-								{active === "orders" ? (
-									<img src={shop} />
-								) : (
-									<img src={shopUnfilled} />
-								)}{" "}
-								Orders
-							</Link>
-						</SidebarMenuLinks>
-						<SidebarMenuLinks
-							active={active === "payments"}
-							onClick={() => {
-								setActive("payments");
-							}}
-							color="#0D6EFD"
-						>
-							<Link to={ROUTE.SELLER_PAYMENT}>
-								{active === "payments" ? (
-									<img src={emptyWallet} />
-								) : (
-									<img src={emptyWalletUnfilled} />
-								)}{" "}
-								Payments
-							</Link>
-						</SidebarMenuLinks>
-						<SidebarMenuLinks
-							active={active === "reviews"}
-							onClick={() => setActive("reviews")}
-							color="#FF9017"
-						>
-							<Link to="#">
-								{active === "reviews" ? (
-									<img src={documentText} />
-								) : (
-									<img src={documentTextUnfilled} />
-								)}{" "}
-								Reviews
-							</Link>
-						</SidebarMenuLinks>
-						<SidebarMenuLinks
-							active={active === "settings"}
-							onClick={() => setActive("settings")}
-							color="#FF001F"
-						>
-							<Link to={ROUTE.SELLER_STORESETTINGS}>
-								{active === "settings" ? (
-									<img src={settings} />
-								) : (
-									<img src={settingsUnfilled} />
-								)}{" "}
-								Store Settings
-							</Link>
-						</SidebarMenuLinks>
-					</MenuTop>
-					<CustomLink>
-						<hr />
-						<SidebarMenuLinks
-							active={active === "profile"}
-							onClick={() => setActive("profile")}
-							color="#0D6EFD"
-						>
-							<Link to={ROUTE.SELLER_PROFILE}>
-								{active === "profile" ? (
-									<img src={userTag} />
-								) : (
-									<img src={userTagUnfilled} />
-								)}{" "}
-								My Profile
-							</Link>
-						</SidebarMenuLinks>
-						<SidebarMenuLinks>
-							<Link to={ROUTE.SELLER_DASHBOARD + "/logout"}>
-								<img src={sendSquare} /> Log out
-							</Link>
-						</SidebarMenuLinks>
-					</CustomLink>
-				</SidebarMenu>
-			</Sidebar>
+			{me?.usertype !== "seller" ? (
+				<Sidebar>
+					<Dropdown
+						background="#eff2f4"
+						options={options}
+						type="dropdown_one"
+						selectedOption={selectedOption}
+						handleOptionClick={handleOptionClick}
+						className="dropdown-one"
+					/>
+					<SidebarMenu>
+						<MenuTop>
+							<SidebarMenuLinks
+								active={active === "dashboard"}
+								onClick={() => setActive("dashboard")}
+								color="#00B517"
+							>
+								<Link to={ROUTE.SELLER_DASHBOARD}>
+									{active === "dashboard" ? (
+										<img src={dashboard} />
+									) : (
+										<img src={dashboardUnfilled} />
+									)}{" "}
+									Dashboard
+								</Link>
+							</SidebarMenuLinks>
+							<SidebarMenuLinks
+								active={active === "catalog"}
+								onClick={() => setActive("catalog")}
+								color="#FF001F"
+							>
+								<Link to={ROUTE.SELLER_PRODUCTS}>
+									{active === "catalog" ? (
+										<img src={shoppingCart} />
+									) : (
+										<img src={shoppingCartUnfilled} />
+									)}{" "}
+									Catalog
+								</Link>
+							</SidebarMenuLinks>
+							<SidebarMenuLinks
+								active={active === "orders"}
+								color="#FF9017"
+								onClick={() => {
+									setActive("orders");
+								}}
+							>
+								<Link to={ROUTE.SELLER_ORDERS}>
+									{active === "orders" ? (
+										<img src={shop} />
+									) : (
+										<img src={shopUnfilled} />
+									)}{" "}
+									Orders
+								</Link>
+							</SidebarMenuLinks>
+							<SidebarMenuLinks
+								active={active === "payments"}
+								onClick={() => {
+									setActive("payments");
+								}}
+								color="#0D6EFD"
+							>
+								<Link to={ROUTE.SELLER_PAYMENT}>
+									{active === "payments" ? (
+										<img src={emptyWallet} />
+									) : (
+										<img src={emptyWalletUnfilled} />
+									)}{" "}
+									Payments
+								</Link>
+							</SidebarMenuLinks>
+							<SidebarMenuLinks
+								active={active === "reviews"}
+								onClick={() => setActive("reviews")}
+								color="#FF9017"
+							>
+								<Link to="#">
+									{active === "reviews" ? (
+										<img src={documentText} />
+									) : (
+										<img src={documentTextUnfilled} />
+									)}{" "}
+									Reviews
+								</Link>
+							</SidebarMenuLinks>
+							<SidebarMenuLinks
+								active={active === "settings"}
+								onClick={() => setActive("settings")}
+								color="#FF001F"
+							>
+								<Link to={ROUTE.SELLER_STORESETTINGS}>
+									{active === "settings" ? (
+										<img src={settings} />
+									) : (
+										<img src={settingsUnfilled} />
+									)}{" "}
+									Store Settings
+								</Link>
+							</SidebarMenuLinks>
+						</MenuTop>
+						<CustomLink>
+							<hr />
+							<SidebarMenuLinks
+								active={active === "profile"}
+								onClick={() => setActive("profile")}
+								color="#0D6EFD"
+							>
+								<Link to={ROUTE.SELLER_PROFILE}>
+									{active === "profile" ? (
+										<img src={userTag} />
+									) : (
+										<img src={userTagUnfilled} />
+									)}{" "}
+									My Profile
+								</Link>
+							</SidebarMenuLinks>
+							<SidebarMenuLinks>
+								<Link to={ROUTE.SELLER_DASHBOARD + "/logout"}>
+									<img src={sendSquare} /> Log out
+								</Link>
+							</SidebarMenuLinks>
+						</CustomLink>
+					</SidebarMenu>
+				</Sidebar>
+			) : (
+				<Sidebar>
+					<SidebarMenu>
+						<MenuTop>
+							<SidebarMenuLinks
+								active={active === "buyer_order"}
+								onClick={() => setActive("buyer_order")}
+								color="#FA3434"
+							>
+								<Link to={ROUTE.BUYER_ORDER}>
+									{active === "buyer_order" ? (
+										<img src={BagFilled} />
+									) : (
+										<img src={BagUnFilled} />
+									)}{" "}
+									My Orders
+								</Link>
+							</SidebarMenuLinks>
+							<SidebarMenuLinks
+								active={active === "saved"}
+								onClick={() => setActive("saved")}
+								color="#FF9017"
+							>
+								<Link to={ROUTE.BUYER_SAVED_ORDER}>
+									{active === "saved" ? (
+										<img src={HeartFilled} />
+									) : (
+										<img src={HeartUnFilled} />
+									)}{" "}
+									Saved For Later
+								</Link>
+							</SidebarMenuLinks>
+							<SidebarMenuLinks
+								active={active === "follow"}
+								color="#00B517"
+								onClick={() => {
+									setActive("follow");
+								}}
+							>
+								<Link to={ROUTE.BUYER_STORES_FOLLOWED}>
+									{active === "follow" ? (
+										<img src={FollowFilled} />
+									) : (
+										<img src={Follow} />
+									)}{" "}
+									Followed Stores
+								</Link>
+							</SidebarMenuLinks>
+							<SidebarMenuLinks
+								active={active === "rate"}
+								onClick={() => {
+									setActive("rate");
+								}}
+								color="#FF9017"
+							>
+								<Link to={ROUTE.BUYER_PRODUCT_REVIEW}>
+									{active === "rate" ? (
+										<img src={RateFilled} />
+									) : (
+										<img src={documentTextUnfilled} />
+									)}{" "}
+									Rate and Review
+								</Link>
+							</SidebarMenuLinks>
+
+							<SidebarMenuLinks
+								active={active === "settings"}
+								onClick={() => setActive("settings")}
+								color="#FF7612"
+							>
+								<Link to={ROUTE.SELLER_CREATESTORE}>
+									{active === "settings" ? (
+										<img src={BecomeFilled} />
+									) : (
+										<img src={BecomeUnfilled} />
+									)}
+									Become a Seller
+								</Link>
+							</SidebarMenuLinks>
+							<SidebarMenuLinks
+								active={active === "download"}
+								onClick={() => setActive("download")}
+								color="#0D6EFD"
+							>
+								<Link to="#">
+									{active === "download" ? (
+										<img src={Download_Filled} />
+									) : (
+										<img src={DownloadUnfilled} />
+									)}{" "}
+									Downloads
+								</Link>
+							</SidebarMenuLinks>
+						</MenuTop>
+						<CustomLink>
+							<hr />
+							<SidebarMenuLinks
+								active={active === "profile"}
+								onClick={() => setActive("profile")}
+								color="#0D6EFD"
+							>
+								<Link to={ROUTE.BUYER_PROFILE}>
+									{active === "profile" ? (
+										<img src={userTag} />
+									) : (
+										<img src={userTagUnfilled} />
+									)}{" "}
+									My Profile
+								</Link>
+							</SidebarMenuLinks>
+							<SidebarMenuLinks>
+								<Link to={ROUTE.SELLER_DASHBOARD + "/logout"}>
+									<img src={sendSquare} /> Log out
+								</Link>
+							</SidebarMenuLinks>
+						</CustomLink>
+					</SidebarMenu>
+				</Sidebar>
+			)}
 
 			<main>{children}</main>
 		</Wrapper>
 	);
 };
-
+Screen.defaultProps = {};
 export default Screen;

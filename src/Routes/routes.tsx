@@ -12,7 +12,6 @@ import {
 	TermsAndConditions,
 } from "../Pages/Public";
 import {
-	BuyerDashboard,
 	SellerDashboard,
 	SellerProducts,
 	NewSellerProduct,
@@ -27,6 +26,12 @@ import {
 	SellerOrders,
 	OrderDetail,
 	ProductType,
+	Messaging,
+	BuyerOrder,
+	BuyerProfile,
+	BuyerOrderDetail,
+	SavedForLater,
+	FollowedStores,
 } from "../Pages/Private";
 import useAuthentication from "../Shared/Hooks/useAuth";
 import { setRedirectPath } from "../Shared/Utils/helperFunctions";
@@ -48,12 +53,52 @@ const Router: React.FC = () => {
 				{/* <Route path={ROUTE.VERIFY} element={<Veri />} /> */}
 
 				<Route
-					path={ROUTE.BUYER_DASHBOARD}
+					path={ROUTE.BUYER_ORDER}
 					element={
 						<PrivateRoute
-							component={BuyerDashboard}
+							component={BuyerOrder}
 							authRoute
-							route={ROUTE.BUYER_DASHBOARD}
+							route={ROUTE.BUYER_ORDER}
+						/>
+					}
+				/>
+				<Route
+					path={ROUTE.BUYER_ORDER + ":id"}
+					element={
+						<PrivateRoute
+							component={BuyerOrderDetail}
+							authRoute
+							route={ROUTE.BUYER_ORDER}
+						/>
+					}
+				/>
+				<Route
+					path={ROUTE.BUYER_PROFILE}
+					element={
+						<PrivateRoute
+							component={BuyerProfile}
+							authRoute
+							route={ROUTE.BUYER_PROFILE}
+						/>
+					}
+				/>
+				<Route
+					path={ROUTE.BUYER_SAVED_ORDER}
+					element={
+						<PrivateRoute
+							component={SavedForLater}
+							authRoute
+							route={ROUTE.BUYER_SAVED_ORDER}
+						/>
+					}
+				/>
+				<Route
+					path={ROUTE.BUYER_STORES_FOLLOWED}
+					element={
+						<PrivateRoute
+							component={FollowedStores}
+							authRoute
+							route={ROUTE.BUYER_STORES_FOLLOWED}
 						/>
 					}
 				/>
@@ -61,6 +106,16 @@ const Router: React.FC = () => {
 					path={ROUTE.CART}
 					element={
 						<PrivateRoute component={Cart} authRoute route={ROUTE.CART} />
+					}
+				/>
+				<Route
+					path={ROUTE.MESSAGING + "/:me"}
+					element={
+						<PrivateRoute
+							component={Messaging}
+							authRoute
+							route={ROUTE.MESSAGING + "/:me"}
+						/>
 					}
 				/>
 				<Route

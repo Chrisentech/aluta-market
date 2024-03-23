@@ -1,12 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
 // import { apolloClient } from "../../Services/graphql/apolloClient";
-import { actions, selectMaintenanceMode } from "./storeSlice";
+import {
+	actions,
+	selectMaintenanceMode,
+	selectStore,
+	selectStores,
+} from "./storeSlice";
 import { apolloClient } from "../../Services/graphql/apolloClient";
 import { GET_MY_STORE, GET_MY_STORES } from "../../Services/graphql/store";
 import { alertError } from "../alert/alertSlice";
 export default function useStore() {
 	const dispatch = useDispatch();
 	const maintenanceMode = useSelector(selectMaintenanceMode);
+	const mystores = useSelector(selectStores);
+	const mystore = useSelector(selectStore);
 
 	const setMaintenanceMode = (mode: boolean) => {
 		dispatch(actions.setMaintenanceMode(mode));
@@ -44,5 +51,7 @@ export default function useStore() {
 		setMaintenanceMode,
 		getMyStores,
 		getStore,
+		mystores,
+		mystore,
 	};
 }

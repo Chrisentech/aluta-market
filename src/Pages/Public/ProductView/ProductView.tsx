@@ -12,8 +12,8 @@ import {
 	ProductName,
 	RelatedWrapper,
 	SuggestionsWrapper,
-	Table,
-	TableRow,
+	// Table,
+	// TableRow,
 	Variations,
 	Wrapper,
 } from "./productview.styles";
@@ -23,7 +23,7 @@ import { FaXmark } from "react-icons/fa6";
 import { MdOutlineMessage, MdOutlineShoppingBasket } from "react-icons/md";
 import { colorData } from "../../../test-data/data";
 import {
-	Breadcrumb,
+	// Breadcrumb,
 	Button,
 	Card,
 	ColorList,
@@ -99,7 +99,7 @@ const Screen: React.FC = () => {
 	return (
 		<Wrapper>
 			<Container>
-				<Breadcrumb items={breadcrumbs} />
+				{/* <Breadcrumb items={breadcrumbs} /> */}
 				<OrderDetail>
 					<ProductCarousel
 						images={product?.image}
@@ -223,7 +223,7 @@ const Screen: React.FC = () => {
 							<Button
 								color="#fff"
 								background="linear-gradient(180deg, #FF7612 0%, #FF001F 100%);"
-								height={60}
+								height={49}
 								width="100%"
 								padding={16}
 								gap={10}
@@ -322,33 +322,12 @@ const Screen: React.FC = () => {
 						gap: 20,
 						marginBottom: 30,
 					}}
+					className="lol-order"
 				>
 					<div>
 						<Description>
 							<h3 className="title">Description</h3>
 							<p className="description">{product?.description}</p>
-							<Table>
-								<TableRow>
-									<div className="column">Model</div>
-									<div className="column">#8786867</div>
-								</TableRow>
-								<TableRow>
-									<div className="column">Model</div>
-									<div className="column">#8786867</div>
-								</TableRow>
-								<TableRow>
-									<div className="column">Model</div>
-									<div className="column">#8786867</div>
-								</TableRow>
-								<TableRow>
-									<div className="column">Model</div>
-									<div className="column">#8786867</div>
-								</TableRow>
-								<TableRow>
-									<div className="column">Model</div>
-									<div className="column">#8786867</div>
-								</TableRow>
-							</Table>
 						</Description>
 						<Reviews width={"100%"} />
 					</div>

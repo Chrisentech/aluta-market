@@ -28,8 +28,8 @@ import { ImUser } from "react-icons/im";
 import { logo } from "../../../assets";
 import { categories } from "../../../test-data";
 import { Badge } from "..";
-import { useDispatch, useSelector } from "react-redux";
-import { newMessage } from "../../../Features/notifications/notificationSlice";
+import { useSelector } from "react-redux";
+// import { newMessage } from "../../../Features/notifications/notificationSlice";
 import { searchSuggestions } from "../../../Features/products/productSlice";
 import useProducts from "../../../Features/products/productActions";
 import useAuthentication from "../../Hooks/useAuth";
@@ -40,15 +40,18 @@ const SideBar: React.FC<{ show: boolean; onClose: () => void }> = ({
 	onClose,
 }) => {
 	return (
-		<Sidebar show={show}>
-			<RxCross2 size={26} className="dismiss" onClick={onClose} />
-			<div className="title">
-				<div>
-					<ImUser size={26} />
-					<span>Aluko Opeyemi</span>
+		<>
+			<Sidebar show={show}>
+				<RxCross2 size={26} className="dismiss" onClick={onClose} />
+				<div className="title">
+					<div>
+						<ImUser size={26} />
+						<span>Aluko Opeyemi</span>
+					</div>
 				</div>
-			</div>
-		</Sidebar>
+			</Sidebar>
+			<BlurredBackground show={show} onClick={onClose} />
+		</>
 	);
 };
 
@@ -93,7 +96,7 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 	mode,
 }) => {
 	const { message } = useSelector((st: any) => st.notifications);
-	const dispatch = useDispatch();
+	// const dispatch = useDispatch();
 	const nav = useNavigate();
 	const { isAuthenticated } = useAuthentication();
 	const [searching, setSearching] = useState(false);
@@ -163,7 +166,7 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 										<img src={profileIcon} alt="..." />
 										<label>Profile</label>
 									</IconWrapper>
-									<IconWrapper>
+									<IconWrapper onClick={() => nav(ROUTE.MESSAGING + "/1")}>
 										{message > 0 && (
 											<Badge
 												count={
@@ -181,7 +184,11 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 										<img src={messageIcon} alt="#BDC4CD" />
 										<label>Message</label>
 									</IconWrapper>
-									<IconWrapper onClick={() => dispatch(newMessage())}>
+									{/* <IconWrapper onClick={() => dispatch(newMessage())}>
+										<img src={shopIcon} alt="..." />
+										<label>Orders</label>
+									</IconWrapper> */}
+									<IconWrapper onClick={() => nav(ROUTE.BUYER_ORDER)}>
 										<img src={shopIcon} alt="..." />
 										<label>Orders</label>
 									</IconWrapper>

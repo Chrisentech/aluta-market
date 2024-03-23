@@ -7,12 +7,36 @@ const STORE_FIELDS = gql`
 		name
 		user
 		description
-		followers {
+		thumbnail
+		phone
+		background
+		address
+		status
+		has_physical_address
+		walletfollowers {
+			follower_id
 			follower_image
 			follower_name
+			store_id
 		}
-		has_physical_address
-		wallet
+		product {
+			id
+			name
+			price
+			description
+			discount
+			image
+			slug
+			quantity
+			status
+			thumbnail
+			store
+			category
+			subcategory
+		}
+		order {
+			id
+		}
 	}
 `;
 const PAGINATION_DATA = gql`
@@ -23,22 +47,41 @@ const PAGINATION_DATA = gql`
 			name
 			user
 			description
-			followers {
-				follower_name
-				follower_id
-				follower_image
-			}
-			order {
-				customer
-				customer_email
-				price
-				status
-				date
-				store_id
-			}
+			thumbnail
+			phone
+			background
+			address
+			status
 			has_physical_address
 			wallet
+			followers {
+				follower_id
+				follower_image
+				follower_name
+				store_id
+			}
+			product {
+				id
+				name
+				price
+				description
+				discount
+				image
+				slug
+				quantity
+				status
+				thumbnail
+				store
+				category
+				subcategory
+			}
+			order {
+				id
+			}
 		}
+		current_page
+		per_page
+		total
 	}
 `;
 

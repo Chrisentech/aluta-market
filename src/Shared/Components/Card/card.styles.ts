@@ -35,4 +35,7 @@ export const WishWrapper = styled.div<{ boxShadow?: boolean }>`
 	box-shadow: ${({ boxShadow }) =>
 		boxShadow ? "rgba(0, 0, 0, 0.14) 0px 3px 8px" : "none"};
 	cursor: pointer;
+	@media (max-width: 678px) {
+		display: block;
+	}
 `;

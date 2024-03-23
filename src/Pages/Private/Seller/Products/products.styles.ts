@@ -3,6 +3,25 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
 margin:30px 0;
 .product{
+			display: flex;
+			flex-direction: column;
+	.no_product {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			height: 90%;
+			width: 100%;
+			cursor: pointer;
+			flex: 0.8;
+			img{
+				width:220px;
+				   @media (max-width: 790px) {
+       				width:67%;
+
+}
+			}
+		}
        @media (max-width: 790px) {
        margin-top: 10px
 }
@@ -87,9 +106,12 @@ export const Wrapper2 = styled.div`
 		line-height: 32px; /* 133.333% */
 		letter-spacing: -0.2px;
 	}
+	
 	.card {
 		width: calc(100% - 160px);
 		margin: 20px 0;
+			display: flex;
+			flex-direction: column;
     .flex{
       display:flex;
       justify-content:space-between;

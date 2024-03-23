@@ -7,18 +7,14 @@ import { Games } from "./Shared/Games";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import useUsers from "./Features/user/userActions";
 import { getCookie } from "./Shared/Utils/helperFunctions";
-import { useDispatch, useSelector } from "react-redux";
-import { actions, fetchMe } from "./Features/user/userSlice";
+import { useDispatch } from "react-redux";
+import { actions } from "./Features/user/userSlice";
 import useAuthentication from "./Shared/Hooks/useAuth";
-import useStore from "./Features/store/storeAction";
 
 const App: React.FC = () => {
 	const [isOnline, setIsOnline] = useState(true);
 	const { isAuthenticated } = useAuthentication();
 	const { getMe } = useUsers();
-	const user = useSelector(fetchMe);
-	
-	const { getMyStores } = useStore();
 	const dispatch = useDispatch();
 	useEffect(() => {
 		const handleOnlineStatus = () => {
@@ -41,11 +37,6 @@ const App: React.FC = () => {
 			window.removeEventListener("offline", handleOfflineStatus);
 		};
 	}, []);
-	useEffect(() => {
-		user?.usertype === "seller" &&
-			getMyStores({user:user?.id,limit:100,offset:0});
-			
-	}, [user]);
 
 	return (
 		<>

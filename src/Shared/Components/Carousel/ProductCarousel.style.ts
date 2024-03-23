@@ -39,6 +39,9 @@ export const CarouselContainer = styled.div`
 	align-items: center;
 	height: 100%;
 	// background: red;
+	@media (max-width: 978px) {
+		align-items: self-start;
+	}
 `;
 
 export const SelectedImage = styled.img`
@@ -46,6 +49,13 @@ export const SelectedImage = styled.img`
 	height: 380px;
 	border-radius: 4px;
 	border: 1px solid #dee2e7;
+	@media (max-width: 978px) {
+		width: 90%;
+	}
+
+	@media (max-width: 450px) {
+		width: 82%;
+	}
 `;
 
 export const ImageList = styled.div`
@@ -53,6 +63,9 @@ export const ImageList = styled.div`
 	justify-content: space-between;
 	width: 380px;
 	margin-top: 24px;
+	@media (max-width: 678px) {
+		width: 100%;
+	}
 `;
 
 interface ThumbnailProps {

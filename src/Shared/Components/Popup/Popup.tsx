@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { Wrapper, BlurredBackground } from "./popup.styles";
-import { Card, Toast } from "..";
+import { Card } from "..";
 
 interface IPopupProps {
 	show: boolean | undefined;

@@ -26,11 +26,13 @@ import {
 import ModalContent from "./modals";
 import { MdToggleOff, MdToggleOn } from "react-icons/md";
 import useStore from "../../../../Features/store/storeAction";
+import { selectStore } from "../../../../Features/store/storeSlice";
 
 const Screen: React.FC = () => {
 	const dispatch = useDispatch();
 	const [activeTab, setActiveTab] = useState<1 | 2 | 3>(1);
 	const { maintenanceMode, setMaintenanceMode } = useStore();
+	const store = useSelector(selectStore);
 
 	useEffect(() => {
 		console.log(maintenanceMode);
@@ -45,7 +47,7 @@ const Screen: React.FC = () => {
 				<TopPanel>
 					<BackgroundImg>
 						<UploadImg>
-							<img src={uploadImg} />
+							<img src={uploadImg} alt="..." />
 						</UploadImg>
 					</BackgroundImg>
 					<div className="store-info">
@@ -54,7 +56,7 @@ const Screen: React.FC = () => {
 								<img src={messageEdit} />
 							</AddImg>
 						</ProfileImg>
-						<h2 className="store-name">Arike Collection</h2>
+						<h2 className="store-name">{store?.name}</h2>
 						<Button
 							className="button"
 							width={117}
@@ -92,7 +94,7 @@ const Screen: React.FC = () => {
 					{activeTab === 1 && (
 						<StoreDesc>
 							<label>Store description</label>
-							<textarea className="desc-input" />
+							<textarea className="desc-input" value={store?.description} />
 						</StoreDesc>
 					)}
 					{activeTab === 2 && (
@@ -100,17 +102,17 @@ const Screen: React.FC = () => {
 							<div className="form">
 								<label>
 									Store Phone Number
-									<InputField type="text" />
+									<InputField type="text" value={store?.phone} />
 								</label>
 								<label>
 									Physical Address{" "}
 									<span className="bracket">&#40;Optional&#41;</span>
-									<InputField type="text" />
+									<InputField type="text" value={store?.address} />
 								</label>
 								<label>
 									Business Email{" "}
 									<span className="bracket">&#40;Optional&#41;</span>
-									<InputField type="text" />
+									<InputField type="text" value={store?.email} />
 								</label>
 							</div>
 						</ContactDetails>
@@ -207,6 +209,7 @@ const StoreSettings = () => {
 			showModal={activeModal}
 			popUpContent={<ModalContent active={activeModal} />}
 			navMode="noSearch"
+			modalWidth={500}
 		/>
 	);
 };

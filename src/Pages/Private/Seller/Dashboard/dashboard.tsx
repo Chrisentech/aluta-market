@@ -15,6 +15,7 @@ import {
 	Visuals,
 	Table,
 	LogoutModal,
+	Button,
 } from "../../../../Shared/Components";
 import { IoWalletOutline, IoCartOutline } from "react-icons/io5";
 import {
@@ -25,17 +26,22 @@ import {
 } from "react-icons/bs";
 import { FiBarChart2 } from "react-icons/fi";
 import { IoIosCheckmarkCircle } from "react-icons/io";
-import { cloth, phone, wallet, watch, wristwatch } from "../../../../assets";
+import {
+	cloth,
+	noOrder,
+	noProduct,
+	phone,
+	wallet,
+	watch,
+	wristwatch,
+} from "../../../../assets";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	selectActiveModal,
 	showModal,
 } from "../../../../Features/modal/modalSlice";
-import {
-	selectStore,
-	selectStores,
-} from "../../../../Features/store/storeSlice";
+import { selectStore } from "../../../../Features/store/storeSlice";
 import { ROUTE } from "../../../../Shared/Constants";
 import { OrderCard } from "../Orders/orders.styles";
 const { Charts, Pie } = Visuals;
@@ -58,7 +64,7 @@ const Screen: React.FC = () => {
 			</div>
 			<div className="info">
 				<h3>Account Balance</h3>
-				<p>{store?.wallet >= 0 ? "N " + store?.wallet : "N123, 456.78"}</p>
+				<p>{store?.wallet >= 0 ? "N " + store?.wallet.toFixed(2) : "N0.00"}</p>
 			</div>
 		</GridItem>,
 		<GridItem background="#FF9017">
@@ -93,7 +99,7 @@ const Screen: React.FC = () => {
 					<IoWalletOutline color="#fff" size="24" />
 				</div>
 			</div>
-			{!store?.bank && store ? (
+			{!store?.bank ? (
 				<div
 					style={{
 						cursor: "pointer",
@@ -102,7 +108,7 @@ const Screen: React.FC = () => {
 						color: "#fff",
 						borderRadius: 5,
 					}}
-					onClick={() => nav(ROUTE.SELLER_PAYMENT_REG + "/1")}
+					onClick={() => nav(ROUTE.SELLER_PAYMENT)}
 				>
 					Create Payment Details
 				</div>
@@ -110,7 +116,7 @@ const Screen: React.FC = () => {
 				<div className="info">
 					<h3>Uba bank</h3>
 					<p>2092138348</p>
-					<h3>Opeyemi's Store</h3>
+					<h3>Aluta's Store</h3>
 				</div>
 			)}
 		</GridItem>,
@@ -190,18 +196,22 @@ const Screen: React.FC = () => {
 						<>
 							<div className="flex">
 								<h2>Sales Statistics</h2>
-								<FiBarChart2 title="info" />
+								<FiBarChart2
+									title="info"
+									color="gray"
+									style={{ cursor: "not-allowed" }}
+								/>
 							</div>
 							<Tracker>
 								<BsCalendar />
 								<span>This year</span>
 							</Tracker>
-							<PriceTag>N32.7K</PriceTag>
+							<PriceTag>N {store?.wallet.toFixed(2)}</PriceTag>
 							<Income>
 								<p>
 									Total Income <BsCaretUpFill />
 								</p>
-								<p> +2.45%</p>
+								<p> +0.00%</p>
 							</Income>
 							<div className="track">
 								<IoIosCheckmarkCircle color="#00b517" size="18" />
@@ -222,13 +232,13 @@ const Screen: React.FC = () => {
 								<p style={{ display: "flex", alignItems: "center" }}>
 									<BsDot size="32" color="#FF9017" /> Search
 								</p>
-								<p>63%</p>
+								<p>0%</p>
 							</div>
 							<div>
 								<p style={{ display: "flex", alignItems: "center" }}>
 									<BsDot size="32" color="#2776EA" /> Link
 								</p>
-								<p>37%</p>
+								<p>0%</p>
 							</div>
 						</div>
 					</Card>
@@ -237,46 +247,72 @@ const Screen: React.FC = () => {
 			<Main>
 				<div className="first-section">
 					<TableWrapper>
-						<Card height="200px" width="100%">
+						<Card height="400px" width="100%" className="card">
 							<div className="flex">
 								<h2>Top Products</h2>
 							</div>
-							<Table data={data} columns={columns} />
+							{store?.products ? (
+								<Table data={data} columns={columns} />
+							) : (
+								<div className="no_product">
+									<img src={noProduct} alt="" />{" "}
+									<Button
+										onClick={() => nav(ROUTE.SELLER_PRODUCTTYPE)}
+										color="#fff"
+										background="#00B517"
+										width="203px"
+									>
+										Upload
+									</Button>
+								</div>
+							)}
 						</Card>
 					</TableWrapper>
 				</div>
 				<div className="second-section">
-					<Card width="inherit" borderRadius="20px" padding={"20px 30px "}>
+					<Card
+						width="inherit"
+						height="400px"
+						borderRadius="20px"
+						padding={"20px 30px "}
+						className="card"
+					>
 						<div className="flex">
 							<h2>Latest Orders</h2>
 						</div>
-						{Array(4)
-							.fill(".")
-							.map((_, index) => {
-								return (
-									<div className="order-card" key={index}>
-										<OrderCard>
-											<div className="top">
-												<div className="right">
-													<img src={wristwatch} className="img" />
-													<div className="info">
-														<p className="title">Headset and 2 other items</p>
-														<p className="price">N9,600</p>
+						{store?.orders ? (
+							Array(4)
+								.fill(".")
+								.map((_, index) => {
+									return (
+										<div className="order-card" key={index}>
+											<OrderCard>
+												<div className="top">
+													<div className="right">
+														<img src={wristwatch} className="img" />
+														<div className="info">
+															<p className="title">Headset and 2 other items</p>
+															<p className="price">N9,600</p>
+														</div>
 													</div>
+													<div className="icon">A</div>
 												</div>
-												<div className="icon">A</div>
-											</div>
-											<div className="bottom">
-												<label className="option">
-													<input type="checkbox" />
-													<span className="custom"></span>
-													Mark as Delivered
-												</label>
-											</div>
-										</OrderCard>
-									</div>
-								);
-							})}
+												<div className="bottom">
+													<label className="option">
+														<input type="checkbox" />
+														<span className="custom"></span>
+														Mark as Delivered
+													</label>
+												</div>
+											</OrderCard>
+										</div>
+									);
+								})
+						) : (
+							<div className="no_product">
+								<img src={noOrder} alt="" />{" "}
+							</div>
+						)}
 					</Card>
 				</div>
 			</Main>
@@ -298,7 +334,7 @@ const Screen: React.FC = () => {
 const Dashboard = () => {
 	const { state: param } = useParams();
 	const dispatch = useDispatch();
-	const stores = useSelector(selectStores);
+	// const stores = useSelector(selectStores);
 	const activeModal = useSelector(selectActiveModal);
 
 	if (param === "logout") dispatch(showModal("logout"));

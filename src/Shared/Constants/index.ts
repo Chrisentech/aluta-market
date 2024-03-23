@@ -1,7 +1,6 @@
 export const ROUTE = {
 	//Buyer Routes
 	HOME: "/",
-	BUYER_DASHBOARD: "/buyer/dashboard/",
 	SEARCH: "/search",
 	STORE: "/store",
 	CART: "/product/cart",
@@ -14,9 +13,17 @@ export const ROUTE = {
 	TWOFA: "/auth/two-fa/setup/",
 	CHECKOUT: "/checkout/",
 	TERMS: "/terms-and-conditions",
-
+	MESSAGING: "/messaging",
 	PRODUCTVIEW: "/product/view/:id",
 	CHANGEADDRESS: "/product/view/change-address",
+
+	//Dashboard
+	BUYER_ORDER: "/buyer/order/",
+	BUYER_SAVED_ORDER: "/buyer/saved-order/",
+	BUYER_STORES_FOLLOWED: "/buyer/stores-followed/",
+	BUYER_PRODUCT_REVIEW: "/buyer/product-review/",
+	BUYER_DOWNLOAD: "/buyer/products-download/",
+	BUYER_PROFILE: "/buyer/profile/",
 
 	//Seller Routes
 	SELLER_NEWPRODUCT: "/seller/product/new",

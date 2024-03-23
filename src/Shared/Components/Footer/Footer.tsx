@@ -29,11 +29,27 @@ const Footer: React.FC = () => {
 						Bringing Nigerian students together in Solidarity
 					</div>
 					<div className="flex">
-						<BsFacebook color="#BDC4CD" />
-						<AiFillTwitterCircle color="#BDC4CD" />
-						<TiSocialLinkedinCircular color="#BDC4CD" />
-						<AiFillInstagram color="#BDC4CD" />
-						<AiFillYoutube color="#BDC4CD" />
+						<a target="_blank" href="https://web.facebook.com/alutamarket.live">
+							<BsFacebook color="#BDC4CD" />
+						</a>
+						<a target="_blank" href=" https://twitter.com/AlutamarketLive">
+							<AiFillTwitterCircle color="#BDC4CD" />
+						</a>
+						<a
+							target="_blank"
+							href="https://www.linkedin.com/company/101179165"
+						>
+							<TiSocialLinkedinCircular color="#BDC4CD" />
+						</a>
+						<a
+							target="_blank"
+							href=" https://www.instagram.com/alutamarket_live/"
+						>
+							<AiFillInstagram color="#BDC4CD" />
+						</a>
+						<a target="_blank" href="https://www.youtube.com/@Alutamarket_live">
+							<AiFillYoutube color="#BDC4CD" />
+						</a>
 					</div>
 				</FooterBrand>
 				<FooterItems>

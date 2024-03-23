@@ -54,6 +54,7 @@ import Dropdown2 from "../../../../../Shared/Components/Dropdown/Dropdown2";
 import useVariants from "../../../../../test-data/variant-data";
 import { IoMdClose } from "react-icons/io";
 import { image34 } from "../../../../../assets";
+import { numberWithCommas } from "../../../../../Shared/Utils/helperFunctions";
 
 const initialValues: IProductProps = {
 	name: "",
@@ -86,9 +87,13 @@ const Screen: React.FC = () => {
 		location.state?.fileData ?? []
 	); // Changed the type to string[] to hold Blob URLs
 	const [imageUrls, setImageUrls] = useState<string[]>([]);
-	const [description, setDescription] = useState("");
+	const [_, setDescription] = useState("");
+	const [productName, setProductName] = useState("");
+	const [productPrice, setProductPrice] = useState<number>(0);
+	const [discountedPrice, setDiscountedPrice] = useState("");
 	const [quantity, setQuantity] = useState<number>(1);
 	const hiddenInputRef = useRef<HTMLInputElement | null>(null);
+	const { state } = useLocation();
 
 	useEffect(() => {
 		// Retrieve the URL parameter containing the file data
@@ -99,6 +104,7 @@ const Screen: React.FC = () => {
 			});
 			setImageUrls(blobURLs);
 			setthumbnail(blobURLs[0]);
+			localStorage.setItem("thumbnail", blobURLs[0] || "");
 
 			// Cleanup: Revoke the object URLs when the component unmounts
 			return () => {
@@ -110,7 +116,6 @@ const Screen: React.FC = () => {
 	const reduxCategories = useSelector(selectCategories);
 	const [thumbnail, setthumbnail] = useState<string | undefined>(imageUrls[0]);
 
-	const [content, setContent] = useState("");
 	const { createProduct, getCategories, getCategory } = useProducts();
 
 	const handleSelectCategory = async (name: string) => {
@@ -147,8 +152,6 @@ const Screen: React.FC = () => {
 			console.log("Form submitted:", payload);
 			// Call the createProduct function to submit the form
 			await createProduct(payload);
-
-			// Optionally, you can perform any post-submission actions or navigation here
 
 			// Log the form values for debugging purposes
 		} catch (error) {
@@ -255,7 +258,7 @@ const Screen: React.FC = () => {
 				<div className="badge">
 					<MdOutlineAddHomeWork size={30} />
 				</div>
-				<h3>Add Product/Service</h3>
+				<h3>Add {state?.type === "product" ? "Product" : "Service"}</h3>
 				<Container>
 					<ImageWrapper>
 						{!!imageUrls.length &&
@@ -299,9 +302,15 @@ const Screen: React.FC = () => {
 						<Form>
 							<FormControl>
 								<Label>
-									Product Name<span>*</span>
+									{state?.type === "product" ? "Product" : "Service"}
+									<span>*</span>
 								</Label>
-								<CustomField name="name" type="text" />
+								<CustomField
+									type="text"
+									name={productName ? "none" : "name"}
+									value={productName}
+									onChange={(e: any) => setProductName(e.target.value)}
+								/>
 							</FormControl>
 
 							<Flex>
@@ -310,13 +319,23 @@ const Screen: React.FC = () => {
 										Price<span>*</span>{" "}
 										<span className="info">(No Commas)</span>
 									</Label>
-									<CustomField name="price" type="number" />
+									<CustomField
+										name={productPrice > 100 ? "none" : "price"}
+										type="number"
+										value={productPrice}
+										onChange={(e: any) => setProductPrice(e.target.value)}
+									/>
 								</FormControl>
 								<FormControl>
 									<Label>
 										Discount Price <span className="info">(Optional)</span>
 									</Label>
-									<CustomField name="discount" type="number" />
+									<CustomField
+										name={discountedPrice ? "none" : "discount"}
+										type="number"
+										value={discountedPrice}
+										onChange={(e: any) => setDiscountedPrice(e.target.value)}
+									/>
 								</FormControl>
 							</Flex>
 							<Flex>
@@ -354,14 +373,17 @@ const Screen: React.FC = () => {
 							</Flex>
 							<FormControl>
 								<Label>
-									Product description<span>*</span>{" "}
+									{state?.type === "product" ? "Product" : "Service"}{" "}
+									description<span>*</span>{" "}
 								</Label>
 								<TextEditor width={"100%"} height="209px">
 									<ReactQuill
 										theme="snow"
 										modules={modules}
 										formats={formats}
-										placeholder="Describe your product to your customer"
+										placeholder={`Describe your ${
+											state?.type === "product" ? "product" : "service"
+										} to your customer`}
 										onChange={handleProcedureContentChange}
 										// style={{ height: "109px", width: "100%" }}ss
 									/>
@@ -397,15 +419,22 @@ const Screen: React.FC = () => {
 								<FormControl>
 									<OptionButton
 										type="button"
-										onClick={() => dispatch(showModal("addOptions"))}
+										onClick={() => {
+											dispatch(showModal("addOptions"));
+										}}
+										disabled={!thumbnail || !productPrice || !productName}
 									>
 										Add Options
 									</OptionButton>
 								</FormControl>
 							</Flex>
 
-							<button type="submit" className="submit" disabled={false}>
-								Publish Product
+							<button
+								type="submit"
+								className="submit"
+								disabled={!reduxCategory}
+							>
+								Publish {state?.type === "product" ? "Product" : "Service"}
 							</button>
 						</Form>
 					</Formik>
@@ -420,7 +449,7 @@ const CustomField: React.FC<{
 	type: string;
 	options?: any;
 	userType?: string;
-	value?: string;
+	value?: string | number;
 	background?: string;
 	onChange?: any;
 	padding?: string;
@@ -444,6 +473,7 @@ const CustomField: React.FC<{
 }) => {
 	const [field, meta] = useField(name);
 	const inputHasError = !!meta?.error?.length;
+	console.log(inputHasError);
 	if (type === "select") {
 		return (
 			<Dropdown
@@ -497,7 +527,7 @@ const CustomField: React.FC<{
 		</>
 	);
 };
-const variations = ["size", "color", "condition"];
+const variations = ["Size", "Color", "Condition"];
 
 const NewProduct = () => {
 	const dispatch = useDispatch();
@@ -526,7 +556,7 @@ const NewProduct = () => {
 
 	const sizeVariant = getVariants("size");
 	const colorVariant = getVariants("color");
-	// const conditionVariant = getVariants('condition')
+	// const conditionVariant = getVariants("condition");
 
 	const handleDropdownEvent = (option: string) => {
 		setSelectedOption(option);
@@ -535,13 +565,13 @@ const NewProduct = () => {
 		setMoreOption(option);
 	};
 	const hasNextStep = (option: string) => {
-		if (option === "size" && sizeStep < 2) {
+		if (option === "Size" && sizeStep < 2) {
 			return true;
-		} else if (option === "color" && moreOption === "No") {
+		} else if (option === "Color" && moreOption === "No") {
 			if (colorStep < 2) {
 				return true;
 			} else return false;
-		} else if (option === "color" && moreOption === "Yes") {
+		} else if (option === "Color" && moreOption === "Yes") {
 			if (colorStep < 4) {
 				return true;
 			} else return false;
@@ -550,17 +580,17 @@ const NewProduct = () => {
 
 	const handleNextStep = (option: string, decrement?: boolean) => {
 		if (decrement) {
-			if (option === "size") setSizeStep(sizeStep - 1);
-			if (option === "color") setColorStep(colorStep - 1);
+			if (option === "Size") setSizeStep(sizeStep - 1);
+			if (option === "Color") setColorStep(colorStep - 1);
 		} else {
-			if (option === "size") setSizeStep(sizeStep + 1);
-			if (option === "color") setColorStep(colorStep + 1);
+			if (option === "Size") setSizeStep(sizeStep + 1);
+			if (option === "Color") setColorStep(colorStep + 1);
 		}
 	};
 
 	const handleAdd = (option: string) => {
-		if (option === "size") setSizeStep(1);
-		if (option === "color") setColorStep(1);
+		if (option === "Size") setSizeStep(1);
+		if (option === "Color") setColorStep(1);
 	};
 
 	const ModalContent: JSX.Element = (
@@ -581,7 +611,7 @@ const NewProduct = () => {
 						/>
 					</div>
 					<h3 className="title">Add Product options</h3>
-					{selectedOption === "size" ? (
+					{selectedOption === "Size" ? (
 						<div className="info gray">
 							Simply use alphabets e.g S,M,L,XXL e.t.c or numbers e.g. 38,45,48
 						</div>
@@ -598,6 +628,8 @@ const NewProduct = () => {
 						padding="15px"
 						background="#f7fafc"
 						className="drpdwn"
+						margin={"10px 0"}
+						width="100%"
 					>
 						Choose Option
 					</Dropdown2>
@@ -608,7 +640,7 @@ const NewProduct = () => {
 						validationSchema={validationSchema}
 					>
 						<Form>
-							{selectedOption === "size" && (
+							{selectedOption === "Size" && (
 								<FormControl>
 									{sizeStep === 1 && (
 										<>
@@ -619,7 +651,7 @@ const NewProduct = () => {
 															Add Size
 															<input
 																className="input price"
-																value={"variant.variant"}
+																value={variant.variant as string}
 																onChange={(e) =>
 																	handleVariantChange(
 																		selectedOption,
@@ -641,7 +673,9 @@ const NewProduct = () => {
 															Price
 															<input
 																className="input"
-																value={variant.price}
+																value={parseInt(variant.price)}
+																type="number"
+																min={1}
 																onChange={(e) =>
 																	handleVariantChange(
 																		selectedOption,
@@ -662,26 +696,46 @@ const NewProduct = () => {
 											{sizeVariant.map((variant, index) => (
 												<SizeVariantCard key={variant.id}>
 													<div className="left">
-														<Img background={image34} />
+														<Img
+															background={
+																localStorage.getItem("thumbnail") || image34
+															}
+														/>
 														<div className="info">
-															<p>{"variant?.variant"}</p>
-															<p>{variant.price}</p>
+															<p>{variant?.variant as string}</p>
+															<p>
+																N {numberWithCommas(parseInt(variant.price))}
+															</p>
 														</div>
 													</div>
-													<div className="right">
+													<div
+														className="right"
+														style={{ position: "relative" }}
+													>
 														<MdDeleteOutline
 															size={19}
 															color="#FA3434"
 															className="icon"
+															style={{
+																position: "absolute",
+																right: 0,
+																top: -21,
+															}}
 															onClick={() =>
-																deleteVariant(selectedOption, index)
+																deleteVariant(
+																	selectedOption.toLowerCase(),
+																	index
+																)
 															}
 														/>
 														<Incrementor small>
 															<div
 																className="leftButton"
 																onClick={() =>
-																	decreaseQuantity(selectedOption, index)
+																	decreaseQuantity(
+																		selectedOption.toLowerCase(),
+																		index
+																	)
 																}
 															>
 																<BiMinus />
@@ -690,7 +744,10 @@ const NewProduct = () => {
 															<div
 																className="rightButton"
 																onClick={() =>
-																	increaseQuantity(selectedOption, index)
+																	increaseQuantity(
+																		selectedOption.toLowerCase(),
+																		index
+																	)
 																}
 															>
 																<BiPlus />
@@ -703,7 +760,7 @@ const NewProduct = () => {
 									)}
 								</FormControl>
 							)}
-							{selectedOption === "color" && (
+							{selectedOption === "Color" && (
 								<FormControl>
 									{colorStep > 1 ? (
 										<>
@@ -785,7 +842,7 @@ const NewProduct = () => {
 									)}
 								</FormControl>
 							)}
-							{selectedOption === "condition" && (
+							{selectedOption === "Condition" && (
 								<FormControl>
 									<>
 										<Dropdown2
@@ -807,7 +864,7 @@ const NewProduct = () => {
 					</Formik>
 					{selectedOption && (
 						<>
-							{!(selectedOption === "color" && colorStep === 1) &&
+							{!(selectedOption === "Color" && colorStep === 1) &&
 								hasNextStep(selectedOption) && (
 									<OptionButton
 										type="button"

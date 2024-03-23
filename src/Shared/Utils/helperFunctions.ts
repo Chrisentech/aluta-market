@@ -211,7 +211,7 @@ export const StringifyJSON = (js: any) => {
 
 export const MaskNumber = (phoneNumber: string): string => {
 	// Check if the phone number is valid
-	if (!phoneNumber || phoneNumber.length !== 11) {
+	if (!phoneNumber) {
 		return "Invalid phone number";
 	}
 
@@ -224,4 +224,19 @@ export const MaskNumber = (phoneNumber: string): string => {
 export const isValidPassword = (password: string): boolean => {
 	const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&])/;
 	return passwordPattern.test(password);
+};
+
+export const getCapitalizedFirstLetter = (str: string): string => {
+	return str?.charAt(0).toUpperCase();
+};
+export const checkNumber = (number: number): number => {
+	const numberStr = number?.toString();
+
+	if (numberStr.includes("234") || numberStr.startsWith("0")) {
+		// If the number contains '234' or starts with '0', remove them
+		const filteredNumber = numberStr.replace("234", "").replace(/^0+/, "");
+		return parseInt(filteredNumber, 10);
+	}
+
+	return number;
 };

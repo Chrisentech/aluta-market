@@ -71,6 +71,7 @@ const NewProduct = () => {
 			component={Screen}
 			isLoading={false}
 			navMode="noSearch"
+			modalWidth="400px"
 		/>
 	);
 };

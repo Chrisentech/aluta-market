@@ -13,7 +13,7 @@ export const Container = styled.div<{ scrolled?: boolean; mode?: string }>`
 `;
 export const Wrapper = styled.nav`
 	display: flex;
-	width: 90%;
+	width: 95%;
 	margin: 25px auto;
 	align-items: center;
 	justify-content: space-between;
@@ -153,6 +153,7 @@ export const Sidebar = styled.div<{ show: boolean }>`
 	top: 0;
 	left: 0;
 	height: 100%;
+	z-index: 10000;
 	width: 70%;
 	background-color: #ffffff;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -164,6 +165,7 @@ export const Sidebar = styled.div<{ show: boolean }>`
 		position: absolute;
 		right: 30px;
 		top: 27px;
+		cursor: pointer;
 	}
 	.title {
 		background: ${AppColors.brandGray};
@@ -177,12 +179,12 @@ export const Sidebar = styled.div<{ show: boolean }>`
 	}
 `;
 
-export const BlurredBackground = styled.div<{ show: boolean }>`
+export const BlurredBackground = styled.div<{ show: boolean | undefined }>`
 	position: fixed;
 	top: 0;
 	left: 0;
-	height: 100%;
-	width: 100%;
+	height: 100vh;
+	width: 100vw;
 	background-color: rgba(0, 0, 0, 0.5);
 	backdrop-filter: blur(15px);
 	opacity: ${(props) => (props.show ? 1 : 0)};
