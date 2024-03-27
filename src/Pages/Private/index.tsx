@@ -19,3 +19,5 @@ export { default as BuyerOrderDetail } from "./Buyer/Orders/detail/detail";
 export { default as Messaging } from "./Buyer/Messaging/Messaging";
 export { default as SavedForLater } from "./Buyer/SavedForLater/SavedForLater";
 export { default as FollowedStores } from "./Buyer/FollowedStores/FollowedStores";
+export { default as BuyerReview } from "./Buyer/Review/Review";
+export { default as BuyerReviewInner } from "./Buyer/Review/page";

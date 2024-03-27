@@ -26,6 +26,9 @@ export const ProductCard = styled.div<{
 	display: flex;
 	flex-direction: ${({ view }) => (view === "grid" ? "column" : "row")};
 	background: ${({ background }) => (background ? background : "5px")};
+	.list {
+		height: 100px;
+	}
 	@media (max-width: 900px) {
 		flex-direction: ${({ view }) => (view === "grid" ? "column" : "column")};
 		.list {

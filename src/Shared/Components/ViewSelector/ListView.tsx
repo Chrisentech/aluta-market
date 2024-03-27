@@ -79,6 +79,52 @@ const ListView: React.FC<{
 			</ListWrapper>
 		);
 	}
+	if (type === "review") {
+		return (
+			<ListWrapper gap={gap} className={className} type={type}>
+				{Array(6)
+					.fill("*")
+					.map((_, index: number) => {
+						return (
+							<Card
+								key={index}
+								width="100%"
+								hasBoxShadow={true}
+								height="139px"
+								onHover
+								className="card"
+								onClick={() => nav(ROUTE.BUYER_PRODUCT_REVIEW + `${index}`)}
+							>
+								<ProductCard>
+									<ImageCard className="list" view="list" src={phone} />
+									<ProductDetails>
+										<h1>Canon Camera EOS 2000, Black 10x zoom</h1>
+										<div className="price">
+											<span>&#8358;80,000</span>
+											<span>&#8358;92,000</span>
+										</div>
+										<ProductFlex>
+											<div>Order TAM00294</div>
+										</ProductFlex>
+
+										<StatusBadge status="delivered">Delivered</StatusBadge>
+										<div className="time">Monday 10-11-2023</div>
+									</ProductDetails>
+									<div className="detail">Rate Product</div>
+								</ProductCard>
+							</Card>
+						);
+					})}
+				<Pagination
+					totalPages={3}
+					currentPage={currentPage}
+					goToPage={goToPage}
+					nextPage={nextPage}
+					prevPage={prevPage}
+				/>
+			</ListWrapper>
+		);
+	}
 	return (
 		<ListWrapper gap={gap} className={className} type={type}>
 			{Array(6)

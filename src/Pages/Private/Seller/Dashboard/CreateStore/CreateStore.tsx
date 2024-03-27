@@ -127,6 +127,7 @@ const CreateStore = () => {
 			popUpContent={<ModalContent active={activeModal} />}
 			isLoading={false}
 			navMode="noSearch"
+			modalWidth={500}
 		/>
 	);
 };

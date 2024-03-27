@@ -12,8 +12,9 @@ import {
 	MenuItem,
 	SearchSuggestions,
 	Suggestion,
+	HomeNavbar,
 } from "./navbar.style";
-import { FaUserAlt } from "react-icons/fa";
+import { FaJediOrder, FaUserAlt } from "react-icons/fa";
 import messageIcon from "../../../assets/messages.svg";
 import profileIcon from "../../../assets/profile.svg";
 import shopIcon from "../../../assets/shop.svg";
@@ -33,23 +34,72 @@ import { useSelector } from "react-redux";
 import { searchSuggestions } from "../../../Features/products/productSlice";
 import useProducts from "../../../Features/products/productActions";
 import useAuthentication from "../../Hooks/useAuth";
+import { MdOutlineCancel } from "react-icons/md";
+import { FaMessage } from "react-icons/fa6";
 
 // Sidebar Component
-const SideBar: React.FC<{ show: boolean; onClose: () => void }> = ({
-	show,
-	onClose,
-}) => {
+const SideBar: React.FC<{
+	show: boolean;
+	onClose: () => void;
+	type: string;
+}> = ({ show, onClose, type }) => {
+	const nav = useNavigate();
+	if (type === "dashboard") {
+		return (
+			<>
+				<Sidebar show={show}>
+					<RxCross2 size={26} className="dismiss" onClick={onClose} />
+					<div className="title">
+						<div>
+							<ImUser size={26} />
+							<span>Aluko Opeyemi</span>
+						</div>
+					</div>
+				</Sidebar>
+				<BlurredBackground show={show} onClick={onClose} />
+			</>
+		);
+	}
 	return (
 		<>
-			<Sidebar show={show}>
-				<RxCross2 size={26} className="dismiss" onClick={onClose} />
-				<div className="title">
-					<div>
-						<ImUser size={26} />
-						<span>Aluko Opeyemi</span>
-					</div>
+			<HomeNavbar show={show}>
+				<div
+					style={{
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "space-between",
+					}}
+				>
+					<img src={logo} alt="..." onClick={onClose} />
+					<MdOutlineCancel size={20} onClick={onClose} />
 				</div>
-			</Sidebar>
+				<div className="container">
+					<ul>
+						<li>
+							<FaUserAlt size={20} color="#002" />
+							<span>Profile</span>
+						</li>
+
+						<li>
+							<FaMessage size={20} color="#002" />
+							<span>Message</span>
+						</li>
+
+						<li>
+							<FaJediOrder size={20} color="#002" />
+							<span>Order</span>
+						</li>
+
+						<li>
+							{/* <SearchContainer> */}
+							<div className="searchbar">
+								<input placeholder="Search products and services" />
+							</div>
+							{/* </SearchContainer> */}
+						</li>
+					</ul>
+				</div>
+			</HomeNavbar>
 			<BlurredBackground show={show} onClick={onClose} />
 		</>
 	);
@@ -58,7 +108,7 @@ const SideBar: React.FC<{ show: boolean; onClose: () => void }> = ({
 // Mobile Navbar Component
 const MobileNavbar: React.FC<{ scrolled: boolean }> = ({ scrolled }) => {
 	const [show, setShow] = useState(false);
-
+	const [type, setType] = useState("");
 	const handleToggleSidebar = () => {
 		setShow(!show);
 	};
@@ -80,11 +130,18 @@ const MobileNavbar: React.FC<{ scrolled: boolean }> = ({ scrolled }) => {
 					</Flex>
 					<Flex>
 						<BsCart3 size={26} />
-						<BiUser size={26} />
+						<BiUser
+							size={26}
+							style={{ cursor: "pointer" }}
+							onClick={() => {
+								handleToggleSidebar();
+								setType("blank");
+							}}
+						/>
 					</Flex>
 				</Wrapper>
 				{/* Sidebar component */}
-				<SideBar show={show} onClose={handleToggleSidebar} />
+				<SideBar type={type} show={show} onClose={handleToggleSidebar} />
 			</Container>
 		</>
 	);
@@ -128,7 +185,7 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 			<Wrapper>
 				{/* Logo */}
 				<NavLink className="logo" to={ROUTE.HOME}>
-					<img width={"150"} src={logo} alt="logo" />
+					{/* <img width={"150"} src={logo} alt="logo" /> */}
 				</NavLink>
 				{/* Search container */}
 				{mode !== "blank" && (

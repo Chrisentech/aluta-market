@@ -3,6 +3,15 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
 	margin: 30px 0;
 	box-sizing: border-box;
+	h2 {
+		color: #1c1c1c;
+		font-family: Inter;
+		font-size: 24px;
+		font-style: normal;
+		font-weight: 600;
+		line-height: 32px;
+		letter-spacing: -0.2px;
+	}
 	.main {
 		margin-top: 10px;
 	}
