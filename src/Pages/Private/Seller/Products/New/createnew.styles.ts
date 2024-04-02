@@ -543,3 +543,25 @@ export const ColorVariantCard = styled.div`
 `;
 
 export const ConditionVariantCard = styled.div``;
+export const SubmitButton = styled.button<{ loading?: boolean }>`
+	background-color: #007bff;
+	color: #fff;
+	padding: ${(props) => (props.loading ? "7px" : "20px")};
+	border: none;
+	cursor: pointer;
+	width: 100%;
+	margin: 20px 0;
+	border-radius: 10px;
+	background: var(
+		--primary-gradient,
+		linear-gradient(180deg, #ff7612 0%, #ff001f 100%)
+	);
+	color: var(--white, #fff);
+	text-align: center;
+	font-feature-settings: "clig" off, "liga" off;
+	font-family: Inter;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+`;

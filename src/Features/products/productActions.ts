@@ -30,7 +30,9 @@ export default function useProducts() {
 				offset: filter.offset,
 			},
 		});
-		dispatch(actions.setProducts(response.data.Products.data));
+		filter.store
+			? dispatch(actions.setMyProducts(response.data.Products.data))
+			: dispatch(actions.setProducts(response.data.Products.data));
 	};
 	const getProduct = async (productId: string | undefined) => {
 		const response = await apolloClient.query({
@@ -40,29 +42,29 @@ export default function useProducts() {
 		dispatch(actions.setProduct(response.data.Product));
 	};
 
-  const getSearchProducts = async (query: string) => {
-    const response = await apolloClient.query({
-      query: GET_SEARCHED_PRODUCTS,
-      variables: { query },
-    })
-    if (response.data) {
-      // dispatch(actions.setProducts(response.data.searchProducts));
-      console.log(response.data.searchProducts)
-    }
-  }
+	const getSearchProducts = async (query: string) => {
+		const response = await apolloClient.query({
+			query: GET_SEARCHED_PRODUCTS,
+			variables: { query },
+		});
+		if (response.data) {
+			// dispatch(actions.setProducts(response.data.searchProducts));
+			console.log(response.data.searchProducts);
+		}
+	};
 
-  const getSearchSuggestions = async (query: string) => {
-    const response = await apolloClient.query({
-      query: GET_SEARCHED_PRODUCTS,
-      variables: { query },
-    }) 
-    if (response?.data?.searchProducts) {
-      const flattenedArray = Object.values(response.data.searchProducts).flatMap((item: any) => item.name);
-      dispatch(actions.setSearchSuggestions(flattenedArray))
-    } else [
-      dispatch(actions.setSearchSuggestions([]))
-    ]
-  }
+	const getSearchSuggestions = async (query: string) => {
+		const response = await apolloClient.query({
+			query: GET_SEARCHED_PRODUCTS,
+			variables: { query },
+		});
+		if (response?.data?.searchProducts) {
+			const flattenedArray = Object.values(
+				response.data.searchProducts
+			).flatMap((item: any) => item.name);
+			dispatch(actions.setSearchSuggestions(flattenedArray));
+		} else [dispatch(actions.setSearchSuggestions([]))];
+	};
 
 	const getCategories = async () => {
 		const response = await apolloClient.query({
@@ -89,41 +91,41 @@ export default function useProducts() {
 		}
 	};
 
-  // const updateProduct = async (id: string, input: IProductProps) => {
-  //   const response = await apolloClient.mutate({
-  //     mutation: UPDATE_PRODUCT,
-  //     variables: { id, input },
-  //   });
-  //   if (response?.data?.updateProduct) {
-  //     const productsData = [...products];
-  //     const index = productsData.findIndex((product: IProductProps) => {
-  //       product.id === id;
-  //     });
-  //     productsData[index] = response?.data?.updateProduct;
-  //     dispatch(actions.setProducts(productsData));
-  //   }
-  // };
-  // const deleteProduct = async (id: string) => {
-  //   await apolloClient.mutate({
-  //     mutation: DELETE_PRODUCT,
-  //     variables: { id },
-  //   });
-  //   const productsData = products.filter((product: IProductProps) => {
-  //     product.id !== id;
-  //   });
-  //   dispatch(actions.setProducts(productsData));
-  // };
-  return {
-    getProducts,
-    getProduct,
-    createProduct,
+	// const updateProduct = async (id: string, input: IProductProps) => {
+	//   const response = await apolloClient.mutate({
+	//     mutation: UPDATE_PRODUCT,
+	//     variables: { id, input },
+	//   });
+	//   if (response?.data?.updateProduct) {
+	//     const productsData = [...products];
+	//     const index = productsData.findIndex((product: IProductProps) => {
+	//       product.id === id;
+	//     });
+	//     productsData[index] = response?.data?.updateProduct;
+	//     dispatch(actions.setProducts(productsData));
+	//   }
+	// };
+	// const deleteProduct = async (id: string) => {
+	//   await apolloClient.mutate({
+	//     mutation: DELETE_PRODUCT,
+	//     variables: { id },
+	//   });
+	//   const productsData = products.filter((product: IProductProps) => {
+	//     product.id !== id;
+	//   });
+	//   dispatch(actions.setProducts(productsData));
+	// };
+	return {
+		getProducts,
+		getProduct,
+		createProduct,
 		getCategories,
 		getCategory,
 		getSearchProducts,
 		getSearchSuggestions,
-    // updateProduct,
-    // deleteProduct,
-    // products,
-    product,
-  };
+		// updateProduct,
+		// deleteProduct,
+		// products,
+		product,
+	};
 }

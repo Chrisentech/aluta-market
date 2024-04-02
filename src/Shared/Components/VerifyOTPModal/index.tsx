@@ -17,10 +17,11 @@ import { keySquare, tickCircle } from "../../../assets";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { MaskNumber } from "../../Utils/helperFunctions";
 
-const VerifyOTPModal: React.FC<{ url?: string; number?: string }> = ({
-	url,
-	number,
-}) => {
+const VerifyOTPModal: React.FC<{
+	url?: string;
+	number?: string;
+	error?: string;
+}> = ({ url, number, error }) => {
 	const [loading, setLoading] = useState(false);
 	const [otp, setOtp] = useState<string[]>(new Array(5).fill(""));
 	const [activeOtpIndex, setactiveOtpIndex] = useState<number>(0);
@@ -114,6 +115,23 @@ const VerifyOTPModal: React.FC<{ url?: string; number?: string }> = ({
 					color="#292D32"
 					size="34px"
 				/>
+				{error && (
+					<div
+						style={{
+							background: "pink",
+							color: "#002",
+							padding: 5,
+							margin: 5,
+							height: "100%",
+							width: "94%",
+							borderRadius: 5,
+							display: "flex",
+							alignItems: "center",
+						}}
+					>
+						{error}
+					</div>
+				)}
 			</Top>
 			{isVerified ? (
 				<SuccessContainer>

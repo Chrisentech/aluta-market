@@ -16,7 +16,7 @@ export interface RegisterFormValues {
 	email: string;
 	password: string;
 	fullname: string;
-	phone: string;
+	phone: string | number;
 	campus: string;
 	usertype: string;
 	description?: string;
@@ -102,6 +102,7 @@ export interface IProductProps {
 	category: number;
 	subcategory: number;
 	description: string;
+	type: string;
 	id?: number;
 	status?: boolean;
 	image?: string[];

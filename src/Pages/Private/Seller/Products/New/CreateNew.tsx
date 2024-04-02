@@ -20,6 +20,7 @@ import {
 	SizeVariantCard,
 	Img,
 	ColorVariantCard,
+	SubmitButton,
 	// ConditionVariantCard,
 } from "./createnew.styles";
 import {
@@ -34,12 +35,13 @@ import {
 	MdOutlineAddHomeWork,
 	MdOutlineCancel,
 } from "react-icons/md";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Formik, Form, useFormikContext, useField } from "formik";
 import * as yup from "yup";
 import { AiOutlinePlus } from "react-icons/ai";
 import { IProductProps } from "../../../../../Interfaces";
 import { BiPlus, BiMinus, BiArrowBack } from "react-icons/bi";
+import axios from "axios";
 import {
 	closeModal,
 	showModal,
@@ -55,6 +57,13 @@ import useVariants from "../../../../../test-data/variant-data";
 import { IoMdClose } from "react-icons/io";
 import { image34 } from "../../../../../assets";
 import { numberWithCommas } from "../../../../../Shared/Utils/helperFunctions";
+import { selectStore } from "../../../../../Features/store/storeSlice";
+import { Puff } from "react-loading-icons";
+import { AppColors, ROUTE } from "../../../../../Shared/Constants";
+import {
+	alertError,
+	alertSuccess,
+} from "../../../../../Features/alert/alertSlice";
 
 const initialValues: IProductProps = {
 	name: "",
@@ -64,10 +73,20 @@ const initialValues: IProductProps = {
 	subcategory: 0,
 	description: "",
 	thumbnail: "",
+	type: "",
 	// option: [],
 };
 
 const validationSchema = yup.object().shape({
+	discount: yup.number().typeError("Product Discount must be a number"),
+	name: yup.string().required("Product Name cannot be empty"),
+	price: yup
+		.number()
+		.typeError("Product Price must be a number")
+		.min(100, "Product Price cannot be less than N100")
+		.required("Product Price cannot be empty"),
+});
+const variationValidationSchema = yup.object().shape({
 	name: yup.string().required("Product Name cannot be empty"),
 	price: yup
 		.number()
@@ -87,35 +106,40 @@ const Screen: React.FC = () => {
 		location.state?.fileData ?? []
 	); // Changed the type to string[] to hold Blob URLs
 	const [imageUrls, setImageUrls] = useState<string[]>([]);
-	const [_, setDescription] = useState("");
+	const [loading, setLoading] = useState(false);
+	const nav = useNavigate();
+	const [description, setDescription] = useState("");
 	const [productName, setProductName] = useState("");
 	const [productPrice, setProductPrice] = useState<number>(0);
-	const [discountedPrice, setDiscountedPrice] = useState("");
+	const [discountedPrice, setDiscountedPrice] = useState(0);
 	const [quantity, setQuantity] = useState<number>(1);
 	const hiddenInputRef = useRef<HTMLInputElement | null>(null);
 	const { state } = useLocation();
+	const store = useSelector(selectStore);
 
-	useEffect(() => {
-		// Retrieve the URL parameter containing the file data
-		if (files) {
-			// Create an array of Blob URLs from the fileData
-			const blobURLs = files?.map((fileName: string) => {
-				return URL.createObjectURL(new Blob([fileName]));
-			});
-			setImageUrls(blobURLs);
-			setthumbnail(blobURLs[0]);
-			localStorage.setItem("thumbnail", blobURLs[0] || "");
+	// useEffect(() => {
+	// 	// Retrieve the URL parameter containing the file data
+	// 	if (files) {
+	// 		// Create an array of Blob URLs from the fileData
+	// 		const blobURLs = files?.map((fileName: string) => {
+	// 			return URL.createObjectURL(new Blob([fileName]));
+	// 		});
+	// 		setImageUrls(blobURLs);
+	// 		setthumbnail(blobURLs[0]);
+	// 		localStorage.setItem("thumbnail", blobURLs[0] || "");
 
-			// Cleanup: Revoke the object URLs when the component unmounts
-			return () => {
-				blobURLs.forEach((url: any) => URL.revokeObjectURL(url));
-			};
-		}
-	}, [files]);
+	// 		// Cleanup: Revoke the object URLs when the component unmounts
+	// 		return () => {
+	// 			blobURLs.forEach((url: any) => URL.revokeObjectURL(url));
+	// 		};
+	// 	}
+	// }, [files]);
+
 	const reduxCategory = useSelector(selectCategory);
 	const reduxCategories = useSelector(selectCategories);
+	const [imgLoading, setImgLoading] = useState(false);
 	const [thumbnail, setthumbnail] = useState<string | undefined>(imageUrls[0]);
-
+	const [subCategory, setSubcategory] = useState(0);
 	const { createProduct, getCategories, getCategory } = useProducts();
 
 	const handleSelectCategory = async (name: string) => {
@@ -132,31 +156,102 @@ const Screen: React.FC = () => {
 			files.filter((file: any) => file !== files[imageUrls.indexOf(url)])
 		);
 	};
-	const handleAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+	useEffect(() => {
+		if (files && imgLoading === true) {
+			const fetchCloudinaryUrls = async () => {
+				try {
+					const cloudinaryUrls = [];
+					for (const file of files) {
+						const formData = new FormData();
+						formData.append("file", file);
+						formData.append("upload_preset", "rbwlt6de");
+						const response = await axios.post(
+							"https://api.cloudinary.com/v1_1/de7i4zy3m/image/upload",
+							formData
+						);
+						cloudinaryUrls.push(response.data.secure_url);
+					}
+					setImageUrls(cloudinaryUrls);
+					setthumbnail(cloudinaryUrls[0]);
+					setImgLoading(false);
+					localStorage.setItem("thumbnail", cloudinaryUrls[0] || "");
+				} catch (error) {
+					setImgLoading(false);
+					console.error("Error uploading images to Cloudinary:", error);
+				}
+			};
+
+			fetchCloudinaryUrls();
+
+			return () => {
+				// Cleanup: No need to revoke Blob URLs as Cloudinary URLs are used
+			};
+		}
+	}, [files]);
+	const HandleUploadImages = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setImgLoading(true);
 		const selectedFiles: any = e.target.files;
 		setFiles([...files, ...selectedFiles]);
+		// console.log(files);
 	};
+	// console.log(imageUrls);
 
 	const handleSubmit = async (values: IProductProps) => {
+		// alert("Hi");
+		setLoading(true);
+
 		let payload: any = {
-			...values,
-			option: null,
+			description,
+			name: productName,
+			discount: discountedPrice ?? 0,
+			price: productPrice,
+			variant: null,
 			category: parseInt(reduxCategory.id ?? ""),
-			subcategory: "",
-			images: imageUrls,
+			subcategory: subCategory,
+			image: imageUrls,
 			thumbnail,
 			quantity,
-			store: "Fola's Store",
+			type: state?.type,
+			store: store?.name,
 		};
 		try {
-			console.log("Form submitted:", payload);
 			// Call the createProduct function to submit the form
 			await createProduct(payload);
+			console.log(values);
+			dispatch(alertSuccess("Product added successfully"));
+			nav(ROUTE.SELLER_PRODUCTS);
 
 			// Log the form values for debugging purposes
-		} catch (error) {
-			// Handle any errors that may occur during form submission
-			console.error("Error submitting form:", error);
+		} catch (error: any) {
+			setLoading(false);
+			if (error.graphQLErrors && error.graphQLErrors.length > 0) {
+				for (let index = 0; index < error.graphQLErrors.length; index++) {
+					dispatch(
+						alertError(JSON.parse(error.graphQLErrors[index].message).message)
+					);
+				}
+			}
+			if (error.protocolErrors && error.protocolErrors.length > 0) {
+				for (let index = 0; index < error.protocolErrors.length; index++) {
+					dispatch(
+						alertError(JSON.parse(error.protocolErrors[index].message).message)
+					);
+				}
+			}
+			if (error.clientErrors && error.clientErrors.length > 0) {
+				for (let index = 0; index < error.clientErrors.length; index++) {
+					dispatch(
+						alertError(JSON.parse(error.clientErrors[index].message).message)
+					);
+				}
+			}
+			if (error.networkErrors && error.networkErrors.length > 0) {
+				for (let index = 0; index < error.networkErrors.length; index++) {
+					dispatch(
+						alertError(JSON.parse(error.networkErrors[index].message).message)
+					);
+				}
+			}
 		}
 	};
 
@@ -252,6 +347,8 @@ const Screen: React.FC = () => {
 			],
 		],
 	};
+	const formIsValid =
+		!!productName && !!productPrice && !!reduxCategory && !!thumbnail;
 	return (
 		<Wrapper>
 			<Card className="card" width={"100%"} onHover={false} height={"570px"}>
@@ -290,153 +387,169 @@ const Screen: React.FC = () => {
 							type="file"
 							ref={hiddenInputRef}
 							accept=".jpg, .jpeg, .png"
-							onChange={handleAddImage}
+							onChange={HandleUploadImages}
 						/>
 					</ImageWrapper>
 					<div className="options">Choose any of them as thumbnail</div>
 					<Formik
 						initialValues={initialValues}
 						onSubmit={handleSubmit}
-						validationSchema={validationSchema}
+						validationSchema={!formIsValid && validationSchema}
 					>
-						<Form>
-							<FormControl>
-								<Label>
-									{state?.type === "product" ? "Product" : "Service"}
-									<span>*</span>
-								</Label>
-								<CustomField
-									type="text"
-									name={productName ? "none" : "name"}
-									value={productName}
-									onChange={(e: any) => setProductName(e.target.value)}
-								/>
-							</FormControl>
-
-							<Flex>
+						{({ errors }) => (
+							<Form>
 								<FormControl>
 									<Label>
-										Price<span>*</span>{" "}
-										<span className="info">(No Commas)</span>
+										{state?.type === "product" ? "Product" : "Service"}
+										<span>*</span>
 									</Label>
 									<CustomField
-										name={productPrice > 100 ? "none" : "price"}
-										type="number"
-										value={productPrice}
-										onChange={(e: any) => setProductPrice(e.target.value)}
+										type="text"
+										name={productName ? "none" : "name"}
+										value={productName}
+										onChange={(e: any) => setProductName(e.target.value)}
 									/>
 								</FormControl>
-								<FormControl>
-									<Label>
-										Discount Price <span className="info">(Optional)</span>
-									</Label>
-									<CustomField
-										name={discountedPrice ? "none" : "discount"}
-										type="number"
-										value={discountedPrice}
-										onChange={(e: any) => setDiscountedPrice(e.target.value)}
-									/>
-								</FormControl>
-							</Flex>
-							<Flex>
-								<FormControl>
-									<Label>
-										Category<span>*</span>{" "}
-									</Label>
-									<Input
-										as="select"
-										id="selectedCategory"
-										name="category"
-										onChange={(e: any) => handleSelectCategory(e.target.value)}
-									>
-										<option value="" label="Select a category" />
-										{reduxCategories.map((category: any) => (
-											<option key={category.id} value={category.name}>
-												{category.name}
-											</option>
-										))}
-									</Input>
-								</FormControl>
-								<FormControl>
-									<Label>
-										Sub Category<span>*</span>{" "}
-									</Label>
-									<Input as="select" id="selectedCategory" name="subcategory">
-										<option value="" label="Select a subcategory" />
-										{reduxCategory?.subcategories?.map((category: any) => (
-											<option key={category.slug} value={category.name}>
-												{category.name}
-											</option>
-										))}
-									</Input>
-								</FormControl>
-							</Flex>
-							<FormControl>
-								<Label>
-									{state?.type === "product" ? "Product" : "Service"}{" "}
-									description<span>*</span>{" "}
-								</Label>
-								<TextEditor width={"100%"} height="209px">
-									<ReactQuill
-										theme="snow"
-										modules={modules}
-										formats={formats}
-										placeholder={`Describe your ${
-											state?.type === "product" ? "product" : "service"
-										} to your customer`}
-										onChange={handleProcedureContentChange}
-										// style={{ height: "109px", width: "100%" }}ss
-									/>
-								</TextEditor>
-								{/* <CustomField
-                  type=""
-                  height="100px"
-                  name="description"
-                /> */}
-							</FormControl>
-							<Flex>
-								<FormControl>
-									<Label>
-										Manage Quantity <span className="info">(Optional)</span>
-									</Label>
 
-									<Incrementor>
-										<div
-											className="leftButton"
-											onClick={() => handleDecreaseQuantity(quantity)}
+								<Flex>
+									<FormControl>
+										<Label>
+											Price<span>*</span>{" "}
+											<span className="info">(No Commas)</span>
+										</Label>
+										<CustomField
+											name={productPrice > 100 ? "none" : "price"}
+											type="number"
+											value={productPrice}
+											onChange={(e: any) => setProductPrice(e.target.value)}
+										/>
+									</FormControl>
+									<FormControl>
+										<Label>
+											Discount Price <span className="info">(Optional)</span>
+										</Label>
+										<CustomField
+											name={discountedPrice ? "none" : "discount"}
+											type="number"
+											min={0}
+											value={discountedPrice}
+											onChange={(e: any) => setDiscountedPrice(e.target.value)}
+										/>
+									</FormControl>
+								</Flex>
+								<Flex>
+									<FormControl>
+										<Label>
+											Category<span>*</span>{" "}
+										</Label>
+										<Input
+											as="select"
+											id="selectedCategory"
+											name="category"
+											onChange={(e: any) =>
+												handleSelectCategory(e.target.value)
+											}
 										>
-											<BiMinus />
-										</div>
-										<div className="main">{quantity}</div>
-										<div
-											className="rightButton"
-											onClick={() => handleIncreaseQuantity(quantity)}
+											<option value="" label="Select a category" />
+											{reduxCategories.map((category: any) => (
+												<option key={category.id} value={category.name}>
+													{category.name}
+												</option>
+											))}
+										</Input>
+									</FormControl>
+									<FormControl>
+										<Label>
+											Sub Category<span>*</span>{" "}
+										</Label>
+										<Input
+											as="select"
+											id="selectedCategory"
+											name="subcategory"
+											onChange={(e: any) => setSubcategory(e.target.value)}
 										>
-											<BiPlus />
-										</div>
-									</Incrementor>
-								</FormControl>
+											<option value="" label="Select a subcategory" />
+											{reduxCategory?.subcategories?.map(
+												(category: any, index: number) => (
+													<option key={category.slug} value={index + 1}>
+														{category.name}
+													</option>
+												)
+											)}
+										</Input>
+									</FormControl>
+								</Flex>
 								<FormControl>
-									<OptionButton
-										type="button"
-										onClick={() => {
-											dispatch(showModal("addOptions"));
-										}}
-										disabled={!thumbnail || !productPrice || !productName}
-									>
-										Add Options
-									</OptionButton>
+									<Label>
+										{state?.type === "product" ? "Product" : "Service"}{" "}
+										description<span>*</span>{" "}
+									</Label>
+									<TextEditor width={"100%"} height="209px">
+										<ReactQuill
+											theme="snow"
+											modules={modules}
+											formats={formats}
+											placeholder={`Describe your ${
+												state?.type === "product" ? "product" : "service"
+											} to your customer`}
+											onChange={handleProcedureContentChange}
+											// style={{ height: "109px", width: "100%" }}ss
+										/>
+									</TextEditor>
 								</FormControl>
-							</Flex>
+								<Flex>
+									<FormControl>
+										<Label>
+											Manage Quantity <span className="info">(Optional)</span>
+										</Label>
 
-							<button
-								type="submit"
-								className="submit"
-								disabled={!reduxCategory}
-							>
-								Publish {state?.type === "product" ? "Product" : "Service"}
-							</button>
-						</Form>
+										<Incrementor>
+											<div
+												className="leftButton"
+												onClick={() => handleDecreaseQuantity(quantity)}
+											>
+												<BiMinus />
+											</div>
+											<div className="main">{quantity}</div>
+											<div
+												className="rightButton"
+												onClick={() => handleIncreaseQuantity(quantity)}
+											>
+												<BiPlus />
+											</div>
+										</Incrementor>
+									</FormControl>
+									<FormControl>
+										<OptionButton
+											type="button"
+											onClick={() => {
+												dispatch(showModal("addOptions"));
+											}}
+											disabled={!thumbnail || !productPrice || !productName}
+										>
+											Add Options
+										</OptionButton>
+									</FormControl>
+								</Flex>
+
+								<SubmitButton
+									type="submit"
+									loading={loading}
+									disabled={!reduxCategory || Object.keys(errors).length > 0}
+								>
+									{loading ? (
+										<Puff
+											stroke={AppColors.brandOrange}
+											strokeOpacity={0.125}
+										/>
+									) : (
+										`Publish ${
+											state?.type === "product" ? "Product" : "Service"
+										}`
+									)}
+								</SubmitButton>
+							</Form>
+						)}
 					</Formik>
 				</Container>
 				{/* Replace "#" with the correct route for your component */}
@@ -451,6 +564,7 @@ const CustomField: React.FC<{
 	userType?: string;
 	value?: string | number;
 	background?: string;
+	min?: number;
 	onChange?: any;
 	padding?: string;
 	width?: string;
@@ -463,6 +577,7 @@ const CustomField: React.FC<{
 	type,
 	options,
 	value,
+	min,
 	readOnly,
 	height,
 	background,
@@ -473,7 +588,7 @@ const CustomField: React.FC<{
 }) => {
 	const [field, meta] = useField(name);
 	const inputHasError = !!meta?.error?.length;
-	console.log(inputHasError);
+	// console.log(field);
 	if (type === "select") {
 		return (
 			<Dropdown
@@ -517,6 +632,7 @@ const CustomField: React.FC<{
 				error={inputHasError}
 				type={type}
 				value={value}
+				min={min}
 				height={height}
 				readOnly={readOnly}
 				onChange={onChange}
@@ -637,7 +753,7 @@ const NewProduct = () => {
 					<Formik
 						initialValues={initialValues}
 						onSubmit={handleModalSubmit}
-						validationSchema={validationSchema}
+						validationSchema={variationValidationSchema}
 					>
 						<Form>
 							{selectedOption === "Size" && (
@@ -905,7 +1021,7 @@ const NewProduct = () => {
 			popUpContent={ModalContent}
 			isLoading={false}
 			navMode="noSearch"
-			modalWidth="400px"
+			modalWidth="500px"
 		/>
 	);
 };

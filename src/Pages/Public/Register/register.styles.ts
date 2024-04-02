@@ -232,7 +232,7 @@ export const Input = styled(Field)<{
 	border-radius: 10px;
 	color: ${(props: any) =>
 		props.readOnly ? `${AppColors.brandColor}` : "inherit"};
-	background: ${(props: any) => (props.readOnly ? "#bdc4cd" : "#f7fafc")};
+	background: ${(props: any) => (props.readOnly ? "#bdc4cd" : "#fff")};
 	border: ${(props: any) => (props.error ? "1px solid red" : "0")};
 	outline: 0;
 	margin: 5px 0px 0 0;
@@ -253,7 +253,7 @@ export const Select = styled.select<{ error: boolean; type: string }>`
   padding: 20px;
   cursor: pointer;
   border-radius: 10px;
-  background: #f7fafc;
+  background: #fff;
   border: ${(props: any) => (props.error ? "1px solid red" : "0")};
   outline: 0;
   margin: 5px 0px 10px 0;

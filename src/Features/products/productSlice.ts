@@ -4,11 +4,12 @@ import { RootState } from "../../store";
 
 // Define the ProductState type
 export interface ProductState {
-  products: IProductProps[];
-  product: IProductProps | null;
-  categories:any
-  category:any
-  searchSuggestions: string[];
+	products: IProductProps[];
+	myproducts: IProductProps[];
+	product: IProductProps | null;
+	categories: any;
+	category: any;
+	searchSuggestions: string[];
 }
 
 // Create the productSlice
@@ -16,14 +17,18 @@ export const productSlice = createSlice({
 	name: "products",
 	initialState: {
 		products: [],
+		myproducts: [],
 		categories: [],
 		category: null,
 		product: null,
-    searchSuggestions: [],
+		searchSuggestions: [],
 	} as ProductState, // Set the initial state using the ProductState type
 	reducers: {
 		setProducts: (state, action: PayloadAction<IProductProps[]>) => {
 			state.products = action.payload;
+		},
+		setMyProducts: (state, action: PayloadAction<IProductProps[]>) => {
+			state.myproducts = action.payload;
 		},
 		setCategories: (state, action: PayloadAction<IProductProps[]>) => {
 			state.categories = action.payload;
@@ -34,9 +39,9 @@ export const productSlice = createSlice({
 		setProduct: (state, action: PayloadAction<IProductProps | null>) => {
 			state.product = action.payload;
 		},
-    setSearchSuggestions: (state, action: PayloadAction<string[]>) => {
-      state.searchSuggestions = action.payload;
-    }
+		setSearchSuggestions: (state, action: PayloadAction<string[]>) => {
+			state.searchSuggestions = action.payload;
+		},
 	},
 });
 
@@ -45,14 +50,15 @@ export const actions = productSlice.actions;
 
 // Define the types for the selectors
 export const selectProducts = (state: RootState): IProductProps[] =>
-  state.products.products;
-export const selectCategories = (state: RootState) =>
-	state.products.categories;
-export const selectCategory = (state: RootState) =>
-	state.products.category;
+	state.products.products;
+export const selectMyProducts = (state: RootState): IProductProps[] =>
+	state.products.products;
+export const selectCategories = (state: RootState) => state.products.categories;
+export const selectCategory = (state: RootState) => state.products.category;
 export const selectProduct = (state: RootState): IProductProps | null =>
-  state.products.product;
-export const searchSuggestions = (state: RootState): string[] => state.products.searchSuggestions;
+	state.products.product;
+export const searchSuggestions = (state: RootState): string[] =>
+	state.products.searchSuggestions;
 
 // Export the reducer
 export default productSlice.reducer;

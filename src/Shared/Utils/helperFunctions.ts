@@ -229,7 +229,7 @@ export const isValidPassword = (password: string): boolean => {
 export const getCapitalizedFirstLetter = (str: string): string => {
 	return str?.charAt(0).toUpperCase();
 };
-export const checkNumber = (number: number): number => {
+export const filterNum = (number: number | string): number | string => {
 	const numberStr = number?.toString();
 
 	if (numberStr.includes("234") || numberStr.startsWith("0")) {

@@ -104,7 +104,7 @@ export const Img = styled.div<{ background: string }>`
 
 export const Top = styled.div`
 	height: 70px;
-	background: #f7fafc;
+	background: transparent;
 	position: relative;
 	.close-button {
 		position: absolute;

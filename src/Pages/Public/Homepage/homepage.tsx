@@ -103,7 +103,9 @@ const Screen: React.FC = () => {
 							{isAuthenticated ? (
 								<Button
 									onClick={() =>
-										me?.usertype === "seller" ? nav(ROUTE.SELLER_DASHBOARD) : ""
+										me?.usertype === "seller"
+											? nav(ROUTE.SELLER_DASHBOARD)
+											: nav(ROUTE.BUYER_ORDER)
 									}
 									width={150}
 									height={30}

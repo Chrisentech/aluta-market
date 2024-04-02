@@ -34,6 +34,7 @@ import useUsers from "../../../Features/user/userActions";
 import { alertError, alertSuccess } from "../../../Features/alert/alertSlice";
 import { setCookie } from "../../../Shared/Utils/helperFunctions";
 import { VerifyOTPModal } from "../../../Shared/Components";
+import { fetchMe } from "../../../Features/user/userSlice";
 const initialValues: LoginFormValues = {
 	email: "",
 	password: "",
@@ -62,7 +63,7 @@ const Screen: React.FC = () => {
 	const [loading, setLoading] = useState(false);
 	const [stayLoggedIn, setStayLoggedIn] = useState(false);
 	const dispatch = useDispatch();
-	const { loginUser } = useUsers();
+	const { loginUser, getMe } = useUsers();
 	const url = sessionStorage.getItem("redirectPath") || "/";
 
 	const handleSubmit = async (values: LoginFormValues) => {
@@ -85,8 +86,15 @@ const Screen: React.FC = () => {
 				for (let index = 0; index < error.graphQLErrors.length; index++) {
 					console.log(JSON.parse(error.graphQLErrors[index].message));
 					if (JSON.parse(error.graphQLErrors[index].message).status === 302) {
-						setTimeout(() => {
+						setTimeout(async () => {
 							dispatch(showModal("VerifyOTP"));
+							dispatch(
+								await getMe(
+									parseInt(
+										JSON.parse(error.graphQLErrors[index].message).payload
+									)
+								)
+							);
 						}, 1500);
 					}
 					dispatch(
@@ -227,6 +235,9 @@ const LoginPage = () => {
 	const [loading, setLoading] = useState(false);
 	const dispatch = useDispatch();
 	const activeModal = useSelector(selectActiveModal);
+	const existingUser = useSelector(fetchMe);
+
+	const { status, message } = useSelector((state: any) => state.alert);
 	const handleSubmit = () => {
 		setLoading(true);
 	};
@@ -287,7 +298,8 @@ const LoginPage = () => {
 				activeModal === "VerifyOTP" ? (
 					<VerifyOTPModal
 						url="/"
-						number={localStorage.getItem("number") ?? ""}
+						number={existingUser?.phone}
+						error={status === "error" && message?.message}
 					/>
 				) : (
 					ModalContent
@@ -297,6 +309,7 @@ const LoginPage = () => {
 			showModal={activeModal}
 			layout={"blank"}
 			component={Screen}
+			modalWidth={500}
 			navMode="blank"
 			isLoading={false}
 		/>

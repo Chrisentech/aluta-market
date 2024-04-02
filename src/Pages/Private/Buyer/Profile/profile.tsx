@@ -16,7 +16,7 @@ import {
 } from "../../../../Features/modal/modalSlice";
 import ModalContent from "./modals";
 import { fetchMe } from "../../../../Features/user/userSlice";
-import { checkNumber } from "../../../../Shared/Utils/helperFunctions";
+import { filterNum } from "../../../../Shared/Utils/helperFunctions";
 
 const Screen: React.FC = () => {
 	const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const Screen: React.FC = () => {
 	const [fullname, setFullname] = useState(me?.fullname);
 	const [email, setEmail] = useState(me?.email);
 	const parsedPhone = me?.phone ? parseInt(me.phone) : 0;
-	const [phone, setPhone] = useState(checkNumber(parsedPhone));
+	const [phone, setPhone] = useState(filterNum(parsedPhone));
 	const [gender, setGender] = useState(me?.gender);
 	const [dob, setDob] = useState(me?.dob);
 	const [password, setPassword] = useState("");
@@ -34,7 +34,7 @@ const Screen: React.FC = () => {
 	useEffect(() => {
 		setFullname(me?.fullname);
 		setEmail(me?.email);
-		setPhone(checkNumber(parsedPhone));
+		setPhone(filterNum(parsedPhone));
 		setGender(me?.gender);
 		setDob(me?.dob);
 	}, [me?.fullname]);

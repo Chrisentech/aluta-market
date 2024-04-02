@@ -8,6 +8,7 @@ const PRODUCT_FIELDS = gql`
 		description
 		discount
 		image
+		type
 		slug
 		quantity
 		status
@@ -27,6 +28,7 @@ const PAGINATION_DATA = gql`
 			description
 			discount
 			image
+			type
 			slug
 			quantity
 			status
@@ -116,12 +118,12 @@ export const CREATE_PRODUCT = gql`
 // export const REMOVE_WISHLISTED_PRODUCT = gql``;
 
 export const GET_SEARCHED_PRODUCTS = gql`
-  ${PRODUCT_FIELDS}
-  query SearchProducts($query: String!) {
-    searchProducts(query: $query) {
-      ...ProductFields
-    }
-  }
+	${PRODUCT_FIELDS}
+	query SearchProducts($query: String!) {
+		searchProducts(query: $query) {
+			...ProductFields
+		}
+	}
 `;
 
 // export const GET_RECOMMENDED_PRODUCT = gql``;

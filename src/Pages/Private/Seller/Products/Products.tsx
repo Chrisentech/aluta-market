@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../../Layouts";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Wrapper } from "./products.styles";
@@ -10,7 +10,9 @@ import { cloth, noCatalog, phone, wallet, watch } from "../../../../assets";
 import { ROUTE } from "../../../../Shared/Constants";
 import Dropdown2 from "../../../../Shared/Components/Dropdown/Dropdown2";
 import { selectStore } from "../../../../Features/store/storeSlice";
+import { selectMyProducts } from "../../../../Features/products/productSlice";
 import { useSelector } from "react-redux";
+import useProducts from "../../../../Features/products/productActions";
 const data = [
 	{
 		id: 1,
@@ -99,8 +101,43 @@ const Screen: React.FC = () => {
 	const handleOptionClick = (option: string) => {
 		setSelectedOption(option);
 	};
+	const { getProducts } = useProducts();
+	const myProducts = useSelector(selectMyProducts);
 	const nav = useNavigate();
 	const store = useSelector(selectStore);
+	console.log(myProducts);
+	useEffect(() => {
+		// Create an AbortController instance
+		const controller = new AbortController();
+		const signal = controller.signal;
+
+		// Define a function to fetch products
+		const fetchProducts = async () => {
+			try {
+				// Fetch products only if the store has changed
+				if (store) {
+					await getProducts(
+						{ store: store.name, limit: 12, offset: 0 }
+						// { signal }
+					);
+				}
+			} catch (error: any) {
+				if (error.name === "AbortError") {
+					console.log("Fetch aborted");
+				} else {
+					console.error("Error fetching products:", error);
+				}
+			}
+		};
+
+		// Fetch products when the component mounts
+		fetchProducts();
+
+		// Cleanup function to abort fetch when component unmounts or when store changes
+		return () => {
+			controller.abort();
+		};
+	}, [store, getProducts]);
 
 	return (
 		<Wrapper>

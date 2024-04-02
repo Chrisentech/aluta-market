@@ -27,6 +27,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import { RegisterFormValues } from "../../../Interfaces";
 import { AppColors, ROUTE } from "../../../Shared/Constants";
 import {
+	filterNum,
 	generateSlug,
 	isValidPassword,
 } from "../../../Shared/Utils/helperFunctions";
@@ -120,15 +121,16 @@ const Screen: React.FC = () => {
 		!!userType &&
 		!!buyerNumber;
 	const handleSubmit = async (values: RegisterFormValues) => {
-		localStorage.setItem("number", buyerNumber);
+		localStorage.setItem("number", "234" + filterNum(buyerNumber));
 		setFormValues(values);
 		let payload: any = {
 			campus: studentCampus,
 			usertype: userType,
-			phone: buyerNumber,
+			phone: "234" + filterNum(buyerNumber),
 			fullname,
 			email,
 			password,
+			avatar: "",
 		};
 		if (userType === "seller") {
 			payload = {
@@ -139,7 +141,7 @@ const Screen: React.FC = () => {
 					has_physical_address: hasPhysicalAddress,
 					name: storeName,
 					description,
-					phone: storeNumber,
+					phone: "234" + filterNum(storeNumber),
 					user: 0,
 					wallet: 0,
 				},
@@ -194,11 +196,12 @@ const Screen: React.FC = () => {
 			dispatch(alertError({ message: "All Fields are required" }));
 			return null;
 		}
+		localStorage.setItem("number", "234" + filterNum(buyerNumber));
 		let payload = {
 			email,
 			password,
 			fullname,
-			phone: buyerNumber,
+			phone: "234" + filterNum(buyerNumber),
 			campus: studentCampus,
 			usertype: userType,
 		};
@@ -274,7 +277,6 @@ const Screen: React.FC = () => {
 									value={buyerNumber}
 									onChange={(e: ChangeEvent<HTMLInputElement>) => {
 										setBuyerNumber(e.target.value);
-										localStorage.setItem("number", buyerNumber);
 									}}
 								/>
 							</FormControl>
@@ -308,7 +310,12 @@ const Screen: React.FC = () => {
 									value={userType}
 								/>
 							</FormControl>
-							<SubmitButton active type="submit" loading={loading}>
+							<SubmitButton
+								active
+								type="submit"
+								loading={loading}
+								style={{ padding: loading ? "7px" : "17px 20px" }}
+							>
 								{loading ? (
 									<Puff stroke={AppColors.brandOrange} strokeOpacity={0.125} />
 								) : (
@@ -451,7 +458,12 @@ const Screen: React.FC = () => {
 									</NavLink>
 								</Label>
 							</FormControl>
-							<SubmitButton active={true} type="submit" disabled={false}>
+							<SubmitButton
+								active={true}
+								type="submit"
+								disabled={false}
+								style={{ padding: loading ? "7px" : "17px 20px" }}
+							>
 								{loading ? (
 									<Puff stroke={AppColors.brandOrange} strokeOpacity={0.125} />
 								) : (

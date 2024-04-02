@@ -36,6 +36,7 @@ import useProducts from "../../../Features/products/productActions";
 import useAuthentication from "../../Hooks/useAuth";
 import { MdOutlineCancel } from "react-icons/md";
 import { FaMessage } from "react-icons/fa6";
+import { fetchMe } from "../../../Features/user/userSlice";
 
 // Sidebar Component
 const SideBar: React.FC<{
@@ -160,6 +161,7 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 	const searchOptions = useSelector(searchSuggestions);
 	const [query, setQuery] = useState("");
 	const { getSearchSuggestions } = useProducts();
+	const me = useSelector(fetchMe);
 
 	const handleSuggestions = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setQuery(e.target.value);
@@ -185,7 +187,7 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 			<Wrapper>
 				{/* Logo */}
 				<NavLink className="logo" to={ROUTE.HOME}>
-					{/* <img width={"150"} src={logo} alt="logo" /> */}
+					<img width={"150"} src={logo} alt="logo" />
 				</NavLink>
 				{/* Search container */}
 				{mode !== "blank" && (
@@ -219,7 +221,13 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 						<Menu>
 							{isAuthenticated ? (
 								<>
-									<IconWrapper>
+									<IconWrapper
+										onClick={() =>
+											me?.usertype === "seller"
+												? nav(ROUTE.SELLER_PROFILE)
+												: nav(ROUTE.BUYER_PROFILE)
+										}
+									>
 										<img src={profileIcon} alt="..." />
 										<label>Profile</label>
 									</IconWrapper>
@@ -245,7 +253,13 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 										<img src={shopIcon} alt="..." />
 										<label>Orders</label>
 									</IconWrapper> */}
-									<IconWrapper onClick={() => nav(ROUTE.BUYER_ORDER)}>
+									<IconWrapper
+										onClick={() =>
+											me?.usertype === "seller"
+												? nav(ROUTE.SELLER_ORDERS)
+												: nav(ROUTE.BUYER_ORDER)
+										}
+									>
 										<img src={shopIcon} alt="..." />
 										<label>Orders</label>
 									</IconWrapper>

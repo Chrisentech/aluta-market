@@ -136,7 +136,7 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 	console.log(me?.usertype);
 	return (
 		<Wrapper>
-			{me?.usertype !== "seller" ? (
+			{me?.usertype === "seller" ? (
 				<Sidebar>
 					<Dropdown
 						background="#eff2f4"
