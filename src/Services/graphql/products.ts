@@ -107,11 +107,14 @@ export const CREATE_PRODUCT = gql`
 //   }
 // `;
 
-// export const DELETE_PRODUCT = gql`
-//   mutation ($id: String!) {
-//     deleteProduct(id: $id)
-//   }
-// `;
+export const DELETE_PRODUCT = gql`
+	${PRODUCT_FIELDS}
+	mutation deleteProduct($productId: Int!) {
+		deleteProduct(productId: $productId) {
+			...ProductFields
+		}
+	}
+`;
 
 // export const GET_WISHLISTED_PRODUCTS = gql``;
 

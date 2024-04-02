@@ -25,6 +25,7 @@ import RangeSlider from "./RangeSlider/RangeSlider";
 import VerifyOTPModal from "./VerifyOTPModal";
 import ItemCounter from "./ItemCounter/ItemCounter";
 import LogoutModal from "./LogoutModal/Logout";
+import DeleteModal from "./DeleteModal/DeleteModal";
 import Banner from "./Bannner/Banner";
 import SkeletonLoader from "./SkeletonLoader/SkeletonLoader";
 import AddProductImage from "./AddProductImage/AddProductImage";
@@ -47,6 +48,7 @@ export {
 	Visuals,
 	Button,
 	Timer,
+	DeleteModal,
 	ProductGrid,
 	FilterMenu,
 	Breadcrumb,

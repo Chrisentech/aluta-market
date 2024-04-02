@@ -102,6 +102,7 @@ const variationValidationSchema = yup.object().shape({
 const Screen: React.FC = () => {
 	const location = useLocation();
 	const dispatch = useDispatch();
+	const { getProducts } = useProducts();
 	const [files, setFiles] = useState<any | string[]>(
 		location.state?.fileData ?? []
 	); // Changed the type to string[] to hold Blob URLs
@@ -116,24 +117,6 @@ const Screen: React.FC = () => {
 	const hiddenInputRef = useRef<HTMLInputElement | null>(null);
 	const { state } = useLocation();
 	const store = useSelector(selectStore);
-
-	// useEffect(() => {
-	// 	// Retrieve the URL parameter containing the file data
-	// 	if (files) {
-	// 		// Create an array of Blob URLs from the fileData
-	// 		const blobURLs = files?.map((fileName: string) => {
-	// 			return URL.createObjectURL(new Blob([fileName]));
-	// 		});
-	// 		setImageUrls(blobURLs);
-	// 		setthumbnail(blobURLs[0]);
-	// 		localStorage.setItem("thumbnail", blobURLs[0] || "");
-
-	// 		// Cleanup: Revoke the object URLs when the component unmounts
-	// 		return () => {
-	// 			blobURLs.forEach((url: any) => URL.revokeObjectURL(url));
-	// 		};
-	// 	}
-	// }, [files]);
 
 	const reduxCategory = useSelector(selectCategory);
 	const reduxCategories = useSelector(selectCategories);
@@ -219,6 +202,7 @@ const Screen: React.FC = () => {
 			await createProduct(payload);
 			console.log(values);
 			dispatch(alertSuccess("Product added successfully"));
+			await getProducts({ store: store.name, limit: 12, offset: 0 });
 			nav(ROUTE.SELLER_PRODUCTS);
 
 			// Log the form values for debugging purposes
@@ -349,6 +333,7 @@ const Screen: React.FC = () => {
 	};
 	const formIsValid =
 		!!productName && !!productPrice && !!reduxCategory && !!thumbnail;
+
 	return (
 		<Wrapper>
 			<Card className="card" width={"100%"} onHover={false} height={"570px"}>
@@ -379,7 +364,11 @@ const Screen: React.FC = () => {
 							className="addBtn"
 							onClick={() => hiddenInputRef.current?.click()}
 						>
-							<AiOutlinePlus color="#DEE2E7" size="24" />
+							{imgLoading ? (
+								<Puff stroke={AppColors.brandOrange} strokeOpacity={0.125} />
+							) : (
+								<AiOutlinePlus color="#DEE2E7" size="24" />
+							)}
 						</div>
 						<input
 							multiple
@@ -460,7 +449,7 @@ const Screen: React.FC = () => {
 									</FormControl>
 									<FormControl>
 										<Label>
-											Sub Category<span>*</span>{" "}
+											Sub Category<span>*</span>
 										</Label>
 										<Input
 											as="select"
@@ -535,7 +524,14 @@ const Screen: React.FC = () => {
 								<SubmitButton
 									type="submit"
 									loading={loading}
-									disabled={!reduxCategory || Object.keys(errors).length > 0}
+									disabled={
+										!reduxCategory ||
+										!!errors.name ||
+										!!errors.price ||
+										imgLoading ||
+										description.length <= 12 ||
+										loading
+									}
 								>
 									{loading ? (
 										<Puff

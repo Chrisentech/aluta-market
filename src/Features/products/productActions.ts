@@ -5,13 +5,18 @@ import {
 	GET_CATEGORIES,
 	GET_CATEGORY,
 	// CREATE_PRODUCT,
-	// DELETE_PRODUCT,
+	DELETE_PRODUCT,
 	GET_SEARCHED_PRODUCTS,
 	GET_PRODUCT,
 	GET_PRODUCTS,
 	// UPDATE_PRODUCT,
 } from "../../Services/graphql/products";
-import { selectProducts, actions, selectProduct } from "./productSlice";
+import {
+	selectProducts,
+	actions,
+	selectProduct,
+	selectMyProducts,
+} from "./productSlice";
 import { IProductProps } from "../../Interfaces";
 
 // https://www.youtube.com/watch?v=qmCAnvE_KAU
@@ -19,6 +24,7 @@ import { IProductProps } from "../../Interfaces";
 export default function useProducts() {
 	const dispatch = useDispatch();
 	const products = useSelector(selectProducts);
+	const myproducts = useSelector(selectMyProducts);
 	const product = useSelector(selectProduct);
 
 	const getProducts = async (filter?: any) => {
@@ -30,8 +36,9 @@ export default function useProducts() {
 				offset: filter.offset,
 			},
 		});
+		const { __typename, ...rest } = response.data.Products;
 		filter.store
-			? dispatch(actions.setMyProducts(response.data.Products.data))
+			? dispatch(actions.setMyProducts(rest))
 			: dispatch(actions.setProducts(response.data.Products.data));
 	};
 	const getProduct = async (productId: string | undefined) => {
@@ -105,16 +112,16 @@ export default function useProducts() {
 	//     dispatch(actions.setProducts(productsData));
 	//   }
 	// };
-	// const deleteProduct = async (id: string) => {
-	//   await apolloClient.mutate({
-	//     mutation: DELETE_PRODUCT,
-	//     variables: { id },
-	//   });
-	//   const productsData = products.filter((product: IProductProps) => {
-	//     product.id !== id;
-	//   });
-	//   dispatch(actions.setProducts(productsData));
-	// };
+	const deleteProduct = async (id: number) => {
+		await apolloClient.mutate({
+			mutation: DELETE_PRODUCT,
+			variables: { productId: id },
+		});
+		const productsData = myproducts.filter((product: IProductProps) => {
+			product.id !== id;
+		});
+		dispatch(actions.setMyProducts(productsData));
+	};
 	return {
 		getProducts,
 		getProduct,
@@ -124,7 +131,7 @@ export default function useProducts() {
 		getSearchProducts,
 		getSearchSuggestions,
 		// updateProduct,
-		// deleteProduct,
+		deleteProduct,
 		// products,
 		product,
 	};

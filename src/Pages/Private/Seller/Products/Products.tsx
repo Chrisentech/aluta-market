@@ -3,93 +3,27 @@ import Layout from "../../../../Layouts";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Wrapper } from "./products.styles";
 import { AiOutlinePlus, AiOutlineSearch } from "react-icons/ai";
-import { Card, Table } from "../../../../Shared/Components";
+import {
+	Card,
+	DeleteModal,
+	Pagination,
+	Table,
+} from "../../../../Shared/Components";
 const categoryOptions = ["category", "Food", "Books", "Perfumes & Deodorant"];
 const options = ["Last added"];
-import { cloth, noCatalog, phone, wallet, watch } from "../../../../assets";
+import { noCatalog } from "../../../../assets";
 import { ROUTE } from "../../../../Shared/Constants";
 import Dropdown2 from "../../../../Shared/Components/Dropdown/Dropdown2";
 import { selectStore } from "../../../../Features/store/storeSlice";
 import { selectMyProducts } from "../../../../Features/products/productSlice";
 import { useSelector } from "react-redux";
 import useProducts from "../../../../Features/products/productActions";
-const data = [
-	{
-		id: 1,
-		img: cloth,
-		item: "Hoodie",
-		category: "Cloth",
-		price: "N3000",
-		quantity: "10",
-		options: "10",
-		stock: "18 Aug 2023",
-	},
-	{
-		id: 2,
-		img: phone,
-		item: "Iphone 13 pro",
-		category: "Mobile Phone & PC",
-		price: "N7000",
-		options: "10",
-		stock: "12 Aug 2023",
-		quantity: "5",
-	},
-	{
-		id: 3,
-		options: "10",
-		img: wallet,
-		item: "Mini Wallet",
-		category: "Accessories",
-		stock: "16 Aug 2023",
-		price: "N2000",
-		quantity: "1",
-	},
-	{
-		id: 4,
-		img: watch,
-		options: "10",
-		item: "Rolex watch",
-		category: "Accessories",
-		stock: "19 Aug 2023",
-		price: "N4000",
-		quantity: "10",
-	},
-	{
-		id: 5,
-		img: phone,
-		options: "10",
-		item: "Iphone 12",
-		category: "Mobile Phone & PC",
-		stock: "20 Aug 2023",
-		price: "N6000",
-		quantity: "5",
-	},
-	{
-		id: 6,
-		img: cloth,
-		item: "Hoodie",
-		category: "Cloth",
-		options: "10",
-		stock: "22 Aug 2023",
-		price: "N3500",
-		quantity: "10",
-	},
-	{
-		id: 7,
-		img: watch,
-		options: "10",
-		item: "Nike Watch",
-		category: "Accessories",
-		stock: "25 Aug 2023",
-		price: "N5000",
-		quantity: "5",
-	},
-];
+import { selectActiveModal } from "../../../../Features/modal/modalSlice";
 
 const columns = [
-	{ header: "ID", accessor: "id" },
+	{ header: "S/N", accessor: "id" },
 	{ header: "", accessor: "img" },
-	{ header: "Item", accessor: "item" },
+	{ header: "Item", accessor: "name" },
 	{ header: "Category", accessor: "category" },
 	{ header: "Qnt", accessor: "quantity" },
 	{ header: "Price", accessor: "price" },
@@ -97,36 +31,50 @@ const columns = [
 	{ header: "in-stock", accessor: "stock" },
 ];
 const Screen: React.FC = () => {
+	const { getProducts } = useProducts();
+	const myProducts = useSelector(selectMyProducts);
 	const [selectedOption, setSelectedOption] = useState(categoryOptions[0]);
+	const [limit, setLimit] = useState(12);
+	const [offset, setOffset] = useState(0);
+	const [currentPage, setCurrentPage] = useState(myProducts?.current_page);
 	const handleOptionClick = (option: string) => {
 		setSelectedOption(option);
 	};
-	const { getProducts } = useProducts();
-	const myProducts = useSelector(selectMyProducts);
+	const totalPages = myProducts?.total;
+	const goToPage = (pageNumber: any) => {
+		setCurrentPage(pageNumber);
+		// Your logic to fetch data for the specified page with the selected number of items per page
+		fetchData(pageNumber, myProducts?.per_page);
+	};
+
+	const fetchData = async (pageNumber: any, itemPerPage: any) => {
+		await getProducts({ store: store.name, limit, offset });
+	};
+	// Example functions to navigate to next and previous pages
+	const nextPage = () => {
+		if (currentPage < totalPages) {
+			goToPage(currentPage + 1);
+		}
+	};
+
+	const prevPage = () => {
+		if (currentPage > 1) {
+			goToPage(currentPage - 1);
+		}
+	};
+
 	const nav = useNavigate();
 	const store = useSelector(selectStore);
-	console.log(myProducts);
 	useEffect(() => {
-		// Create an AbortController instance
-		const controller = new AbortController();
-		const signal = controller.signal;
-
 		// Define a function to fetch products
 		const fetchProducts = async () => {
 			try {
 				// Fetch products only if the store has changed
 				if (store) {
-					await getProducts(
-						{ store: store.name, limit: 12, offset: 0 }
-						// { signal }
-					);
+					await getProducts({ store: store.name, limit, offset });
 				}
 			} catch (error: any) {
-				if (error.name === "AbortError") {
-					console.log("Fetch aborted");
-				} else {
-					console.error("Error fetching products:", error);
-				}
+				console.error("Error fetching products:", error);
 			}
 		};
 
@@ -135,9 +83,9 @@ const Screen: React.FC = () => {
 
 		// Cleanup function to abort fetch when component unmounts or when store changes
 		return () => {
-			controller.abort();
+			// You can perform cleanup here if needed
 		};
-	}, [store, getProducts]);
+	}, [store]); // empty dependency array ensures this effect runs only once, on mount
 
 	return (
 		<Wrapper>
@@ -176,8 +124,17 @@ const Screen: React.FC = () => {
 						/>
 					</div>
 				</div>
-				{store?.products ? (
-					<Table data={data} columns={columns} />
+				{myProducts ? (
+					<>
+						<Table data={myProducts?.data} columns={columns} />
+						<Pagination
+							totalPages={totalPages}
+							currentPage={currentPage}
+							goToPage={goToPage}
+							nextPage={nextPage}
+							prevPage={prevPage}
+						/>
+					</>
 				) : (
 					<div
 						className="no_product"
@@ -192,12 +149,16 @@ const Screen: React.FC = () => {
 };
 
 const Products = () => {
+	const activeModal = useSelector(selectActiveModal);
 	return (
 		<Layout
 			layout={"dashboard"}
+			showModal={activeModal}
 			component={Screen}
 			isLoading={false}
 			navMode="noSearch"
+			popUpContent={<DeleteModal />}
+			modalWidth={500}
 		/>
 	);
 };
