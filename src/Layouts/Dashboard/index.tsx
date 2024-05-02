@@ -133,7 +133,6 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 			setActive(""); // Set default active state here
 		}
 	}, [currentPath]);
-	console.log(me?.usertype);
 	return (
 		<Wrapper>
 			{me?.usertype === "seller" ? (

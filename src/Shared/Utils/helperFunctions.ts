@@ -240,3 +240,10 @@ export const filterNum = (number: number | string): number | string => {
 
 	return number;
 };
+
+export const calculateTotalPages = (
+	totalDataLength: number,
+	perPage: number
+): number => {
+	return Math.ceil(totalDataLength / perPage);
+};

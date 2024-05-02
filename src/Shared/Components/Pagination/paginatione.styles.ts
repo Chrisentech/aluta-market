@@ -29,10 +29,13 @@ export const PageButton = styled.button<{ active?: boolean }>`
 	height: 40px;
 	width: auto;
 	border: none;
-	background-color: ${(props) => (props.active ? `#DEE2E7` : "#fff")};
+	color: ${(props) => (props.active ? `#fff` : "#002")};
+
+	background-color: ${(props) => (props.active ? `#002` : "#fff")};
 	cursor: pointer;
 	&:disabled {
-		background: #fff !important;
+		background: #ccc !important;
+		color: #dee2e7;
 	}
 	&:last-child {
 		margin: 0;

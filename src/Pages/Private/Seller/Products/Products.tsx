@@ -19,6 +19,7 @@ import { selectMyProducts } from "../../../../Features/products/productSlice";
 import { useSelector } from "react-redux";
 import useProducts from "../../../../Features/products/productActions";
 import { selectActiveModal } from "../../../../Features/modal/modalSlice";
+import { calculateTotalPages } from "../../../../Shared/Utils/helperFunctions";
 
 const columns = [
 	{ header: "S/N", accessor: "id" },
@@ -34,21 +35,32 @@ const Screen: React.FC = () => {
 	const { getProducts } = useProducts();
 	const myProducts = useSelector(selectMyProducts);
 	const [selectedOption, setSelectedOption] = useState(categoryOptions[0]);
-	const [limit, setLimit] = useState(12);
-	const [offset, setOffset] = useState(0);
-	const [currentPage, setCurrentPage] = useState(myProducts?.current_page);
+	const [limit, setLimit] = useState(20);
+	const [currentPage, setCurrentPage] = useState(myProducts?.current_page ?? 1);
+	const [loading, setLoading] = useState(false);
 	const handleOptionClick = (option: string) => {
 		setSelectedOption(option);
 	};
 	const totalPages = myProducts?.total;
-	const goToPage = (pageNumber: any) => {
+	const goToPage = async (pageNumber: any) => {
+		setLoading(true);
 		setCurrentPage(pageNumber);
-		// Your logic to fetch data for the specified page with the selected number of items per page
-		fetchData(pageNumber, myProducts?.per_page);
+		await getProducts({
+			store: store.name,
+			limit,
+			offset: pageNumber, //offset stand for page here
+		});
+		setLoading(false);
 	};
 
-	const fetchData = async (pageNumber: any, itemPerPage: any) => {
-		await getProducts({ store: store.name, limit, offset });
+	const fetchData = async (pageNumber: any) => {
+		setLoading(true);
+		await getProducts({
+			store: store.name,
+			limit: pageNumber,
+			offset: 1,
+		});
+		setLoading(false);
 	};
 	// Example functions to navigate to next and previous pages
 	const nextPage = () => {
@@ -68,12 +80,19 @@ const Screen: React.FC = () => {
 	useEffect(() => {
 		// Define a function to fetch products
 		const fetchProducts = async () => {
+			setLoading(true);
 			try {
 				// Fetch products only if the store has changed
 				if (store) {
-					await getProducts({ store: store.name, limit, offset });
+					await getProducts({
+						store: store.name,
+						limit,
+						offset: currentPage,
+					});
+					setLoading(false);
 				}
 			} catch (error: any) {
+				setLoading(false);
 				console.error("Error fetching products:", error);
 			}
 		};
@@ -124,16 +143,23 @@ const Screen: React.FC = () => {
 						/>
 					</div>
 				</div>
-				{myProducts ? (
+				{myProducts?.data?.length > 0 ? (
 					<>
 						<Table data={myProducts?.data} columns={columns} />
-						<Pagination
-							totalPages={totalPages}
-							currentPage={currentPage}
-							goToPage={goToPage}
-							nextPage={nextPage}
-							prevPage={prevPage}
-						/>
+						{myProducts?.data?.length > 20 && (
+							<Pagination
+								totalPages={calculateTotalPages(
+									totalPages,
+									myProducts?.per_page
+								)}
+								currentPage={currentPage}
+								goToPage={goToPage}
+								nextPage={nextPage}
+								prevPage={prevPage}
+								handlePageSizeChange={fetchData}
+								isLoading={loading}
+							/>
+						)}
 					</>
 				) : (
 					<div

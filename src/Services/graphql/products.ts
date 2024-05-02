@@ -98,14 +98,14 @@ export const CREATE_PRODUCT = gql`
 	}
 `;
 
-// export const UPDATE_PRODUCT = gql`
-//   ${PRODUCT_FIELDS}
-//   mutation ($id: String!, $input: UpadteProductInput!) {
-//     updateProduct(id: $id, input: $input) {
-//       ...ProductFields
-//     }
-//   }
-// `;
+export const UPDATE_PRODUCT = gql`
+	${PRODUCT_FIELDS}
+	mutation ($input: UpdateProductInput!) {
+		updateProduct(input: $input) {
+			...ProductFields
+		}
+	}
+`;
 
 export const DELETE_PRODUCT = gql`
 	${PRODUCT_FIELDS}

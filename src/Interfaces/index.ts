@@ -88,6 +88,8 @@ export interface PaginationProps {
 	goToPage: (pageNumber: number) => void;
 	nextPage: () => void;
 	prevPage: () => void;
+	handlePageSizeChange: (e: any) => void;
+	isLoading?: boolean;
 }
 export interface TableRowProps {
 	isHeader?: boolean;

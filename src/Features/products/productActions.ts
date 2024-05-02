@@ -9,6 +9,7 @@ import {
 	GET_SEARCHED_PRODUCTS,
 	GET_PRODUCT,
 	GET_PRODUCTS,
+	UPDATE_PRODUCT,
 	// UPDATE_PRODUCT,
 } from "../../Services/graphql/products";
 import {
@@ -98,20 +99,21 @@ export default function useProducts() {
 		}
 	};
 
-	// const updateProduct = async (id: string, input: IProductProps) => {
-	//   const response = await apolloClient.mutate({
-	//     mutation: UPDATE_PRODUCT,
-	//     variables: { id, input },
-	//   });
-	//   if (response?.data?.updateProduct) {
-	//     const productsData = [...products];
-	//     const index = productsData.findIndex((product: IProductProps) => {
-	//       product.id === id;
-	//     });
-	//     productsData[index] = response?.data?.updateProduct;
-	//     dispatch(actions.setProducts(productsData));
-	//   }
-	// };
+	const updateProduct = async (input: any) => {
+		const { store, ...rest } = input;
+		try {
+			// Execute the mutation and wait for it to complete
+			await apolloClient.mutate({
+				mutation: UPDATE_PRODUCT,
+				variables: { input: rest },
+			});
+
+			// Now that the mutation has completed, call getProducts
+			await getProducts({ store: input.store, limit: 1000, offset: 0 });
+		} catch (error) {
+			console.error("Error updating product:", error);
+		}
+	};
 	const deleteProduct = async (id: number) => {
 		await apolloClient.mutate({
 			mutation: DELETE_PRODUCT,
@@ -130,7 +132,7 @@ export default function useProducts() {
 		getCategory,
 		getSearchProducts,
 		getSearchSuggestions,
-		// updateProduct,
+		updateProduct,
 		deleteProduct,
 		// products,
 		product,
