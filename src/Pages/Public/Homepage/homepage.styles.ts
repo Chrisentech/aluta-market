@@ -603,7 +603,7 @@ export const Newsletter = styled.div`
 	}
 	svg {
 		position: absolute;
-		bottom: 68px;
+		bottom: 72px;
 		margin-left: 5px;
 	}
 `;

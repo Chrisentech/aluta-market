@@ -3,7 +3,7 @@ import { getCookie } from "../../Shared/Utils/helperFunctions";
 const token = getCookie("access_token") ?? null;
 
 const httpLink = new HttpLink({
-	uri: "http://localhost:8082/graphql", //Developement
+	uri: "https://aluta-market-server-a841f6d3f7b8.herokuapp.com/graphql", //Developement
 	// uri: "https://aluta-market-api.onrender.com/graphql", //Production
 	// uri: "http://54.161.147.89:8082/graphql", //Production
 	headers: {
