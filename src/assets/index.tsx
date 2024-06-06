@@ -1,3 +1,5 @@
+import React from "react";
+
 export { default as appleStoreImg } from "./applestore.png";
 export { default as googlePlayImg } from "./googleplay.png";
 export { default as marketLogo } from "./market.png";
@@ -42,7 +44,7 @@ export { default as sendSquare } from "./send-sqaure-2.svg";
 export { default as sendSquareWhite } from "./send-sqaure-white.svg";
 export { default as settings } from "./setting-2.svg";
 export { default as shop } from "./shop.svg";
-export { default as shoppingCart } from "./shopping-cart.svg";
+export { default as shoppingCart } from "./cart.svg";
 export { default as userTag } from "./user-tag.svg";
 export { default as dashboardUnfilled } from "./category.svg";
 export { default as emptyWalletUnfilled } from "./empty-wallet-tick-unfilled.svg";
@@ -106,3 +108,48 @@ export { default as BecomeUnfilled } from "./become.png";
 export { default as Download_Filled } from "./download_filled.svg";
 export { default as DownloadUnfilled } from "./download.png";
 export { default as NoFollow } from "./no_following.png";
+
+export const CartIcon: React.FC<any> = ({ color }) => {
+	return (
+		<svg
+			width="31"
+			height="30"
+			viewBox="0 0 31 30"
+			fill={color ?? "none"}
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<path
+				d="M3.36475 2.5H5.53824C6.8873 2.5 7.94905 3.6625 7.83663 5L6.79985 17.45C6.62497 19.4875 8.23634 21.2375 10.2849 21.2375H23.5881C25.3869 21.2375 26.9608 19.7625 27.0982 17.975L27.7727 8.60001C27.9226 6.52501 26.3487 4.83749 24.2627 4.83749H8.13643"
+				stroke="#8B96A5"
+				stroke-width="1.5"
+				stroke-miterlimit="10"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			/>
+			<path
+				d="M21.165 27.5C22.0273 27.5 22.7264 26.8004 22.7264 25.9375C22.7264 25.0746 22.0273 24.375 21.165 24.375C20.3026 24.375 19.6035 25.0746 19.6035 25.9375C19.6035 26.8004 20.3026 27.5 21.165 27.5Z"
+				stroke="#8B96A5"
+				stroke-width="1.5"
+				stroke-miterlimit="10"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			/>
+			<path
+				d="M11.1718 27.5C12.0342 27.5 12.7333 26.8004 12.7333 25.9375C12.7333 25.0746 12.0342 24.375 11.1718 24.375C10.3094 24.375 9.61035 25.0746 9.61035 25.9375C9.61035 26.8004 10.3094 27.5 11.1718 27.5Z"
+				stroke="#8B96A5"
+				stroke-width="1.5"
+				stroke-miterlimit="10"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			/>
+			<path
+				d="M12.1086 10H27.0983"
+				stroke="#8B96A5"
+				stroke-width="1.5"
+				stroke-miterlimit="10"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			/>
+		</svg>
+	);
+};

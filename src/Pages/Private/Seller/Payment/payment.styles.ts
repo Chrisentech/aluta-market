@@ -15,6 +15,12 @@ export const Wrapper = styled.div`
 		line-height: 32px; /* 133.333% */
 		letter-spacing: -0.2px;
 	}
+	form{
+		width:400px;
+		@media(max-width:500px){
+			width:90%
+		}
+	}
 	.card {
 		width: calc(100% - 160px);
 		margin: 20px 0;

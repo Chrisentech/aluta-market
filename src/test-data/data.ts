@@ -1,5 +1,5 @@
 import {
-    accomodationImg,
+	accomodationImg,
 	airtimeImg,
 	bagImg,
 	careerImg,
@@ -17,9 +17,9 @@ import {
 	stationeryImg,
 	tutoringImg,
 	utensilImg,
-    wallet,
-    watch,
-    writingImg,
+	wallet,
+	watch,
+	writingImg,
 } from "../assets";
 import { image1, image2, image3, image4, image5 } from "./product-info img";
 
@@ -33,7 +33,7 @@ export const categories = [
 		image: electronicsImg,
 	},
 	{
-		title: "Cloth and Accessories",
+		title: "Fashion and Accessories",
 		image: clothImg,
 	},
 	{
@@ -53,7 +53,7 @@ export const categories = [
 		image: cosmeticImg,
 	},
 	{
-		title: "Health and Medical Supplies",
+		title: "Skills and Services",
 		image: healthImg,
 	},
 ];
@@ -100,49 +100,48 @@ export const colorData = [
 	{ name: "Blue", imageUrl: color2 },
 ];
 
-
 export const CartProduct = [
 	{
-    id: 1,
-    img: cloth,
-    item: "Hoodie",
-    category: "Cloth",
-    price: "3000",
-    quantity: "10",
-    options: "10",
-    stock: "18 Aug 2023",
-  },
-  {
-    id: 2,
-    img: phone,
-    item: "Iphone 13 pro",
-    category: "Mobile Phone & PC",
-    price: "7000",
-    options: "10",
-    stock: "12 Aug 2023",
-    quantity: "5",
-  },
-  {
-    id: 3,
-    options: "10",
-    img: wallet,
-    item: "Mini Wallet",
-    category: "Accessories",
-    stock: "16 Aug 2023",
-    price: "2000",
-    quantity: "1",
-  },
-  {
-    id: 4,
-    img: watch,
-    options: "10",
-    item: "Rolex watch",
-    category: "Accessories",
-    stock: "19 Aug 2023",
-    price: "4000",
-    quantity: "10",
-  },
-]
+		id: 1,
+		img: cloth,
+		item: "Hoodie",
+		category: "Cloth",
+		price: "3000",
+		quantity: "10",
+		options: "10",
+		stock: "18 Aug 2023",
+	},
+	{
+		id: 2,
+		img: phone,
+		item: "Iphone 13 pro",
+		category: "Mobile Phone & PC",
+		price: "7000",
+		options: "10",
+		stock: "12 Aug 2023",
+		quantity: "5",
+	},
+	{
+		id: 3,
+		options: "10",
+		img: wallet,
+		item: "Mini Wallet",
+		category: "Accessories",
+		stock: "16 Aug 2023",
+		price: "2000",
+		quantity: "1",
+	},
+	{
+		id: 4,
+		img: watch,
+		options: "10",
+		item: "Rolex watch",
+		category: "Accessories",
+		stock: "19 Aug 2023",
+		price: "4000",
+		quantity: "10",
+	},
+];
 
 // const productData = [
 //   {

@@ -25,9 +25,7 @@ const Footer: React.FC = () => {
 					<NavLink className="brand" to={ROUTE.HOME}>
 						<img width={"150"} src={logo} alt="logo" />
 					</NavLink>
-					<div className="logo_content">
-						Bringing Nigerian students together in Solidarity
-					</div>
+					<div className="logo_content">...thriving together in Solidarity</div>
 					<div className="flex">
 						<a target="_blank" href="https://web.facebook.com/alutamarket.live">
 							<BsFacebook color="#BDC4CD" />

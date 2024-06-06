@@ -191,7 +191,14 @@ const Screen: React.FC = () => {
 };
 
 const RegsitrationScreen = () => {
-	return <Layout layout={"dashboard"} component={Screen} isLoading={false} />;
+	return (
+		<Layout
+			layout={"dashboard"}
+			component={Screen}
+			isLoading={false}
+			navMode="noSearch"
+		/>
+	);
 };
 
 export default RegsitrationScreen;

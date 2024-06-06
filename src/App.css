@@ -31,4 +31,9 @@ ul {
 
 body {
 	background: #f7fafc !important;
+	font-family: "Inter" !important;
+}
+button,
+select {
+	font-family: "Inter";
 }

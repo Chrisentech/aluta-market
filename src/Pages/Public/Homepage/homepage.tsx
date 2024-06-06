@@ -62,11 +62,23 @@ const Screen: React.FC = () => {
 					))}
 					<div className="category">All Categories</div>
 				</div>
-				<Card className="banner" width={"62%"} height={333} allowBorders>
+				<Card className="banner" width={"62%"} height={333} onHover={false}>
 					<div className="flex">
 						<div className="tt">
 							Welcome to the <br /> <span>STUDENTS’ MARKETPLACE</span>
 							<br /> designed just for your every needs!
+							<Button
+								onClick={() => nav(ROUTE.REGISTER)}
+								width={150}
+								height={30}
+								padding={10}
+								gap={10}
+								className="btn-start"
+								background="linear-gradient(180deg, #FF7612 0%, #FF001F 100%)"
+								color="#ffffff"
+							>
+								Get Started
+							</Button>
 						</div>
 						<div>
 							<img src={registerImg} alt="register-image" width={310} />
@@ -196,7 +208,7 @@ const Screen: React.FC = () => {
 								color="#1C1C1C"
 								gap={10}
 								height={40}
-								width={90}
+								// width={90}
 								padding={16}
 							>
 								View all
@@ -228,7 +240,7 @@ const Screen: React.FC = () => {
 								color="#1C1C1C"
 								gap={10}
 								height={40}
-								width={90}
+								// width={90}
 								padding={16}
 							>
 								View all

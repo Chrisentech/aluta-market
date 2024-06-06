@@ -137,7 +137,7 @@ export const IconWrapper = styled.a`
 		font-family: Inter;
 		font-size: 14px;
 		font-style: normal;
-		font-weight: 700;
+		font-weight: 500;
 		line-height: normal;
 	}
 	&:hover {

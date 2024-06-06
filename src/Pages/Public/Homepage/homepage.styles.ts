@@ -7,6 +7,9 @@ export const Home = styled.section`
 	margin: 30px auto;
 	margin-top: 83px;
 	background: #f7fafc;
+	.btn-start {
+		margin: 30px 0;
+	}
 `;
 
 export const Hero = styled.section`
@@ -424,6 +427,7 @@ export const FormContainer = styled.form`
     border: solid 1px #dee2e7;
     padding-left: 10px;
     border-radius: 6px;
+	font-family: Inter
   }
   select{
 	@media(max-width: 1280px) {
@@ -436,6 +440,7 @@ export const FormContainer = styled.form`
     border-radius: 10px;
     color: #dee2e7;
     border: solid 1px #dee2e7;
+	font-family: Inter;
     padding: 10px;
   }
   .quantity {
@@ -449,6 +454,8 @@ export const FormContainer = styled.form`
       border-radius: 6px;
       color: #1c1c1c;
       border: solid 1px #dee2e7;
+	font-family: Inter;
+
     }
     select {
       box-sizing: border-box;

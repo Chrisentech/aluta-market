@@ -18,7 +18,7 @@ import { FaJediOrder, FaUserAlt } from "react-icons/fa";
 import messageIcon from "../../../assets/messages.svg";
 import profileIcon from "../../../assets/profile.svg";
 import shopIcon from "../../../assets/shop.svg";
-import cartIcon from "../../../assets/shopping-cart.svg";
+import cartIcon from "../../../assets/cart.svg";
 import { BsCart3, BsFillCartFill } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -26,7 +26,7 @@ import { ROUTE } from "../../Constants";
 import { BiUser } from "react-icons/bi";
 import { RxCross2 } from "react-icons/rx";
 import { ImUser } from "react-icons/im";
-import { logo } from "../../../assets";
+import { CartIcon, logo } from "../../../assets";
 import { categories } from "../../../test-data";
 import { Badge } from "..";
 import { useSelector } from "react-redux";
@@ -265,7 +265,7 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 									</IconWrapper>
 									<IconWrapper onClick={() => nav(ROUTE.CART)}>
 										<Badge count={4} />
-										<img src={cartIcon} alt="..." />
+										<CartIcon />
 										<label>My cart</label>
 									</IconWrapper>
 								</>
@@ -273,7 +273,7 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 								<>
 									<IconWrapper onClick={() => nav(ROUTE.CART)}>
 										<Badge count={4} />
-										<BsFillCartFill color="#BDC4CD" />
+										<CartIcon />
 										<label>My cart</label>
 									</IconWrapper>
 									<IconWrapper onClick={() => nav(ROUTE.LOGIN)}>
@@ -295,7 +295,7 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 						<MenuItem to="#">Hot Offers</MenuItem>
 						<MenuItem to="#">Skynet</MenuItem>
 						<MenuItem to="#">Food Basket</MenuItem>
-						<MenuItem to="#">Resturants</MenuItem>
+						<MenuItem to="#">Restaurants</MenuItem>
 						<MenuItem to="#">
 							<select name="" id="">
 								<option value="">Help</option>
