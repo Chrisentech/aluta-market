@@ -149,7 +149,7 @@ export const Variations = styled.div`
 export const DeliveryInfo = styled.div`
 	box-sizing: border-box;
 	overflow: hidden;
-	width: 280px;
+	// width: 280px;
 	height: 513px;
 	border: 1px solid #dee2e7;
 	border-radius: 6px;

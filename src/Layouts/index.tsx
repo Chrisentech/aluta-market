@@ -83,7 +83,8 @@ const Layout: React.FC<LayoutProps<any>> = ({
 
 Layout.defaultProps = {
 	showModal: null,
-	modalWidth: "400px",
+	modalWidth: "600px",
+	modalPadding: 0,
 };
 
 export default Layout;

@@ -67,6 +67,7 @@ export default function useProducts() {
 			variables: { query },
 		});
 		if (response?.data?.searchProducts) {
+			console.log(response.data.searchProducts);
 			const flattenedArray = Object.values(
 				response.data.searchProducts
 			).flatMap((item: any) => item.name);

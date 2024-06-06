@@ -102,6 +102,14 @@ export const GET_MY_STORE = gql`
 		}
 	}
 `;
+export const GET_MY_STORE_BY_NAME = gql`
+	${STORE_FIELDS}
+	query StoreByName($name: String!) {
+		StoreByName(name: $name) {
+			...StoreFields
+		}
+	}
+`;
 
 // export const UPDATE_MY_STORE = gql``
 

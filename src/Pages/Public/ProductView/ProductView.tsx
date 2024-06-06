@@ -55,11 +55,13 @@ import {
 	setLoading,
 	setNotLoading,
 } from "../../../Features/loading/loadingSlice";
+import useStore from "../../../Features/store/storeAction";
 
 const Screen: React.FC = () => {
 	const { id: product_id } = useParams<{ id: string }>();
 	const dispatch = useDispatch();
 	const { product, getProduct } = useProducts();
+	const { getStoreByName, mystore } = useStore();
 	const user_id = getCookie("user_id");
 	const { modifyCart } = useUsers();
 
@@ -87,6 +89,7 @@ const Screen: React.FC = () => {
 			dispatch(setLoading());
 			try {
 				await getProduct(product_id);
+				await getStoreByName(product?.store || "");
 				dispatch(setNotLoading());
 			} catch (error) {
 				console.error("Error fetching product:", error);

@@ -37,6 +37,7 @@ import useAuthentication from "../../Hooks/useAuth";
 import { MdOutlineCancel } from "react-icons/md";
 import { FaMessage } from "react-icons/fa6";
 import { fetchMe } from "../../../Features/user/userSlice";
+import { debounce } from "../../Utils/helperFunctions";
 
 // Sidebar Component
 const SideBar: React.FC<{
@@ -167,8 +168,8 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 		setQuery(e.target.value);
 		getSearchSuggestions(e.target.value);
 		// debounce(() => {
-		//   getSearchSuggestions(e.target.value)
-		// }, 300)
+		// 	getSearchSuggestions(e.target.value);
+		// }, 300);
 	};
 
 	const handleSearch = () => {

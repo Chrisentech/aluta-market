@@ -106,6 +106,7 @@ export interface IProductProps {
 	description: string;
 	type: string;
 	id?: number;
+	store?: string;
 	status?: boolean;
 	image?: string[];
 	option?: [];

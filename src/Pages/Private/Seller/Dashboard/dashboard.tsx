@@ -332,12 +332,8 @@ const Screen: React.FC = () => {
 };
 
 const Dashboard = () => {
-	const { state: param } = useParams();
-	const dispatch = useDispatch();
 	// const stores = useSelector(selectStores);
 	const activeModal = useSelector(selectActiveModal);
-
-	if (param === "logout") dispatch(showModal("logout"));
 
 	return (
 		<Layout

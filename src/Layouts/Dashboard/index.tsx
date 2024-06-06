@@ -42,8 +42,9 @@ import {
 	userTagUnfilled,
 } from "../../assets";
 import useStore from "../../Features/store/storeAction";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchMe } from "../../Features/user/userSlice";
+import { showModal } from "../../Features/modal/modalSlice";
 // import useStore from "../../Features/store/storeAction";
 // import { useSelector } from "react-redux";
 interface IScreenProps {
@@ -51,6 +52,7 @@ interface IScreenProps {
 }
 
 const Screen: React.FC<IScreenProps> = ({ children }) => {
+	const dispatch = useDispatch();
 	const location = useLocation();
 	const navigate = useNavigate();
 	const currentPath = location.pathname;
@@ -252,7 +254,7 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 									My Profile
 								</Link>
 							</SidebarMenuLinks>
-							<SidebarMenuLinks>
+							<SidebarMenuLinks onClick={() => dispatch(showModal("logout"))}>
 								<Link to={ROUTE.SELLER_DASHBOARD + "/logout"}>
 									<img src={sendSquare} /> Log out
 								</Link>
@@ -370,7 +372,7 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 									My Profile
 								</Link>
 							</SidebarMenuLinks>
-							<SidebarMenuLinks>
+							<SidebarMenuLinks onClick={() => dispatch(showModal("logout"))}>
 								<Link to={ROUTE.SELLER_DASHBOARD + "/logout"}>
 									<img src={sendSquare} /> Log out
 								</Link>

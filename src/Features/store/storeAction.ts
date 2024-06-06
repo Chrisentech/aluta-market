@@ -7,7 +7,11 @@ import {
 	selectStores,
 } from "./storeSlice";
 import { apolloClient } from "../../Services/graphql/apolloClient";
-import { GET_MY_STORE, GET_MY_STORES } from "../../Services/graphql/store";
+import {
+	GET_MY_STORE,
+	GET_MY_STORE_BY_NAME,
+	GET_MY_STORES,
+} from "../../Services/graphql/store";
 import { alertError } from "../alert/alertSlice";
 export default function useStore() {
 	const dispatch = useDispatch();
@@ -46,11 +50,19 @@ export default function useStore() {
 		});
 		dispatch(actions.setStore(response.data.Store));
 	};
+	const getStoreByName = async (name: String) => {
+		const response = await apolloClient.query({
+			query: GET_MY_STORE_BY_NAME,
+			variables: { name },
+		});
+		dispatch(actions.setStore(response.data.Store));
+	};
 	return {
 		maintenanceMode,
 		setMaintenanceMode,
 		getMyStores,
 		getStore,
+		getStoreByName,
 		mystores,
 		mystore,
 	};
