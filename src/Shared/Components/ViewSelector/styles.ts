@@ -57,6 +57,11 @@ export const ProductCard = styled.div<{
 		align-items: center;
 		justify-content: center;
 	}
+	.grid_img {
+		img {
+			height: 150px;
+		}
+	}
 `;
 
 export const ProductDetails = styled.div<{ view?: string; type?: string }>`

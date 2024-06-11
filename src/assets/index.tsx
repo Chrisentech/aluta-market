@@ -96,6 +96,7 @@ export { default as PictureUpload } from "./picture.png";
 export { default as noOrder } from "./no_order.png";
 export { default as noProduct } from "./no_product.png";
 export { default as noCatalog } from "./no_catalog.png";
+export { default as noCatalog2 } from "./no_catalog2.png";
 export { default as BagFilled } from "./bag_filled.png";
 export { default as BagUnFilled } from "./bag_unfilled.png";
 export { default as HeartFilled } from "./heart.png";
@@ -150,6 +151,51 @@ export const CartIcon: React.FC<any> = ({ color }) => {
 				stroke-linecap="round"
 				stroke-linejoin="round"
 			/>
+		</svg>
+	);
+};
+
+export const ReportIcon: React.FC<any> = () => {
+	return (
+		<svg
+			width="43"
+			height="43"
+			viewBox="0 0 24 24"
+			fill="#fff"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<g id="Group 1554">
+				<g id="vuesax/linear/shield-cross">
+					<g id="shield-cross">
+						<path
+							id="Vector"
+							d="M10.4899 2.23006L5.49991 4.11006C4.34991 4.54006 3.40991 5.90006 3.40991 7.12006V14.5501C3.40991 15.7301 4.18991 17.2801 5.13991 17.9901L9.43991 21.2001C10.8499 22.2601 13.1699 22.2601 14.5799 21.2001L18.8799 17.9901C19.8299 17.2801 20.6099 15.7301 20.6099 14.5501V7.12006C20.6099 5.89006 19.6699 4.53006 18.5199 4.10006L13.5299 2.23006C12.6799 1.92006 11.3199 1.92006 10.4899 2.23006Z"
+							stroke="#FA3434"
+							stroke-width="1.5"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
+						<path
+							id="Vector_2"
+							d="M14.1499 13.4399L9.8999 9.18994"
+							stroke="#FA3434"
+							stroke-width="1.5"
+							stroke-miterlimit="10"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
+						<path
+							id="Vector_3"
+							d="M14.1001 9.23999L9.8501 13.49"
+							stroke="#FA3434"
+							stroke-width="1.5"
+							stroke-miterlimit="10"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
+					</g>
+				</g>
+			</g>
 		</svg>
 	);
 };

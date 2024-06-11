@@ -25,6 +25,7 @@ import { IProductProps } from "../../Interfaces";
 export default function useProducts() {
 	const dispatch = useDispatch();
 	const products = useSelector(selectProducts);
+
 	const myproducts = useSelector(selectMyProducts);
 	const product = useSelector(selectProduct);
 
@@ -38,7 +39,7 @@ export default function useProducts() {
 			},
 		});
 		const { __typename, ...rest } = response.data.Products;
-		filter.store
+		filter.store && !filter.type
 			? dispatch(actions.setMyProducts(rest))
 			: dispatch(actions.setProducts(response.data.Products.data));
 	};
@@ -135,7 +136,8 @@ export default function useProducts() {
 		getSearchSuggestions,
 		updateProduct,
 		deleteProduct,
-		// products,
+		products,
 		product,
+		myproducts,
 	};
 }

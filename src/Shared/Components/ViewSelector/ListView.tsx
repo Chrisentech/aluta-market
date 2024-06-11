@@ -75,6 +75,7 @@ const ListView: React.FC<{
 					goToPage={goToPage}
 					nextPage={nextPage}
 					prevPage={prevPage}
+					handlePageSizeChange={() => alert(currentPage)}
 				/>
 			</ListWrapper>
 		);
@@ -120,6 +121,7 @@ const ListView: React.FC<{
 					currentPage={currentPage}
 					goToPage={goToPage}
 					nextPage={nextPage}
+					handlePageSizeChange={() => alert(currentPage)}
 					prevPage={prevPage}
 				/>
 			</ListWrapper>
@@ -188,6 +190,7 @@ const ListView: React.FC<{
 				totalPages={3}
 				currentPage={currentPage}
 				goToPage={goToPage}
+				handlePageSizeChange={() => alert(currentPage)}
 				nextPage={nextPage}
 				prevPage={prevPage}
 			/>

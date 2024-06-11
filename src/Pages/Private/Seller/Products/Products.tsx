@@ -3,12 +3,14 @@ import Layout from "../../../../Layouts";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Wrapper } from "./products.styles";
 import { AiOutlinePlus, AiOutlineSearch } from "react-icons/ai";
+
 import {
 	Card,
 	DeleteModal,
 	Pagination,
 	Table,
 } from "../../../../Shared/Components";
+
 const categoryOptions = ["category", "Food", "Books", "Perfumes & Deodorant"];
 const options = ["Last added"];
 import { noCatalog } from "../../../../assets";
@@ -41,6 +43,7 @@ const Screen: React.FC = () => {
 	const handleOptionClick = (option: string) => {
 		setSelectedOption(option);
 	};
+	console.log(myProducts);
 	const totalPages = myProducts?.total;
 	const goToPage = async (pageNumber: any) => {
 		setLoading(true);
@@ -146,7 +149,7 @@ const Screen: React.FC = () => {
 				{myProducts?.data?.length > 0 ? (
 					<>
 						<Table data={myProducts?.data} columns={columns} />
-						{myProducts?.data?.length > 20 && (
+						{myProducts?.data?.length > 10 && (
 							<Pagination
 								totalPages={calculateTotalPages(
 									totalPages,

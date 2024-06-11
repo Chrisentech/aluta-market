@@ -53,7 +53,7 @@ const Table: React.FC<ResponsiveTableProps> = ({
 			);
 
 			// Update the toggle state based on whether id already exists or not
-			if (data[id].status === true) {
+			if (data[id].status === true && data[id]?.quantity > 0) {
 				// alert("yes");
 				await updateProduct({
 					id: data[id]?.id,
@@ -131,7 +131,7 @@ const Table: React.FC<ResponsiveTableProps> = ({
 													stroke={AppColors.brandOrange}
 													strokeOpacity={0.125}
 												/>
-											) : item?.status ? (
+											) : item?.status && item?.quantity > 0 ? (
 												<MdToggleOn
 													size="55px"
 													color="rgb(255 21 18 / 91%)"

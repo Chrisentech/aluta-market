@@ -54,7 +54,8 @@ export const ProductInfo = styled.div<ProductInfoProps>`
 	height: 465px;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	// justify-content: space-between;
+	gap: 23px;
 	font-family: inter;
 	@media (max-width: 978px) {
 		width: 100%;
@@ -390,6 +391,8 @@ export const SuggestionsWrapper = styled.div`
 		}
 		.name {
 			font-weight: 400;
+
+			font-size: 14px;
 			@media (max-width: 800px) {
 				font-size: 16px;
 			}

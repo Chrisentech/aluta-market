@@ -110,6 +110,8 @@ export interface IProductProps {
 	status?: boolean;
 	image?: string[];
 	option?: [];
+	variants: [];
+	reviews: [];
 }
 
 export interface ModifyCartItemInput {

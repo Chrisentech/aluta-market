@@ -112,6 +112,14 @@ export const ProfileImg = styled.div`
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	top: -135px;
 	left: 70px;
+	.img {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		width: 180px;
+		height: 180px;
+		border-radius: 50%;
+	}
 	@media (max-width: 690px) {
 		width: 100px;
 		height: 100px;
@@ -145,17 +153,24 @@ export const AddImg = styled.span`
 `;
 
 export const UploadImg = styled.div`
-	position: absolute;
+	// position: absolute;
 	right: 15px;
 	bottom: 15px;
 	padding: 0;
 	height: 40.3px;
 	border-radius: 6px;
 
-	&:hover {
-		box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-		transform: translateY(-1px);
+	.img {
+		height: 300px;
+		object-fit: cover;
+		width: 100%;
+		z-index: 10;
 	}
+
+	// &:hover {
+	// 	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+	// 	transform: translateY(-1px);
+	// }
 `;
 
 export const Tabs = styled.div`

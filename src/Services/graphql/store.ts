@@ -13,7 +13,8 @@ const STORE_FIELDS = gql`
 		address
 		status
 		has_physical_address
-		walletfollowers {
+		wallet
+		followers {
 			follower_id
 			follower_image
 			follower_name
@@ -102,6 +103,7 @@ export const GET_MY_STORE = gql`
 		}
 	}
 `;
+
 export const GET_MY_STORE_BY_NAME = gql`
 	${STORE_FIELDS}
 	query StoreByName($name: String!) {

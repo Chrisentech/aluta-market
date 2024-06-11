@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Layout from "../../../../Layouts";
 import {
 	AddImg,
@@ -27,17 +27,100 @@ import ModalContent from "./modals";
 import { MdToggleOff, MdToggleOn } from "react-icons/md";
 import useStore from "../../../../Features/store/storeAction";
 import { selectStore } from "../../../../Features/store/storeSlice";
+import { alertError } from "../../../../Features/alert/alertSlice";
 
 const Screen: React.FC = () => {
 	const dispatch = useDispatch();
 	const [activeTab, setActiveTab] = useState<1 | 2 | 3>(1);
 	const { maintenanceMode, setMaintenanceMode } = useStore();
 	const store = useSelector(selectStore);
+	const thumbnailInputRef = useRef<HTMLInputElement>(null);
+	const profileImgInputRef = useRef<HTMLInputElement>(null);
+	const [thumbnail, setThumbnail] = useState<string | ArrayBuffer | null>(
+		store?.background || null
+	);
+	const [profileImg, setProfileImg] = useState<string | ArrayBuffer | null>(
+		store?.thumbnail || null
+	);
+	const [description, setDescription] = useState<string>(
+		store?.description || ""
+	);
+	const [phone, setPhone] = useState<string>(store?.phone || "");
+	const [address, setAddress] = useState<string>(store?.address || "");
+	const [email, setEmail] = useState<string>(store?.email || "");
+	const [loading, setLoading] = useState<boolean>(false);
+	const handleThumbnailChange = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
+		const file = event.target.files?.[0];
+		if (file) {
+			const reader = new FileReader();
+			reader.onloadend = () => {
+				setThumbnail(reader.result);
+			};
+			reader.readAsDataURL(file);
+		}
+	};
 
+	useEffect(() => {
+		setThumbnail(store?.background);
+		setProfileImg(store?.thumbnail);
+		setPhone(store?.phone);
+		setAddress(store?.address);
+		setEmail(store?.email);
+		setDescription(store?.description);
+	}, [store]);
+
+	const handleProfileImgChange = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
+		const file = event.target.files?.[0];
+		if (file) {
+			const reader = new FileReader();
+			reader.onloadend = () => {
+				setProfileImg(reader.result);
+			};
+			reader.readAsDataURL(file);
+		}
+	};
 	useEffect(() => {
 		console.log(maintenanceMode);
 	}, [maintenanceMode]);
 
+	const saveChnageBtnDisabled =
+		description?.trim() === store?.description &&
+		phone?.trim() === store?.phone &&
+		address?.trim() === store?.address &&
+		email?.trim() === store?.email;
+
+	const handleSubmit = () => {
+		setLoading(true);
+		if (typeof phone !== "string") {
+			dispatch(alertError("Phone number must be a string"));
+			setLoading(false);
+			return;
+		}
+		if (phone.trim() === "") {
+			dispatch(alertError("Phone number cannot be empty"));
+			setLoading(false);
+			return;
+		}
+		if (email.trim() === "") {
+			dispatch(alertError("Email cannot be empty"));
+			setLoading(false);
+			return;
+		}
+		if (description.trim() === "") {
+			dispatch(alertError("Description cannot be empty"));
+			setLoading(false);
+			return;
+		}
+		if (address.trim() === "") {
+			dispatch(alertError("Address cannot be empty"));
+			setLoading(false);
+			return;
+		}
+	};
 	return (
 		<Wrapper>
 			<div className="flex">
@@ -47,13 +130,40 @@ const Screen: React.FC = () => {
 				<TopPanel>
 					<BackgroundImg>
 						<UploadImg>
-							<img src={uploadImg} alt="..." />
+							<img className="img" src={thumbnail as string} alt="..." />
+							<img
+								src={uploadImg}
+								alt=".."
+								onClick={() => thumbnailInputRef.current?.click()}
+								style={{ position: "absolute", right: 0, cursor: "pointer" }}
+							/>
+
+							<input
+								type="file"
+								accept="image/png, image/jpg"
+								ref={thumbnailInputRef}
+								style={{ display: "none" }}
+								onChange={handleThumbnailChange}
+							/>
 						</UploadImg>
 					</BackgroundImg>
 					<div className="store-info">
 						<ProfileImg>
 							<AddImg>
-								<img src={messageEdit} />
+								<input
+									type="file"
+									accept="image/png, image/jpg"
+									ref={profileImgInputRef}
+									style={{ display: "none" }}
+									onChange={handleProfileImgChange}
+								/>
+								<img className="img" src={profileImg as string} alt="..." />
+
+								<img
+									src={messageEdit}
+									onClick={() => profileImgInputRef.current?.click()}
+									style={{ position: "absolute", right: 0, cursor: "pointer" }}
+								/>
 							</AddImg>
 						</ProfileImg>
 						<h2 className="store-name">{store?.name}</h2>
@@ -94,7 +204,11 @@ const Screen: React.FC = () => {
 					{activeTab === 1 && (
 						<StoreDesc>
 							<label>Store description</label>
-							<textarea className="desc-input" value={store?.description} />
+							<textarea
+								className="desc-input"
+								value={description}
+								onChange={(e: any) => setDescription(e.target.value)}
+							/>
 						</StoreDesc>
 					)}
 					{activeTab === 2 && (
@@ -102,17 +216,29 @@ const Screen: React.FC = () => {
 							<div className="form">
 								<label>
 									Store Phone Number
-									<InputField type="text" value={store?.phone} />
+									<InputField
+										type="text"
+										value={phone}
+										onChange={(e: any) => setPhone(e.target.value)}
+									/>
 								</label>
 								<label>
 									Physical Address{" "}
 									<span className="bracket">&#40;Optional&#41;</span>
-									<InputField type="text" value={store?.address} />
+									<InputField
+										type="text"
+										value={address}
+										onChange={(e: any) => setAddress(e.target.value)}
+									/>
 								</label>
 								<label>
 									Business Email{" "}
 									<span className="bracket">&#40;Optional&#41;</span>
-									<InputField type="text" value={store?.email} />
+									<InputField
+										type="text"
+										value={email}
+										onChange={(e: any) => setEmail(e.target.value)}
+									/>
 								</label>
 							</div>
 						</ContactDetails>
@@ -176,8 +302,12 @@ const Screen: React.FC = () => {
 							height={40}
 							padding={20}
 							gap={10}
+							loading={loading}
+							type="submit"
 							color="#FFF"
+							disabled={saveChnageBtnDisabled}
 							background="linear-gradient(180deg, #FF7612 0%, #FF001F 100%)"
+							onClick={handleSubmit}
 						>
 							Save Changes
 						</Button>
@@ -200,12 +330,13 @@ const Screen: React.FC = () => {
 
 const StoreSettings = () => {
 	const activeModal = useSelector(selectActiveModal);
+	const store = useSelector(selectStore);
 
 	return (
 		<Layout
 			layout={"dashboard"}
 			component={Screen}
-			isLoading={false}
+			isLoading={!store}
 			showModal={activeModal}
 			popUpContent={<ModalContent active={activeModal} />}
 			navMode="noSearch"

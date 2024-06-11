@@ -13,6 +13,7 @@ interface IButtonInterface {
 	color?: string | number;
 	background?: string;
 	className?: string;
+	type?: "button" | "submit" | "reset";
 	onHover?: boolean;
 	padding?: string | number;
 	children: ReactNode;
@@ -28,6 +29,7 @@ const Button: React.FC<IButtonInterface> = ({
 	disabled,
 	borderRadius,
 	hasBoxShadow,
+	type,
 	color,
 	background,
 	onHover,
@@ -53,6 +55,7 @@ const Button: React.FC<IButtonInterface> = ({
 			onHover={onHover}
 			disabled={disabled}
 			onClick={onClick}
+			type={type}
 			padding={typeof padding === "number" ? padding + "px" : padding}
 		>
 			{children}

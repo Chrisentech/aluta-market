@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const Card = styled.div<{
-  view?: string;
-  width?: string;
-  height?: string;
-  padding?: string;
+	view?: string;
+	width?: string;
+	height?: string;
+	padding?: string;
 }>`
   display: flex;
   align-items: center;

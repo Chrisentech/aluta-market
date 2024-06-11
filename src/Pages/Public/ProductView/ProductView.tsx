@@ -31,6 +31,7 @@ import {
 	ProductCarousel,
 	Rating,
 	Reviews,
+	SkeletonLoader,
 	WishCard,
 } from "../../../Shared/Components";
 import { RxDotFilled } from "react-icons/rx";
@@ -48,7 +49,7 @@ import {
 	getCookie,
 } from "../../../Shared/Utils/helperFunctions";
 import { RootState } from "../../../store";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useUsers from "../../../Features/user/userActions";
 import { ModifyCartItemInput } from "../../../Interfaces";
 import {
@@ -60,11 +61,11 @@ import useStore from "../../../Features/store/storeAction";
 const Screen: React.FC = () => {
 	const { id: product_id } = useParams<{ id: string }>();
 	const dispatch = useDispatch();
-	const { product, getProduct } = useProducts();
+	const { product, products, getProduct, getProducts } = useProducts();
 	const { getStoreByName, mystore } = useStore();
 	const user_id = getCookie("user_id");
 	const { modifyCart } = useUsers();
-
+	const navigate = useNavigate();
 	const handleAddToCart = () => {
 		//if variant, open modal
 		const modifyCartValues: ModifyCartItemInput = {
@@ -76,20 +77,20 @@ const Screen: React.FC = () => {
 		console.log("clicked");
 	};
 
-	const breadcrumbs = [
-		// should get links and labels dynamically
-		{ label: "Home", link: "/" },
-		{ label: "Clothings", link: "/search/Clothings" },
-		{ label: "Mens Wear", link: "/search?Clothings/Mens wear" },
-		{ label: "Summer clothing" },
-	];
+	// const breadcrumbs = [
+	// 	// should get links and labels dynamically
+	// 	{ label: "Home", link: "/" },
+	// 	{ label: "Clothings", link: "/search/Clothings" },
+	// 	{ label: "Mens Wear", link: "/search?Clothings/Mens wear" },
+	// 	{ label: "Summer clothing" },
+	// ];
 
 	useEffect(() => {
 		const fetchData = async () => {
 			dispatch(setLoading());
 			try {
 				await getProduct(product_id);
-				await getStoreByName(product?.store || "");
+
 				dispatch(setNotLoading());
 			} catch (error) {
 				console.error("Error fetching product:", error);
@@ -98,7 +99,30 @@ const Screen: React.FC = () => {
 		};
 
 		fetchData();
-	}, [product_id]);
+	}, []);
+
+	useEffect(() => {
+		const fetchStoreAndProducts = async () => {
+			if (product?.store) {
+				dispatch(setLoading());
+				try {
+					await getStoreByName(product.store);
+					await getProducts({
+						store: product.store,
+						type: "desc",
+						limit: 5,
+						offset: 0,
+					});
+				} catch (error) {
+					console.error("Error fetching store and products:", error);
+				} finally {
+					dispatch(setNotLoading());
+				}
+			}
+		};
+
+		fetchStoreAndProducts();
+	}, [product?.store]);
 	return (
 		<Wrapper>
 			<Container>
@@ -106,7 +130,9 @@ const Screen: React.FC = () => {
 				<OrderDetail>
 					<ProductCarousel
 						images={product?.image}
-						thumbnail={product?.thumbnail || ""}
+						thumbnail={
+							product?.thumbnail || (product?.image && product.image[0]) || ""
+						}
 					/>
 					<ProductInfo instock={product?.status}>
 						{product?.status ? (
@@ -114,7 +140,7 @@ const Screen: React.FC = () => {
 								<BsCheckLg /> in stock
 							</p>
 						) : (
-							<p className="product-status">
+							<p className="product-status red">
 								<FaXmark /> out of stock
 							</p>
 						)}
@@ -161,67 +187,69 @@ const Screen: React.FC = () => {
 								</p>
 							)}
 						</PriceCard>
-						<Variations>
-							<div className="colors">
-								<p>Colors:</p>
-								<ColorList colors={colorData} />
-							</div>
-							<div className="sizes">
-								<p>Sizes</p>
-								<div>
-									<Button
-										borderRadius={8}
-										padding={20}
-										border="1px solid #DEE2E7"
-										gap={10}
-										height={38}
-										width={71}
-									>
-										S
-									</Button>
-									<Button
-										borderRadius={8}
-										padding={20}
-										border="1px solid #DEE2E7"
-										gap={10}
-										height={38}
-										width={71}
-									>
-										S
-									</Button>
-									<Button
-										borderRadius={8}
-										padding={20}
-										border="1px solid #DEE2E7"
-										gap={10}
-										height={38}
-										width={71}
-									>
-										S
-									</Button>
-									<Button
-										borderRadius={8}
-										padding={20}
-										border="1px solid #DEE2E7"
-										gap={10}
-										height={38}
-										width={71}
-									>
-										S
-									</Button>
-									<Button
-										borderRadius={8}
-										padding={20}
-										border="1px solid #DEE2E7"
-										gap={10}
-										height={38}
-										width={71}
-									>
-										S
-									</Button>
+						{product?.variants && (
+							<Variations>
+								<div className="colors">
+									<p>Colors:</p>
+									<ColorList colors={colorData} />
 								</div>
-							</div>
-						</Variations>
+								<div className="sizes">
+									<p>Sizes</p>
+									<div>
+										<Button
+											borderRadius={8}
+											padding={20}
+											border="1px solid #DEE2E7"
+											gap={10}
+											height={38}
+											width={71}
+										>
+											S
+										</Button>
+										<Button
+											borderRadius={8}
+											padding={20}
+											border="1px solid #DEE2E7"
+											gap={10}
+											height={38}
+											width={71}
+										>
+											S
+										</Button>
+										<Button
+											borderRadius={8}
+											padding={20}
+											border="1px solid #DEE2E7"
+											gap={10}
+											height={38}
+											width={71}
+										>
+											S
+										</Button>
+										<Button
+											borderRadius={8}
+											padding={20}
+											border="1px solid #DEE2E7"
+											gap={10}
+											height={38}
+											width={71}
+										>
+											S
+										</Button>
+										<Button
+											borderRadius={8}
+											padding={20}
+											border="1px solid #DEE2E7"
+											gap={10}
+											height={38}
+											width={71}
+										>
+											S
+										</Button>
+									</div>
+								</div>
+							</Variations>
+						)}
 						<div className="buttons">
 							<Button
 								color="#fff"
@@ -244,7 +272,7 @@ const Screen: React.FC = () => {
 								</CardIcon>
 								<div className="card-info">
 									<p className="header">Seller’s Information</p>
-									<p className="store-name">Arike Collections</p>
+									<p className="store-name">{mystore?.name?.toUpperCase()}</p>
 								</div>
 							</InfoCard>
 							<Button
@@ -255,6 +283,7 @@ const Screen: React.FC = () => {
 								background="#FF9017"
 								className="button"
 								color="#fff"
+								onClick={() => navigate(mystore?.link)}
 							>
 								View Store
 							</Button>
@@ -332,13 +361,24 @@ const Screen: React.FC = () => {
 							<h3 className="title">Description</h3>
 							<p className="description">{product?.description}</p>
 						</Description>
-						<Reviews width={"100%"} />
+						<RelatedWrapper style={{ marginTop: 15 }}>
+							<h3 className="title">Related Products</h3>
+							<div className="grid-wrapper">
+								<GridView
+									gridItems={Array(7).fill(null)}
+									gap="20px"
+									itempergrid={8}
+									type="productGrid"
+									cardType="type2"
+									background="#EEEEEE"
+								/>
+							</div>
+						</RelatedWrapper>
 					</div>
 					<SuggestionsWrapper>
-						<h3 className="title">You may like</h3>
-						{Array(5)
-							.fill(null)
-							.map((_, index) => (
+						<h3 className="title">You may like these from same seller</h3>
+						{products ? (
+							products?.map((product, index) => (
 								<Card
 									key={index}
 									padding={0}
@@ -350,7 +390,11 @@ const Screen: React.FC = () => {
 									<ImageCard
 										width="70px"
 										height="70px"
-										src={color2}
+										src={
+											product?.thumbnail ||
+											(product?.image && product?.image[0]) ||
+											color2
+										}
 										padding="10px"
 										className="image"
 									/>
@@ -361,22 +405,14 @@ const Screen: React.FC = () => {
 										</div>
 									</div>
 								</Card>
-							))}
+							))
+						) : (
+							<SkeletonLoader width="96%" className={"ad"} />
+						)}
 					</SuggestionsWrapper>
 				</div>
-				<RelatedWrapper>
-					<h3 className="title">Related Products</h3>
-					<div className="grid-wrapper">
-						<GridView
-							gridItems={Array(7).fill(null)}
-							gap="20px"
-							itempergrid={8}
-							type="productGrid"
-							cardType="type2"
-							background="#EEEEEE"
-						/>
-					</div>
-				</RelatedWrapper>
+				{product?.reviews && <Reviews width={"100%"} />}
+
 				<DiscountBanner>
 					<div>
 						<p>Super discount on more than N1000</p>

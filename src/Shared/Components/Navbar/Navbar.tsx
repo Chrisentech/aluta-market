@@ -18,8 +18,7 @@ import { FaJediOrder, FaUserAlt } from "react-icons/fa";
 import messageIcon from "../../../assets/messages.svg";
 import profileIcon from "../../../assets/profile.svg";
 import shopIcon from "../../../assets/shop.svg";
-import cartIcon from "../../../assets/cart.svg";
-import { BsCart3, BsFillCartFill } from "react-icons/bs";
+import { BsCart3 } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ROUTE } from "../../Constants";
@@ -37,7 +36,6 @@ import useAuthentication from "../../Hooks/useAuth";
 import { MdOutlineCancel } from "react-icons/md";
 import { FaMessage } from "react-icons/fa6";
 import { fetchMe } from "../../../Features/user/userSlice";
-import { debounce } from "../../Utils/helperFunctions";
 
 // Sidebar Component
 const SideBar: React.FC<{

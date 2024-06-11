@@ -48,6 +48,7 @@ export default function useStore() {
 			query: GET_MY_STORE,
 			variables: { id },
 		});
+		console.log(response);
 		dispatch(actions.setStore(response.data.Store));
 	};
 	const getStoreByName = async (name: String) => {
@@ -55,7 +56,7 @@ export default function useStore() {
 			query: GET_MY_STORE_BY_NAME,
 			variables: { name },
 		});
-		dispatch(actions.setStore(response.data.Store));
+		dispatch(actions.setStore(response.data.StoreByName));
 	};
 	return {
 		maintenanceMode,
