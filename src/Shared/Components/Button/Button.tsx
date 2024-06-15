@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { Container } from "./Button.styles";
+import { Container, Loader } from "./Button.styles";
 
 interface IButtonInterface {
 	gap?: string | number;
@@ -58,6 +58,7 @@ const Button: React.FC<IButtonInterface> = ({
 			type={type}
 			padding={typeof padding === "number" ? padding + "px" : padding}
 		>
+			{loading && <Loader />}
 			{children}
 		</Container>
 	);

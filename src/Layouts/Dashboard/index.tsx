@@ -56,7 +56,7 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const currentPath = location.pathname;
-	const me = useSelector(fetchMe);
+	const me: any = useSelector(fetchMe);
 	const { getMyStores } = useStore();
 	const options = ["+ Create a new Store"];
 	const [active, setActive] = useState("");

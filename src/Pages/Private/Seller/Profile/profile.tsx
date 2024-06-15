@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
 	AddImage,
 	Body,
@@ -17,11 +17,18 @@ import {
 import ModalContent from "./modals";
 import { fetchMe } from "../../../../Features/user/userSlice";
 import { filterNum } from "../../../../Shared/Utils/helperFunctions";
+import useUsers from "../../../../Features/user/userActions";
+import axios from "axios";
+import {
+	alertError,
+	alertSuccess,
+} from "../../../../Features/alert/alertSlice";
 
 const Screen: React.FC = () => {
 	const dispatch = useDispatch();
 
-	const me = useSelector(fetchMe);
+	const me: any = useSelector(fetchMe);
+	const { updateUser } = useUsers();
 	const [fullname, setFullname] = useState(me?.fullname);
 	const [email, setEmail] = useState(me?.email);
 	const parsedPhone = me?.phone ? parseInt(me.phone) : 0;
@@ -29,15 +36,111 @@ const Screen: React.FC = () => {
 	const [gender, setGender] = useState(me?.gender);
 	const [dob, setDob] = useState(me?.dob);
 	const [password, setPassword] = useState("");
+	const [loading, setLoading] = useState(false);
 	const [showPasswordField, setShowPasswordField] = useState(false);
-
+	const [imgLoading, setImgLoading] = useState(false);
+	const [btnDisabeled, setBtnDisabled] = useState(false);
+	const [profileImg, setProfileImg] = useState<string | ArrayBuffer | null>(
+		me?.avatar || null
+	);
+	const profileImgInputRef = useRef<HTMLInputElement>(null);
 	useEffect(() => {
 		setFullname(me?.fullname);
 		setEmail(me?.email);
 		setPhone(filterNum(parsedPhone));
 		setGender(me?.gender);
+		setProfileImg(me?.avatar);
 		setDob(me?.dob);
-	}, [me?.fullname]);
+	}, [me]);
+	const handleProfileImgChange = async (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
+		const file = event.target.files?.[0];
+		setImgLoading(true);
+		if (file) {
+			const formData = new FormData();
+			formData.append("file", file);
+			formData.append("upload_preset", "rbwlt6de");
+			try {
+				const response = await axios.post(
+					"https://api.cloudinary.com/v1_1/de7i4zy3m/image/upload",
+					formData
+				);
+				setImgLoading(false);
+
+				const imageUrl = response.data.secure_url;
+				setProfileImg(imageUrl);
+				console.log("Uploaded image URL:", imageUrl);
+			} catch (error) {
+				console.error("Error uploading image:", error);
+				setImgLoading(false);
+			}
+		}
+	};
+
+	// Changes to make button disabled
+	useEffect(() => {
+		if (
+			fullname?.trim() === me?.fullname?.trim() &&
+			phone === filterNum(me?.phone?.trim()) &&
+			gender?.trim() === me?.gender?.trim() &&
+			dob?.trim() === me?.dob?.trim() &&
+			profileImg === me?.avatar
+		) {
+			setBtnDisabled(true);
+		} else {
+			setBtnDisabled(false);
+		}
+	}, [fullname, phone, gender, dob, profileImg, me]);
+	const handleSubmit = async (e: any) => {
+		e.preventDefault();
+		setLoading(true);
+		const payload = {
+			id: me?.id,
+			fullname: fullname?.trim() === me?.fullname?.trim() ? "" : fullname,
+			phone: phone === me?.phone?.trim() ? "" : phone,
+			gender: gender?.trim() === me?.gender?.trim() ? "" : gender,
+			dob: dob?.trim() === me?.dob?.trim() ? "" : dob,
+			password: password?.trim() === me?.password?.trim() ? "" : password,
+			avatar: profileImg === me?.avatar ? "" : profileImg,
+		};
+		try {
+			await updateUser(payload);
+			dispatch(alertSuccess("Update successful."));
+			setBtnDisabled(true);
+			setLoading(false);
+		} catch (error: any) {
+			setLoading(false);
+			if (error.graphQLErrors && error.graphQLErrors.length > 0) {
+				for (let index = 0; index < error.graphQLErrors.length; index++) {
+					dispatch(
+						alertError(JSON.parse(error.graphQLErrors[index].message).message)
+					);
+				}
+			}
+			if (error.protocolErrors && error.protocolErrors.length > 0) {
+				for (let index = 0; index < error.protocolErrors.length; index++) {
+					dispatch(
+						alertError(JSON.parse(error.protocolErrors[index].message).message)
+					);
+				}
+			}
+			if (error.clientErrors && error.clientErrors.length > 0) {
+				for (let index = 0; index < error.clientErrors.length; index++) {
+					dispatch(
+						alertError(JSON.parse(error.clientErrors[index].message).message)
+					);
+				}
+			}
+			if (error.networkErrors && error.networkErrors.length > 0) {
+				for (let index = 0; index < error.networkErrors.length; index++) {
+					dispatch(
+						alertError(JSON.parse(error.networkErrors[index].message).message)
+					);
+				}
+			}
+		}
+	};
 	return (
 		<Wrapper>
 			<h1>My Profile</h1>
@@ -56,20 +159,14 @@ const Screen: React.FC = () => {
 							</label>
 							<label>
 								Email
-								<InputField
-									type="email"
-									value={email}
-									onChange={(e: any) => setEmail(e.target.value)}
-								/>
+								<InputField type="email" value={email} readOnly disabled />
 							</label>
 							<label>
 								Phone Number
 								<InputField
-									type="email"
-									value={"+234" + phone}
-									onChange={(e: any) => {
-										setPhone(e.target.value);
-									}}
+									type="text"
+									value={phone}
+									onChange={(e: any) => setPhone(e.target.value)}
 								/>
 							</label>
 						</div>
@@ -135,18 +232,27 @@ const Screen: React.FC = () => {
 					</div>
 					<div className="right">
 						<ProfileImage>
+							<input
+								type="file"
+								accept="image/png, image/jpg"
+								ref={profileImgInputRef}
+								style={{ display: "none" }}
+								onChange={handleProfileImgChange}
+							/>
 							<img
-								src={
-									me?.avatar ??
-									"https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
-								}
+								src={profileImg as string}
 								className="avatar"
 								alt="..."
+								onClick={() => profileImgInputRef.current?.click()}
 								width={80}
 								height={80}
 							/>
 							<AddImage>
-								<img src={messageEdit} />
+								<img
+									onClick={() => profileImgInputRef.current?.click()}
+									src={messageEdit}
+									style={{ cursor: "pointer" }}
+								/>
 							</AddImage>
 						</ProfileImage>
 						<Card
@@ -176,7 +282,15 @@ const Screen: React.FC = () => {
 				</div>
 				<div className="foot">
 					<div className="buttons">
-						<Button background="#0D6EFD" color="#fff" gap={10} padding={20}>
+						<Button
+							disabled={btnDisabeled || imgLoading}
+							background="#0D6EFD"
+							color="#fff"
+							loading={loading}
+							gap={10}
+							padding={20}
+							onClick={handleSubmit}
+						>
 							Save Changes
 						</Button>
 						<Button
@@ -196,12 +310,13 @@ const Screen: React.FC = () => {
 
 const Profile = () => {
 	const activeModal = useSelector(selectActiveModal);
+	const me = useSelector(fetchMe);
 
 	return (
 		<Layout
 			layout={"dashboard"}
 			component={Screen}
-			isLoading={false}
+			isLoading={!me}
 			showModal={activeModal}
 			navMode="noSearch"
 			popUpContent={<ModalContent active={activeModal} />}

@@ -95,12 +95,13 @@ display: inline-block;
                         input[type="date"] {
                             font-family: inter;
                             font-size: 12px;
-                            color: #BDC4CD;
+                            // color: #BDC4CD;
 
                             &::-webkit-calendar-picker-indicator {
                                 width: 24px;
                                 height: 24px;
                                 opacity: 0.2;
+                                cursor:pointer
                                 }
                             }
                         }
@@ -200,8 +201,11 @@ export const ProfileImage = styled.div`
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	.avatar {
 		position: absolute;
-		top: 55px;
-		left: 30%;
+		bottom: 0;
+		right: 0;
+		width: 180px;
+		height: 180px;
+		border-radius: 50%;
 	}
 	@media (max-width: 1346px) {
 		width: 100px;

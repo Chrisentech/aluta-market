@@ -7,7 +7,7 @@ const USER_FIELDS = gql`
 		email
 		campus
 		password
-		# avatar
+		avatar
 		password
 		phone
 		usertype
@@ -74,8 +74,6 @@ export const MY_PROFILE = gql`
 	}
 `;
 
-// export const UPDATE_MY_PROFILE = gql``;
-
 // export const SET_TWOFA = gql``;
 
 export const ADD_TO_WISHLIST = gql`
@@ -83,6 +81,15 @@ export const ADD_TO_WISHLIST = gql`
 	mutation AddWishListedProduct($userId: Int!, $productId: Int!) {
 		addWishListedProduct(userId: $userId, productId: $productId) {
 			...WishlistFields
+		}
+	}
+`;
+
+export const UPDATE_MY_PROFILE = gql`
+	${USER_FIELDS}
+	mutation updateUser($input: UpdateUserInput!) {
+		updateUser(input: $input) {
+			...UserFields
 		}
 	}
 `;

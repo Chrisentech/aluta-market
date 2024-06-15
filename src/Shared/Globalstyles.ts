@@ -26,7 +26,7 @@ const GlobalStyle = createGlobalStyle`
   button:disabled{
     color:#fff !important;
     background:${AppColors.brandGray};
-    cursor:not-allowed
+    cursor:not-allowed !important
   }
  input::disabled{
     cursor:not-allowed,

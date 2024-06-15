@@ -30,6 +30,20 @@ export interface RegisterFormValues {
 	active?: boolean;
 }
 
+export interface UpdateUserFormValues {
+	id: string;
+	email?: string;
+	password?: string;
+	fullname?: string;
+	gender?: string;
+	dob?: string;
+	phone?: string | number;
+	campus?: string;
+	usertype?: string;
+	avatar?: string | ArrayBuffer | null;
+	active?: boolean;
+}
+
 export interface IUserProps {
 	id: number;
 	fullname: string;

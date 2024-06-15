@@ -412,7 +412,7 @@ export const Modal = styled.div`
     margin: 0px auto 20px auto;
     &[readonly] {
       background: #f7fafc;
-      cursor: not-allowed;
+      cursor: not-allowed !important;
     }
   }
   .lsxaj2 {

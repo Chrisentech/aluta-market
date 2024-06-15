@@ -231,14 +231,19 @@ export const getCapitalizedFirstLetter = (str: string): string => {
 };
 export const filterNum = (number: number | string): number | string => {
 	const numberStr = number?.toString();
-
-	if (numberStr.includes("234") || numberStr.startsWith("0")) {
-		// If the number contains '234' or starts with '0', remove them
-		const filteredNumber = numberStr.replace("234", "").replace(/^0+/, "");
-		return parseInt(filteredNumber, 10);
+	console.log(numberStr);
+	if (!numberStr) {
+		// If the number is empty, return it as is
+		return number;
 	}
 
-	return number;
+	if (numberStr?.includes("234") || numberStr?.startsWith("0")) {
+		// If the number contains '234' or starts with '0', remove them
+		const filteredNumber = numberStr?.replace("234", "").replace(/^0+/, "");
+		return "+234" + parseInt(filteredNumber, 10);
+	}
+
+	return "+234" + number;
 };
 
 export const calculateTotalPages = (

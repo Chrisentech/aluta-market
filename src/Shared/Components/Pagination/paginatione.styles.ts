@@ -36,6 +36,7 @@ export const PageButton = styled.button<{ active?: boolean }>`
 	&:disabled {
 		background: #ccc !important;
 		color: #dee2e7;
+		cursor: not-allowed !important;
 	}
 	&:last-child {
 		margin: 0;

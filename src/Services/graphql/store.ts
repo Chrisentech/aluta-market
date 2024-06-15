@@ -86,6 +86,15 @@ const PAGINATION_DATA = gql`
 	}
 `;
 
+export const CREATE_NEW_STORE = gql`
+	${STORE_FIELDS}
+	mutation createStore($input: StoreInput!) {
+		createStore(input: $input) {
+			...StoreFields
+		}
+	}
+`;
+
 export const GET_MY_STORES = gql`
 	${PAGINATION_DATA}
 	query Stores($user: Int!, $limit: Int!, $offset: Int!) {
@@ -113,7 +122,23 @@ export const GET_MY_STORE_BY_NAME = gql`
 	}
 `;
 
-// export const UPDATE_MY_STORE = gql``
+export const UPDATE_MY_STORE = gql`
+	${STORE_FIELDS}
+	mutation updateStore($input: UpdateStoreInput) {
+		updateStore(input: $input) {
+			...StoreFields
+		}
+	}
+`;
+
+export const DELETE_MY_STORE = gql`
+	${STORE_FIELDS}
+	mutation deleteStore($storeId: Int!) {
+		deleteStore(input: $input) {
+			...StoreFields
+		}
+	}
+`;
 
 // export const CONFIGURE_MY_STORE = gql``; //This would be used to either disable/delete store
 

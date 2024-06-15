@@ -19,7 +19,7 @@ interface IButtonInterface {
 
 export const Container = styled.button<IButtonInterface>`
 	display: flex;
-	flex-direction: column;
+	flex-direction: ${({ loading }) => (loading ? "row" : "column")};
 	justify-content: center;
 	cursor: pointer;
 	align-items: center;
@@ -40,5 +40,23 @@ export const Container = styled.button<IButtonInterface>`
 		box-shadow: ${({ onHover }) =>
 			onHover ? "rgba(0, 0, 0, 0.35) 0px 5px 15px" : ""};
 		transform: translateY(-1px);
+	}
+`;
+
+export const Loader = styled.div`
+	border: 2px solid rgba(0, 0, 0, 0.1);
+	border-left-color: #000;
+	border-radius: 50%;
+	width: 16px;
+	height: 16px;
+	animation: spin 1s linear infinite;
+
+	@keyframes spin {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
 	}
 `;

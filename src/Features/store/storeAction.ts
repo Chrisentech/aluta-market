@@ -8,9 +8,11 @@ import {
 } from "./storeSlice";
 import { apolloClient } from "../../Services/graphql/apolloClient";
 import {
+	CREATE_NEW_STORE,
 	GET_MY_STORE,
 	GET_MY_STORE_BY_NAME,
 	GET_MY_STORES,
+	UPDATE_MY_STORE,
 } from "../../Services/graphql/store";
 import { alertError } from "../alert/alertSlice";
 export default function useStore() {
@@ -33,7 +35,7 @@ export default function useStore() {
 				},
 			});
 			dispatch(actions.setStores(response.data.Stores.data));
-			dispatch(actions.setStore(response.data.Stores.data[0]));
+			// dispatch(actions.setStore(response.data.Stores.data[0]));
 		} catch (error: any) {
 			let parsedErr = JSON.parse(error.message);
 			dispatch(
@@ -48,7 +50,6 @@ export default function useStore() {
 			query: GET_MY_STORE,
 			variables: { id },
 		});
-		console.log(response);
 		dispatch(actions.setStore(response.data.Store));
 	};
 	const getStoreByName = async (name: String) => {
@@ -58,6 +59,20 @@ export default function useStore() {
 		});
 		dispatch(actions.setStore(response.data.StoreByName));
 	};
+	const createStore = async (input: any) => {
+		const response = await apolloClient.mutate({
+			mutation: CREATE_NEW_STORE,
+			variables: { input },
+		});
+		dispatch(actions.setStore(response.data.createStore));
+	};
+	const updateStore = async (input: any) => {
+		const response = await apolloClient.mutate({
+			mutation: UPDATE_MY_STORE,
+			variables: { input },
+		});
+		dispatch(actions.setStore(response.data.updateStore));
+	};
 	return {
 		maintenanceMode,
 		setMaintenanceMode,
@@ -66,5 +81,7 @@ export default function useStore() {
 		getStoreByName,
 		mystores,
 		mystore,
+		createStore,
+		updateStore,
 	};
 }

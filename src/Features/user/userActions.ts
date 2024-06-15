@@ -5,6 +5,7 @@ import {
 	LoginFormValues,
 	ModifyCartItemInput,
 	RegisterFormValues,
+	UpdateUserFormValues,
 } from "../../Interfaces";
 import {
 	CREATE_USER,
@@ -15,6 +16,7 @@ import {
 	GET_WISHLIST,
 	MODIFY_CART,
 	MY_PROFILE,
+	UPDATE_MY_PROFILE,
 } from "../../Services/graphql/users";
 import { actions } from "./userSlice";
 import { setCookie } from "../../Shared/Utils/helperFunctions";
@@ -38,6 +40,20 @@ export default function useUsers() {
 		});
 		if (response.data.verifyOTP)
 			dispatch(actions.registerUser(response.data.verifyOTP));
+	};
+
+	const updateUser = async (input: UpdateUserFormValues) => {
+		const response = await apolloClient.mutate({
+			mutation: UPDATE_MY_PROFILE,
+			variables: { input },
+		});
+		if (response.data.updateUser) {
+			const { password, access_token, refresh_token, __typename, ...rest } =
+				response?.data?.updateUser;
+
+			dispatch(actions.getMe(rest));
+			return response.data.updateUser;
+		}
 	};
 
 	const loginUser = async (input: LoginFormValues) => {
@@ -126,6 +142,7 @@ export default function useUsers() {
 		getMe,
 		addToWishlist,
 		getWishlist,
+		updateUser,
 		modifyCart,
 	};
 }

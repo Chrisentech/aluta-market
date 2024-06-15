@@ -27,13 +27,18 @@ import ModalContent from "./modals";
 import { MdToggleOff, MdToggleOn } from "react-icons/md";
 import useStore from "../../../../Features/store/storeAction";
 import { selectStore } from "../../../../Features/store/storeSlice";
-import { alertError } from "../../../../Features/alert/alertSlice";
+import {
+	alertError,
+	alertSuccess,
+} from "../../../../Features/alert/alertSlice";
+import axios from "axios";
 
 const Screen: React.FC = () => {
 	const dispatch = useDispatch();
 	const [activeTab, setActiveTab] = useState<1 | 2 | 3>(1);
-	const { maintenanceMode, setMaintenanceMode } = useStore();
+	const { maintenanceMode, setMaintenanceMode, updateStore } = useStore();
 	const store = useSelector(selectStore);
+	// alert(JSON.stringify(store));
 	const thumbnailInputRef = useRef<HTMLInputElement>(null);
 	const profileImgInputRef = useRef<HTMLInputElement>(null);
 	const [thumbnail, setThumbnail] = useState<string | ArrayBuffer | null>(
@@ -48,7 +53,9 @@ const Screen: React.FC = () => {
 	const [phone, setPhone] = useState<string>(store?.phone || "");
 	const [address, setAddress] = useState<string>(store?.address || "");
 	const [email, setEmail] = useState<string>(store?.email || "");
+	const [imgLoading, setImgLoading] = useState(false);
 	const [loading, setLoading] = useState<boolean>(false);
+
 	const handleThumbnailChange = (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
@@ -71,16 +78,29 @@ const Screen: React.FC = () => {
 		setDescription(store?.description);
 	}, [store]);
 
-	const handleProfileImgChange = (
+	const handleProfileImgChange = async (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
 		const file = event.target.files?.[0];
+		setImgLoading(true);
 		if (file) {
-			const reader = new FileReader();
-			reader.onloadend = () => {
-				setProfileImg(reader.result);
-			};
-			reader.readAsDataURL(file);
+			const formData = new FormData();
+			formData.append("file", file);
+			formData.append("upload_preset", "rbwlt6de");
+			try {
+				const response = await axios.post(
+					"https://api.cloudinary.com/v1_1/de7i4zy3m/image/upload",
+					formData
+				);
+				setImgLoading(false);
+
+				const imageUrl = response.data.secure_url;
+				setProfileImg(imageUrl);
+				console.log("Uploaded image URL:", imageUrl);
+			} catch (error) {
+				console.error("Error uploading image:", error);
+				setImgLoading(false);
+			}
 		}
 	};
 	useEffect(() => {
@@ -91,34 +111,72 @@ const Screen: React.FC = () => {
 		description?.trim() === store?.description &&
 		phone?.trim() === store?.phone &&
 		address?.trim() === store?.address &&
-		email?.trim() === store?.email;
+		email?.trim() === store?.email &&
+		profileImg === store?.thumbnail;
 
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		setLoading(true);
-		if (typeof phone !== "string") {
-			dispatch(alertError("Phone number must be a string"));
+		try {
+			if (typeof phone !== "string") {
+				dispatch(alertError("Phone number must be a string"));
+				setLoading(false);
+				return;
+			}
+			if (phone.trim() === "") {
+				dispatch(alertError("Phone number cannot be empty"));
+				setLoading(false);
+				return;
+			}
+			if (email.trim() === "") {
+				dispatch(alertError("Email cannot be empty"));
+				setLoading(false);
+				return;
+			}
+			if (description.trim() === "") {
+				dispatch(alertError("Description cannot be empty"));
+				setLoading(false);
+				return;
+			}
+			if (address.trim() === "") {
+				dispatch(alertError("Address cannot be empty"));
+				setLoading(false);
+				return;
+			}
+			await updateStore({ id: store?.id, address, phone, description, email });
+			dispatch(alertSuccess("Update successful."));
+			setTimeout(() => {
+				location.reload();
+			}, 1500);
+		} catch (error: any) {
 			setLoading(false);
-			return;
-		}
-		if (phone.trim() === "") {
-			dispatch(alertError("Phone number cannot be empty"));
-			setLoading(false);
-			return;
-		}
-		if (email.trim() === "") {
-			dispatch(alertError("Email cannot be empty"));
-			setLoading(false);
-			return;
-		}
-		if (description.trim() === "") {
-			dispatch(alertError("Description cannot be empty"));
-			setLoading(false);
-			return;
-		}
-		if (address.trim() === "") {
-			dispatch(alertError("Address cannot be empty"));
-			setLoading(false);
-			return;
+			if (error.graphQLErrors && error.graphQLErrors.length > 0) {
+				for (let index = 0; index < error.graphQLErrors.length; index++) {
+					dispatch(
+						alertError(JSON.parse(error.graphQLErrors[index].message).message)
+					);
+				}
+			}
+			if (error.protocolErrors && error.protocolErrors.length > 0) {
+				for (let index = 0; index < error.protocolErrors.length; index++) {
+					dispatch(
+						alertError(JSON.parse(error.protocolErrors[index].message).message)
+					);
+				}
+			}
+			if (error.clientErrors && error.clientErrors.length > 0) {
+				for (let index = 0; index < error.clientErrors.length; index++) {
+					dispatch(
+						alertError(JSON.parse(error.clientErrors[index].message).message)
+					);
+				}
+			}
+			if (error.networkErrors && error.networkErrors.length > 0) {
+				for (let index = 0; index < error.networkErrors.length; index++) {
+					dispatch(
+						alertError(JSON.parse(error.networkErrors[index].message).message)
+					);
+				}
+			}
 		}
 	};
 	return (
@@ -253,7 +311,7 @@ const Screen: React.FC = () => {
 							>
 								<div className="top-card">
 									<p className="top-text">Maintenance Mode</p>
-									{maintenanceMode ? (
+									{maintenanceMode || store?.status ? (
 										<MdToggleOn
 											size="55px"
 											color="rgb(255 21 18 / 91%)"
@@ -305,7 +363,7 @@ const Screen: React.FC = () => {
 							loading={loading}
 							type="submit"
 							color="#FFF"
-							disabled={saveChnageBtnDisabled}
+							disabled={saveChnageBtnDisabled || loading || imgLoading}
 							background="linear-gradient(180deg, #FF7612 0%, #FF001F 100%)"
 							onClick={handleSubmit}
 						>
