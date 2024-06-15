@@ -13,7 +13,6 @@ import {
 	ModalWrapper,
 } from "./detail.styles";
 import { BsCheckCircle } from "react-icons/bs";
-import { IoLocationOutline } from "react-icons/io5";
 import { BiArrowBack } from "react-icons/bi";
 
 const data = [

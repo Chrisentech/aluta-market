@@ -20,7 +20,7 @@ import profileIcon from "../../../assets/profile.svg";
 import shopIcon from "../../../assets/shop.svg";
 import { BsCart3 } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { ROUTE } from "../../Constants";
 import { BiUser } from "react-icons/bi";
 import { RxCross2 } from "react-icons/rx";
@@ -43,7 +43,7 @@ const SideBar: React.FC<{
 	onClose: () => void;
 	type: string;
 }> = ({ show, onClose, type }) => {
-	const nav = useNavigate();
+	// const nav = useNavigate();
 	if (type === "dashboard") {
 		return (
 			<>

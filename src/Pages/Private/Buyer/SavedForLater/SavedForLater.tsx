@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Layout from "../../../../Layouts";
 import { GridWrapper, Wrapper } from "./SavedForLater.styles";
 import { Button, Card, ImageCard } from "../../../../Shared/Components";

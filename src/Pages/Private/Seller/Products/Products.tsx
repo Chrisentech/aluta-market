@@ -105,6 +105,7 @@ const Screen: React.FC = () => {
 
 		// Cleanup function to abort fetch when component unmounts or when store changes
 		return () => {
+			setLimit(0);
 			// You can perform cleanup here if needed
 		};
 	}, [store]); // empty dependency array ensures this effect runs only once, on mount

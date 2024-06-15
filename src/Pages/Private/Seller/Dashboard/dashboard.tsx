@@ -35,12 +35,9 @@ import {
 	watch,
 	wristwatch,
 } from "../../../../assets";
-import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import {
-	selectActiveModal,
-	showModal,
-} from "../../../../Features/modal/modalSlice";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectActiveModal } from "../../../../Features/modal/modalSlice";
 import { selectStore } from "../../../../Features/store/storeSlice";
 import { ROUTE } from "../../../../Shared/Constants";
 import { OrderCard } from "../Orders/orders.styles";

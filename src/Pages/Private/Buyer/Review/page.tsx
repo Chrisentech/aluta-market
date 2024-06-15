@@ -19,8 +19,6 @@ import { Form, Formik, useField } from "formik";
 const Screen: React.FC = () => {
 	const nav = useNavigate();
 	const [rating, setRating] = useState(0);
-	const [nickname, setNickName] = useState("");
-	const [review, setReview] = useState("");
 	const [loading, setLoading] = useState(false);
 	const initialValues: any = {
 		nickname: "",
@@ -39,6 +37,8 @@ const Screen: React.FC = () => {
 			...values,
 		};
 		setLoading(true);
+		setRating(2);
+		console.log(payload);
 		// try {
 		// 	let user = await loginUser(payload);
 		// 	dispatch(alertSuccess("Login successful"));
@@ -126,7 +126,12 @@ const Screen: React.FC = () => {
 							/>
 						</FormControl>
 
-						<Button background="#FF9017" color={"#fff"} className="btn">
+						<Button
+							background="#FF9017"
+							color={"#fff"}
+							className="btn"
+							loading={loading}
+						>
 							Submit Review
 						</Button>
 					</Form>

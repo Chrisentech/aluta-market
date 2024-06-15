@@ -13,7 +13,6 @@ import Layout from "../../../Layouts";
 import {
 	arike,
 	message,
-	noCatalog,
 	noCatalog2,
 	profileAdd,
 	ReportIcon,

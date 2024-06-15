@@ -73,6 +73,8 @@ const initialValues: IProductProps = {
 	subcategory: 0,
 	description: "",
 	thumbnail: "",
+	variants: [],
+	reviews: [],
 	type: "",
 	// option: [],
 };
