@@ -78,8 +78,8 @@ const Screen: React.FC = () => {
 			setLoading(false);
 			setCookie("user_id", user?.id, stayLoggedIn ? 7 : 0);
 			setCookie("access_token", user?.access_token, stayLoggedIn ? 7 : 0);
-			sessionStorage.removeItem("redirectPath");
 			window.location.replace(url);
+			sessionStorage.removeItem("redirectPath");
 		} catch (error: any) {
 			setLoading(false);
 			if (error.graphQLErrors && error.graphQLErrors.length > 0) {
