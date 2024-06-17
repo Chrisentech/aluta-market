@@ -121,6 +121,7 @@ const Screen: React.FC = () => {
 									}
 									width={150}
 									height={30}
+									disabled={!me}
 									padding={10}
 									gap={10}
 									background="purple"
