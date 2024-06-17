@@ -27,12 +27,11 @@ const App: React.FC = () => {
 
 		window.addEventListener("online", handleOnlineStatus);
 		window.addEventListener("offline", handleOfflineStatus);
-
+		if (isAuthenticated) {
+			getMe(parseInt(getCookie("user_id") || "0"));
+			dispatch(actions.setToken(getCookie("access_token")));
+		}
 		return () => {
-			if (isAuthenticated) {
-				getMe(parseInt(getCookie("user_id") || "0"));
-				dispatch(actions.setToken(getCookie("access_token")));
-			}
 			window.removeEventListener("online", handleOnlineStatus);
 			window.removeEventListener("offline", handleOfflineStatus);
 		};
