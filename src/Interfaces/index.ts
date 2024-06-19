@@ -125,7 +125,7 @@ export interface IProductProps {
 	image?: string[];
 	option?: [];
 	variants: [];
-	reviews: [];
+	review: [];
 }
 
 export interface ModifyCartItemInput {

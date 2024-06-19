@@ -16,7 +16,25 @@ const PRODUCT_FIELDS = gql`
 		store
 		category
 		subcategory
+		review {
+			id
+			username
+			image
+			message
+			rating
+			product_id
+		}
 		# variant
+	}
+`;
+
+const PRODUCT_REVIEW_FIELDS = gql`
+	fragment ReviewFields on Review {
+		username
+		image
+		message
+		rating
+		productId
 	}
 `;
 const PAGINATION_DATA = gql`
@@ -112,6 +130,24 @@ export const DELETE_PRODUCT = gql`
 	mutation deleteProduct($productId: Int!) {
 		deleteProduct(productId: $productId) {
 			...ProductFields
+		}
+	}
+`;
+
+export const ADD_REVIEW = gql`
+	${PRODUCT_REVIEW_FIELDS}
+	mutation addReview($input: ReviewInput!) {
+		addReview(input: $input) {
+			...ReviewFields
+		}
+	}
+`;
+
+export const GET_PRODUCT_REVIEWS = gql`
+	${PRODUCT_REVIEW_FIELDS}
+	query ProductReview($id: Int!) {
+		ProductReview(id: $id) {
+			...ReviewFields
 		}
 	}
 `;

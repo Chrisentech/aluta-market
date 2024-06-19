@@ -61,6 +61,7 @@ export const ReviewContainer = styled.div`
 export const CustomerReviews = styled.div`
 	overflow: auto;
 	height: 400px;
+	width: 100%;
 	@media (max-width: 800px) {
 		scrollbar-width: none; /* Firefox */
 		-ms-overflow-style: none;

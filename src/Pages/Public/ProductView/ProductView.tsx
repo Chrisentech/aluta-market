@@ -43,7 +43,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { showModal } from "../../../Features/modal/modalSlice";
 import { selectActiveModal } from "../../../Features/modal/modalSlice";
 import useProducts from "../../../Features/products/productActions";
-import {
+import calculateRating, {
 	calculateDiscount,
 	formatCurrency,
 	getCookie,
@@ -84,6 +84,11 @@ const Screen: React.FC = () => {
 	// 	{ label: "Mens Wear", link: "/search?Clothings/Mens wear" },
 	// 	{ label: "Summer clothing" },
 	// ];
+	const ratings: any = product
+		? product?.review?.map((review: any) => review.rating)
+		: [];
+	// Calculate the average rating
+	const averageRating = calculateRating(ratings);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -99,7 +104,7 @@ const Screen: React.FC = () => {
 		};
 
 		fetchData();
-	}, []);
+	}, [product_id]);
 
 	useEffect(() => {
 		const fetchStoreAndProducts = async () => {
@@ -156,11 +161,13 @@ const Screen: React.FC = () => {
 							</div>
 							<div className="list">
 								<div className="average-rate">
-									<Rating numberOfRates={4.3} /> 4.3
+									<Rating numberOfRates={parseInt(averageRating.toFixed(1))} />{" "}
+									{averageRating.toFixed(1)}
 								</div>
 								<RxDotFilled size="20px" color="#DBDBDB" />
 								<div className="item">
-									<MdOutlineMessage size="20px" /> 32 reviews
+									<MdOutlineMessage size="20px" /> {product?.review?.length}{" "}
+									reviews
 								</div>
 								<RxDotFilled size="20px" color="#DBDBDB" />
 								<div className="item">
@@ -411,7 +418,7 @@ const Screen: React.FC = () => {
 						)}
 					</SuggestionsWrapper>
 				</div>
-				{product?.reviews && <Reviews width={"100%"} />}
+				{product?.review && <Reviews width={"100%"} data={product?.review} />}
 
 				<DiscountBanner>
 					<div>

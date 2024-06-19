@@ -252,3 +252,30 @@ export const calculateTotalPages = (
 ): number => {
 	return Math.ceil(totalDataLength / perPage);
 };
+
+/**
+ * Calculate the average rating from an array of ratings.
+ * @param ratings - Array of rating values.
+ * @returns The average rating value, clamped between 0.0 and 5.0.
+ */
+export const calculateRating = (ratings: number[]): number => {
+	if (!ratings || ratings.length === 0) {
+		return 0.0;
+	}
+
+	const total = ratings.reduce((acc, rating) => {
+		if (rating < 0 || rating > 5) {
+			throw new Error(
+				"Invalid rating value, ratings should be between 0.0 and 5.0"
+			);
+		}
+		return acc + rating;
+	}, 0);
+
+	const average = total / ratings.length;
+
+	// Clamp the average to be within the range 0.0 to 5.0
+	return Math.min(Math.max(average, 0.0), 5.0);
+};
+
+export default calculateRating;

@@ -11,12 +11,17 @@ import {
 import { Rating } from "..";
 import { userPic } from "../../../assets";
 import { BiSolidRightArrowSquare } from "react-icons/bi";
+import calculateRating from "../../Utils/helperFunctions";
 
 interface IReviewProps {
 	width?: number | string;
+	data?: any;
 }
 
-const Reviews: React.FC<IReviewProps> = ({ width }) => {
+const Reviews: React.FC<IReviewProps> = ({ width, data }) => {
+	const ratings: any = data ? data?.map((review: any) => review.rating) : [];
+	// Calculate the average rating
+	const averageRating = calculateRating(ratings);
 	return (
 		<Wrapper width={width}>
 			<header>
@@ -30,11 +35,11 @@ const Reviews: React.FC<IReviewProps> = ({ width }) => {
 				<Ratings>
 					<p className="heading">Verified Ratings</p>
 					<SummaryBox>
-						4.3/5
+						{averageRating.toFixed(1)}/5
 						<div>
-							<Rating numberOfRates={4} />
+							<Rating numberOfRates={parseInt(averageRating.toFixed(1))} />
 						</div>
-						31 verified ratings
+						{data?.length} verified ratings
 					</SummaryBox>
 					<div className="ratings-wrapper">
 						<div className="ratings-box">
@@ -76,60 +81,32 @@ const Reviews: React.FC<IReviewProps> = ({ width }) => {
 				</Ratings>
 				<CustomerReviews>
 					<p className="heading">Customer Review&#40;14&#41;</p>
-					<ReviewCard>
-						<div>
-							<Rating numberOfRates={5} />
-						</div>
-						<p className="comment">
-							Thank you for the nice product. I am thrilled to get what I
-							ordered for truly. The quality is perfect and it’s worth the pay
-						</p>
-						<User>
-							<div>
-								<img src={userPic} alt="" />
-							</div>
-							<div>
-								<p className="name">John Smith</p>
-								<p className="date-posted">12 November 2023</p>
-							</div>
-						</User>
-					</ReviewCard>
-					<ReviewCard>
-						<div>
-							<Rating numberOfRates={5} />
-						</div>
-						<p className="comment">
-							Thank you for the nice product. I am thrilled to get what I
-							ordered for truly. The quality is perfect and it’s worth the pay
-						</p>
-						<User>
-							<div>
-								<img src={userPic} alt="" />
-							</div>
-							<div>
-								<p className="name">John Smith</p>
-								<p className="date-posted">12 November 2023</p>
-							</div>
-						</User>
-					</ReviewCard>
-					<ReviewCard>
-						<div>
-							<Rating numberOfRates={5} />
-						</div>
-						<p className="comment">
-							Thank you for the nice product. I am thrilled to get what I
-							ordered for truly. The quality is perfect and it’s worth the pay
-						</p>
-						<User>
-							<div>
-								<img src={userPic} alt="" />
-							</div>
-							<div>
-								<p className="name">John Smith</p>
-								<p className="date-posted">12 November 2023</p>
-							</div>
-						</User>
-					</ReviewCard>
+
+					{data?.map((rev: any, i: number) => {
+						return (
+							<ReviewCard key={i}>
+								<div>
+									<Rating numberOfRates={parseInt(rev.rating)} />
+								</div>
+								<p className="comment">{rev.message}</p>
+								<User>
+									<div>
+										<img
+											src={rev.image}
+											alt=""
+											width={30}
+											// height={50}
+											// style={{ borderRadius: "50%" }}
+										/>
+									</div>
+									<div>
+										<p className="name">{rev.username}</p>
+										<p className="date-posted">12 November 2023</p>
+									</div>
+								</User>
+							</ReviewCard>
+						);
+					})}
 				</CustomerReviews>
 			</ReviewContainer>
 		</Wrapper>
