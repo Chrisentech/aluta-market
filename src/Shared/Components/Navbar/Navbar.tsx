@@ -36,6 +36,7 @@ import useAuthentication from "../../Hooks/useAuth";
 import { MdOutlineCancel } from "react-icons/md";
 import { FaMessage } from "react-icons/fa6";
 import { fetchMe } from "../../../Features/user/userSlice";
+import useCart from "../../../Features/cart/cartAction";
 
 // Sidebar Component
 const SideBar: React.FC<{
@@ -160,7 +161,8 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 	const searchOptions = useSelector(searchSuggestions);
 	const [query, setQuery] = useState("");
 	const { getSearchSuggestions } = useProducts();
-	const me = useSelector(fetchMe);
+	const { getmyCart, cart } = useCart();
+	const me: any = useSelector(fetchMe);
 
 	const handleSuggestions = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setQuery(e.target.value);
@@ -169,11 +171,19 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 		// 	getSearchSuggestions(e.target.value);
 		// }, 300);
 	};
-
 	const handleSearch = () => {
 		// getSearchProducts(query)
 		console.log("clicked");
 	};
+
+	const handleCart = async () => {
+		const userId = me?.id || localStorage.getItem("usr_temp_id") || "0";
+		await getmyCart(parseInt(userId, 10));
+	};
+
+	useEffect(() => {
+		handleCart();
+	}, [me]);
 
 	useEffect(() => {
 		searchOptions.length > 1 && query !== ""
@@ -263,7 +273,9 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 										<label>Orders</label>
 									</IconWrapper>
 									<IconWrapper onClick={() => nav(ROUTE.CART)}>
-										<Badge count={4} />
+										{cart && cart.items && cart?.items?.length > 0 && (
+											<Badge count={cart?.items?.length || 0} />
+										)}
 										<CartIcon />
 										<label>My cart</label>
 									</IconWrapper>

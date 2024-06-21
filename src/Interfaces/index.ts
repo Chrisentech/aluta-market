@@ -71,10 +71,13 @@ export interface IVerifyOTPProps {
 }
 
 export interface ICartProps {
-	items: any;
-	total: number;
-	user: number;
+	productId?: string;
+	quantity?: number;
+	user?: number;
 	id?: number;
+	type?: "remove" | "add";
+	items?: any[];
+	total?: number;
 }
 export interface LoginFormValues {
 	email: string;

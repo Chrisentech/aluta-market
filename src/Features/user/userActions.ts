@@ -9,12 +9,12 @@ import {
 } from "../../Interfaces";
 import {
 	CREATE_USER,
-	GET_MY_CART,
+	// GET_MY_CART,
 	LOGIN_USER,
 	VERIFY_OTP,
 	ADD_TO_WISHLIST,
 	GET_WISHLIST,
-	MODIFY_CART,
+	// MODIFY_CART,
 	MY_PROFILE,
 	UPDATE_MY_PROFILE,
 } from "../../Services/graphql/users";
@@ -70,15 +70,6 @@ export default function useUsers() {
 		}
 	};
 
-	const modifyCart = async (input: ModifyCartItemInput) => {
-		const response = await apolloClient.mutate({
-			mutation: MODIFY_CART,
-			variables: { input },
-		});
-		if (response.data) {
-			return response.data;
-		}
-	};
 	const getMe = async (userId: number) => {
 		const response = await apolloClient.query({
 			query: MY_PROFILE,
@@ -92,20 +83,20 @@ export default function useUsers() {
 			return response.data.User;
 		}
 	};
-	const getCart = async (userId: number) => {
-		if (userId) {
-			const response = await apolloClient.query({
-				query: GET_MY_CART,
-				variables: { user: userId },
-			});
-			console.log(response);
-		} else {
-			let cart: any = window.sessionStorage.getItem("cart");
-			cart ? JSON.parse(cart) : null;
-			console.log("Cart from session Storage: ", cart);
-			dispatch(actions.getMyCart(cart));
-		}
-	};
+	// const getCart = async (userId: number) => {
+	// 	if (userId) {
+	// 		const response = await apolloClient.query({
+	// 			query: GET_MY_CART,
+	// 			variables: { user: userId },
+	// 		});
+	// 		console.log(response);
+	// 	} else {
+	// 		let cart: any = window.sessionStorage.getItem("cart");
+	// 		cart ? JSON.parse(cart) : null;
+	// 		console.log("Cart from session Storage: ", cart);
+	// 		dispatch(actions.getMyCart(cart));
+	// 	}
+	// };
 
 	const getWishlist = async (userId: number) => {
 		if (userId) {
@@ -138,11 +129,10 @@ export default function useUsers() {
 		createUser,
 		loginUser,
 		verifyOTP,
-		getCart,
+		// getCart,
 		getMe,
 		addToWishlist,
 		getWishlist,
 		updateUser,
-		modifyCart,
 	};
 }

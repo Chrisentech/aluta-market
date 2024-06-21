@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Layout from "../../../../Layouts";
+import Layout from "../../../Layouts";
 import {
 	Container,
 	Empty,
@@ -21,7 +21,7 @@ import {
 	ImageCard,
 	ItemCounter,
 	View,
-} from "../../../../Shared/Components";
+} from "../../../Shared/Components";
 import {
 	amexpress,
 	applepay,
@@ -33,11 +33,12 @@ import {
 	paypal,
 	shopGrayScale,
 	visa,
-} from "../../../../assets";
-import { CartProduct } from "../../../../test-data/data";
-import { formatCurrency } from "../../../../Shared/Utils/helperFunctions";
+} from "../../../assets";
+import { CartProduct } from "../../../test-data/data";
+import { formatCurrency } from "../../../Shared/Utils/helperFunctions";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineShoppingCart } from "react-icons/md";
+import useCart from "../../../Features/cart/cartAction";
 
 const costOfDelivery = 2000;
 const discount = 60;
@@ -45,12 +46,11 @@ const tax = 14;
 
 const Screen: React.FC = () => {
 	const [products, setProducts] = useState<any[]>(CartProduct);
+	const { cart } = useCart();
+
 	const navigate = useNavigate();
 
-	const sumOfPrices = products.reduce((accumulator, currentObject) => {
-		const price = Number(currentObject.price) || 0;
-		return accumulator + price;
-	}, 0);
+	const totalCartPrice = cart?.total || 0 + costOfDelivery + tax - discount;
 
 	const hasProduct: boolean = products.length > 0;
 
@@ -89,17 +89,17 @@ const Screen: React.FC = () => {
 			});
 		return currentArray;
 	};
-
+	// console.log(cart?.items);
 	return (
 		<Page>
 			<Container>
 				<h1>
-					My Cart <span>{"(" + products.length + ")"}</span>
+					My Cart <span>{"(" + cart?.items?.length + ")"}</span>
 				</h1>
 				<div className="new">
-					<Product empty={!hasProduct}>
-						{hasProduct ? (
-							products.map((item, index) => (
+					<Product empty={cart?.items?.length === 0}>
+						{cart?.items?.length ? (
+							cart?.items?.map((item, index) => (
 								<Card
 									key={index}
 									hasBoxShadow={false}
@@ -112,16 +112,18 @@ const Screen: React.FC = () => {
 									<ProductCard>
 										<div className="left-side">
 											<div className="image">
-												<img src={item.img} alt="" />
+												<img src={item?.product?.thumbnail} alt="" />
 											</div>
 											<ProductDetails>
-												<h2>{item.item}</h2>
+												<h2>{item?.name}</h2>
 												<ProductDescr>
 													<div className="text">
-														<p className="Variations">
-															Variation: Sizes: M, Color: blue
-														</p>
-														<p className="store-name">Arike Collection</p>
+														{item?.product?.variants && (
+															<p className="Variations">
+																Variation: Sizes: M, Color: blue
+															</p>
+														)}
+														<p className="store-name">{item?.product?.name}</p>
 													</div>
 													<div className="buttons">
 														<Button
@@ -149,8 +151,8 @@ const Screen: React.FC = () => {
 											</ProductDetails>
 										</div>
 										<div className="right-side">
-											<p>{formatCurrency(Number(item.price))}</p>
-											<ItemCounter initialValue={Number(item.quantity)} />
+											<p>{formatCurrency(Number(item?.product?.price))}</p>
+											<ItemCounter initialValue={Number(item?.quantity)} />
 										</div>
 									</ProductCard>
 								</Card>
@@ -202,7 +204,7 @@ const Screen: React.FC = () => {
 							</footer>
 						)}
 					</Product>
-					{hasProduct && (
+					{cart?.items?.length && (
 						<RightSection>
 							<div className="coupon">
 								<p>Have a coupon?</p>
@@ -214,7 +216,7 @@ const Screen: React.FC = () => {
 							<div className="checkout">
 								<p>
 									<span className="label">Subtotal:</span>
-									<span className="cost">{formatCurrency(sumOfPrices)}</span>
+									<span className="cost">{formatCurrency(cart?.total)}</span>
 								</p>
 								<p>
 									<span className="label">Delivery:</span>
@@ -233,11 +235,7 @@ const Screen: React.FC = () => {
 								<div className="bottom">
 									<p className="total">
 										<span>Total:</span>
-										<span>
-											{formatCurrency(
-												sumOfPrices + costOfDelivery + tax - discount
-											)}
-										</span>
+										<span>{formatCurrency(totalCartPrice)}</span>
 									</p>
 									<Button
 										className="button"

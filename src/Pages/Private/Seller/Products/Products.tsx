@@ -43,7 +43,6 @@ const Screen: React.FC = () => {
 	const handleOptionClick = (option: string) => {
 		setSelectedOption(option);
 	};
-	console.log(myProducts);
 	const totalPages = myProducts?.total;
 	const goToPage = async (pageNumber: any) => {
 		setLoading(true);
@@ -58,10 +57,11 @@ const Screen: React.FC = () => {
 
 	const fetchData = async (pageNumber: any) => {
 		setLoading(true);
+		setLimit(pageNumber);
 		await getProducts({
 			store: store.name,
 			limit: pageNumber,
-			offset: 1,
+			offset: 0,
 		});
 		setLoading(false);
 	};
@@ -90,7 +90,7 @@ const Screen: React.FC = () => {
 					await getProducts({
 						store: store.name,
 						limit,
-						offset: currentPage,
+						offset: currentPage - 1,
 					});
 					setLoading(false);
 				}
@@ -105,11 +105,10 @@ const Screen: React.FC = () => {
 
 		// Cleanup function to abort fetch when component unmounts or when store changes
 		return () => {
-			setLimit(0);
+			// setLimit(0);
 			// You can perform cleanup here if needed
 		};
-	}, [store]); // empty dependency array ensures this effect runs only once, on mount
-
+	}, []);
 	return (
 		<Wrapper>
 			<div className="flex">

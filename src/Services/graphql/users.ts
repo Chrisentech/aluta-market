@@ -94,22 +94,6 @@ export const UPDATE_MY_PROFILE = gql`
 	}
 `;
 
-export const MODIFY_CART = gql`
-	mutation ModifyCart($input: ModifyCartItemInput!) {
-		modifyCart(input: $input) {
-			active
-		}
-	}
-`;
-
-export const GET_MY_CART = gql`
-	query ($id: Int!) {
-		Cart(user: $id) {
-			...Cart
-		}
-	}
-`;
-
 export const GET_WISHLIST = gql`
 	${WISHLIST_FIELDS}
 	query WishListedProducts($user: Int!) {
