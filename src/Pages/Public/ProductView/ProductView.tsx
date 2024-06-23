@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	CardIcon,
 	Container,
@@ -46,35 +46,38 @@ import useProducts from "../../../Features/products/productActions";
 import calculateRating, {
 	calculateDiscount,
 	formatCurrency,
-	getCookie,
 } from "../../../Shared/Utils/helperFunctions";
 import { RootState } from "../../../store";
 import { useNavigate, useParams } from "react-router-dom";
-import useUsers from "../../../Features/user/userActions";
-import { ModifyCartItemInput } from "../../../Interfaces";
 import {
 	setLoading,
 	setNotLoading,
 } from "../../../Features/loading/loadingSlice";
 import useStore from "../../../Features/store/storeAction";
+import useCart from "../../../Features/cart/cartAction";
+import { fetchMe } from "../../../Features/user/userSlice";
+import { alertSuccess } from "../../../Features/alert/alertSlice";
 
 const Screen: React.FC = () => {
 	const { id: product_id } = useParams<{ id: string }>();
 	const dispatch = useDispatch();
 	const { product, products, getProduct, getProducts } = useProducts();
 	const { getStoreByName, mystore } = useStore();
-	const user_id = getCookie("user_id");
-	const { modifyCart } = useUsers();
 	const navigate = useNavigate();
-	const handleAddToCart = () => {
-		//if variant, open modal
-		const modifyCartValues: ModifyCartItemInput = {
+	const me: any = useSelector(fetchMe);
+	const { modifyCart } = useCart();
+	const userId = me?.id || localStorage.getItem("usr_temp_id") || "0";
+	const [loading, setbtnLoading] = useState(false);
+	const handleAddToCart = async () => {
+		setbtnLoading(true);
+		await modifyCart({
 			productId: product_id as string,
 			quantity: 1,
-			user: Number(user_id),
-		};
-		modifyCart(modifyCartValues);
-		console.log("clicked");
+			user: parseInt(userId, 10),
+		});
+		setbtnLoading(false);
+
+		dispatch(alertSuccess("poduct added to cart successfully!!"));
 	};
 
 	// const breadcrumbs = [
@@ -264,6 +267,8 @@ const Screen: React.FC = () => {
 								height={49}
 								width="100%"
 								padding={16}
+								disabled={loading}
+								loading={loading}
 								gap={10}
 								onClick={() => handleAddToCart()}
 							>

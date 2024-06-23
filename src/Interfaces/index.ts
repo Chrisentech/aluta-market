@@ -78,6 +78,8 @@ export interface ICartProps {
 	type?: "remove" | "add";
 	items?: any[];
 	total?: number;
+	active?: boolean;
+	__typename?: string;
 }
 export interface LoginFormValues {
 	email: string;

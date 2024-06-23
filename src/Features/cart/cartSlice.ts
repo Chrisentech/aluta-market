@@ -9,17 +9,14 @@ export interface CartState {
 export const cartSlice = createSlice({
 	name: "cart",
 	initialState: {
-		cart: {
-			productId: "",
-			quantity: 0,
-			user: 0,
-			id: 0,
-			item: [],
-		},
+		cart: { empty: false },
 	} as CartState,
 	reducers: {
 		setCart: (state, action: PayloadAction<ICartProps | null>) => {
 			state.cart = action.payload;
+		},
+		clearCart: (state) => {
+			state.cart = {};
 		},
 	},
 });

@@ -33,8 +33,8 @@ export const MODIFY_CART = gql`
 
 export const REMOVE_ALL_CARTS = gql`
 	${CART_FIELD}
-	mutation removeAllCart($id: Int!) {
-		removeAllCart(id: $id) {
+	mutation removeAllCart($cartID: Int!) {
+		removeAllCart(cartID: $cartID) {
 			...CartFields
 		}
 	}

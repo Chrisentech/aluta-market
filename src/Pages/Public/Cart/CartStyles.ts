@@ -263,7 +263,7 @@ export const ProductCard = styled.div`
 	flex-direction: row;
 	align-items: flex-start;
 	justify-content: space-between;
-	height: 136px;
+	// height: 136px;
 	font-family: inter;
 	@media (max-width: 890px) {
 		flex-direction: column;
@@ -323,7 +323,8 @@ export const ProductDetails = styled.div`
 export const ProductDescr = styled.div`
 	display: flex;
 	flex-direction: column;
-	height: 116px;
+	// height: 116px;
+	// margin-top: 10px;
 	justify-content: space-between;
 	.text {
 		margin-top: 10px;

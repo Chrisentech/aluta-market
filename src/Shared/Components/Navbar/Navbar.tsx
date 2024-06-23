@@ -37,6 +37,7 @@ import { MdOutlineCancel } from "react-icons/md";
 import { FaMessage } from "react-icons/fa6";
 import { fetchMe } from "../../../Features/user/userSlice";
 import useCart from "../../../Features/cart/cartAction";
+import { ICartProps } from "../../../Interfaces";
 
 // Sidebar Component
 const SideBar: React.FC<{
@@ -163,6 +164,7 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 	const { getSearchSuggestions } = useProducts();
 	const { getmyCart, cart } = useCart();
 	const me: any = useSelector(fetchMe);
+	const [cartItems, setCartItems] = useState<ICartProps | null>(cart);
 
 	const handleSuggestions = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setQuery(e.target.value);
@@ -177,14 +179,18 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 	};
 
 	const handleCart = async () => {
-		const userId = me?.id || localStorage.getItem("usr_temp_id") || "0";
-		await getmyCart(parseInt(userId, 10));
+		if (!cartItems?.__typename) {
+			const userId = me?.id || localStorage.getItem("usr_temp_id") || "0";
+			await getmyCart(parseInt(userId, 10));
+		}
 	};
 
 	useEffect(() => {
 		handleCart();
 	}, [me]);
-
+	useEffect(() => {
+		setCartItems(cart);
+	}, [cart]);
 	useEffect(() => {
 		searchOptions.length > 1 && query !== ""
 			? setSearching(true)
@@ -273,9 +279,11 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 										<label>Orders</label>
 									</IconWrapper>
 									<IconWrapper onClick={() => nav(ROUTE.CART)}>
-										{cart && cart.items && cart?.items?.length > 0 && (
-											<Badge count={cart?.items?.length || 0} />
-										)}
+										{cartItems &&
+											cartItems.items &&
+											cartItems?.items?.length > 0 && (
+												<Badge count={cartItems?.items?.length || 0} />
+											)}
 										<CartIcon />
 										<label>My cart</label>
 									</IconWrapper>

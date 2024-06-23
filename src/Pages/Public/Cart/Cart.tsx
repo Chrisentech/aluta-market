@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../Layouts";
 import {
 	Container,
@@ -39,21 +39,45 @@ import { formatCurrency } from "../../../Shared/Utils/helperFunctions";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import useCart from "../../../Features/cart/cartAction";
-
-const costOfDelivery = 2000;
-const discount = 60;
-const tax = 14;
+import { useDispatch, useSelector } from "react-redux";
+import { alertSuccess } from "../../../Features/alert/alertSlice";
+import { fetchMe } from "../../../Features/user/userSlice";
+import { ICartProps } from "../../../Interfaces";
 
 const Screen: React.FC = () => {
-	const [products, setProducts] = useState<any[]>(CartProduct);
-	const { cart } = useCart();
-
+	const [products, _] = useState<any[]>(CartProduct);
+	const costOfDelivery = 2000;
+	const discount = 60;
+	const tax = 14;
+	const { cart, removeAllCart, modifyCart } = useCart();
+	const me: any = useSelector(fetchMe);
+	const [cartItems, setCartItems] = useState<ICartProps | null>(cart);
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
-
-	const totalCartPrice = cart?.total || 0 + costOfDelivery + tax - discount;
+	console.log({ cartItems });
+	const totalCartPrice =
+		cartItems?.total !== undefined
+			? cartItems?.total + costOfDelivery + tax - discount
+			: 0;
 
 	const hasProduct: boolean = products.length > 0;
+	const [buttonLoader, setButtonLoader] = useState<any>(0);
 
+	useEffect(() => {
+		setCartItems(cart);
+	}, [cart]);
+	const handleRemoveFromCart = async (productId: string, quantity: number) => {
+		setButtonLoader(productId);
+		await modifyCart({ productId, user: me?.id, quantity: -quantity });
+		dispatch(alertSuccess("product removed successfully!!"));
+		setButtonLoader(0);
+	};
+	const handleRemoveallCart = async (cartID: string) => {
+		setButtonLoader(cartID);
+		await removeAllCart(parseInt(cartID, 10), me?.id);
+		dispatch(alertSuccess("Cart has been cleared!!"));
+		setButtonLoader(0);
+	};
 	const getGridItems = () => {
 		let currentArray: any[] = [];
 
@@ -89,17 +113,22 @@ const Screen: React.FC = () => {
 			});
 		return currentArray;
 	};
-	// console.log(cart?.items);
+
 	return (
 		<Page>
 			<Container>
 				<h1>
-					My Cart <span>{"(" + cart?.items?.length + ")"}</span>
+					My Cart{" "}
+					<span>
+						{cartItems?.items?.length
+							? "(" + cartItems?.items?.length + ")"
+							: ""}
+					</span>
 				</h1>
 				<div className="new">
-					<Product empty={cart?.items?.length === 0}>
-						{cart?.items?.length ? (
-							cart?.items?.map((item, index) => (
+					<Product empty={cartItems?.items?.length === 0}>
+						{cartItems?.items?.length ? (
+							cartItems?.items?.map((item, index) => (
 								<Card
 									key={index}
 									hasBoxShadow={false}
@@ -115,7 +144,7 @@ const Screen: React.FC = () => {
 												<img src={item?.product?.thumbnail} alt="" />
 											</div>
 											<ProductDetails>
-												<h2>{item?.name}</h2>
+												<h2>{item?.product?.name}</h2>
 												<ProductDescr>
 													<div className="text">
 														{item?.product?.variants && (
@@ -123,22 +152,42 @@ const Screen: React.FC = () => {
 																Variation: Sizes: M, Color: blue
 															</p>
 														)}
-														<p className="store-name">{item?.product?.name}</p>
+														<p className="store-name" style={{ fontSize: 12 }}>
+															{item?.product?.store}
+														</p>
 													</div>
 													<div className="buttons">
+														{cartItems?.items &&
+															cartItems?.items?.length > 1 && (
+																<Button
+																	width={"auto"}
+																	padding={10}
+																	height={30}
+																	borderRadius={6}
+																	background="#FA3434"
+																	color="#FFF"
+																	disabled={
+																		buttonLoader ===
+																		(item?.product?.id as string)
+																	}
+																	loading={
+																		buttonLoader ===
+																		(item?.product?.id as string)
+																	}
+																	onClick={() =>
+																		handleRemoveFromCart(
+																			item?.product?.id as string,
+																			item?.quantity
+																		)
+																	}
+																>
+																	Remove
+																</Button>
+															)}
 														<Button
-															width={70}
-															height={30}
-															borderRadius={6}
-															background="#FA3434"
-															color="#FFF"
-														>
-															Remove
-														</Button>
-														<Button
-															width={120}
-															padding={10}
-															height={30}
+															// width={120}
+															// padding={10}
+															// height={30}
 															borderRadius={6}
 															background="#FFF"
 															border="#DEE2E7 solid 1px"
@@ -151,7 +200,11 @@ const Screen: React.FC = () => {
 											</ProductDetails>
 										</div>
 										<div className="right-side">
-											<p>{formatCurrency(Number(item?.product?.price))}</p>
+											<p style={{ marginBottom: 10 }}>
+												{formatCurrency(
+													item?.quantity * Number(item?.product?.price)
+												)}
+											</p>
 											<ItemCounter initialValue={Number(item?.quantity)} />
 										</div>
 									</ProductCard>
@@ -192,19 +245,28 @@ const Screen: React.FC = () => {
 								>
 									Back to shop
 								</Button>
-								<Button
-									background="#FA3434"
-									color="#fff"
-									width="auto"
-									padding={16}
-									onClick={() => setProducts([])}
-								>
-									Remove all
-								</Button>
+								{cartItems?.items && cartItems?.items?.length > 0 && (
+									<Button
+										background="#FA3434"
+										color="#fff"
+										width="auto"
+										disabled={
+											cart?.items?.length == 0 ||
+											(buttonLoader === cartItems?.id && !!cartItems?.id)
+										}
+										loading={buttonLoader === cartItems?.id && !!cartItems?.id}
+										padding={16}
+										onClick={() =>
+											handleRemoveallCart(cartItems?.id?.toString() || "0")
+										}
+									>
+										Remove all
+									</Button>
+								)}
 							</footer>
 						)}
 					</Product>
-					{cart?.items?.length && (
+					{cart?.items && cart?.items?.length > 0 && (
 						<RightSection>
 							<div className="coupon">
 								<p>Have a coupon?</p>
@@ -216,7 +278,9 @@ const Screen: React.FC = () => {
 							<div className="checkout">
 								<p>
 									<span className="label">Subtotal:</span>
-									<span className="cost">{formatCurrency(cart?.total)}</span>
+									<span className="cost">
+										{formatCurrency(cartItems?.total)}
+									</span>
 								</p>
 								<p>
 									<span className="label">Delivery:</span>
@@ -317,11 +381,12 @@ const Screen: React.FC = () => {
 
 const Cart = () => {
 	// const { loading } = useSelector((store: any) => store.products);
+	const { cart } = useCart();
 	return (
 		<Layout
 			layout={"full"}
 			component={Screen}
-			isLoading={false}
+			isLoading={!cart}
 			navMode="noSearch"
 		/>
 	);
