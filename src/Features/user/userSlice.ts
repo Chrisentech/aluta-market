@@ -1,15 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
-import {
-	ICartProps,
-	IUserProps,
-	IWishlistProductProps,
-} from "../../Interfaces";
+import { ICartProps, IUserProps, IHandledProductProps } from "../../Interfaces";
 export interface UserState {
 	me: IUserProps | null;
 	cart: ICartProps | null;
 	token: string | null;
-	wishlists: IWishlistProductProps[] | null;
+	wishlists: IHandledProductProps[] | null;
+	savedForLater: IHandledProductProps[] | null;
+	recentlyViewed: IHandledProductProps[] | null;
 }
 
 export const userSlice = createSlice({
@@ -19,6 +17,8 @@ export const userSlice = createSlice({
 		cart: null,
 		token: null,
 		wishlists: null,
+		savedForLater: null,
+		recentlyViewed: null,
 	} as UserState,
 	reducers: {
 		getMe: (state, action: PayloadAction<IUserProps | null>) => {
@@ -41,6 +41,8 @@ export const userSlice = createSlice({
 			state.cart = null;
 			state.token = null;
 			state.wishlists = null;
+			state.recentlyViewed = null;
+			state.savedForLater = null;
 		},
 	},
 });
@@ -56,10 +58,10 @@ export const fetchMyCart = (state: RootState): ICartProps | null =>
 export const fetchWishlist = (state: RootState): any[] | null =>
 	state.user.wishlists;
 
-export const isInWishlist =
-	(productId: number) =>
-	(state: RootState): boolean | undefined =>
-		state.user.wishlists?.some((product) => product.productId === productId);
+export const fetchSavedForLater = (state: RootState): any[] | null =>
+	state.user.savedForLater;
+export const fetchRecentlyViewed = (state: RootState): any[] | null =>
+	state.user.recentlyViewed;
 
 //export user reducer
 export default userSlice.reducer;

@@ -1,46 +1,49 @@
-import React, {  useEffect } from "react";
+import React, { useEffect } from "react";
 import { WishWrapper } from "./card.styles";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import {  useSelector } from "react-redux";
-import {  isInWishlist, fetchWishlist } from "../../../Features/user/userSlice";
+import { useSelector } from "react-redux";
+import { fetchWishlist } from "../../../Features/user/userSlice";
 import useUsers from "../../../Features/user/userActions";
 
-
 interface IWishCardProp {
-    size?: string;
-    boxShadow?: boolean;
-    userId?: number;
-    productId?: number;
+	size?: string;
+	boxShadow?: boolean;
+	userId?: number;
+	productId?: number;
 }
 
+const WishCard: React.FC<IWishCardProp> = ({
+	size,
+	boxShadow,
+	userId,
+	productId,
+}) => {
+	// const dispatch = useDispatch();
+	const { addToWishlist, getWishlist } = useUsers();
+	const wishlist = { fetchWishlist };
+	const isListed = false;
 
-const WishCard: React.FC<IWishCardProp> = ({ size, boxShadow, userId, productId }) => {
-    // const dispatch = useDispatch();
-    const { addToWishlist, getWishlist } = useUsers();
-    const wishlist = { fetchWishlist }
-    const isListed = useSelector(isInWishlist(productId as number));
-         
-    const handleAddtoWishList = () => {
-        // ...add product
-        console.log(userId, productId)
+	const handleAddtoWishList = () => {
+		// ...add product
+		console.log(userId, productId);
 
-        addToWishlist(userId as number, productId as number)
-        // remove product
-    }
+		addToWishlist(userId as number, productId as number);
+		// remove product
+	};
 
-    useEffect(() => {
-      getWishlist(userId as number)
-      console.log("wishlist products", wishlist)
-    }, [addToWishlist, wishlist])
-    return (
-        <WishWrapper boxShadow={boxShadow} onClick={() => handleAddtoWishList()}>
-            {!isListed ? (
-            <AiOutlineHeart color="#FA3434" size={size ? size : '26px'} />
-            ) : (
-            <AiFillHeart color="#FA3434" size={size ? size : '26px'} />
-            )}
-        </WishWrapper>
-    )
-}
+	useEffect(() => {
+		getWishlist(userId as number);
+		console.log("wishlist products", wishlist);
+	}, [addToWishlist, wishlist]);
+	return (
+		<WishWrapper boxShadow={boxShadow} onClick={() => handleAddtoWishList()}>
+			{!isListed ? (
+				<AiOutlineHeart color="#FA3434" size={size ? size : "26px"} />
+			) : (
+				<AiFillHeart color="#FA3434" size={size ? size : "26px"} />
+			)}
+		</WishWrapper>
+	);
+};
 
 export default WishCard;

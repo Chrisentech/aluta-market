@@ -24,8 +24,8 @@ const USER_FIELDS = gql`
 	}
 `;
 
-const WISHLIST_FIELDS = gql`
-	fragment WishlistFields on WishListedProducts {
+const HANDLED_PRODUCT_FIELDS = gql`
+	fragment HandledProducFields on HandledProducts {
 		productDiscount
 		productId
 		productName
@@ -76,11 +76,11 @@ export const MY_PROFILE = gql`
 
 // export const SET_TWOFA = gql``;
 
-export const ADD_TO_WISHLIST = gql`
-	${WISHLIST_FIELDS}
-	mutation AddWishListedProduct($userId: Int!, $productId: Int!) {
-		addWishListedProduct(userId: $userId, productId: $productId) {
-			...WishlistFields
+export const ADD_HANDLED_PRODUCTS = gql`
+	${HANDLED_PRODUCT_FIELDS}
+	mutation addHandledProduct($userId: Int!, $productId: Int!, $type: String!) {
+		addHandledProduct(userId: $userId, productId: $productId, type: $type) {
+			...HandledProducFields
 		}
 	}
 `;
@@ -94,11 +94,11 @@ export const UPDATE_MY_PROFILE = gql`
 	}
 `;
 
-export const GET_WISHLIST = gql`
-	${WISHLIST_FIELDS}
-	query WishListedProducts($user: Int!) {
-		WishListedProducts(user: $user) {
-			...WishlistFields
+export const GET_HANDLED_PRODUCTS = gql`
+	${HANDLED_PRODUCT_FIELDS}
+	query HandledProducts($user: Int!, $type: String!) {
+		HandledProducts(user: $user, type: $type) {
+			...HandledProducFields
 		}
 	}
 `;

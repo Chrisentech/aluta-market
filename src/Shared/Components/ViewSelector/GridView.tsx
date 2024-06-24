@@ -54,9 +54,7 @@ const GridView: React.FC<IGridProps> = ({
 									<ImageCard
 										view="grid"
 										className="grid_img"
-										src={
-											product ? product?.thumbnail || product?.image[0] : phone
-										}
+										src={product ? product?.thumbnail : phone}
 									/>
 
 									<ProductDetails view="grid">

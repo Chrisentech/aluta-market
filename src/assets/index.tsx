@@ -110,11 +110,11 @@ export { default as Download_Filled } from "./download_filled.svg";
 export { default as DownloadUnfilled } from "./download.png";
 export { default as NoFollow } from "./no_following.png";
 
-export const CartIcon: React.FC<any> = ({ color }) => {
+export const CartIcon: React.FC<any> = ({ color, height }) => {
 	return (
 		<svg
 			width="31"
-			height="30"
+			height={height ?? "30"}
 			viewBox="0 0 31 30"
 			fill={color ?? "none"}
 			xmlns="http://www.w3.org/2000/svg"

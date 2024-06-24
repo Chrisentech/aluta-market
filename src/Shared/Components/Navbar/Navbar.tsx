@@ -292,7 +292,7 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 								<>
 									<IconWrapper onClick={() => nav(ROUTE.CART)}>
 										<Badge count={4} />
-										<CartIcon />
+										<CartIcon height={20} />
 										<label>My cart</label>
 									</IconWrapper>
 									<IconWrapper onClick={() => nav(ROUTE.LOGIN)}>

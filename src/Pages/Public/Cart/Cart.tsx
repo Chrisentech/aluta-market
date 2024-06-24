@@ -35,14 +35,18 @@ import {
 	visa,
 } from "../../../assets";
 import { CartProduct } from "../../../test-data/data";
-import { formatCurrency } from "../../../Shared/Utils/helperFunctions";
+import {
+	formatCurrency,
+	IsInHandledProduct,
+} from "../../../Shared/Utils/helperFunctions";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import useCart from "../../../Features/cart/cartAction";
 import { useDispatch, useSelector } from "react-redux";
 import { alertSuccess } from "../../../Features/alert/alertSlice";
-import { fetchMe } from "../../../Features/user/userSlice";
+import { fetchMe, fetchWishlist } from "../../../Features/user/userSlice";
 import { ICartProps } from "../../../Interfaces";
+import useUsers from "../../../Features/user/userActions";
 
 const Screen: React.FC = () => {
 	const [products, _] = useState<any[]>(CartProduct);
@@ -50,11 +54,12 @@ const Screen: React.FC = () => {
 	const discount = 60;
 	const tax = 14;
 	const { cart, removeAllCart, modifyCart } = useCart();
+	const { addToWishlist, getWishlist } = useUsers();
 	const me: any = useSelector(fetchMe);
+	const wishlist: any = useSelector(fetchWishlist);
 	const [cartItems, setCartItems] = useState<ICartProps | null>(cart);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	console.log({ cartItems });
 	const totalCartPrice =
 		cartItems?.total !== undefined
 			? cartItems?.total + costOfDelivery + tax - discount
@@ -62,9 +67,12 @@ const Screen: React.FC = () => {
 
 	const hasProduct: boolean = products.length > 0;
 	const [buttonLoader, setButtonLoader] = useState<any>(0);
-
+	const getWishListedProducts = async () => {
+		await getWishlist(me?.id);
+	};
 	useEffect(() => {
 		setCartItems(cart);
+		getWishListedProducts();
 	}, [cart]);
 	const handleRemoveFromCart = async (productId: string, quantity: number) => {
 		setButtonLoader(productId);
@@ -78,39 +86,43 @@ const Screen: React.FC = () => {
 		dispatch(alertSuccess("Cart has been cleared!!"));
 		setButtonLoader(0);
 	};
+	const handleAddSavedLater = async (productId: string, price: string) => {
+		setButtonLoader(price);
+		await addToWishlist(me?.id, parseInt(productId, 10));
+		dispatch(alertSuccess("product added successfully!!"));
+		setButtonLoader(0);
+	};
 	const getGridItems = () => {
 		let currentArray: any[] = [];
 
 		//logic to handle which data to map.... example
-		Array(4)
-			.fill(".")
-			.map((_, index) => {
-				currentArray.push(
-					<GridProductCard key={index}>
-						<div className="image">
-							<ImageCard view="grid" src={image34} />
-						</div>
-						<GridProductDetails>
-							<div className="flex">
-								<div className="price">
-									<span>&#8358;32,000</span>
-								</div>
+		wishlist?.map((prod: any, index: number) => {
+			currentArray.push(
+				<GridProductCard key={index}>
+					<div className="image">
+						<ImageCard view="grid" src={prod?.productThumbnail} />
+					</div>
+					<GridProductDetails>
+						<div className="flex">
+							<div className="price">
+								<span>&#8358;{formatCurrency(prod?.productPrice)}</span>
 							</div>
-							<h1>Xiaomi Redmi 8 Original </h1>
-							<Button
-								border="1px solid #DEE2E7"
-								background="#FFF"
-								width="auto"
-								padding={9}
-								color="#FF001F"
-								className="button"
-							>
-								<MdOutlineShoppingCart /> Move to Cart
-							</Button>
-						</GridProductDetails>
-					</GridProductCard>
-				);
-			});
+						</div>
+						<h1>{prod?.productName} </h1>
+						<Button
+							border="1px solid #DEE2E7"
+							background="#FFF"
+							width="auto"
+							padding={9}
+							color="#FF001F"
+							className="button"
+						>
+							<MdOutlineShoppingCart /> Move to Cart
+						</Button>
+					</GridProductDetails>
+				</GridProductCard>
+			);
+		});
 		return currentArray;
 	};
 
@@ -184,17 +196,27 @@ const Screen: React.FC = () => {
 																	Remove
 																</Button>
 															)}
-														<Button
-															// width={120}
-															// padding={10}
-															// height={30}
-															borderRadius={6}
-															background="#FFF"
-															border="#DEE2E7 solid 1px"
-															color="#0D6EFD"
-														>
-															Save for later
-														</Button>
+														{!IsInHandledProduct(
+															item?.product?.name,
+															wishlist
+														) && (
+															<Button
+																disabled={buttonLoader === item?.product?.price}
+																loading={buttonLoader === item?.product?.price}
+																onClick={() =>
+																	handleAddSavedLater(
+																		item?.product?.id as string,
+																		item?.product?.price
+																	)
+																}
+																borderRadius={6}
+																background="#FFF"
+																border="#DEE2E7 solid 1px"
+																color="#0D6EFD"
+															>
+																Save for later
+															</Button>
+														)}
 													</div>
 												</ProductDescr>
 											</ProductDetails>

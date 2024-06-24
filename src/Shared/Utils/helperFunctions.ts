@@ -279,3 +279,10 @@ export const calculateRating = (ratings: number[]): number => {
 };
 
 export default calculateRating;
+
+export const IsInHandledProduct = (
+	productName: string,
+	items: any[]
+): boolean => {
+	return items?.some((product) => product.productName === productName);
+};

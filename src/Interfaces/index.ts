@@ -139,7 +139,7 @@ export interface ModifyCartItemInput {
 	user: number;
 }
 
-export interface IWishlistProductProps {
+export interface IHandledProductProps {
 	productId: number;
 	productPrice: number;
 	productName: string;

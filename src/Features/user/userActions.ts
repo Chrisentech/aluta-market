@@ -3,18 +3,15 @@ import { apolloClient } from "../../Services/graphql/apolloClient";
 import {
 	IVerifyOTPProps,
 	LoginFormValues,
-	ModifyCartItemInput,
 	RegisterFormValues,
 	UpdateUserFormValues,
 } from "../../Interfaces";
 import {
 	CREATE_USER,
-	// GET_MY_CART,
 	LOGIN_USER,
 	VERIFY_OTP,
-	ADD_TO_WISHLIST,
-	GET_WISHLIST,
-	// MODIFY_CART,
+	ADD_HANDLED_PRODUCTS,
+	GET_HANDLED_PRODUCTS,
 	MY_PROFILE,
 	UPDATE_MY_PROFILE,
 } from "../../Services/graphql/users";
@@ -65,7 +62,6 @@ export default function useUsers() {
 			dispatch(actions.setToken(response?.data?.loginUser?.access_token));
 			setCookie("access_token", response?.data?.access_token, 7);
 			await getMe(response.data.loginUser.id);
-			// await getWishlist(response.data.loginUser.id);
 			return response.data.loginUser;
 		}
 	};
@@ -83,28 +79,14 @@ export default function useUsers() {
 			return response.data.User;
 		}
 	};
-	// const getCart = async (userId: number) => {
-	// 	if (userId) {
-	// 		const response = await apolloClient.query({
-	// 			query: GET_MY_CART,
-	// 			variables: { user: userId },
-	// 		});
-	// 		console.log(response);
-	// 	} else {
-	// 		let cart: any = window.sessionStorage.getItem("cart");
-	// 		cart ? JSON.parse(cart) : null;
-	// 		console.log("Cart from session Storage: ", cart);
-	// 		dispatch(actions.getMyCart(cart));
-	// 	}
-	// };
 
 	const getWishlist = async (userId: number) => {
 		if (userId) {
 			const response = await apolloClient.query({
-				query: GET_WISHLIST,
-				variables: { user: userId },
+				query: GET_HANDLED_PRODUCTS,
+				variables: { user: userId, type: "wishlists" },
 			});
-			dispatch(actions.addWishlist(response.data));
+			dispatch(actions.addWishlist(response.data.HandledProducts));
 			return response.data;
 		} else {
 			let wishlist: any = window.sessionStorage.getItem("wishlist");
@@ -116,9 +98,10 @@ export default function useUsers() {
 
 	const addToWishlist = async (userId: number, productId: number) => {
 		const response = await apolloClient.mutate({
-			mutation: ADD_TO_WISHLIST,
-			variables: { userId, productId },
+			mutation: ADD_HANDLED_PRODUCTS,
+			variables: { userId, productId, type: "wishlists" },
 		});
+		console.log(response);
 		if (response) {
 			getWishlist(userId);
 		}
@@ -129,7 +112,6 @@ export default function useUsers() {
 		createUser,
 		loginUser,
 		verifyOTP,
-		// getCart,
 		getMe,
 		addToWishlist,
 		getWishlist,
