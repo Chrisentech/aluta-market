@@ -392,7 +392,7 @@ export const GridProductCard = styled.div`
 
 	.image {
 		height: 200px;
-		width: 220px;
+		// width: 220px;
 		background: #eee;
 		border-radius: 10px;
 		padding: 20px;
@@ -443,7 +443,7 @@ export const GridProductDetails = styled.div`
 		flex-direction: row;
 
 		font-family: Inter;
-		font-size: 16px;
+		// font-size: 16px;
 		font-weight: 500;
 	}
 `;

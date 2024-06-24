@@ -130,7 +130,7 @@ const GridView: React.FC<IGridProps> = ({
 				className={className}
 				type="productGrid"
 			>
-				{gridItems?.length &&
+				{!!gridItems?.length &&
 					gridItems?.map((gridItem, index) => {
 						return (
 							<Card

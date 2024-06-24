@@ -26,7 +26,6 @@ import {
 	amexpress,
 	applepay,
 	deliveryTruckGray,
-	image34,
 	lockGray,
 	masterpay,
 	messageGray,
@@ -86,9 +85,14 @@ const Screen: React.FC = () => {
 		dispatch(alertSuccess("Cart has been cleared!!"));
 		setButtonLoader(0);
 	};
-	const handleAddSavedLater = async (productId: string, price: string) => {
+	const handleAddSavedLater = async (
+		productId: string,
+		price: string,
+		quantity: number
+	) => {
 		setButtonLoader(price);
 		await addToWishlist(me?.id, parseInt(productId, 10));
+		await modifyCart({ productId, user: me?.id, quantity: -quantity });
 		dispatch(alertSuccess("product added successfully!!"));
 		setButtonLoader(0);
 	};
@@ -105,7 +109,7 @@ const Screen: React.FC = () => {
 					<GridProductDetails>
 						<div className="flex">
 							<div className="price">
-								<span>&#8358;{formatCurrency(prod?.productPrice)}</span>
+								<span>{formatCurrency(prod?.productPrice)}</span>
 							</div>
 						</div>
 						<h1>{prod?.productName} </h1>
@@ -206,7 +210,8 @@ const Screen: React.FC = () => {
 																onClick={() =>
 																	handleAddSavedLater(
 																		item?.product?.id as string,
-																		item?.product?.price
+																		item?.product?.price,
+																		item?.quantity
 																	)
 																}
 																borderRadius={6}
@@ -372,14 +377,16 @@ const Screen: React.FC = () => {
 
 				<SectionCard>
 					<h3 className="title">Saved for later</h3>
-					<View
-						mode="grid"
-						itempergrid={6}
-						gridItems={getGridItems()}
-						cardStyle="card"
-						gap="5px"
-						className="view"
-					/>
+					{wishlist && (
+						<View
+							mode="grid"
+							itempergrid={6}
+							gridItems={getGridItems()}
+							cardStyle="card"
+							gap="5px"
+							className="view"
+						/>
+					)}
 				</SectionCard>
 				<div style={{ height: "30px" }}></div>
 				<SectionCard>
