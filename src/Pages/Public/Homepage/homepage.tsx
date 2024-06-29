@@ -275,6 +275,58 @@ const Screen: React.FC = () => {
 					<ProductGrid isMobile={isMobile} />
 				</section>
 
+				<section
+					style={{
+						padding: 10,
+						borderRadius: 10,
+						background: "#fff",
+						width: "calc(90% - 20px)",
+						margin: "20px auto",
+					}}
+				>
+					<Header1>Food and Beverages</Header1>
+					<ProductGrid isMobile={isMobile} />
+				</section>
+
+				<section
+					style={{
+						padding: 10,
+						borderRadius: 10,
+						background: "#fff",
+						width: "calc(90% - 20px)",
+						margin: "20px auto",
+					}}
+				>
+					<Header1>Accomodation</Header1>
+					<ProductGrid isMobile={isMobile} />
+				</section>
+
+				<section
+					style={{
+						padding: 10,
+						borderRadius: 10,
+						background: "#fff",
+						width: "calc(90% - 20px)",
+						margin: "20px auto",
+					}}
+				>
+					<Header1>Gadgets</Header1>
+					<ProductGrid isMobile={isMobile} />
+				</section>
+
+				<section
+					style={{
+						padding: 10,
+						borderRadius: 10,
+						background: "#fff",
+						width: "calc(90% - 20px)",
+						margin: "20px auto",
+					}}
+				>
+					<Header1>Skin Care</Header1>
+					<ProductGrid isMobile={isMobile} />
+				</section>
+
 				<ProductRequestForm>
 					<div className="text" id="quote">
 						<h2>An easy way to make request for products</h2>

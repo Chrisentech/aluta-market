@@ -44,6 +44,8 @@ export default function useProducts() {
 			: dispatch(actions.setProducts(response.data.Products.data));
 	};
 	const getProduct = async (productId: string | undefined) => {
+		dispatch(actions.setProduct(null));
+
 		const response = await apolloClient.query({
 			query: GET_PRODUCT,
 			variables: { productId },

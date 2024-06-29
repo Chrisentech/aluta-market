@@ -291,12 +291,16 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 							) : (
 								<>
 									<IconWrapper onClick={() => nav(ROUTE.CART)}>
-										<Badge count={4} />
-										<CartIcon height={20} />
+										{cartItems &&
+											cartItems.items &&
+											cartItems?.items?.length > 0 && (
+												<Badge count={cartItems?.items?.length || 0} />
+											)}
+										<CartIcon />
 										<label>My cart</label>
 									</IconWrapper>
 									<IconWrapper onClick={() => nav(ROUTE.LOGIN)}>
-										<FaUserAlt color="#BDC4CD" />
+										<img src={profileIcon} alt="..." />
 										<label>Sign in/ Sign Up</label>
 									</IconWrapper>
 								</>

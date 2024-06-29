@@ -449,6 +449,7 @@ const Screen: React.FC = () => {
 const ProductView: React.FC = () => {
 	const activeModal = useSelector(selectActiveModal);
 	const isLoading = useSelector((state: RootState) => state.loading.isLoading);
+	const { product } = useProducts();
 
 	return (
 		<Layout
@@ -456,7 +457,7 @@ const ProductView: React.FC = () => {
 			layout="full"
 			component={Screen}
 			popUpContent={<ModalContent active={activeModal} />}
-			isLoading={isLoading}
+			isLoading={isLoading || !product}
 			modalWidth={560}
 			modalPadding={10}
 		/>
