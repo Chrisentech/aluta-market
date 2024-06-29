@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../Layouts";
 import {
 	Container,
@@ -15,12 +15,35 @@ import { Breadcrumb, FilterMenu, View } from "../../../Shared/Components";
 import { BiSolidGridAlt } from "react-icons/bi";
 import { PiListFill } from "react-icons/pi";
 import { HiXMark } from "react-icons/hi2";
+import { searchedProducts } from "../../../Features/products/productSlice";
+import { useSelector } from "react-redux";
+import useProducts from "../../../Features/products/productActions";
+import { useNavigate } from "react-router-dom";
+import { ROUTE } from "../../../Shared/Constants";
 // import useProducts from '../../../Features/products/productActions';
 
 const Screen: React.FC = () => {
+	const products = useSelector(searchedProducts);
 	const [mode, setMode] = useState<string>("grid");
+	const params = new URLSearchParams(location.search);
+	const searchQuery = params.get("query");
+	const [query, setQuery] = useState<string>(searchQuery || "");
+	const nav = useNavigate();
+	const { getSearchProducts } = useProducts();
 	const [filters, setFilters] = useState<{ [key: string]: string[] }>({});
 	// const { products } = useProducts();
+	useEffect(() => {
+		if (searchQuery) {
+			setQuery(searchQuery);
+			handleSearch(searchQuery);
+		}
+	}, [query]);
+
+	const handleSearch = async (query: string) => {
+		await getSearchProducts(query);
+		nav({ pathname: ROUTE.SEARCH, search: `?query=${query}` });
+		console.log("clicked");
+	};
 
 	const handleOptionChange = (key: string, value: string) => {
 		if (filters[key]) {
@@ -122,7 +145,8 @@ const Screen: React.FC = () => {
 						<View
 							className="view"
 							mode={mode}
-							gridItems={Array(9).fill(null)}
+							gridItems={products || []}
+							listItems={products || []}
 							itempergrid={3}
 							type="productGrid"
 							gap="20px"
@@ -135,8 +159,9 @@ const Screen: React.FC = () => {
 };
 
 const SearchPage = () => {
-	// const { loading } = useSelector((store: any) => store.products);
-	return <Layout layout={"full"} component={Screen} isLoading={false} />;
+	const products = useSelector(searchedProducts);
+
+	return <Layout layout={"full"} component={Screen} isLoading={!products} />;
 };
 
 export default SearchPage;

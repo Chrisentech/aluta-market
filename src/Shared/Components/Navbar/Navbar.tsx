@@ -167,21 +167,7 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 	const me: any = useSelector(fetchMe);
 	const [cartItems, setCartItems] = useState<ICartProps | null>(cart);
 
-	// const debouncedGetSearchSuggestions = useCallback(
-	// 	debounce((value: string) => {
-	// 		getSearchSuggestions(value);
-	// 	}, 100),
-	// 	[]
-	// );
-
-	// const handleSuggestions = (e: React.ChangeEvent<HTMLInputElement>) => {
-	// 	setQuery(e.target.value);
-	// 	if (e.target.value.length > 2) {
-	// 		debouncedGetSearchSuggestions(e.target.value);
-	// 	} else {
-	// 		dispatch(actions.setSearchSuggestions([]));
-	// 	}
-	// };
+	
 	const handleSuggestions = debounce((query: string) => {
 		getSearchSuggestions(query);
 	}, 300);
@@ -226,7 +212,7 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 	}, [searchOptions, query]);
 
 	return (
-		<Container scrolled={scrolled} mode={mode}>
+		<Container scrolled={scrolled} mode={mode} onClick={()=>setSearching(false)}>
 			<Wrapper>
 				<NavLink className="logo" to={ROUTE.HOME}>
 					<img width={"150"} src={logo} alt="logo" />

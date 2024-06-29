@@ -22,7 +22,8 @@ const ListView: React.FC<{
 	gap?: string;
 	type?: string;
 	className?: string;
-}> = ({ gap, type, className }) => {
+	listItems?: any[];
+}> = ({ gap, type, className, listItems }) => {
 	const [wishList, setWishList] = useState<number[]>([]);
 	const { currentPage, goToPage, nextPage, prevPage } = usePagination(3);
 	const nav = useNavigate();

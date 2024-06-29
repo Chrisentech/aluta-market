@@ -73,10 +73,10 @@ export default function useProducts() {
 			if (response?.data?.searchProducts) {
 				const searchProducts = response.data.searchProducts;
 
-				console.log("Search Products Array:", searchProducts); // Debugging statement
+				// console.log("Search Products Array:", searchProducts); // Debugging statement
 				const namesArray = searchProducts.map((item: any) => item.name);
 
-				console.log("Names Array:", namesArray); // Debugging statement
+				// console.log("Names Array:", namesArray); // Debugging statement
 				dispatch(actions.setSearchSuggestions(namesArray));
 			} else {
 				dispatch(actions.setSearchSuggestions([]));

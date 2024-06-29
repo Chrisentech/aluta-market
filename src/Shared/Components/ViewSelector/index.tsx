@@ -7,34 +7,48 @@ import GridView from "./GridView.tsx";
 //   GRID = "grid",
 // }
 interface IVeiw {
-  mode: string;
-  type?: string | undefined;
-  gap?: string | undefined;
-  itempergrid?: number;
-  className?: string;
-  gridItems?: any[];
-  cardStyle?: string;
+	mode: string;
+	type?: string | undefined;
+	gap?: string | undefined;
+	itempergrid?: number;
+	className?: string;
+	listItems?: any[];
+	gridItems?: any[];
+	cardStyle?: string;
 }
-const View: React.FC<IVeiw> = ({ mode, type, className, gap, gridItems, itempergrid, cardStyle }) => {
-  
-  return (
-    <Container>
-      {mode === "list" ? (
-        <ListView gap={gap} className={className} type={type} />
-      ) : (
-        <GridView
-          gap={gap}
-          type={type}
-          itempergrid={itempergrid}
-          gridItems={gridItems}
-          className={className}
-          cardType="type1"
-          cardStyle={cardStyle}
-          showPagination
-        />
-      )}
-    </Container>
-  );
+const View: React.FC<IVeiw> = ({
+	mode,
+	type,
+	className,
+	gap,
+	listItems,
+	gridItems,
+	itempergrid,
+	cardStyle,
+}) => {
+	return (
+		<Container>
+			{mode === "list" ? (
+				<ListView
+					gap={gap}
+					className={className}
+					type={type}
+					listItems={listItems}
+				/>
+			) : (
+				<GridView
+					gap={gap}
+					type={type}
+					itempergrid={itempergrid}
+					gridItems={gridItems}
+					className={className}
+					cardType="type1"
+					cardStyle={cardStyle}
+					showPagination
+				/>
+			)}
+		</Container>
+	);
 };
 
 export default View;

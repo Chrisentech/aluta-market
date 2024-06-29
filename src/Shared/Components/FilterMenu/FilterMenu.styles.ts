@@ -1,26 +1,26 @@
-import styled from 'styled-components';
-import { check } from '../../../assets';
+import styled from "styled-components";
+import { check } from "../../../assets";
 
 export const FilterContainer = styled.div`
-  width: 230px;
+	cursor: pointer;
+	width: 230px;
 `;
 
 export const DropdownContainer = styled.div`
-    border-top: 1px solid #DEE2E7;
-    font-family: inter;
-    padding: 10px 0 20px 0;
-    
-    .heading {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-content: center;
-      margin-bottom: 10px;
-      span:first-child {
-        font-weight: 600;
-        display: flex;
-      }
-    }
+	border-top: 1px solid #dee2e7;
+	font-family: inter;
+	padding: 10px 0 20px 0;
+	.heading {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-content: center;
+		margin-bottom: 10px;
+		span:first-child {
+			font-weight: 600;
+			display: flex;
+		}
+	}
 `;
 
 export const OptionsContainer = styled.div<{ isOpen: boolean }>`
@@ -68,4 +68,3 @@ export const OptionsContainer = styled.div<{ isOpen: boolean }>`
   }
 }
 `;
-

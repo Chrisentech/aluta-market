@@ -275,7 +275,7 @@ export const calculateRating = (ratings: number[]): number => {
 	}
 
 	const total = ratings.reduce((acc, rating) => {
-		if (rating < 0 || rating > 5) {
+		if (rating < 0 || rating > 10) {
 			throw new Error(
 				"Invalid rating value, ratings should be between 0.0 and 5.0"
 			);

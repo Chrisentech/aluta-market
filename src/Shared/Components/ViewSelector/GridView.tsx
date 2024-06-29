@@ -7,7 +7,9 @@ import {
 import { Card, Pagination, ImageCard, Rating, WishCard } from "../index.ts";
 import usePagination from "../../Hooks/usePagination.tsx";
 import { image34, phone } from "../../../assets/index.tsx";
-import { numberWithCommas } from "../../Utils/helperFunctions.ts";
+import calculateRating, {
+	numberWithCommas,
+} from "../../Utils/helperFunctions.ts";
 import { useNavigate } from "react-router-dom";
 
 interface IGridProps {
@@ -35,104 +37,124 @@ const GridView: React.FC<IGridProps> = ({
 }) => {
 	const { currentPage, goToPage, nextPage, prevPage } = usePagination(3);
 	const nav = useNavigate();
-	if (type === "productGrid") {
-		return (
-			<>
-				<GridWrapper gap={gap} itempergrid={itempergrid} className={className}>
-					{gridItems?.map((product, index) => {
-						return cardType === "type1" ? (
-							<Card
-								key={index}
-								width="100%"
-								hasBoxShadow={true}
-								height="200px"
-								onHover
-								className="card"
-								onClick={() => nav(`/product/view/${product.id}`)}
-							>
-								<ProductCard view="grid">
-									<ImageCard
-										view="grid"
-										className="grid_img"
-										src={product ? product?.thumbnail : phone}
-									/>
 
-									<ProductDetails view="grid">
-										<div className="flex">
-											<div className="price">
-												<span>
-													&#8358;{numberWithCommas(product?.price) || "80, 000"}
-												</span>
-												<span>
-													&#8358;
-													{numberWithCommas(product?.discount) || "8, 000"}
-												</span>
-											</div>
-											<WishCard />
-										</div>
-										<ProductFlex>
-											<div>
-												<Rating numberOfRates={7.5} />
-												<span className="rating">7.5</span>
-											</div>
-										</ProductFlex>
-
-										<h1>Canon Camera EOS 2000, Black 10x zoom</h1>
-									</ProductDetails>
-								</ProductCard>
-							</Card>
-						) : cardType === "type2" ? (
-							<Card
-								key={index}
-								className="card"
-								padding={0}
-								height={254}
-								width={212}
-								borderRadius={6}
-							>
-								<ProductCard view="grid" background={background}>
-									<div className="image">
-										<ImageCard view="grid" src={image34} />
-									</div>
-									<ProductDetails view="grid">
-										<div className="flex">
-											<div className="price">
-												<span>&#8358;32,000</span>
-											</div>
-										</div>
-										<h1>Xiaomi Redmi 8 Original </h1>
-									</ProductDetails>
-								</ProductCard>
-							</Card>
-						) : (
-							""
-						);
-					})}
-				</GridWrapper>
-				{showPagination && (
-					<Pagination
-						totalPages={3}
-						handlePageSizeChange={() => alert(currentPage)}
-						currentPage={currentPage}
-						goToPage={goToPage}
-						nextPage={nextPage}
-						prevPage={prevPage}
-					/>
-				)}
-			</>
-		);
-	}
 	return (
 		<>
-			<GridWrapper
-				gap={gap}
-				itempergrid={itempergrid}
-				className={className}
-				type="productGrid"
-			>
-				{!!gridItems?.length &&
-					gridItems?.map((gridItem, index) => {
-						return (
+			{type === "productGrid" && (
+				<>
+					<GridWrapper
+						gap={gap}
+						itempergrid={itempergrid}
+						className={className}
+					>
+						{gridItems?.map((product, index) => {
+							// Extract individual ratings
+							const ratings =
+								product?.review?.map((review: any) => review.rating) || [];
+							const averageRating = calculateRating(ratings);
+
+							return cardType === "type1" ? (
+								<Card
+									key={index}
+									width="100%"
+									hasBoxShadow={true}
+									height="200px"
+									onHover
+									className="card"
+									onClick={() => nav(`/product/view/${product.id}`)}
+								>
+									<ProductCard view="grid">
+										<ImageCard
+											view="grid"
+											className="grid_img"
+											src={product?.thumbnail || product?.image[0] || phone}
+										/>
+
+										<ProductDetails view="grid">
+											<div className="flex">
+												<div className="price">
+													<span>
+														&#8358;
+														{numberWithCommas(product?.price) || "80,000"}
+													</span>
+													<span>
+														&#8358;
+														{numberWithCommas(product?.discount) || "8,000"}
+													</span>
+												</div>
+												<WishCard />
+											</div>
+											<ProductFlex>
+												<div>
+													{product?.review?.length >= 2 && (
+														<>
+															{" "}
+															<Rating
+																numberOfRates={parseInt(
+																	averageRating.toFixed(1)
+																)}
+															/>
+															<span className="rating">
+																{parseInt(averageRating.toFixed(1))}
+															</span>
+														</>
+													)}
+												</div>
+											</ProductFlex>
+
+											<h1>{product?.name}</h1>
+										</ProductDetails>
+									</ProductCard>
+								</Card>
+							) : cardType === "type2" ? (
+								<Card
+									key={index}
+									className="card"
+									padding={0}
+									height={254}
+									width={212}
+									borderRadius={6}
+								>
+									<ProductCard view="grid" background={background}>
+										<div className="image">
+											<ImageCard view="grid" src={image34} />
+										</div>
+										<ProductDetails view="grid">
+											<div className="flex">
+												<div className="price">
+													<span>&#8358;32,000</span>
+												</div>
+											</div>
+											<h1>Xiaomi Redmi 8 Original</h1>
+										</ProductDetails>
+									</ProductCard>
+								</Card>
+							) : (
+								""
+							);
+						})}
+					</GridWrapper>
+					{showPagination && (
+						<Pagination
+							totalPages={3}
+							handlePageSizeChange={() => alert(currentPage)}
+							currentPage={currentPage}
+							goToPage={goToPage}
+							nextPage={nextPage}
+							prevPage={prevPage}
+						/>
+					)}
+				</>
+			)}
+			{type !== "productGrid" && (
+				<GridWrapper
+					gap={gap}
+					itempergrid={itempergrid}
+					className={className}
+					type="productGrid"
+				>
+					{!!gridItems?.length &&
+						gridItems.map((gridItem, index) => (
 							<Card
 								key={index}
 								width="100%"
@@ -143,9 +165,9 @@ const GridView: React.FC<IGridProps> = ({
 							>
 								{gridItem}
 							</Card>
-						);
-					})}
-			</GridWrapper>
+						))}
+				</GridWrapper>
+			)}
 		</>
 	);
 };
