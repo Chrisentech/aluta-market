@@ -5,6 +5,7 @@ import { RootState } from "../../store";
 // Define the ProductState type
 export interface ProductState {
 	products: IProductProps[];
+	searchedProducts: IProductProps[];
 	myproducts: any;
 	product: IProductProps | null;
 	categories: any;
@@ -17,6 +18,7 @@ export const productSlice = createSlice({
 	name: "products",
 	initialState: {
 		products: [],
+		searchedProducts: [],
 		myproducts: [],
 		categories: [],
 		category: null,
@@ -38,6 +40,9 @@ export const productSlice = createSlice({
 		},
 		setProduct: (state, action: PayloadAction<IProductProps | null>) => {
 			state.product = action.payload;
+		},
+		setSeacrhedProducts: (state, action: PayloadAction<IProductProps[]>) => {
+			state.searchedProducts = action.payload;
 		},
 		setSearchSuggestions: (state, action: PayloadAction<string[]>) => {
 			state.searchSuggestions = action.payload;

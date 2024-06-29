@@ -59,23 +59,32 @@ export default function useProducts() {
 			variables: { query },
 		});
 		if (response.data) {
-			// dispatch(actions.setProducts(response.data.searchProducts));
+			dispatch(actions.setSeacrhedProducts(response.data.searchProducts));
 			console.log(response.data.searchProducts);
 		}
 	};
 
 	const getSearchSuggestions = async (query: string) => {
-		const response = await apolloClient.query({
-			query: GET_SEARCHED_PRODUCTS,
-			variables: { query },
-		});
-		if (response?.data?.searchProducts) {
-			console.log(response.data.searchProducts);
-			const flattenedArray = Object.values(
-				response.data.searchProducts
-			).flatMap((item: any) => item.name);
-			dispatch(actions.setSearchSuggestions(flattenedArray));
-		} else [dispatch(actions.setSearchSuggestions([]))];
+		try {
+			const response = await apolloClient.query({
+				query: GET_SEARCHED_PRODUCTS,
+				variables: { query },
+			});
+			if (response?.data?.searchProducts) {
+				const searchProducts = response.data.searchProducts;
+
+				console.log("Search Products Array:", searchProducts); // Debugging statement
+				const namesArray = searchProducts.map((item: any) => item.name);
+
+				console.log("Names Array:", namesArray); // Debugging statement
+				dispatch(actions.setSearchSuggestions(namesArray));
+			} else {
+				dispatch(actions.setSearchSuggestions([]));
+			}
+		} catch (error) {
+			console.error("Error fetching search suggestions:", error);
+			dispatch(actions.setSearchSuggestions([]));
+		}
 	};
 
 	const getCategories = async () => {

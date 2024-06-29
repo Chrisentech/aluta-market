@@ -1,11 +1,16 @@
 import { jwtDecode } from "jwt-decode";
-export function debounce(func: Function, delay: number) {
-	let timeoutId: NodeJS.Timeout;
+type Timer = ReturnType<typeof setTimeout>;
 
-	return (...args: any[]) => {
+export function debounce<T extends (...args: any[]) => void>(
+	func: T,
+	delay: number
+) {
+	let timeoutId: Timer;
+
+	return function (this: ThisParameterType<T>, ...args: Parameters<T>) {
 		clearTimeout(timeoutId);
 		timeoutId = setTimeout(() => {
-			func.apply(null, args);
+			func.apply(this, args);
 		}, delay);
 	};
 }
@@ -68,12 +73,18 @@ export const calculateDiscount = (
 	return originalPrice - discountAmount;
 };
 
-export const generateSlug = (text: string): string => {
-	return text
-		.toLowerCase()
-		.replace(/\s+/g, "-")
-		.replace(/[^\w-]+/g, "");
-};
+export function generateSlug(name: string): string {
+	// Convert to lowercase
+	name = name.toLowerCase();
+
+	// Replace spaces with hyphens
+	name = name.replace(/ /g, "-");
+
+	// Remove special characters using regex
+	name = name.replace(/[^a-z0-9-]/g, "");
+
+	return name;
+}
 
 //To be refactored
 export const calculateTotalPrice = (items: any[]): number => {

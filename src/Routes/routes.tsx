@@ -45,7 +45,7 @@ const Router: React.FC = () => {
 			<Routes>
 				{/* <BreadcrumbsProvider> */}
 				<Route path={ROUTE.HOME} element={<Homepage />} />
-				<Route path={ROUTE.SEARCH + "/:query?"} element={<SearchPage />} />
+				<Route path={ROUTE.SEARCH} element={<SearchPage />} />
 				<Route path={ROUTE.STORE + "/:id"} element={<Store />} />
 				<Route path={ROUTE.LOGIN} element={<Loginpage />} />
 				<Route path={ROUTE.REGISTER} element={<Registerpage />} />

@@ -38,6 +38,8 @@ import { FaMessage } from "react-icons/fa6";
 import { fetchMe } from "../../../Features/user/userSlice";
 import useCart from "../../../Features/cart/cartAction";
 import { ICartProps } from "../../../Interfaces";
+import { debounce } from "lodash";
+import { generateSlug } from "../../Utils/helperFunctions";
 
 // Sidebar Component
 const SideBar: React.FC<{
@@ -155,27 +157,53 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 	mode,
 }) => {
 	const { message } = useSelector((st: any) => st.notifications);
-	// const dispatch = useDispatch();
 	const nav = useNavigate();
 	const { isAuthenticated } = useAuthentication();
 	const [searching, setSearching] = useState(false);
 	const searchOptions = useSelector(searchSuggestions);
 	const [query, setQuery] = useState("");
-	const { getSearchSuggestions } = useProducts();
+	const { getSearchSuggestions, getSearchProducts } = useProducts();
 	const { getmyCart, cart } = useCart();
 	const me: any = useSelector(fetchMe);
 	const [cartItems, setCartItems] = useState<ICartProps | null>(cart);
 
-	const handleSuggestions = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setQuery(e.target.value);
-		getSearchSuggestions(e.target.value);
-		// debounce(() => {
-		// 	getSearchSuggestions(e.target.value);
-		// }, 300);
-	};
-	const handleSearch = () => {
-		// getSearchProducts(query)
+	// const debouncedGetSearchSuggestions = useCallback(
+	// 	debounce((value: string) => {
+	// 		getSearchSuggestions(value);
+	// 	}, 100),
+	// 	[]
+	// );
+
+	// const handleSuggestions = (e: React.ChangeEvent<HTMLInputElement>) => {
+	// 	setQuery(e.target.value);
+	// 	if (e.target.value.length > 2) {
+	// 		debouncedGetSearchSuggestions(e.target.value);
+	// 	} else {
+	// 		dispatch(actions.setSearchSuggestions([]));
+	// 	}
+	// };
+	const handleSuggestions = debounce((query: string) => {
+		getSearchSuggestions(query);
+	}, 300);
+
+	useEffect(() => {
+		if (query.length >= 3) {
+			handleSuggestions(query);
+		}
+		return () => {
+			handleSuggestions.cancel();
+		};
+	}, [query]);
+
+	const handleSearch = async () => {
+		await getSearchProducts(query);
+		nav({ pathname: ROUTE.SEARCH, search: `?query=${generateSlug(query)}` });
 		console.log("clicked");
+	};
+
+	const handleSuggestionClicked = (query: string) => {
+		setQuery(query);
+		nav({ pathname: ROUTE.SEARCH, search: `?query=${generateSlug(query)}` });
 	};
 
 	const handleCart = async () => {
@@ -188,23 +216,21 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 	useEffect(() => {
 		handleCart();
 	}, [me]);
+
 	useEffect(() => {
 		setCartItems(cart);
 	}, [cart]);
+
 	useEffect(() => {
-		searchOptions.length > 1 && query !== ""
-			? setSearching(true)
-			: setSearching(false);
+		setSearching(searchOptions.length > 0 && query !== "");
 	}, [searchOptions, query]);
 
 	return (
 		<Container scrolled={scrolled} mode={mode}>
 			<Wrapper>
-				{/* Logo */}
 				<NavLink className="logo" to={ROUTE.HOME}>
 					<img width={"150"} src={logo} alt="logo" />
 				</NavLink>
-				{/* Search container */}
 				{mode !== "blank" && (
 					<>
 						{mode !== "noSearch" && (
@@ -213,11 +239,17 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 									<input
 										placeholder="Search products and services"
 										value={query}
-										onChange={handleSuggestions}
+										onChange={(e) => setQuery(e.target.value)}
+										style={{ color: "#002" }}
 									/>
 									<SearchSuggestions show={searching}>
 										{searchOptions.map((suggestion, index) => (
-											<Suggestion key={index}>{suggestion}</Suggestion>
+											<Suggestion
+												key={index}
+												onClick={() => handleSuggestionClicked(suggestion)}
+											>
+												{suggestion}
+											</Suggestion>
 										))}
 									</SearchSuggestions>
 								</div>
@@ -225,14 +257,15 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 									<option selected disabled value="">
 										All Category
 									</option>
-									{categories.map((category, i) => {
-										return <option key={i}>{category.title}</option>;
-									})}
+									{categories.map((category, i) => (
+										<option key={i}>{category.title}</option>
+									))}
 								</select>
-								<button onClick={() => handleSearch()}>Search</button>
+								<button type="button" onClick={handleSearch}>
+									Search
+								</button>
 							</SearchContainer>
 						)}
-						{/* Menu icons */}
 						<Menu>
 							{isAuthenticated ? (
 								<>
@@ -264,10 +297,6 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 										<img src={messageIcon} alt="#BDC4CD" />
 										<label>Message</label>
 									</IconWrapper>
-									{/* <IconWrapper onClick={() => dispatch(newMessage())}>
-										<img src={shopIcon} alt="..." />
-										<label>Orders</label>
-									</IconWrapper> */}
 									<IconWrapper
 										onClick={() =>
 											me?.usertype === "seller"

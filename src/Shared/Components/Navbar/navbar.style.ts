@@ -63,7 +63,7 @@ export const SearchContainer = styled.form`
 			font-style: normal;
 			font-weight: 400;
 			line-height: normal;
-			color: ${AppColors.brandGray} !important;
+			// color: ${AppColors.brandGray} !important;
 			&::placeholder {
 				color: var(--gray-500, #8b96a5);
 				font-family: Inter;
@@ -222,6 +222,9 @@ export const SearchSuggestions = styled.div<{ show: boolean }>`
 	background: #fff;
 	left: -1px;
 	top: 95%;
+	max-height: 300px;
+	overflow: auto;
+	padding-bottom: 20px;
 	border-radius: 0 0 12px 12px;
 `;
 
