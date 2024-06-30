@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { WishWrapper } from "./card.styles";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { useSelector } from "react-redux";
+
 import { fetchWishlist } from "../../../Features/user/userSlice";
 import useUsers from "../../../Features/user/userActions";
 
