@@ -9,7 +9,7 @@ import {
 	User,
 } from "./Review.styles";
 import { Rating } from "..";
-import { userPic } from "../../../assets";
+
 import { BiSolidRightArrowSquare } from "react-icons/bi";
 import calculateRating from "../../Utils/helperFunctions";
 
