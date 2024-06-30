@@ -37,7 +37,7 @@ const ListView: React.FC<{
 	if (type === "order") {
 		return (
 			<ListWrapper gap={gap} className={className} type={type}>
-				{listItems.map((_, index: number) => {
+				{listItems && listItems.map((_, index: number) => {
 						return (
 							<Card
 								key={index}
