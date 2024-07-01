@@ -41,6 +41,7 @@ export { default as dashboard } from "./dashboard.svg";
 export { default as emptyWallet } from "./empty-wallet-tick.svg";
 export { default as documentText } from "./document-text.svg";
 export { default as sendSquare } from "./send-sqaure-2.svg";
+export { default as skynetLogo } from "./skynet.png";
 export { default as sendSquareWhite } from "./send-sqaure-white.svg";
 export { default as settings } from "./setting-2.svg";
 export { default as shop } from "./shop.svg";
@@ -196,6 +197,71 @@ export const ReportIcon: React.FC<any> = () => {
 					</g>
 				</g>
 			</g>
+		</svg>
+	);
+};
+
+export const ArrowLeftIcon: React.FC<any> = ({ onClick }) => {
+	return (
+		<svg
+			onClick={onClick}
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<path
+				d="M9.57 5.92999L3.5 12L9.57 18.07"
+				stroke="#292D32"
+				stroke-width="1.5"
+				stroke-miterlimit="10"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			/>
+			<path
+				d="M20.4999 12H3.66992"
+				stroke="#292D32"
+				stroke-width="1.5"
+				stroke-miterlimit="10"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			/>
+		</svg>
+	);
+};
+
+export const CircleDismissIcon: React.FC<any> = ({ onClick }) => {
+	return (
+		<svg
+			onClick={onClick}
+			width="34"
+			height="34"
+			viewBox="0 0 34 34"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<path
+				d="M17.0002 31.1666C24.7918 31.1666 31.1668 24.7916 31.1668 17C31.1668 9.20831 24.7918 2.83331 17.0002 2.83331C9.2085 2.83331 2.8335 9.20831 2.8335 17C2.8335 24.7916 9.2085 31.1666 17.0002 31.1666Z"
+				stroke="#292D32"
+				stroke-width="1.5"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			/>
+			<path
+				d="M12.9907 21.0092L21.0091 12.9908"
+				stroke="#292D32"
+				stroke-width="1.5"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			/>
+			<path
+				d="M21.0091 21.0092L12.9907 12.9908"
+				stroke="#292D32"
+				stroke-width="1.5"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			/>
 		</svg>
 	);
 };

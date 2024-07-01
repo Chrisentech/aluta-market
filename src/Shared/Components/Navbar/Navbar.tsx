@@ -15,6 +15,7 @@ import {
 	HomeNavbar,
 } from "./navbar.style";
 import { FaJediOrder, FaUserAlt } from "react-icons/fa";
+import { showModal } from "../../../Features/modal/modalSlice";
 import messageIcon from "../../../assets/messages.svg";
 import profileIcon from "../../../assets/profile.svg";
 import shopIcon from "../../../assets/shop.svg";
@@ -28,7 +29,7 @@ import { ImUser } from "react-icons/im";
 import { CartIcon, logo } from "../../../assets";
 import { categories } from "../../../test-data";
 import { Badge } from "..";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import { newMessage } from "../../../Features/notifications/notificationSlice";
 import { searchSuggestions } from "../../../Features/products/productSlice";
 import useProducts from "../../../Features/products/productActions";
@@ -167,11 +168,10 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 	const me: any = useSelector(fetchMe);
 	const [cartItems, setCartItems] = useState<ICartProps | null>(cart);
 
-	
 	const handleSuggestions = debounce((query: string) => {
 		getSearchSuggestions(query);
 	}, 300);
-
+	const dispatch = useDispatch();
 	useEffect(() => {
 		if (query.length >= 3) {
 			handleSuggestions(query);
@@ -212,7 +212,11 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 	}, [searchOptions, query]);
 
 	return (
-		<Container scrolled={scrolled} mode={mode} onClick={()=>setSearching(false)}>
+		<Container
+			scrolled={scrolled}
+			mode={mode}
+			onClick={() => setSearching(false)}
+		>
 			<Wrapper>
 				<NavLink className="logo" to={ROUTE.HOME}>
 					<img width={"150"} src={logo} alt="logo" />
@@ -331,7 +335,9 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 						<GiHamburgerMenu size={20} />
 						<MenuItem to="#">All Categories</MenuItem>
 						<MenuItem to="#">Hot Offers</MenuItem>
-						<MenuItem to="#">Skynet</MenuItem>
+						<MenuItem to="#" onClick={() => dispatch(showModal("skynet"))}>
+							Skynet
+						</MenuItem>
 						<MenuItem to="#">Food Basket</MenuItem>
 						<MenuItem to="#">Restaurants</MenuItem>
 						<MenuItem to="#">

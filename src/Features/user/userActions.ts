@@ -14,6 +14,9 @@ import {
 	GET_HANDLED_PRODUCTS,
 	MY_PROFILE,
 	UPDATE_MY_PROFILE,
+	CREATE_SKYNET,
+	VERIFY_SMARTCARD,
+	GET_VARIATION,
 } from "../../Services/graphql/users";
 import { actions } from "./userSlice";
 import { setCookie } from "../../Shared/Utils/helperFunctions";
@@ -108,6 +111,34 @@ export default function useUsers() {
 		console.log(response);
 	};
 
+	const createSkynet = async (input: any) => {
+		const response = await apolloClient.mutate({
+			mutation: CREATE_SKYNET,
+			variables: { input },
+		});
+		console.log(response);
+	};
+
+	const verifySmartCard = async (input: any) => {
+		const response = await apolloClient.mutate({
+			mutation: VERIFY_SMARTCARD,
+			variables: { input },
+		});
+		if (response.data.verifySmartCard) console.log(response);
+	};
+
+	const getServicesVariation = async (serviceID: string) => {
+		const response = await apolloClient.query({
+			query: GET_VARIATION,
+			variables: { serviceID },
+		});
+		if (response.data.SubscriptionBundle) {
+			dispatch(
+				actions.setSkynetServiceVariations(response.data.SubscriptionBundle)
+			);
+		}
+	};
+
 	return {
 		createUser,
 		loginUser,
@@ -116,5 +147,8 @@ export default function useUsers() {
 		addToWishlist,
 		getWishlist,
 		updateUser,
+		createSkynet,
+		verifySmartCard,
+		getServicesVariation,
 	};
 }

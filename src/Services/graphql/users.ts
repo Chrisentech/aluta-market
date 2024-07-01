@@ -37,6 +37,47 @@ const HANDLED_PRODUCT_FIELDS = gql`
 	}
 `;
 
+const SKYNET_FIELDS = gql`
+	fragment SkynetFields on Skynet {
+		id
+		user_id
+		status
+		request_id
+		transaction_id
+		type
+		reciever
+	}
+`;
+
+const SKYNET_SERVICE_VARIATION = gql`
+	fragment VariationFields on SubscriptionBundle {
+		serviceName
+		serviceID
+		convinienceFee
+		variations {
+			variationCode
+			name
+			variationAmount
+			fixedPrice
+		}
+	}
+`;
+
+const SMARTCARD_VERIFICATION_RESPONSE_FIELDS = gql`
+	fragment SmartcardVerificationResponseFields on SmartcardVerificationResponse {
+		code
+		content {
+			customerName
+			status
+			dueDate
+			customerNumber
+			customerType
+			currentBouquet
+			currentBouquetCode
+			renewalAmount
+		}
+	}
+`;
 export const CREATE_USER = gql`
 	# ${USER_FIELDS}
 	mutation createUser($input: NewUser!) {
@@ -99,6 +140,50 @@ export const GET_HANDLED_PRODUCTS = gql`
 	query HandledProducts($user: Int!, $type: String!) {
 		HandledProducts(user: $user, type: $type) {
 			...HandledProducFields
+		}
+	}
+`;
+
+export const CREATE_SKYNET = gql`
+	mutation createSkynet($input: SkynetInput) {
+		createSkynet(input: $input) {
+			String
+		}
+	}
+`;
+
+export const VERIFY_SMARTCARD = gql`
+	${SMARTCARD_VERIFICATION_RESPONSE_FIELDS}
+	mutation verifySmartCard($input: SmartCardInput!) {
+		verifySmartCard(input: $input) {
+			...SmartcardVerificationResponseFields
+		}
+	}
+`;
+
+export const GET_SKYNETS = gql`
+	${SKYNET_FIELDS}
+	query Skynets($id: String!) {
+		Skynets(id: $id) {
+			...SkynetFields
+		}
+	}
+`;
+
+export const GET_SKYNET = gql`
+	${SKYNET_FIELDS}
+	query Skynet($id: String!) {
+		Skynet(id: $id) {
+			...SkynetFields
+		}
+	}
+`;
+
+export const GET_VARIATION = gql`
+	${SKYNET_SERVICE_VARIATION}
+	query SubscriptionBundle($serviceID: String!) {
+		SubscriptionBundle(serviceID: $serviceID) {
+			...VariationFields
 		}
 	}
 `;

@@ -1,25 +1,30 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
 import { ICartProps, IUserProps, IHandledProductProps } from "../../Interfaces";
+
 export interface UserState {
 	me: IUserProps | null;
 	cart: ICartProps | null;
 	token: string | null;
+	skynet: any;
 	wishlists: IHandledProductProps[] | null;
 	savedForLater: IHandledProductProps[] | null;
 	recentlyViewed: IHandledProductProps[] | null;
 }
 
+const initialState: UserState = {
+	me: null,
+	cart: null,
+	token: null,
+	wishlists: null,
+	savedForLater: null,
+	recentlyViewed: null,
+	skynet: {}, // Initialize skynet as an empty object
+};
+
 export const userSlice = createSlice({
 	name: "user",
-	initialState: {
-		me: null,
-		cart: null,
-		token: null,
-		wishlists: null,
-		savedForLater: null,
-		recentlyViewed: null,
-	} as UserState,
+	initialState,
 	reducers: {
 		getMe: (state, action: PayloadAction<IUserProps | null>) => {
 			state.me = action.payload;
@@ -33,6 +38,9 @@ export const userSlice = createSlice({
 		registerUser: (state, { payload }) => {
 			state.me = payload;
 		},
+		setSkynetServiceVariations: (state, { payload }) => {
+			state.skynet = { ...state.skynet, variations: payload };
+		},
 		addWishlist: (state, { payload }) => {
 			state.wishlists = payload;
 		},
@@ -43,25 +51,33 @@ export const userSlice = createSlice({
 			state.wishlists = null;
 			state.recentlyViewed = null;
 			state.savedForLater = null;
+			state.skynet = {}; // Reset skynet to an empty object on logout
 		},
 	},
 });
 
 export const actions = userSlice.actions;
 
-//Define and export action for selectors
+// Define and export selectors
 export const fetchMe = (state: RootState): IUserProps | null => state.user.me;
 
 export const fetchMyCart = (state: RootState): ICartProps | null =>
 	state.user.cart;
 
-export const fetchWishlist = (state: RootState): any[] | null =>
-	state.user.wishlists;
+export const fetchWishlist = (
+	state: RootState
+): IHandledProductProps[] | null => state.user.wishlists;
 
-export const fetchSavedForLater = (state: RootState): any[] | null =>
-	state.user.savedForLater;
-export const fetchRecentlyViewed = (state: RootState): any[] | null =>
-	state.user.recentlyViewed;
+export const fetchServiceVaration = (state: RootState): any[] | null =>
+	state.user.skynet?.variations;
 
-//export user reducer
+export const fetchSavedForLater = (
+	state: RootState
+): IHandledProductProps[] | null => state.user.savedForLater;
+
+export const fetchRecentlyViewed = (
+	state: RootState
+): IHandledProductProps[] | null => state.user.recentlyViewed;
+
+// Export user reducer
 export default userSlice.reducer;

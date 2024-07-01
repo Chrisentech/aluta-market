@@ -18,6 +18,7 @@ import {
 	Button,
 	ProductGrid,
 	LogoutModal,
+	SkynetModal,
 } from "../../../Shared/Components";
 import { lol, lor, secure, log } from "../../../assets";
 import { MdOutlineInventory2, MdOutlineSearch, MdSend } from "react-icons/md";
@@ -441,7 +442,9 @@ const HomePage = () => {
 			component={Screen}
 			showModal={activeModal}
 			isLoading={false}
-			popUpContent={<LogoutModal />}
+			popUpContent={
+				activeModal === "skynet" ? <SkynetModal /> : <LogoutModal />
+			}
 			modalWidth={560}
 		/>
 	);
