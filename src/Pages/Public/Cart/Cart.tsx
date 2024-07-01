@@ -81,7 +81,7 @@ const Screen: React.FC = () => {
 	};
 	const handleRemoveallCart = async (cartID: string) => {
 		setButtonLoader(cartID);
-		await removeAllCart(parseInt(cartID, 10), me?.id);
+		await removeAllCart(parseInt(cartID, 10));
 		dispatch(alertSuccess("Cart has been cleared!!"));
 		setButtonLoader(0);
 	};

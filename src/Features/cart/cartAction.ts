@@ -22,7 +22,7 @@ export default function useCart() {
 
 	//remove all cart
 
-	const removeAllCart = async (id: Number, user: Number) => {
+	const removeAllCart = async (id: Number) => {
 		const response = await apolloClient.mutate({
 			mutation: REMOVE_ALL_CARTS,
 			variables: { cartID: id },
