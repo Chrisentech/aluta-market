@@ -54,13 +54,17 @@ export default function useProducts() {
 	};
 
 	const getSearchProducts = async (query: string) => {
+		dispatch(actions.setSeacrhedProducts(null));
+
 		const response = await apolloClient.query({
 			query: GET_SEARCHED_PRODUCTS,
 			variables: { query },
 		});
-		if (response.data) {
+		if (response.data.searchProducts) {
 			dispatch(actions.setSeacrhedProducts(response.data.searchProducts));
 			console.log(response.data.searchProducts);
+		} else {
+			dispatch(actions.setSeacrhedProducts([]));
 		}
 	};
 
@@ -103,12 +107,20 @@ export default function useProducts() {
 	};
 
 	const createProduct = async (input: IProductProps | any) => {
-		const response = await apolloClient.mutate({
-			mutation: CREATE_PRODUCT,
-			variables: { input },
-		});
-		if (response?.data?.createProduct) {
-			dispatch(actions.setProducts([...products, response.data.createProduct]));
+		try {
+			const response = await apolloClient.mutate({
+				mutation: CREATE_PRODUCT,
+				variables: { input },
+			});
+			if (response?.data?.createProduct) {
+				const currentProducts = products ?? []; // Provide a default empty array if products is null
+				dispatch(
+					actions.setProducts([...currentProducts, response.data.createProduct])
+				);
+			}
+		} catch (error) {
+			console.error("Error creating product:", error);
+			// Optionally handle error, e.g., dispatch an error action or show a notification
 		}
 	};
 

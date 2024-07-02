@@ -86,6 +86,16 @@ export function generateSlug(name: string): string {
 	return name;
 }
 
+export function getTextFromSlug(slug: string): string {
+	// Replace hyphens with spaces
+	let text = slug.replace(/-/g, " ");
+
+	// Capitalize the first letter of each word
+	text = text.replace(/\b\w/g, (char) => char.toUpperCase());
+
+	return text;
+}
+
 //To be refactored
 export const calculateTotalPrice = (items: any[]): number => {
 	return items.reduce((total, item) => total + item.price * item.quantity, 0);

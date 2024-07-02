@@ -13,7 +13,7 @@ import { Card, ImageCard, Pagination, Rating } from "../index.ts";
 import { PiDotOutlineFill } from "react-icons/pi";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { AppColors, ROUTE } from "../../Constants/index.ts";
-import { truncateText } from "../../Utils/helperFunctions.ts";
+import calculateRating, { truncateText } from "../../Utils/helperFunctions.ts";
 import { phone } from "../../../assets/index.tsx";
 import usePagination from "../../Hooks/usePagination.tsx";
 import { useNavigate } from "react-router-dom";
@@ -37,7 +37,8 @@ const ListView: React.FC<{
 	if (type === "order") {
 		return (
 			<ListWrapper gap={gap} className={className} type={type}>
-				{listItems && listItems.map((_, index: number) => {
+				{listItems &&
+					listItems.map((_, index: number) => {
 						return (
 							<Card
 								key={index}
@@ -128,63 +129,67 @@ const ListView: React.FC<{
 	}
 	return (
 		<ListWrapper gap={gap} className={className} type={type}>
-			{Array(6)
-				.fill("*")
-				.map((_, index: number) => {
-					return (
-						<Card
-							key={index}
-							width="100%"
-							hasBoxShadow={true}
-							height="200px"
-							onHover
-							className="card"
-						>
-							<ProductCard>
-								<ImageCard view="list" src={phone} />
-								<ProductDetails>
-									<h1>Canon Camera EOS 2000, Black 10x zoom</h1>
-									<div className="price">
-										<span>&#8358;80,000</span>
-										<span>&#8358;92,000</span>
+			{listItems?.map((product: any, index: number) => {
+				const ratings =
+					product?.review?.map((review: any) => review.rating) || [];
+				const averageRating = calculateRating(ratings);
+				return (
+					<Card
+						key={index}
+						width="100%"
+						hasBoxShadow={true}
+						height="200px"
+						onHover
+						className="card"
+					>
+						<ProductCard>
+							<ImageCard width="300px" view="list" src={product?.thumbnail} />
+							<ProductDetails>
+								<h1>{product?.name}</h1>
+								<div className="price">
+									<span>&#8358;{product?.price}</span>
+									<span>&#8358;{product?.discount}</span>
+								</div>
+								<ProductFlex>
+									<div>
+										<Rating
+											numberOfRates={parseInt(averageRating.toFixed(1))}
+										/>
+										<span className="rating">
+											{parseInt(averageRating.toFixed(1))}
+										</span>
 									</div>
-									<ProductFlex>
-										<div>
-											<Rating numberOfRates={7.5} />
-											<span className="rating">7.5</span>
-										</div>
-										<div>
-											<PiDotOutlineFill color={AppColors.brandGray} size={16} />
-											<span>154 orders</span>
-										</div>
-									</ProductFlex>
-									<ProductDescr>
-										{truncateText(
-											"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-											200
-										)}
-									</ProductDescr>
-									<ViewButton to="#">View Details</ViewButton>
-								</ProductDetails>
-								<WishCard>
-									{wishList.includes(index + 1) ? (
-										<AiFillHeart
-											color="#FA3434"
-											size="26px"
-											onClick={() => handleAddtoWishList(index + 1)}
-										/>
-									) : (
-										<AiOutlineHeart
-											color="#FA3434"
-											size="26px"
-											onClick={() => handleAddtoWishList(index + 1)}
-										/>
-									)}
-								</WishCard>
-							</ProductCard>
-						</Card>
-					);
-				})}
+									<div>
+										<PiDotOutlineFill color={AppColors.brandGray} size={16} />
+										<span>154 orders</span>
+									</div>
+								</ProductFlex>
+								<ProductDescr>
+									{truncateText(product?.description, 200)}
+								</ProductDescr>
+								<ViewButton to={`/product/view/${product.id}`}>
+									View Details
+								</ViewButton>
+							</ProductDetails>
+							<WishCard>
+								{wishList.includes(index + 1) ? (
+									<AiFillHeart
+										color="#FA3434"
+										size="26px"
+										onClick={() => handleAddtoWishList(index + 1)}
+									/>
+								) : (
+									<AiOutlineHeart
+										color="#FA3434"
+										size="26px"
+										onClick={() => handleAddtoWishList(index + 1)}
+									/>
+								)}
+							</WishCard>
+						</ProductCard>
+					</Card>
+				);
+			})}
 			<Pagination
 				totalPages={3}
 				currentPage={currentPage}

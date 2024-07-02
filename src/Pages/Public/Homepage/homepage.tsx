@@ -35,6 +35,7 @@ import {
 import { GiCheckedShield } from "react-icons/gi";
 import { IoMailOutline } from "react-icons/io5";
 import { selectProducts } from "../../../Features/products/productSlice";
+import { generateSlug } from "../../../Shared/Utils/helperFunctions";
 
 const Screen: React.FC = () => {
 	const nav = useNavigate();
@@ -69,18 +70,20 @@ const Screen: React.FC = () => {
 						<div className="tt">
 							Welcome to the <br /> <span>STUDENTS’ MARKETPLACE</span>
 							<br /> designed just for your every needs!
-							<Button
-								onClick={() => nav(ROUTE.REGISTER)}
-								width={150}
-								height={30}
-								padding={10}
-								gap={10}
-								className="btn-start"
-								background="linear-gradient(180deg, #FF7612 0%, #FF001F 100%)"
-								color="#ffffff"
-							>
-								Get Started
-							</Button>
+							{!isAuthenticated && (
+								<Button
+									onClick={() => nav(ROUTE.REGISTER)}
+									width={150}
+									height={30}
+									padding={10}
+									gap={10}
+									className="btn-start"
+									background="linear-gradient(180deg, #FF7612 0%, #FF001F 100%)"
+									color="#ffffff"
+								>
+									Get Started
+								</Button>
+							)}
 						</div>
 						<div>
 							<img src={registerImg} alt="register-image" width={310} />
@@ -223,6 +226,12 @@ const Screen: React.FC = () => {
 							key={index + item.title}
 							background="#fff"
 							className="others"
+							onClick={() => {
+								nav({
+									pathname: ROUTE.SEARCH,
+									search: `?query=${generateSlug(item.title)}`,
+								});
+							}}
 						>
 							<p>{item.title}</p>
 							<div>
@@ -255,6 +264,12 @@ const Screen: React.FC = () => {
 							key={index + item.title}
 							background="#fff"
 							className="others"
+							onClick={() => {
+								nav({
+									pathname: ROUTE.SEARCH,
+									search: `?query=${generateSlug(item.title)}`,
+								});
+							}}
 						>
 							<p>{item.title}</p>
 							<div>

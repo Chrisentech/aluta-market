@@ -23,6 +23,7 @@ export const Wrapper = styled.div`
 export const Sidebar = styled.div``;
 
 export const MainView = styled.div`
+	width: 100%;
 	.view {
 		width: 100%;
 		margin: 20px 0;

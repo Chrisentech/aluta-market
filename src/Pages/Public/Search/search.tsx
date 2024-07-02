@@ -20,6 +20,7 @@ import { useSelector } from "react-redux";
 import useProducts from "../../../Features/products/productActions";
 import { useNavigate } from "react-router-dom";
 import { ROUTE } from "../../../Shared/Constants";
+import { getTextFromSlug } from "../../../Shared/Utils/helperFunctions";
 // import useProducts from '../../../Features/products/productActions';
 
 const Screen: React.FC = () => {
@@ -104,7 +105,9 @@ const Screen: React.FC = () => {
 					</Sidebar>
 					<MainView>
 						<Selector>
-							<p>12,911 items in Mobile accessory</p>
+							<p>
+								{products?.length} items in {getTextFromSlug(query)}
+							</p>
 							<div className="buttons">
 								<select name="Features" className="dropdown">
 									<option value="features">Features</option>
