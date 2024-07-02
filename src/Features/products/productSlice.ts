@@ -4,7 +4,7 @@ import { RootState } from "../../store";
 
 // Define the ProductState type
 export interface ProductState {
-	products: IProductProps[];
+	products: IProductProps[] | null;
 	searchedProducts: IProductProps[] | null;
 	myproducts: any;
 	product: IProductProps | null;
@@ -17,7 +17,7 @@ export interface ProductState {
 export const productSlice = createSlice({
 	name: "products",
 	initialState: {
-		products: [],
+		products: null,
 		searchedProducts: null,
 		myproducts: [],
 		categories: [],
@@ -54,7 +54,7 @@ export const productSlice = createSlice({
 export const actions = productSlice.actions;
 
 // Define the types for the selectors
-export const selectProducts = (state: RootState): IProductProps[] =>
+export const selectProducts = (state: RootState): IProductProps[] | null =>
 	state.products.products;
 export const selectMyProducts = (state: RootState): any =>
 	state.products.myproducts.data;

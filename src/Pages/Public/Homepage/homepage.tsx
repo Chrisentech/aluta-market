@@ -34,6 +34,7 @@ import {
 } from "../../../Features/modal/modalSlice";
 import { GiCheckedShield } from "react-icons/gi";
 import { IoMailOutline } from "react-icons/io5";
+import { selectProducts } from "../../../Features/products/productSlice";
 
 const Screen: React.FC = () => {
 	const nav = useNavigate();
@@ -436,12 +437,14 @@ const Screen: React.FC = () => {
 
 const HomePage = () => {
 	const activeModal = useSelector(selectActiveModal);
+	const products = useSelector(selectProducts);
+
 	return (
 		<Layout
 			layout={"full"}
 			component={Screen}
 			showModal={activeModal}
-			isLoading={false}
+			isLoading={!products}
 			popUpContent={
 				activeModal === "skynet" ? <SkynetModal /> : <LogoutModal />
 			}
