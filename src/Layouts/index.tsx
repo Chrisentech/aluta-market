@@ -28,6 +28,17 @@ const Layout: React.FC<LayoutProps<any>> = ({
 }) => {
 	const isDashboard = localStorage.getItem("isDashboard");
 	const Screen = useLayoutHook(layout, isLoading, <Component />);
+	useEffect(() => {
+		if (isLoading) {
+			document.body.classList.add("no-scroll");
+		} else {
+			document.body.classList.remove("no-scroll");
+		}
+		// Cleanup on component unmount
+		return () => {
+			document.body.classList.remove("no-scroll");
+		};
+	}, [isLoading]);
 	const [isMobile, setIsMobile] = useState(
 		window.innerWidth < (isDashboard === "true" ? 1082 : 768)
 	);
@@ -57,7 +68,7 @@ const Layout: React.FC<LayoutProps<any>> = ({
 	}, []);
 
 	return (
-		<>
+		<div>
 			<Popup
 				padding={modalPadding}
 				show={showModal && modals[showModal] ? modals[showModal] : false}
@@ -77,7 +88,7 @@ const Layout: React.FC<LayoutProps<any>> = ({
 				<Toast />
 				{Screen}
 			</Fragment>
-		</>
+		</div>
 	);
 };
 

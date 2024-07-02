@@ -17,6 +17,7 @@ import {
 	CREATE_SKYNET,
 	VERIFY_SMARTCARD,
 	GET_VARIATION,
+	INITIATE_PAYMENT,
 } from "../../Services/graphql/users";
 import { actions } from "./userSlice";
 import { setCookie } from "../../Shared/Utils/helperFunctions";
@@ -139,6 +140,16 @@ export default function useUsers() {
 		}
 	};
 
+	const initializePayment = async (input: any) => {
+		const response = await apolloClient.mutate({
+			mutation: INITIATE_PAYMENT,
+			variables: { input },
+		});
+		if (response.data.initializePayment) {
+			window.location.replace(response.data.initializePayment);
+		}
+	};
+
 	return {
 		createUser,
 		loginUser,
@@ -150,5 +161,6 @@ export default function useUsers() {
 		createSkynet,
 		verifySmartCard,
 		getServicesVariation,
+		initializePayment,
 	};
 }

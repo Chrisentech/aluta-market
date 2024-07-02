@@ -31,6 +31,15 @@ const GlobalStyle = createGlobalStyle`
  input::disabled{
     cursor:not-allowed,
   }
+      body.no-scroll {
+    overflow: hidden;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  body.no-scroll::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari, Opera */
+  }
 `;
 
 export default GlobalStyle;

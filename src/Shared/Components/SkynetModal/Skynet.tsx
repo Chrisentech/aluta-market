@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import { Container, Img, Label } from "./Skynet.style";
+import { Container, Img, Label, SubmitButton } from "./Skynet.style";
 import { ArrowLeftIcon, CircleDismissIcon, skynetLogo } from "../../../assets";
-import { Button } from "..";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../../Features/modal/modalSlice";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import { fetchServiceVaration } from "../../../Features/user/userSlice";
+import {
+	fetchMe,
+	fetchServiceVaration,
+} from "../../../Features/user/userSlice";
 import useUsers from "../../../Features/user/userActions";
 import { alertError } from "../../../Features/alert/alertSlice";
+import { Puff } from "react-loading-icons";
 
 // Define the shape of the form values
 interface FormValues {
@@ -16,20 +19,30 @@ interface FormValues {
 	network: string;
 	amount: number;
 	phoneNumber: string;
+	variation?: string;
+	quantity?: string;
+	subscriptionType?: string;
+	billersCode?: string;
 }
 
 const SkynetModal: React.FC<{ url?: string }> = () => {
 	const dispatch = useDispatch();
 	const serviceVariation: any = useSelector(fetchServiceVaration);
-	const { getServicesVariation } = useUsers();
+	const { getServicesVariation, initializePayment } = useUsers();
 	const [selectedOption, setSelectedOption] = useState("");
-	const [_, setSelectedVariation] = useState("");
+	const [selectedVariation, setSelectedVariation] = useState("");
+	const [loading, setLoading] = useState(false);
+	const me = useSelector(fetchMe);
 
 	const handleCancel = () => {
-		const confirmed = window.confirm(
-			"All data will be lost. Do you want to continue?"
-		);
-		if (confirmed) {
+		if (selectedVariation || selectedOption) {
+			const confirmed = window.confirm(
+				"All data will be lost. Do you want to continue?"
+			);
+			if (confirmed) {
+				dispatch(closeModal("skynet"));
+			}
+		} else {
 			dispatch(closeModal("skynet"));
 		}
 	};
@@ -39,6 +52,10 @@ const SkynetModal: React.FC<{ url?: string }> = () => {
 		network: "",
 		amount: 0,
 		phoneNumber: "",
+		variation: "",
+		quantity: "1",
+		subscriptionType: "",
+		billersCode: "",
 	};
 
 	const validationSchema = Yup.object({
@@ -46,8 +63,7 @@ const SkynetModal: React.FC<{ url?: string }> = () => {
 		network: Yup.string().required("Network is required"),
 		amount: Yup.number()
 			.required("Amount is required")
-			.positive("Amount must be positive")
-			.integer("Amount must be an integer"),
+			.positive("Amount must be positive"),
 		phoneNumber: Yup.string()
 			.required("Phone number is required")
 			.matches(/^[0-9]+$/, "Phone number must be only digits")
@@ -55,12 +71,38 @@ const SkynetModal: React.FC<{ url?: string }> = () => {
 			.max(15, "Phone number must be at most 15 digits"),
 	});
 
-	const onSubmit = (
+	const onSubmit = async (
 		values: FormValues,
 		{ setSubmitting }: FormikHelpers<FormValues>
 	) => {
-		console.log(values);
+		setLoading(true);
+
+		const payload = {
+			type:
+				selectedOption === "data"
+					? "data"
+					: selectedOption === "airtime"
+					? "airtime"
+					: "tv_sub",
+			user_id: me?.id,
+			service_id: values.network,
+			amount: values.amount,
+			variant_code: values.variation,
+			phone_number: values.phoneNumber,
+			subscription_type: values.subscriptionType,
+			quantity: values.quantity,
+			billers_code: values.billersCode,
+		};
+		try {
+			await initializePayment({ userID: me?.id, paymentGateway: "paystack" });
+			console.log(payload);
+		} catch (error) {
+			console.error("Error initializing payment:", error);
+			// Handle the error appropriately here
+		}
+
 		setSubmitting(false);
+		setLoading(false);
 	};
 
 	const handleVariation = async (
@@ -73,6 +115,7 @@ const SkynetModal: React.FC<{ url?: string }> = () => {
 				await getServicesVariation(event.target.value);
 			} catch (error) {
 				dispatch(alertError("Error"));
+
 				console.error("Error fetching service variations:", error);
 			}
 		}
@@ -128,7 +171,7 @@ const SkynetModal: React.FC<{ url?: string }> = () => {
 									handleOptionChange(e, setFieldValue)
 								}
 							>
-								<option value="" label="Select option" />
+								<option value="" label="Select option" disabled selected />
 								<option value="data" label="Databundle" />
 								<option value="airtime" label="Airtime" />
 								<option value="tv_sub" label="Cable Subscription" />
@@ -138,7 +181,9 @@ const SkynetModal: React.FC<{ url?: string }> = () => {
 							<ErrorMessage className="error" name="option" component="div" />
 						</div>
 						<div>
-							<label htmlFor="network">Network</label>
+							<label htmlFor="network">
+								{selectedOption === "tv_sub" ? "Tv Subscription" : "Network"}
+							</label>
 							<Field
 								as="select"
 								name="network"
@@ -146,7 +191,7 @@ const SkynetModal: React.FC<{ url?: string }> = () => {
 									handleVariation(e, setFieldValue)
 								}
 							>
-								<option value="" label="Select Network" />
+								<option value="" label="Select Network" disabled selected />
 								{["mtn", "airtel", "glo", "etisalat"].map((network) => (
 									<option
 										key={network}
@@ -165,30 +210,32 @@ const SkynetModal: React.FC<{ url?: string }> = () => {
 							</Field>
 							<ErrorMessage className="error" name="network" component="div" />
 						</div>
-						<div>
-							<label htmlFor="variation">Variation</label>
-							<Field
-								as="select"
-								name="variation"
-								onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-									handleVariationChange(e, setFieldValue)
-								}
-							>
-								<option value="" label="Select variation" />
-								{serviceVariation?.variations?.map((variation: any) => (
-									<option
-										key={variation.variationCode}
-										value={variation.variationCode}
-										label={variation.name}
-									/>
-								))}
-							</Field>
-							<ErrorMessage
-								className="error"
-								name="variation"
-								component="div"
-							/>
-						</div>
+						{selectedOption === "data" && (
+							<div>
+								<label htmlFor="variation">Variation</label>
+								<Field
+									as="select"
+									name="variation"
+									onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+										handleVariationChange(e, setFieldValue)
+									}
+								>
+									<option value="" label="Select variation" />
+									{serviceVariation?.variations?.map((variation: any) => (
+										<option
+											key={variation.variationCode}
+											value={variation.variationCode}
+											label={variation.name}
+										/>
+									))}
+								</Field>
+								<ErrorMessage
+									className="error"
+									name="variation"
+									component="div"
+								/>
+							</div>
+						)}
 						<div>
 							<label htmlFor="amount">Amount</label>
 							<Field type="number" name="amount" disabled />
@@ -203,9 +250,17 @@ const SkynetModal: React.FC<{ url?: string }> = () => {
 								component="div"
 							/>
 						</div>
-						<Button type="submit" disabled={isSubmitting}>
-							Submit
-						</Button>
+						<SubmitButton
+							type="submit"
+							loading={loading || isSubmitting}
+							disabled={loading || isSubmitting}
+						>
+							{loading ? (
+								<Puff stroke={"#F7690C"} strokeOpacity={0.125} />
+							) : (
+								"Submit"
+							)}
+						</SubmitButton>
 					</Form>
 				)}
 			</Formik>

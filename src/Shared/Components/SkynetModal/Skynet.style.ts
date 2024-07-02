@@ -58,6 +58,9 @@ export const Container = styled.div`
 			}
 		}
 		label {
+		font-family:"Inter",
+		font-weight:600;
+		font-size:16px
 		}
 	}
 `;
@@ -85,4 +88,23 @@ export const Info = styled.p`
 	width: 340px;
 	text-align: center;
 	color: #505050;
+`;
+
+export const SubmitButton = styled.button<{ loading?: boolean }>`
+	background: #f7690c;
+	color: #fff;
+	padding: ${(props) => (props.loading ? "7px" : "20px")};
+	border: none;
+	cursor: pointer;
+	width: 100%;
+	margin: 20px 0;
+	border-radius: 10px;
+	color: var(--white, #fff);
+	text-align: center;
+	font-feature-settings: "clig" off, "liga" off;
+	font-family: Inter;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
 `;

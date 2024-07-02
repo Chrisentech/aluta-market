@@ -78,6 +78,7 @@ const SMARTCARD_VERIFICATION_RESPONSE_FIELDS = gql`
 		}
 	}
 `;
+
 export const CREATE_USER = gql`
 	# ${USER_FIELDS}
 	mutation createUser($input: NewUser!) {
@@ -114,8 +115,6 @@ export const MY_PROFILE = gql`
 		}
 	}
 `;
-
-// export const SET_TWOFA = gql``;
 
 export const ADD_HANDLED_PRODUCTS = gql`
 	${HANDLED_PRODUCT_FIELDS}
@@ -188,12 +187,8 @@ export const GET_VARIATION = gql`
 	}
 `;
 
-// export const ADD_TO_CART = gql``;
-
-// export const REMOVE_FROM_CART = gql``;
-
-// export const MAKE_PAYMENT = gql``;
-
-// export const ADD_REVIEW = gql``;
-
-// export const REPORT_STORE = gql``; //to be implemented
+export const INITIATE_PAYMENT = gql`
+	mutation initializePayment($input: PaymentData!) {
+		initializePayment(input: $input)
+	}
+`;
