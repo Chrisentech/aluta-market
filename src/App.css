@@ -20,7 +20,7 @@ ul {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-	background: #ff001f; /* color of the handle */
+	background:#ccc; /* color of the handle */
 	border-radius: 5px; /* roundness of the handle */
 }
 

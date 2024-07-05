@@ -6,7 +6,10 @@ import { RootState } from "../../store";
 export interface ProductState {
 	products: IProductProps[] | null;
 	recommendedProducts: IProductProps[] | null;
-
+	beveragesProducts: IProductProps[] | null;
+	accomodationProducts: IProductProps[] | null;
+	gadgetsProducts: IProductProps[] | null;
+	skincareProducts: IProductProps[] | null;
 	searchedProducts: IProductProps[] | null;
 	myproducts: any;
 	product: IProductProps | null;
@@ -22,6 +25,10 @@ export const productSlice = createSlice({
 		products: null,
 		searchedProducts: null,
 		recommendedProducts: null,
+		beveragesProducts: null,
+		accomodationProducts: null,
+		skincareProducts: null,
+		gadgetsProducts: null,
 		myproducts: [],
 		categories: [],
 		category: null,
