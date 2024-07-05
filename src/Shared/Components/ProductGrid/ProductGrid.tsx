@@ -27,7 +27,7 @@ const ProductGrid: React.FC<IProductGridProps> = ({
 	}, [getProducts]);
 	return (
 		<Container column={column} row={row} background={background}>
-			{(products?.length > 0
+			{products && (products?.length > 0
 				? products
 				: Array.from({ length: isMobile ? 4 : 12 }).fill(null)
 			).map((prd: any, index) => (
