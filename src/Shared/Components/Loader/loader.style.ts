@@ -39,7 +39,7 @@ export const Flex = styled.div`
 		color: #002;
 	}
 	img {
-		margin-bottom: 40px;
+		// margin-bottom: 40px;
 	}
 	-ms-overflow-style: none; /* IE and Edge */
 	scrollbar-width: none; /* Firefox */

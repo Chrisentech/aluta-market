@@ -110,6 +110,7 @@ export { default as BecomeUnfilled } from "./become.png";
 export { default as Download_Filled } from "./download_filled.svg";
 export { default as DownloadUnfilled } from "./download.png";
 export { default as NoFollow } from "./no_following.png";
+export { default as loaderGif } from "./loader.gif";
 
 export const CartIcon: React.FC<any> = ({ color, height }) => {
 	return (
