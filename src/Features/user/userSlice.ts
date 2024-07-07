@@ -44,14 +44,8 @@ export const userSlice = createSlice({
 		addWishlist: (state, { payload }) => {
 			state.wishlists = payload;
 		},
-		logout: (state) => {
-			state.me = null;
-			state.cart = null;
-			state.token = null;
-			state.wishlists = null;
-			state.recentlyViewed = null;
-			state.savedForLater = null;
-			state.skynet = {}; // Reset skynet to an empty object on logout
+		logout: () => {
+			window.location.reload();
 		},
 	},
 });

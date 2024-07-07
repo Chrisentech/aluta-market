@@ -373,7 +373,7 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 								</Link>
 							</SidebarMenuLinks>
 							<SidebarMenuLinks onClick={() => dispatch(showModal("logout"))}>
-								<Link to={ROUTE.SELLER_DASHBOARD + "/logout"}>
+								<Link to={"#"}>
 									<img src={sendSquare} /> Log out
 								</Link>
 							</SidebarMenuLinks>

@@ -38,7 +38,10 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectActiveModal } from "../../../../Features/modal/modalSlice";
-import { selectStore } from "../../../../Features/store/storeSlice";
+import {
+	selectStore,
+	selectStores,
+} from "../../../../Features/store/storeSlice";
 import { ROUTE } from "../../../../Shared/Constants";
 import { OrderCard } from "../Orders/orders.styles";
 const { Charts, Pie } = Visuals;
@@ -329,15 +332,14 @@ const Screen: React.FC = () => {
 };
 
 const Dashboard = () => {
-	// const stores = useSelector(selectStores);
+	const stores = useSelector(selectStores);
 	const activeModal = useSelector(selectActiveModal);
 
 	return (
 		<Layout
 			layout="dashboard"
 			component={Screen}
-			isLoading={false}
-			// isLoading={stores.length === 0}
+			isLoading={stores.length === 0}
 			showModal={activeModal}
 			popUpContent={<LogoutModal />}
 			navMode="noSearch"

@@ -287,13 +287,7 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 										<img src={messageIcon} alt="#BDC4CD" />
 										<label>Message</label>
 									</IconWrapper>
-									<IconWrapper
-										onClick={() =>
-											me?.usertype === "seller"
-												? nav(ROUTE.SELLER_ORDERS)
-												: nav(ROUTE.BUYER_ORDER)
-										}
-									>
+									<IconWrapper onClick={() => nav(ROUTE.BUYER_ORDER)}>
 										<img src={shopIcon} alt="..." />
 										<label>Orders</label>
 									</IconWrapper>

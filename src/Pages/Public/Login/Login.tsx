@@ -64,7 +64,15 @@ const Screen: React.FC = () => {
 	const [stayLoggedIn, setStayLoggedIn] = useState(false);
 	const dispatch = useDispatch();
 	const { loginUser, getMe } = useUsers();
-	const url = sessionStorage.getItem("redirectPath") || "/";
+	const sessionStore = sessionStorage.getItem("redirectPath") || "/";
+	const me = useSelector(fetchMe);
+
+	const url = sessionStorage.getItem("redirectPath")
+		? JSON.parse(sessionStore)?.route
+		: "/";
+	const userType = sessionStorage.getItem("redirectPath")
+		? JSON.parse(sessionStore)?.usertype
+		: null;
 
 	const handleSubmit = async (values: LoginFormValues) => {
 		// Handle form submission here
@@ -78,7 +86,11 @@ const Screen: React.FC = () => {
 			setLoading(false);
 			setCookie("user_id", user?.id, stayLoggedIn ? 7 : 0);
 			setCookie("access_token", user?.access_token, stayLoggedIn ? 7 : 0);
-			window.location.replace(url);
+			if (me?.usertype === userType) {
+				window.location.replace(url);
+			} else {
+				window.location.replace("/");
+			}
 			sessionStorage.removeItem("redirectPath");
 		} catch (error: any) {
 			setLoading(false);

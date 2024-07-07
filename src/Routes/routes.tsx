@@ -37,6 +37,9 @@ import {
 } from "../Pages/Private";
 import useAuthentication from "../Shared/Hooks/useAuth";
 import { setRedirectPath } from "../Shared/Utils/helperFunctions";
+import { useSelector } from "react-redux";
+import { fetchMe } from "../Features/user/userSlice";
+import { selectActiveModal } from "../Features/modal/modalSlice";
 // import { Reviews } from "../Shared/Components";
 
 const Router: React.FC = () => {
@@ -288,11 +291,12 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
 	route,
 }) => {
 	const { isAuthenticated } = useAuthentication();
-	// let isAuthenticated = true;
+	const me = useSelector(fetchMe);
+	const activeModal = useSelector(selectActiveModal);
 
 	useEffect(() => {
-		if (route) {
-			setRedirectPath(route);
+		if (route && activeModal === "logout") {
+			setRedirectPath(JSON.stringify({ route, usertype: me?.usertype }));
 		}
 	}, [route]);
 
