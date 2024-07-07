@@ -177,12 +177,13 @@ const Screen: React.FC = () => {
 
 const Products = () => {
 	const activeModal = useSelector(selectActiveModal);
+	const { myproducts } = useProducts();
 	return (
 		<Layout
 			layout={"dashboard"}
 			showModal={activeModal}
 			component={Screen}
-			isLoading={false}
+			isLoading={myproducts}
 			navMode="noSearch"
 			popUpContent={<DeleteModal />}
 			modalWidth={500}
