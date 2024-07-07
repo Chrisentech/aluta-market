@@ -17,7 +17,6 @@ import { noCatalog } from "../../../../assets";
 import { ROUTE } from "../../../../Shared/Constants";
 import Dropdown2 from "../../../../Shared/Components/Dropdown/Dropdown2";
 import { selectStore } from "../../../../Features/store/storeSlice";
-import { selectMyProducts } from "../../../../Features/products/productSlice";
 import { useSelector } from "react-redux";
 import useProducts from "../../../../Features/products/productActions";
 import { selectActiveModal } from "../../../../Features/modal/modalSlice";
@@ -34,16 +33,15 @@ const columns = [
 	{ header: "in-stock", accessor: "stock" },
 ];
 const Screen: React.FC = () => {
-	const { getProducts } = useProducts();
-	const myProducts = useSelector(selectMyProducts);
+	const { getProducts, myproducts } = useProducts();
 	const [selectedOption, setSelectedOption] = useState(categoryOptions[0]);
 	const [limit, setLimit] = useState(20);
-	const [currentPage, setCurrentPage] = useState(myProducts?.current_page ?? 1);
+	const [currentPage, setCurrentPage] = useState(myproducts?.current_page ?? 1);
 	const [loading, setLoading] = useState(false);
 	const handleOptionClick = (option: string) => {
 		setSelectedOption(option);
 	};
-	const totalPages = myProducts?.total;
+	const totalPages = myproducts?.total;
 	const goToPage = async (pageNumber: any) => {
 		setLoading(true);
 		setCurrentPage(pageNumber);
@@ -146,14 +144,14 @@ const Screen: React.FC = () => {
 						/>
 					</div>
 				</div>
-				{myProducts?.data?.length > 0 ? (
+				{myproducts?.data?.length > 0 ? (
 					<>
-						<Table data={myProducts?.data} columns={columns} />
-						{myProducts?.data?.length > 10 && (
+						<Table data={myproducts?.data} columns={columns} />
+						{myproducts?.data?.length > 10 && (
 							<Pagination
 								totalPages={calculateTotalPages(
 									totalPages,
-									myProducts?.per_page
+									myproducts?.per_page
 								)}
 								currentPage={currentPage}
 								goToPage={goToPage}
