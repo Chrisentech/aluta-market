@@ -29,8 +29,6 @@ import {
 	dashboardUnfilled,
 	documentText,
 	documentTextUnfilled,
-	emptyWallet,
-	emptyWalletUnfilled,
 	sendSquare,
 	settings,
 	settingsUnfilled,
