@@ -57,13 +57,13 @@ const GridView: React.FC<IGridProps> = ({
 								<Card
 									key={index}
 									width="100%"
-									hasBoxShadow={true}
+									hasBoxShadow={false}
 									height="200px"
 									onHover
 									className="card"
 									onClick={() => nav(`/product/view/${product.id}`)}
 								>
-									<ProductCard view="grid">
+									<ProductCard view="grid" background={background}>
 										<ImageCard
 											view="grid"
 											className="grid_img"

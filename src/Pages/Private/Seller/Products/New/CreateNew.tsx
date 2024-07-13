@@ -64,6 +64,7 @@ import {
 	alertError,
 	alertSuccess,
 } from "../../../../../Features/alert/alertSlice";
+import { selectLoadingState } from "../../../../../Features/loading/loadingSlice";
 
 const initialValues: IProductProps = {
 	name: "",
@@ -182,7 +183,6 @@ const Screen: React.FC = () => {
 	// console.log(imageUrls);
 
 	const handleSubmit = async (values: IProductProps) => {
-		// alert("Hi");
 		setLoading(true);
 
 		let payload: any = {
@@ -196,7 +196,7 @@ const Screen: React.FC = () => {
 			image: imageUrls,
 			thumbnail,
 			quantity,
-			type: state?.type,
+			// type: state?.type, //digital,physical or service
 			store: store?.name,
 		};
 		try {
@@ -358,7 +358,7 @@ const Screen: React.FC = () => {
 											alt="Uploaded Image"
 											onClick={() => setthumbnail(imageUrl)}
 										/>
-										{thumbnail === imageUrl && <div className="active"></div>}
+										{thumbnail === imageUrl && <div className="active" />}
 									</div>
 								);
 							})}
@@ -396,12 +396,11 @@ const Screen: React.FC = () => {
 									</Label>
 									<CustomField
 										type="text"
-										name={productName ? "none" : "name"}
+										name={!!productName ? "none" : "name"}
 										value={productName}
 										onChange={(e: any) => setProductName(e.target.value)}
 									/>
 								</FormControl>
-
 								<Flex>
 									<FormControl>
 										<Label>
@@ -442,7 +441,7 @@ const Screen: React.FC = () => {
 											}
 										>
 											<option value="" label="Select a category" />
-											{reduxCategories.map((category: any) => (
+											{reduxCategories?.map((category: any) => (
 												<option key={category.id} value={category.name}>
 													{category.name}
 												</option>
@@ -522,7 +521,6 @@ const Screen: React.FC = () => {
 										</OptionButton>
 									</FormControl>
 								</Flex>
-
 								<SubmitButton
 									type="submit"
 									loading={loading}
@@ -1011,13 +1009,16 @@ const NewProduct = () => {
 			)}
 		</Modal>
 	);
+
+	const reduxCategories = useSelector(selectCategories);
+	const isLoading = useSelector(selectLoadingState);
 	return (
 		<Layout
 			showModal="addOptions"
 			layout={"dashboard"}
 			component={Screen}
 			popUpContent={ModalContent}
-			isLoading={false}
+			isLoading={!reduxCategories || isLoading}
 			navMode="noSearch"
 			modalWidth="500px"
 		/>

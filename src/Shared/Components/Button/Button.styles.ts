@@ -41,6 +41,9 @@ export const Container = styled.button<IButtonInterface>`
 			onHover ? "rgba(0, 0, 0, 0.35) 0px 5px 15px" : ""};
 		transform: translateY(-1px);
 	}
+	&:disabled {
+		background: #ccc !important;
+	}
 `;
 
 export const Loader = styled.div`

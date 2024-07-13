@@ -99,26 +99,11 @@ const Screen: React.FC = () => {
 					<IoWalletOutline color="#fff" size="24" />
 				</div>
 			</div>
-			{!store?.bank ? (
-				<div
-					style={{
-						cursor: "pointer",
-						padding: 10,
-						background: "purple",
-						color: "#fff",
-						borderRadius: 5,
-					}}
-					onClick={() => nav(ROUTE.SELLER_PAYMENT)}
-				>
-					Create Payment Details
-				</div>
-			) : (
-				<div className="info">
-					<h3>Uba bank</h3>
-					<p>2092138348</p>
-					<h3>Aluta's Store</h3>
-				</div>
-			)}
+			<div className="info">
+				<h3>Uba bank</h3>
+				<p>2092138348</p>
+				<h3>Aluta's Store</h3>
+			</div>
 		</GridItem>,
 	];
 	const data = [

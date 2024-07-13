@@ -30,7 +30,7 @@ export const productSlice = createSlice({
 		skincareProducts: null,
 		gadgetsProducts: null,
 		myproducts: [],
-		categories: [],
+		categories: null,
 		category: null,
 		product: null,
 		searchSuggestions: [],
@@ -42,7 +42,22 @@ export const productSlice = createSlice({
 		setMyProducts: (state, action: PayloadAction<any>) => {
 			state.myproducts = action.payload;
 		},
-		setCategories: (state, action: PayloadAction<IProductProps[]>) => {
+		setGadgetsProducts: (state, action: PayloadAction<any>) => {
+			state.gadgetsProducts = action.payload;
+		},
+		setRecommendedProducts: (state, action: PayloadAction<any>) => {
+			state.recommendedProducts = action.payload;
+		},
+		setAccomodationProduct: (state, action: PayloadAction<any>) => {
+			state.accomodationProducts = action.payload;
+		},
+		setBeveragesProducts: (state, action: PayloadAction<any>) => {
+			state.beveragesProducts = action.payload;
+		},
+		setSkinCareProduct: (state, action: PayloadAction<any>) => {
+			state.skincareProducts = action.payload;
+		},
+		setCategories: (state, action: PayloadAction<IProductProps[] | null>) => {
 			state.categories = action.payload;
 		},
 		setCategory: (state, action: PayloadAction<any>) => {
@@ -71,6 +86,14 @@ export const selectProducts = (state: RootState): IProductProps[] | null =>
 	state.products.products;
 export const selectMyProducts = (state: RootState): any =>
 	state.products.myproducts.data;
+export const selectBeveragesProducts = (state: RootState): any =>
+	state.products.beveragesProducts;
+export const selectAccomodationProducts = (state: RootState): any =>
+	state.products.accomodationProducts;
+export const selectGadgetProducts = (state: RootState): any =>
+	state.products.gadgetsProducts;
+export const selectSkinCareProducts = (state: RootState): any =>
+	state.products.skincareProducts;
 export const selectCategories = (state: RootState) => state.products.categories;
 export const selectCategory = (state: RootState) => state.products.category;
 export const selectProduct = (state: RootState): IProductProps | null =>

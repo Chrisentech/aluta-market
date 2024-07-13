@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 // import {  } from "./DeleteModal.style";
 import { sendSquareWhite } from "../../../assets";
-import { Button } from "..";
+import { Button, Toast } from "..";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../../Features/modal/modalSlice";
 import { Info, Container, Img, Label } from "./DeleteModal.style";
@@ -69,6 +69,7 @@ const DeleteModal: React.FC<{ url?: string }> = () => {
 
 	return (
 		<Container>
+			<Toast />
 			<Img>
 				<img src={sendSquareWhite} />
 			</Img>
@@ -87,7 +88,7 @@ const DeleteModal: React.FC<{ url?: string }> = () => {
 					background="#FA3434"
 					className="button"
 					onClick={handleDelete}
-					loading={loading}
+					// loading={loading}
 					disabled={loading}
 				>
 					{loading ? (

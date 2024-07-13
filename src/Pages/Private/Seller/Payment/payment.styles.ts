@@ -105,7 +105,7 @@ export const Wrapper = styled.div`
 		.paymentBtn {
 			border-radius: 10px;
 			background: var(--primary, #0d6efd);
-			padding: 15px 30px;
+			padding: 24px 30px;
 			display: flex;
 			justify-content: center;
 			align-items: center;

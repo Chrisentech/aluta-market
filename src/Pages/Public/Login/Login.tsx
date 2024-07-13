@@ -183,9 +183,10 @@ const Screen: React.FC = () => {
 						</div>
 						<NavLink
 							to="#"
+							style={{ fontWeight: 400 }}
 							onClick={() => dispatch(showModal("forgotPassword"))}
 						>
-							forgot password?
+							Forgot password?
 						</NavLink>
 					</Flex>
 					<SubmitButton type="submit" loading={loading} disabled={loading}>
@@ -195,9 +196,9 @@ const Screen: React.FC = () => {
 							"Let’s go there"
 						)}
 					</SubmitButton>
-					<p>
-						Not registered yet?{" "}
-						<NavLink to={ROUTE.REGISTER}>Create an Account</NavLink>
+					<p style={{ fontWeight: 400 }}>
+						Not a member?{" "}
+						<NavLink to={ROUTE.REGISTER}>Join the Revolution</NavLink>
 					</p>
 					<div className="option">
 						<span className="line"></span>

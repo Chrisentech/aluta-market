@@ -161,4 +161,5 @@ export interface IProductGridProps {
 	alt?: string;
 	background?: string;
 	children?: ReactNode;
+	data?: any;
 }

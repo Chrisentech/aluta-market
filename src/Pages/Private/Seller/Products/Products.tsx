@@ -35,12 +35,14 @@ const columns = [
 const Screen: React.FC = () => {
 	const { getProducts, myproducts } = useProducts();
 	const [selectedOption, setSelectedOption] = useState(categoryOptions[0]);
-	const [limit, setLimit] = useState(20);
+	const [limit, setLimit] = useState(10);
 	const [currentPage, setCurrentPage] = useState(myproducts?.current_page ?? 1);
 	const [loading, setLoading] = useState(false);
+
 	const handleOptionClick = (option: string) => {
 		setSelectedOption(option);
 	};
+
 	const totalPages = myproducts?.total;
 	const goToPage = async (pageNumber: any) => {
 		setLoading(true);
@@ -78,35 +80,28 @@ const Screen: React.FC = () => {
 
 	const nav = useNavigate();
 	const store = useSelector(selectStore);
+
 	useEffect(() => {
-		// Define a function to fetch products
 		const fetchProducts = async () => {
 			setLoading(true);
 			try {
-				// Fetch products only if the store has changed
 				if (store) {
 					await getProducts({
 						store: store.name,
 						limit,
 						offset: currentPage - 1,
 					});
-					setLoading(false);
 				}
 			} catch (error: any) {
-				setLoading(false);
 				console.error("Error fetching products:", error);
+			} finally {
+				setLoading(false);
 			}
 		};
 
-		// Fetch products when the component mounts
 		fetchProducts();
+	}, [store]);
 
-		// Cleanup function to abort fetch when component unmounts or when store changes
-		return () => {
-			// setLimit(0);
-			// You can perform cleanup here if needed
-		};
-	}, []);
 	return (
 		<Wrapper>
 			<div className="flex">
@@ -144,10 +139,10 @@ const Screen: React.FC = () => {
 						/>
 					</div>
 				</div>
-				{myproducts?.data?.length > 0 ? (
+				{myproducts?.length > 0 ? (
 					<>
-						<Table data={myproducts?.data} columns={columns} />
-						{myproducts?.data?.length > 10 && (
+						<Table data={myproducts} columns={columns} />
+						{myproducts?.length > 9 && (
 							<Pagination
 								totalPages={calculateTotalPages(
 									totalPages,
@@ -183,7 +178,7 @@ const Products = () => {
 			layout={"dashboard"}
 			showModal={activeModal}
 			component={Screen}
-			isLoading={myproducts}
+			isLoading={!myproducts}
 			navMode="noSearch"
 			popUpContent={<DeleteModal />}
 			modalWidth={500}

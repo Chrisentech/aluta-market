@@ -95,7 +95,10 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 			currentPath.includes(ROUTE.SELLER_PAYMENT_REG)
 		) {
 			setActive("payments");
-		} else if (currentPath === ROUTE.SELLER_REVIEWS) {
+		} else if (
+			currentPath === ROUTE.SELLER_REVIEWS ||
+			currentPath.includes(ROUTE.SELLER_REVIEWS)
+		) {
 			setActive("reviews");
 		} else if (currentPath === ROUTE.SELLER_ORDERS) {
 			setActive("orders");
@@ -193,7 +196,7 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 									Orders
 								</Link>
 							</SidebarMenuLinks>
-							<SidebarMenuLinks
+							{/* <SidebarMenuLinks
 								active={active === "payments"}
 								onClick={() => {
 									setActive("payments");
@@ -208,13 +211,13 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 									)}{" "}
 									Payments
 								</Link>
-							</SidebarMenuLinks>
+							</SidebarMenuLinks> */}
 							<SidebarMenuLinks
 								active={active === "reviews"}
 								onClick={() => setActive("reviews")}
 								color="#FF9017"
 							>
-								<Link to="#">
+								<Link to={ROUTE.SELLER_REVIEWS}>
 									{active === "reviews" ? (
 										<img src={documentText} />
 									) : (

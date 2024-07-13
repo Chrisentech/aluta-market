@@ -15,6 +15,7 @@ import {
 	UPDATE_MY_STORE,
 } from "../../Services/graphql/store";
 import { alertError } from "../alert/alertSlice";
+import { setLoading, setNotLoading } from "../loading/loadingSlice";
 export default function useStore() {
 	const dispatch = useDispatch();
 	const maintenanceMode = useSelector(selectMaintenanceMode);
@@ -25,6 +26,7 @@ export default function useStore() {
 		dispatch(actions.setMaintenanceMode(mode));
 	};
 	const getMyStores = async (filter?: any) => {
+		dispatch(setLoading());
 		try {
 			const response = await apolloClient.query({
 				query: GET_MY_STORES,
@@ -36,23 +38,29 @@ export default function useStore() {
 			});
 			dispatch(actions.setStores(response.data.Stores.data));
 			// dispatch(actions.setStore(response.data.Stores.data[0]));
+			dispatch(setNotLoading());
 		} catch (error: any) {
 			let parsedErr = JSON.parse(error.message);
 			dispatch(
 				alertError({ message: parsedErr?.message, code: parsedErr?.code })
 			);
+			dispatch(setNotLoading());
 		}
 
 		// setCookie("store_id", state?.store?.store?.id, 7);
 	};
 	const getStore = async (id: Number) => {
+		dispatch(setLoading());
+
 		const response = await apolloClient.query({
 			query: GET_MY_STORE,
 			variables: { id },
 		});
 		dispatch(actions.setStore(response.data.Store));
+		dispatch(setNotLoading());
 	};
 	const getStoreByName = async (name: String) => {
+		// dispatch(setLoading());
 		const response = await apolloClient.query({
 			query: GET_MY_STORE_BY_NAME,
 			variables: { name },

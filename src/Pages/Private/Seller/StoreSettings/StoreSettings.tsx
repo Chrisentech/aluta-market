@@ -32,6 +32,7 @@ import {
 	alertSuccess,
 } from "../../../../Features/alert/alertSlice";
 import axios from "axios";
+import { selectLoadingState } from "../../../../Features/loading/loadingSlice";
 
 const Screen: React.FC = () => {
 	const dispatch = useDispatch();
@@ -389,12 +390,12 @@ const Screen: React.FC = () => {
 const StoreSettings = () => {
 	const activeModal = useSelector(selectActiveModal);
 	const store = useSelector(selectStore);
-
+	const isLoading = useSelector(selectLoadingState);
 	return (
 		<Layout
 			layout={"dashboard"}
 			component={Screen}
-			isLoading={!store}
+			isLoading={!store || isLoading}
 			showModal={activeModal}
 			popUpContent={<ModalContent active={activeModal} />}
 			navMode="noSearch"

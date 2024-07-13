@@ -68,6 +68,43 @@ export default function useProducts() {
 		}
 	};
 
+	const getBeveragesProducts = async () => {
+		const response = await apolloClient.query({
+			query: GET_SEARCHED_PRODUCTS,
+			variables: { query: "beverages" },
+		});
+		if (response.data.searchProducts) {
+			dispatch(actions.setBeveragesProducts(response.data.searchProducts));
+		}
+	};
+	const getAccomodationProducts = async () => {
+		const response = await apolloClient.query({
+			query: GET_SEARCHED_PRODUCTS,
+			variables: { query: "accomodation" },
+		});
+		if (response.data.searchProducts) {
+			dispatch(actions.setAccomodationProduct(response.data.searchProducts));
+		}
+	};
+	const getGadgetsProducts = async () => {
+		const response = await apolloClient.query({
+			query: GET_SEARCHED_PRODUCTS,
+			variables: { query: "gadget" },
+		});
+		if (response.data.searchProducts) {
+			dispatch(actions.setGadgetsProducts(response.data.searchProducts));
+		}
+	};
+	const getSkincareProducts = async () => {
+		const response = await apolloClient.query({
+			query: GET_SEARCHED_PRODUCTS,
+			variables: { query: "skincare" },
+		});
+		if (response.data.searchProducts) {
+			dispatch(actions.setSkinCareProduct(response.data.searchProducts));
+		}
+	};
+
 	const getSearchSuggestions = async (query: string) => {
 		try {
 			const response = await apolloClient.query({
@@ -115,7 +152,10 @@ export default function useProducts() {
 			if (response?.data?.createProduct) {
 				const currentProducts = products ?? []; // Provide a default empty array if products is null
 				dispatch(
-					actions.setProducts([...currentProducts, response.data.createProduct])
+					actions.setMyProducts([
+						...currentProducts,
+						response.data.createProduct,
+					])
 				);
 			}
 		} catch (error) {
@@ -162,5 +202,9 @@ export default function useProducts() {
 		products,
 		product,
 		myproducts,
+		getBeveragesProducts,
+		getAccomodationProducts,
+		getSkincareProducts,
+		getGadgetsProducts,
 	};
 }

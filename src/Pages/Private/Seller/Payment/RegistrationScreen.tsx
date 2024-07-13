@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Layout from "../../../../Layouts";
-import { Card } from "../../../../Shared/Components";
+import { Button, Card } from "../../../../Shared/Components";
 import {
 	FormControl,
 	ErrorMessageWrapper,
@@ -11,128 +11,31 @@ import {
 import { FaRegUserCircle } from "react-icons/fa";
 import * as yup from "yup";
 import { Formik, Form } from "formik";
-import { useNavigate } from "react-router-dom";
-import { ROUTE } from "../../../../Shared/Constants";
-import { BsShieldLockFill } from "react-icons/bs";
 
 const initialValues = {
 	surname: "",
-	otherNames: "",
-	bvn: "",
-	dob: "",
+	firstName: "",
+	middleName: "",
 };
 
-// const validateIDCard = (value: any) => {
-//   if (!value) {
-//     return "ID card is required";
-//   }
-
-//   const allowedExtensions = /\.(jpg|jpeg|png|gif|pdf)$/i;
-//   if (!allowedExtensions.test(value.name)) {
-//     return "ID card must be an image or PDF";
-//   }
-
-//   return true;
-// };
-
-const validIdTypes = [
-	"nin",
-	"internationalPassport",
-	"driverLicense",
-	"votersCard",
-];
-
 const Screen: React.FC = () => {
-	const navigate = useNavigate();
-	let [step, setStep] = useState<number>(1);
-	const payload: any = [];
-
+	const [loading, setLoading] = useState(false);
 	const nameSchema = yup.object().shape({
 		surname: yup.string().required("Surname cannot be empty"),
-		otherNames: yup.string().required("Other names cannot be empty"),
+		firstName: yup.string().required("First name cannot be empty"),
 	});
 
-	const bvnSchema = yup.object().shape({
-		surname: yup.string().required("Surname cannot be empty"),
-		otherNames: yup.string().required("Other names cannot be empty"),
-	});
-
-	const IDSchema = yup.object().shape({
-		idType: yup
-			.string()
-			.oneOf(validIdTypes, "Invalid ID type")
-			.required("ID type is required"),
-		idNumber: yup.string().required("ID number is required"),
-		// ID: yup
-		//   .mixed() // Use .mixed() to allow custom validation
-		//   .test("file-type", true, validateIDCard), // Use the custom validation function
-	});
-
-	const validationSchema = yup.lazy((values) =>
-		values.step === 2 ? bvnSchema : values.step === 3 ? IDSchema : nameSchema
-	);
+	const validationSchema = yup.lazy(() => nameSchema);
 
 	const handleSubmit = (values: any) => {
-		payload.push(values);
-		setStep(++step);
-		navigate(ROUTE.SELLER_PAYMENT_REG + `/${step}`);
+		setLoading(true);
 
-		console.log(payload);
+		alert(JSON.stringify(values));
+		setTimeout(() => {
+			setLoading(false);
+		}, 1500);
 	};
-	if (step === 2) {
-		return (
-			<Wrapper>
-				<h2>Enable Payment</h2>
-				<Card
-					width="100%"
-					padding="40px 80px"
-					height="500px"
-					borderRadius="20px"
-					onHover={false}
-					className="card"
-				>
-					<div className="center">
-						<div className="badge">
-							<BsShieldLockFill size={45} />
-						</div>
-						<h3>Your BVN?</h3>
-						<p className="p-20">
-							We’ll use your BVN to create a bank account for your store
-						</p>
-						<Formik
-							initialValues={initialValues}
-							onSubmit={handleSubmit}
-							validationSchema={validationSchema}
-						>
-							{({ errors, touched }) => (
-								<Form>
-									<FormControl>
-										<Label>Your BVN</Label>
-										<Input name="bvn" type="text" />
-										{errors.bvn &&
-											touched.bvn && ( // Display error message if touched and has an error
-												<ErrorMessageWrapper>{errors.bvn}</ErrorMessageWrapper>
-											)}
-									</FormControl>
-									<FormControl>
-										<Label>Date of Birth</Label>
-										<Input name="dob" type="date" />
-										{errors.dob &&
-											touched.dob && ( // Display error message if touched and has an error
-												<ErrorMessageWrapper>{errors.dob}</ErrorMessageWrapper>
-											)}
-									</FormControl>
-									<button className="paymentBtn classic" type="submit">
-										Keep Moving
-									</button>
-								</Form>
-							)}
-						</Formik>
-					</div>
-				</Card>
-			</Wrapper>
-		);
-	}
+
 	return (
 		<Wrapper>
 			<h2>Enable Payment</h2>
@@ -169,18 +72,34 @@ const Screen: React.FC = () => {
 										)}
 								</FormControl>
 								<FormControl>
-									<Label>Other Names</Label>
-									<Input name="otherNames" type="text" />
-									{errors.otherNames &&
-										touched.otherNames && ( // Display error message if touched and has an error
+									<Label>Middle Name</Label>
+									<Input name="middleName" type="text" />
+									{errors.middleName &&
+										touched.middleName && ( // Display error message if touched and has an error
 											<ErrorMessageWrapper>
-												{errors.otherNames}
+												{errors.middleName}
 											</ErrorMessageWrapper>
 										)}
 								</FormControl>
-								<button className="paymentBtn classic" type="submit">
+								<FormControl>
+									<Label>First Name</Label>
+									<Input name="firstName" type="text" />
+									{errors.firstName &&
+										touched.firstName && ( // Display error message if touched and has an error
+											<ErrorMessageWrapper>
+												{errors.firstName}
+											</ErrorMessageWrapper>
+										)}
+								</FormControl>
+								<Button
+									disabled={loading}
+									width={200}
+									loading={loading}
+									className="paymentBtn classic"
+									type="submit"
+								>
 									Keep Moving
-								</button>
+								</Button>
 							</Form>
 						)}
 					</Formik>

@@ -34,6 +34,7 @@ import {
 	FollowedStores,
 	BuyerReview,
 	BuyerReviewInner,
+	SellerProductReviews,
 } from "../Pages/Private";
 import useAuthentication from "../Shared/Hooks/useAuth";
 import { setRedirectPath } from "../Shared/Utils/helperFunctions";
@@ -250,6 +251,16 @@ const Router: React.FC = () => {
 							component={SellerReviews}
 							authRoute
 							route={ROUTE.SELLER_REVIEWS}
+						/>
+					}
+				/>
+				<Route
+					path={ROUTE.SELLER_REVIEWS + "/:id"}
+					element={
+						<PrivateRoute
+							component={SellerProductReviews}
+							authRoute
+							route={ROUTE.SELLER_REVIEWS + ":/id"}
 						/>
 					}
 				/>

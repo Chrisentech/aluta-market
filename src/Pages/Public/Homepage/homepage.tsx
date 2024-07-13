@@ -34,8 +34,15 @@ import {
 } from "../../../Features/modal/modalSlice";
 import { GiCheckedShield } from "react-icons/gi";
 import { IoMailOutline } from "react-icons/io5";
-import { selectProducts } from "../../../Features/products/productSlice";
+import {
+	selectAccomodationProducts,
+	selectBeveragesProducts,
+	selectGadgetProducts,
+	selectProducts,
+	selectSkinCareProducts,
+} from "../../../Features/products/productSlice";
 import { generateSlug } from "../../../Shared/Utils/helperFunctions";
+import useProducts from "../../../Features/products/productActions";
 
 const Screen: React.FC = () => {
 	const nav = useNavigate();
@@ -43,7 +50,6 @@ const Screen: React.FC = () => {
 	const me = useSelector((state: any) => state.user.me);
 	const dispatch = useDispatch();
 	const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-
 	const handleResize = () => {
 		setIsMobile(window.innerWidth < 768); // Adjust the threshold as needed
 	};
@@ -54,6 +60,35 @@ const Screen: React.FC = () => {
 			window.removeEventListener("resize", handleResize);
 		};
 	}, []);
+	const beveragesProducts = useSelector(selectBeveragesProducts);
+	const accomodationProduct = useSelector(selectAccomodationProducts);
+	const gadgetsProducts = useSelector(selectGadgetProducts);
+	const skincareProducts = useSelector(selectSkinCareProducts);
+	const products = useSelector(selectProducts);
+
+	const {
+		getBeveragesProducts,
+		getAccomodationProducts,
+		getGadgetsProducts,
+		getSkincareProducts,
+	} = useProducts();
+
+	useEffect(() => {
+		const fetchProducts = async () => {
+			await getBeveragesProducts();
+			await getAccomodationProducts();
+			await getGadgetsProducts();
+			await getSkincareProducts();
+		};
+
+		fetchProducts();
+	}, [
+		getBeveragesProducts,
+		getAccomodationProducts,
+		getGadgetsProducts,
+		getSkincareProducts,
+	]);
+
 	return (
 		<Home>
 			<Hero>
@@ -198,7 +233,7 @@ const Screen: React.FC = () => {
 				}}
 			>
 				<Header1>Products Students in Your School are Buying</Header1>
-				<ProductGrid isMobile={isMobile} />
+				<ProductGrid data={products} isMobile={isMobile} />
 			</section>
 			{/* Product and Services section */}
 			<section>
@@ -302,7 +337,7 @@ const Screen: React.FC = () => {
 					}}
 				>
 					<Header1>Food and Beverages</Header1>
-					<ProductGrid isMobile={isMobile} />
+					<ProductGrid data={beveragesProducts} isMobile={isMobile} />
 				</section>
 
 				<section
@@ -315,7 +350,7 @@ const Screen: React.FC = () => {
 					}}
 				>
 					<Header1>Accomodation</Header1>
-					<ProductGrid isMobile={isMobile} />
+					<ProductGrid data={accomodationProduct} isMobile={isMobile} />
 				</section>
 
 				<section
@@ -328,7 +363,7 @@ const Screen: React.FC = () => {
 					}}
 				>
 					<Header1>Gadgets</Header1>
-					<ProductGrid isMobile={isMobile} />
+					<ProductGrid data={gadgetsProducts} isMobile={isMobile} />
 				</section>
 
 				<section
@@ -341,7 +376,7 @@ const Screen: React.FC = () => {
 					}}
 				>
 					<Header1>Skin Care</Header1>
-					<ProductGrid isMobile={isMobile} />
+					<ProductGrid data={skincareProducts} isMobile={isMobile} />
 				</section>
 
 				<ProductRequestForm>

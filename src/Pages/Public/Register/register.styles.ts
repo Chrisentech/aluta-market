@@ -172,6 +172,9 @@ export const FormControl = styled.div`
 		top: 56px;
 		cursor: pointer;
 		transition: 0.5s ease;
+		@media (max-width: 680px) {
+			right: -22px;
+		}
 	}
 `;
 
@@ -280,6 +283,11 @@ export const Select = styled.select<{ error: boolean; type: string }>`
 export const ErrorMessageWrapper = styled.div`
 	color: red;
 	margin-bottom: 8px;
+	font-family: Inter;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: 400;
+	letter-spacing: -0.2px;
 `;
 
 export const SubmitButton = styled.button<{

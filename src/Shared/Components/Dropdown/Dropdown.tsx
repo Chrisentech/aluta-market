@@ -15,6 +15,10 @@ import {
 import { getCapitalizedFirstLetter } from "../../Utils/helperFunctions.ts";
 import { useNavigate } from "react-router-dom";
 import { ROUTE } from "../../Constants/index.ts";
+import {
+	setLoading,
+	setNotLoading,
+} from "../../../Features/loading/loadingSlice.ts";
 
 interface DropdownProps {
 	options: any;
@@ -55,8 +59,14 @@ const Dropdown: React.FC<DropdownProps> = ({
 		if (option?.name === "+ Create a new Store") {
 			navigate(ROUTE.SELLER_CREATESTORE);
 		} else {
+			dispatch(setLoading());
+
 			dispatch(actions.setStore(option));
 			setSelectedStores(option);
+
+			setTimeout(() => {
+				dispatch(setNotLoading());
+			}, 1500);
 		}
 	};
 

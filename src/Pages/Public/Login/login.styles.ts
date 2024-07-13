@@ -140,7 +140,7 @@ export const Label = styled.label`
 	font-family: Inter;
 	font-size: 16px;
 	font-style: normal;
-	font-weight: 600;
+	font-weight: 500;
 	line-height: normal;
 `;
 
@@ -164,6 +164,11 @@ export const Input = styled(Field)<{ error: boolean; type: string }>`
 export const ErrorMessageWrapper = styled.div`
 	color: red;
 	margin-bottom: 8px;
+	font-family: Inter;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: 400;
+	letter-spacing: -0.2px;
 `;
 
 export const SubmitButton = styled.button<{ loading?: boolean }>`
