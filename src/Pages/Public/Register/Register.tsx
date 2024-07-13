@@ -214,8 +214,8 @@ const Screen: React.FC = () => {
 			<LeftPanel>
 				<FirstScreen userType={userType}>
 					<Heading>
-						<h2>Join the Fun...</h2>
-						<p>and let get this party started!</p>
+						<h2>Join us...</h2>
+						<p>And be part of the thriving revolutionary</p>
 					</Heading>
 					<Formik
 						initialValues={formValues}
@@ -328,14 +328,6 @@ const Screen: React.FC = () => {
 								<p>or</p>
 								<span className="line"></span>
 							</div>
-							{/* <GoogleLogin
-                clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-                buttonText="Create account with Google"
-                onSuccess={responseGoogle}
-                onFailure={responseGoogle}
-                cookiePolicy={"single_host_origin"}
-                className="googleSignin"
-              /> */}
 							<GoogleLogin
 								onSuccess={responseGoogle}
 								onError={() => responseGoogle}
