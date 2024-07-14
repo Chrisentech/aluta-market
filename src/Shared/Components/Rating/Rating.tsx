@@ -1,7 +1,10 @@
 import { BsStarFill, BsStarHalf } from "react-icons/bs";
 import React from "react";
 
-const Rating: React.FC<{ numberOfRates: number }> = ({ numberOfRates }) => {
+const Rating: React.FC<{ numberOfRates: number; starColor?: string }> = ({
+	numberOfRates,
+	starColor,
+}) => {
 	// Function to calculate the number of filled stars and half-filled stars
 	const getStars = (num: number): [number, number] => {
 		const filledStars = Math.floor(num / 2);
@@ -21,9 +24,13 @@ const Rating: React.FC<{ numberOfRates: number }> = ({ numberOfRates }) => {
 					// Determine the star icon based on the index and the rating
 					let starIcon;
 					if (i < filledStars) {
-						starIcon = <BsStarFill key={i} color="#FF9017" />;
+						starIcon = (
+							<BsStarFill key={i} color={starColor ? starColor : "#FF9017"} />
+						);
 					} else if (i === filledStars && halfStar) {
-						starIcon = <BsStarHalf key={i} color="#FF9017" />;
+						starIcon = (
+							<BsStarHalf key={i} color={starColor ? starColor : "#FF9017"} />
+						);
 					} else {
 						starIcon = <BsStarFill key={i} color="#D4CDC5" />;
 					}

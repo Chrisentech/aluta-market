@@ -134,14 +134,27 @@ export const FormControl = styled.div`
 	}
 `;
 
-export const Label = styled.label`
+export const Label = styled.label<{ checkbox?: boolean; small?: boolean }>`
 	color: #505050;
 	font-feature-settings: "clig" off, "liga" off;
 	font-family: Inter;
-	font-size: 16px;
+	font-size: ${({ small }) => (small ? "12px" : "16px")};
 	font-style: normal;
-	font-weight: 500;
+	font-weight: ${({ checkbox }) => (checkbox ? "400" : "500")};
 	line-height: normal;
+	display: flex;
+	align-items: center;
+	@media (${BreakPoints.xs}) {
+		font-size: 12px;
+	}
+	span {
+		color: ${AppColors.brandOrange};
+	}
+	.terms {
+		font-weight: 400;
+		font-size: 16px;
+		font-family: inter;
+	}
 `;
 
 export const Input = styled(Field)<{ error: boolean; type: string }>`

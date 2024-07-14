@@ -18,6 +18,8 @@ export const Wrapper = styled.div`
 		line-height: 32px; /* 133.333% */
 		letter-spacing: -0.2px;
 	}
+	.review_card {
+	}
 	.grid {
 		.card {
 			background: #f7fafc;
@@ -31,22 +33,43 @@ export const Wrapper = styled.div`
 		width: 100%;
 		grid-template-columns: repeat(3, minmax(200px, 1fr));
 		gap: 16px; /* Adjust the gap as needed */
+		h4 {
+			margin-top: 10px;
+			span {
+				margin-left: 10px;
+			}
+		}
+		p {
+			font-size: small;
+		}
+		section {
+			position: absolute;
+			left: 20px;
+			bottom: 10px;
+		}
 		.good {
-			background: #00b517;
+			// background: #00b517;
+			background: #00b5170d;
 			margin-bottom: 10px;
+			display: flex;
+			flex-direction: column;
+			align-items: space-between;
 		}
 		.fair {
 			margin-bottom: 10px;
-			background: rgba(255, 144, 23, 1);
+			background: rgba(255, 144, 23, 0.05);
 		}
 		.bad {
 			margin-bottom: 10px;
-			background: #fa3434;
+			background: #fa34340d;
 		}
-		div {
+		.good,
+		.bad,
+		.fair {
 			padding: 10px 20px;
 			height: 200px;
 			border-radius: 5px;
+			position: relative;
 		}
 	}
 	.header {

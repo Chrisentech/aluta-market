@@ -215,7 +215,7 @@ const Screen: React.FC = () => {
 				<FirstScreen userType={userType}>
 					<Heading>
 						<h2>Join us...</h2>
-						<p>And be part of the thriving revolutionary</p>
+						<p>And be part of the thriving revolution</p>
 					</Heading>
 					<Formik
 						initialValues={formValues}
@@ -471,7 +471,7 @@ const Screen: React.FC = () => {
 			</RightPanel>
 			{/* <Trademark>Alutamarket © 2023 All Rights Reserved. </Trademark> */}
 			<Footer>
-				<p>Alutamarket © 2023 All Rights Reserved. </p>
+				<p>Alutamarket © 2024 All Rights Reserved. </p>
 			</Footer>
 		</Container>
 	);
