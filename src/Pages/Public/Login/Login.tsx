@@ -14,7 +14,7 @@ import React, { useState } from "react";
 import Layout from "../../../Layouts";
 import { Formik, Form, useField } from "formik";
 import * as yup from "yup";
-import { loginLogo } from "../../../assets";
+import { ErrorIcon, loginLogo } from "../../../assets";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 // import { GoogleLogin } from "react-google-login";
@@ -239,7 +239,14 @@ const CustomField: React.FC<{
 		<>
 			<Input {...field} error={inputHasError} type={type} />
 			{meta.touched && meta.error && (
-				<ErrorMessageWrapper>{meta.error}</ErrorMessageWrapper>
+				<div style={{ display: "flex", gap: 2, alignItems: "center" }}>
+					<div style={{ position: "relative" }}>
+						<ErrorIcon
+							style={{ position: "relative", right: 0, left: 0, top: 0 }}
+						/>
+					</div>
+					<ErrorMessageWrapper>{meta.error}</ErrorMessageWrapper>
+				</div>
 			)}
 		</>
 	);

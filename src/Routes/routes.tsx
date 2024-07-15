@@ -17,7 +17,6 @@ import {
 	NewSellerProduct,
 	AddNewProducts,
 	SellerPayment,
-	PaymentRegScreen,
 	Cart,
 	SellerProfile,
 	CreateStore,
@@ -214,16 +213,7 @@ const Router: React.FC = () => {
 						/>
 					}
 				/>
-				<Route
-					path={ROUTE.SELLER_PAYMENT_REG + "/:step"}
-					element={
-						<PrivateRoute
-							component={PaymentRegScreen}
-							authRoute
-							route={ROUTE.SELLER_PAYMENT_REG + "/:step"}
-						/>
-					}
-				/>
+
 				<Route
 					path={ROUTE.SELLER_ORDERS}
 					element={

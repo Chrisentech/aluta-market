@@ -29,6 +29,8 @@ import {
 	dashboardUnfilled,
 	documentText,
 	documentTextUnfilled,
+	emptyWallet,
+	emptyWalletUnfilled,
 	sendSquare,
 	settings,
 	settingsUnfilled,
@@ -194,7 +196,7 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 									Orders
 								</Link>
 							</SidebarMenuLinks>
-							{/* <SidebarMenuLinks
+							<SidebarMenuLinks
 								active={active === "payments"}
 								onClick={() => {
 									setActive("payments");
@@ -209,7 +211,7 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 									)}{" "}
 									Payments
 								</Link>
-							</SidebarMenuLinks> */}
+							</SidebarMenuLinks>
 							<SidebarMenuLinks
 								active={active === "reviews"}
 								onClick={() => setActive("reviews")}

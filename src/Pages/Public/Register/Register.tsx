@@ -32,7 +32,7 @@ import {
 	isValidPassword,
 } from "../../../Shared/Utils/helperFunctions";
 import { FaArrowLeft } from "react-icons/fa";
-import { registerImg } from "../../../assets";
+import { ErrorIcon, registerImg } from "../../../assets";
 import { Campus } from "../../../Shared/Constants/data";
 // import useUsers from "../../../Features/user/userActions";
 import { useDispatch, useSelector } from "react-redux";
@@ -532,7 +532,14 @@ const CustomField: React.FC<{
 					})}
 				</Select>
 				{meta.touched && meta.error && (
-					<ErrorMessageWrapper>{meta.error}</ErrorMessageWrapper>
+					<div style={{ display: "flex", gap: 2, alignItems: "center" }}>
+						<div style={{ position: "relative" }}>
+							<ErrorIcon
+								style={{ position: "relative", right: 0, left: 0, top: 0 }}
+							/>
+						</div>
+						<ErrorMessageWrapper>{meta.error}</ErrorMessageWrapper>
+					</div>
 				)}
 			</>
 		);
