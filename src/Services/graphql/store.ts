@@ -35,8 +35,23 @@ const STORE_FIELDS = gql`
 			category
 			subcategory
 		}
-		order {
-			id
+		orders {
+			store_id
+			status
+			customer {
+				name
+				phone
+				address
+			}
+			uuid
+			createdAt
+			product {
+				name
+				thumbnail
+				id
+				quantity
+				price
+			}
 		}
 	}
 `;
@@ -76,8 +91,24 @@ const PAGINATION_DATA = gql`
 				category
 				subcategory
 			}
-			order {
-				id
+			orders {
+				store_id
+
+				status
+				customer {
+					name
+					phone
+					address
+				}
+				uuid
+				createdAt
+				product {
+					name
+					thumbnail
+					id
+					quantity
+					price
+				}
 			}
 		}
 		current_page

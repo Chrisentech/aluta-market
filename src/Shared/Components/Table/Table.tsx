@@ -17,7 +17,6 @@ import { AppColors } from "../../Constants";
 import { alertError, alertSuccess } from "../../../Features/alert/alertSlice";
 import useStore from "../../../Features/store/storeAction";
 import { fetchMe } from "../../../Features/user/userSlice";
-import { DepositIcon, WithdrawIcon } from "../../../assets";
 
 interface TableColumn {
 	header: string;
@@ -125,7 +124,17 @@ const Table: React.FC<ResponsiveTableProps> = ({
 												return <p>{index + 1}</p>;
 											case "price":
 												return <p>NGN {numberWithCommas(item?.price)}</p>;
+											case "total":
+												return (
+													<p>
+														NGN {numberWithCommas(item?.price * item?.quantity)}
+													</p>
+												);
 											case "img":
+												return (
+													<img width={50} src={item?.thumbnail} alt="Image" />
+												);
+											case "thumbnail":
 												return (
 													<img width={50} src={item?.thumbnail} alt="Image" />
 												);

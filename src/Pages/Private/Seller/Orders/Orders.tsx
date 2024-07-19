@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../../../Layouts";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import {
 	bagHappy,
@@ -9,7 +9,6 @@ import {
 	documentCopy,
 	link,
 	people,
-	wristwatch,
 } from "../../../../assets";
 import { Card, View } from "../../../../Shared/Components";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,12 +26,18 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { ROUTE } from "../../../../Shared/Constants";
 import { FaCheck } from "react-icons/fa";
 import { alertSuccess } from "../../../../Features/alert/alertSlice";
+import {
+	calculateTotalPrice,
+	formatCurrency,
+	getCapitalizedFirstLetter,
+	GetOrdersByStatus,
+} from "../../../../Shared/Utils/helperFunctions";
 
 const Screen: React.FC = () => {
 	const dispatch = useDispatch();
 	const [activeTab, setActiveTab] = useState<string>("pending");
 	const [copied, setCopied] = useState<boolean>(false);
-
+	const nav = useNavigate();
 	const handleCopy = async (text: string) => {
 		try {
 			await navigator.clipboard.writeText(text);
@@ -53,6 +58,12 @@ const Screen: React.FC = () => {
 	}, [copied]);
 
 	const store = useSelector(selectStore);
+	const getDeliveredOrders = GetOrdersByStatus("delivered", store?.orders);
+	const getPendingOrders = GetOrdersByStatus("pending", store?.orders);
+	const getProcessingOrders = GetOrdersByStatus("processing", store?.orders);
+	const getCanceledOrders = GetOrdersByStatus("canceled", store?.orders);
+	const getRefundedOrders = GetOrdersByStatus("refunded", store?.orders);
+
 	const gridItem = [
 		<GridItem background="#00B517">
 			<div className="topIcon">
@@ -65,7 +76,7 @@ const Screen: React.FC = () => {
 			</div>
 			<div className="info">
 				<h3>Orders Delivered</h3>
-				<p>{store?.orders?.length ?? 0}</p>
+				<p>{getDeliveredOrders?.length ?? 0}</p>
 			</div>
 		</GridItem>,
 		<GridItem background="#FF9017">
@@ -109,47 +120,66 @@ const Screen: React.FC = () => {
 	];
 	let isMobile: any = localStorage.getItem("isMobile") ?? "";
 	isMobile = isMobile === "true" ? true : false;
+	console.log(activeTab);
+
 	const getGridItems = (option: string) => {
 		let currentArray: any[] = [];
 		//logic to handle which data to map.... example
-		let arrayLength =
+		let OrdersByStatus =
 			option === "pending"
-				? 2 // pending orders length
+				? getPendingOrders // pending orders length
 				: option === "delivered"
-				? store?.orders?.length ?? 0 // delivered orders length
+				? getDeliveredOrders // delivered orders length
 				: option === "cancelled"
-				? store?.orders?.length ?? 0 // cancelled orders length
+				? getCanceledOrders // cancelled orders length
 				: option === "refunded"
-				? store?.orders?.length ?? 0 // refunded orders length
-				: store?.orders?.length ?? 0; // processing orders length;
+				? getRefundedOrders // refunded orders length
+				: option === "processing"
+				? getProcessingOrders
+				: []; // processing orders length;
 
-		Array(arrayLength)
-			.fill(".")
-			.map((_, index) => {
-				currentArray.push(
-					<NavLink key={index} to={ROUTE.SELLER_ORDER_DETAIL + `/${index}`}>
-						<OrderCard>
-							<div className="top">
-								<div className="right">
-									<img src={wristwatch} className="img" />
-									<div className="info">
-										<p className="title">Headset and 2 other items</p>
-										<p className="price">N9,600</p>
-									</div>
+		OrdersByStatus?.map((order: any, index: number) => {
+			currentArray.push(
+				<div key={index}>
+					<OrderCard>
+						<div
+							className="top"
+							onClick={() =>
+								nav(ROUTE.SELLER_ORDER_DETAIL + `/${order?.uuid}`, {
+									state: order,
+								})
+							}
+						>
+							<div className="right">
+								<img src={order?.product[0]?.thumbnail} className="img" />
+								<div className="info">
+									<p className="title">
+										{order?.product?.length > 1
+											? order?.product[0]?.name +
+											  ` and  ${order?.product?.length - 1}` +
+											  " other item(s)"
+											: order?.product[0]?.name}
+									</p>
+									<p className="price">
+										{formatCurrency(calculateTotalPrice(order?.product))}
+									</p>
 								</div>
-								<div className="icon">A</div>
 							</div>
-							<div className="bottom">
-								<label className="option">
-									<input type="checkbox" id={option} />
-									<span className="custom"></span>
-									Mark as Delivered
-								</label>
+							<div className="icon">
+								{getCapitalizedFirstLetter(store?.name)}
 							</div>
-						</OrderCard>
-					</NavLink>
-				);
-			});
+						</div>
+						<div className="bottom">
+							<label className="option">
+								<input type="checkbox" id={option} />
+								<span className="custom"></span>
+								Mark as Delivered
+							</label>
+						</div>
+					</OrderCard>
+				</div>
+			);
+		});
 		return currentArray;
 	};
 	const isArrayEmpty = () => {

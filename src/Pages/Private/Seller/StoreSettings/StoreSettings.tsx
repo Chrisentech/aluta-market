@@ -114,33 +114,34 @@ const Screen: React.FC = () => {
 		address?.trim() === store?.address &&
 		email?.trim() === store?.email &&
 		profileImg === store?.thumbnail;
-
+	// alert(saveChnageBtnDisabled);s
 	const handleSubmit = async () => {
 		setLoading(true);
+
 		try {
 			if (typeof phone !== "string") {
 				dispatch(alertError("Phone number must be a string"));
-				setLoading(false);
+
 				return;
 			}
-			if (phone.trim() === "") {
+			if (phone?.trim() === "") {
 				dispatch(alertError("Phone number cannot be empty"));
-				setLoading(false);
+
 				return;
 			}
-			if (email.trim() === "") {
+			if (email?.trim() === "") {
 				dispatch(alertError("Email cannot be empty"));
 				setLoading(false);
 				return;
 			}
-			if (description.trim() === "") {
+			if (description?.trim() === "") {
 				dispatch(alertError("Description cannot be empty"));
-				setLoading(false);
+
 				return;
 			}
-			if (address.trim() === "") {
+			if (address?.trim() === "") {
 				dispatch(alertError("Address cannot be empty"));
-				setLoading(false);
+
 				return;
 			}
 			await updateStore({ id: store?.id, address, phone, description, email });
@@ -149,7 +150,8 @@ const Screen: React.FC = () => {
 				location.reload();
 			}, 1500);
 		} catch (error: any) {
-			setLoading(false);
+			// alert(error);
+
 			if (error.graphQLErrors && error.graphQLErrors.length > 0) {
 				for (let index = 0; index < error.graphQLErrors.length; index++) {
 					dispatch(
@@ -178,6 +180,8 @@ const Screen: React.FC = () => {
 					);
 				}
 			}
+		} finally {
+			setLoading(false);
 		}
 	};
 	return (
@@ -364,7 +368,7 @@ const Screen: React.FC = () => {
 							loading={loading}
 							type="submit"
 							color="#FFF"
-							disabled={saveChnageBtnDisabled || loading || imgLoading}
+							disabled={saveChnageBtnDisabled || imgLoading || loading}
 							background="linear-gradient(180deg, #FF7612 0%, #FF001F 100%)"
 							onClick={handleSubmit}
 						>

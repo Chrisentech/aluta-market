@@ -24,6 +24,21 @@ const USER_FIELDS = gql`
 	}
 `;
 
+const DVA_FIELDS = gql`
+	fragment DvaFields on Account {
+		customer {
+			first_name
+			last_name
+		}
+		bank {
+			name
+			slug
+		}
+		account_number
+		account_name
+	}
+`;
+
 const HANDLED_PRODUCT_FIELDS = gql`
 	fragment HandledProducFields on HandledProducts {
 		productDiscount
@@ -190,5 +205,14 @@ export const GET_VARIATION = gql`
 export const INITIATE_PAYMENT = gql`
 	mutation initializePayment($input: PaymentData!) {
 		initializePayment(input: $input)
+	}
+`;
+
+export const GET_MYDVA = gql`
+	${DVA_FIELDS}
+	query MYDVA($email: String!) {
+		MYDVA(email: $email) {
+			...DvaFields
+		}
 	}
 `;

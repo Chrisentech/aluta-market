@@ -18,6 +18,7 @@ import {
 	VERIFY_SMARTCARD,
 	GET_VARIATION,
 	INITIATE_PAYMENT,
+	GET_MYDVA,
 } from "../../Services/graphql/users";
 import { actions } from "./userSlice";
 import { setCookie } from "../../Shared/Utils/helperFunctions";
@@ -81,6 +82,16 @@ export default function useUsers() {
 
 			dispatch(actions.getMe(rest));
 			return response.data.User;
+		}
+	};
+
+	const getDva = async (email: string) => {
+		const response = await apolloClient.query({
+			query: GET_MYDVA,
+			variables: { email: email },
+		});
+		if (response.data.MYDVA) {
+			dispatch(actions.setDVA(response.data.MYDVA));
 		}
 	};
 
@@ -162,5 +173,6 @@ export default function useUsers() {
 		verifySmartCard,
 		getServicesVariation,
 		initializePayment,
+		getDva,
 	};
 }

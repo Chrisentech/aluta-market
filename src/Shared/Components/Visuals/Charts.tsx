@@ -130,7 +130,7 @@ const Chart: React.FC<any> = ({ data }) => {
 				{/* <CartesianGrid strokeDasharray="3 3" stroke="#f00" /> */}
 				<XAxis dataKey="name" />
 				{/* <YAxis /> */} insert the flex
-				<Tooltip />
+				<Tooltip cursor />
 				{/* <Legend /> */}
 				<Line
 					type="monotone"

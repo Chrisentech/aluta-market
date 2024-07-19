@@ -3,7 +3,7 @@ import { RootState } from "../../store";
 import { ICartProps, IUserProps, IHandledProductProps } from "../../Interfaces";
 
 export interface UserState {
-	me: IUserProps | null;
+	me: any;
 	cart: ICartProps | null;
 	token: string | null;
 	skynet: any;
@@ -43,6 +43,9 @@ export const userSlice = createSlice({
 		},
 		addWishlist: (state, { payload }) => {
 			state.wishlists = payload;
+		},
+		setDVA: (state, { payload }) => {
+			state.me = { ...state.me, dva: payload };
 		},
 		logout: () => {
 			window.location.reload();

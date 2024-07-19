@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
 	Wrapper,
 	GridItem,
@@ -27,16 +27,13 @@ import {
 import { FiBarChart2 } from "react-icons/fi";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import {
-	cloth,
+	documentCopy,
 	noOrder,
 	noProduct,
-	phone,
-	wallet,
-	watch,
 	wristwatch,
 } from "../../../../assets";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectActiveModal } from "../../../../Features/modal/modalSlice";
 import {
 	selectStore,
@@ -44,14 +41,64 @@ import {
 } from "../../../../Features/store/storeSlice";
 import { ROUTE } from "../../../../Shared/Constants";
 import { OrderCard } from "../Orders/orders.styles";
+import { selectMyProducts } from "../../../../Features/products/productSlice";
+import useProducts from "../../../../Features/products/productActions";
+import { fetchMe } from "../../../../Features/user/userSlice";
+import useUsers from "../../../../Features/user/userActions";
+import { alertSuccess } from "../../../../Features/alert/alertSlice";
+import { FaCheck } from "react-icons/fa";
 const { Charts, Pie } = Visuals;
 
 const Screen: React.FC = () => {
 	const store = useSelector(selectStore);
+	const me: any = useSelector(fetchMe);
 	const nav = useNavigate();
+	const products = useSelector(selectMyProducts);
+	const { getProducts } = useProducts();
+	const { getDva } = useUsers();
 	let isMobile: any = localStorage.getItem("isMobile") ?? "";
-	isMobile = isMobile === "true" ? true : false;
+	const [copied, setCopied] = useState<boolean>(false);
 
+	const dispatch = useDispatch();
+	const handleCopy = async (text: string) => {
+		try {
+			await navigator.clipboard.writeText(text);
+			setCopied(true);
+
+			// Reset copied state after a short delay
+			setTimeout(() => {
+				setCopied(false);
+			}, 1500); // Reset after 2 seconds
+		} catch (error) {
+			console.error("Failed to copy to clipboard:", error);
+		}
+	};
+	useEffect(() => {
+		if (copied) {
+			dispatch(alertSuccess("Account number Copied successfully!!"));
+		}
+	}, [copied]);
+	isMobile = isMobile === "true" ? true : false;
+	useEffect(() => {
+		const fetchProducts = async () => {
+			try {
+				if (store) {
+					await getProducts({
+						store: store.name,
+						limit: 1000,
+						offset: 0,
+					});
+					await getDva(me.email);
+				}
+			} catch (error: any) {
+				console.error("Error fetching products:", error);
+			} finally {
+				// setLoading(false);
+			}
+		};
+
+		fetchProducts();
+	}, [store]);
 	const gridItem = [
 		<GridItem background="#00B517">
 			<div className="topIcon">
@@ -90,68 +137,36 @@ const Screen: React.FC = () => {
 			</div>
 			<div className="info">
 				<h3>Total Products</h3>
-				<p>{store?.product?.length || 0}</p>
+				<p>{products?.length || 0}</p>
 			</div>
 		</GridItem>,
 		<GridItem background="#FA3434">
+			{me?.dva && (
+				<div
+					className="topIcon dark"
+					onClick={() => handleCopy(me.dva.account_number)}
+				>
+					{copied ? <FaCheck color="green" /> : <img src={documentCopy} />}
+				</div>
+			)}
 			<div className="wrap">
 				<div className="icon">
 					<IoWalletOutline color="#fff" size="24" />
 				</div>
 			</div>
-			<div className="info">
-				<h3>Uba bank</h3>
-				<p>2092138348</p>
-				<h3>Aluta's Store</h3>
-			</div>
+			{me?.dva ? (
+				<div className="info">
+					<h3>{me.dva.bank.name}</h3>
+					<p>{me.dva.account_number}</p>
+					<h3>{me.dva.account_name}</h3>
+				</div>
+			) : (
+				<div className="info">
+					<h3>Bank Details</h3>
+					<h3>loading...</h3>
+				</div>
+			)}
 		</GridItem>,
-	];
-	const data = [
-		{
-			img: cloth,
-			item: "Hoodie",
-			// category: "Cloth",
-			price: "N3000",
-			// quantity: "10",
-			options: "10",
-			stock: "18 Aug 2023",
-		},
-		{
-			img: phone,
-			item: "Iphone 13 pro",
-			// category: "Mobile Phone & PC",
-			price: "N7000",
-			options: "10",
-			stock: "12 Aug 2023",
-			// quantity: "5",
-		},
-		{
-			options: "10",
-			img: wallet,
-			item: "Mini Wallet",
-			// category: "Accessories",
-			stock: "16 Aug 2023",
-			price: "N2000",
-			// quantity: "1",
-		},
-		{
-			img: watch,
-			options: "10",
-			item: "Rolex watch",
-			// category: "Accessories",
-			stock: "19 Aug 2023",
-			price: "N4000",
-			// quantity: "10",
-		},
-		{
-			img: phone,
-			options: "10",
-			item: "Iphone 12",
-			// category: "Mobile Phone & PC",
-			stock: "20 Aug 2023",
-			price: "N6000",
-			// quantity: "5",
-		},
 	];
 
 	const columns = [
@@ -236,8 +251,8 @@ const Screen: React.FC = () => {
 							<div className="flex">
 								<h2>Top Products</h2>
 							</div>
-							{store?.products ? (
-								<Table data={data} columns={columns} />
+							{products?.length > 0 ? (
+								<Table data={products.slice(0, 4)} columns={columns} />
 							) : (
 								<div className="no_product">
 									<img src={noProduct} alt="" />{" "}

@@ -100,7 +100,10 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 			currentPath.includes(ROUTE.SELLER_REVIEWS)
 		) {
 			setActive("reviews");
-		} else if (currentPath === ROUTE.SELLER_ORDERS) {
+		} else if (
+			currentPath === ROUTE.SELLER_ORDERS ||
+			currentPath.includes(ROUTE.SELLER_ORDERS)
+		) {
 			setActive("orders");
 		} else if (currentPath === ROUTE.SELLER_STORESETTINGS) {
 			setActive("settings");

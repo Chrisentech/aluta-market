@@ -307,3 +307,10 @@ export const IsInHandledProduct = (
 ): boolean => {
 	return items?.some((product) => product.productName === productName);
 };
+
+export const GetOrdersByStatus = (
+	status: string,
+	orders: { status: string }[]
+) => {
+	return orders?.filter((order) => order.status === status);
+};

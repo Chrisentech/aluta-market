@@ -37,7 +37,6 @@ export default function useStore() {
 				},
 			});
 			dispatch(actions.setStores(response.data.Stores.data));
-			// dispatch(actions.setStore(response.data.Stores.data[0]));
 			dispatch(setNotLoading());
 		} catch (error: any) {
 			let parsedErr = JSON.parse(error.message);

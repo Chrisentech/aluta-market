@@ -54,7 +54,7 @@ export interface IUserProps {
 	usertype?: string;
 	gender?: string;
 	dob?: string;
-	// password: string;
+	dva?: any;
 	// stores?:
 	active?: boolean;
 	access_token?: string;
