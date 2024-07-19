@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 import { Card, Table } from "../../../../../Shared/Components";
@@ -31,7 +31,6 @@ const columns = [
 
 const Screen: React.FC = () => {
 	// const dispatch = useDispatch();
-	const { id } = useParams();
 	const { state } = useLocation();
 	const products = state?.product;
 

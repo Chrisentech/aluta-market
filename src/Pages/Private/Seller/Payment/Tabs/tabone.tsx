@@ -10,7 +10,7 @@ import {
 	Label,
 	SubmitButton,
 } from "../payment.styles";
-import { ErrorIcon, loginLogo, MoneyIcon } from "../../../../../assets";
+import { ErrorIcon, MoneyIcon } from "../../../../../assets";
 import { Form, Formik, useField } from "formik";
 import * as yup from "yup";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
