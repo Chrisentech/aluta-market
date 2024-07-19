@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "../../../../Layouts";
 import { Button, Card, Rating, View } from "../../../../Shared/Components";
 import { GridItem, SearchTab, Wrapper } from "./Reviews.styles";
@@ -6,44 +6,88 @@ import { BsSearch } from "react-icons/bs";
 // import { useNavigate } from "react-router-dom";
 // import { ROUTE } from "../../../../Shared/Constants";
 import { Top } from "../../../Public/Store/Store.styles";
-import { LockIcon, wristwatch } from "../../../../assets";
+import { bagHappy, LockIcon } from "../../../../assets";
 import { useSelector } from "react-redux";
-import { selectStores } from "../../../../Features/store/storeSlice";
+import {
+	selectStore,
+	selectStores,
+} from "../../../../Features/store/storeSlice";
 import { truncateText } from "../../../../Shared/Utils/helperFunctions";
 import { useNavigate } from "react-router-dom";
 import { ROUTE } from "../../../../Shared/Constants";
-
+import useProducts from "../../../../Features/products/productActions";
+export const sumTotalRating = (arr: any) => {
+	return (arr?.reduce((a: number, b: any) => a + b?.rating, 0) / 10).toFixed(1);
+};
 const Screen: React.FC = () => {
 	const navigate = useNavigate();
-	const gridItems = Array.from({ length: 7 }).map((_, index) => (
-		<GridItem key={index}>
-			<div className="left">
-				<div className="images">
-					<img src={wristwatch} alt="Wristwatch" />
-				</div>
-				<div className="info">
-					<h3 className="title">{truncateText("Headset", 50)}</h3>
-					<p>
-						<LockIcon /> <span>25 Sold</span>
-					</p>
-					<div style={{ display: "flex", gap: 2, color: "#FF9017" }}>
-						<Rating numberOfRates={4.3} />
-						<p> 4.3 (58)</p>
+	const store = useSelector(selectStore);
+
+	const { getProducts, myproducts } = useProducts();
+	useEffect(() => {
+		const fetchProducts = async () => {
+			try {
+				if (store) {
+					await getProducts({
+						store: store.name,
+						limit: 1000,
+						offset: 0,
+					});
+				}
+			} catch (error: any) {
+				console.error("Error fetching products:", error);
+			}
+		};
+
+		fetchProducts();
+	}, [store]);
+
+	const getReviewedProducts = () => {
+		return myproducts?.filter((item: any) => item.review);
+	};
+
+	const gridItems = getReviewedProducts()?.map(
+		(product: any, index: number) => (
+			<GridItem key={index}>
+				<div className="left">
+					<div className="images">
+						<img src={product?.thumbnail} alt="product_image" />
+					</div>
+					<div className="info">
+						<h3 className="title">{truncateText(product?.name, 50)}</h3>
+						<p>
+							<LockIcon /> <span>25 Sold</span>
+						</p>
+						<div
+							style={{
+								display: "flex",
+								gap: 2,
+								color: "#FF9017",
+								marginTop: 10,
+							}}
+						>
+							<Rating
+								numberOfRates={parseInt(sumTotalRating(product?.review))}
+							/>
+							<p> {sumTotalRating(product?.review)} (18)</p>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div className="buttons">
-				<span>32 reviews</span>
-				<Button
-					background="#FF9017"
-					color="#fff"
-					onClick={() => navigate(ROUTE.SELLER_REVIEWS + "/1")}
-				>
-					View all
-				</Button>
-			</div>
-		</GridItem>
-	));
+				<div className="buttons">
+					<span>{product?.review?.length} review(s)</span>
+					<Button
+						background="#FF9017"
+						color="#fff"
+						onClick={() =>
+							navigate(ROUTE.SELLER_REVIEWS + "/1", { state: product.review })
+						}
+					>
+						View all
+					</Button>
+				</div>
+			</GridItem>
+		)
+	);
 	return (
 		<Wrapper>
 			<h2>Product Reviews</h2>
@@ -76,15 +120,27 @@ const Screen: React.FC = () => {
 						</select>
 					</div>
 				</Top>
-				<View
-					className="grid"
-					mode="grid"
-					itempergrid={2}
-					type=""
-					background="#F7FAFC"
-					gap="15px"
-					gridItems={gridItems}
-				/>
+				{getReviewedProducts()?.length ? (
+					<View
+						className="grid"
+						mode="grid"
+						itempergrid={2}
+						type=""
+						background="#F7FAFC"
+						gap="15px"
+						gridItems={gridItems}
+					/>
+				) : (
+					<>
+						<div className="icon">
+							<img src={bagHappy} alt="" />
+							<div className="text">
+								<p className="">No Review</p>
+								<p className="info">You have no reviewed orders</p>
+							</div>
+						</div>
+					</>
+				)}
 			</Card>
 		</Wrapper>
 	);

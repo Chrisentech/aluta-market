@@ -14,7 +14,6 @@ const Rating: React.FC<{ numberOfRates: number; starColor?: string }> = ({
 
 	// Get the number of filled stars and half-filled stars
 	const [filledStars, halfStar] = getStars(numberOfRates);
-	console.log(numberOfRates, filledStars, halfStar);
 
 	return (
 		<>

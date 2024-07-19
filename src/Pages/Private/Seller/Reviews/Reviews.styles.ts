@@ -7,6 +7,17 @@ export const Wrapper = styled.div`
 	padding: 20px;
 	margin-top: 10px;
 	overflow-x: hidden;
+	.icon {
+		height: 100%;
+		border-radius: 50%;
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		align-items: center;
+		margin-top: 20px;
+		text-align: center;
+	}
+
 	h2 {
 		color: var(--dark, #1c1c1c);
 		font-feature-settings: "clig" off, "liga" off;
@@ -31,7 +42,6 @@ export const Wrapper = styled.div`
 	.grid_container {
 		display: grid;
 		width: 100%;
-		grid-template-columns: repeat(3, minmax(200px, 1fr));
 		gap: 16px; /* Adjust the gap as needed */
 		h4 {
 			margin-top: 10px;
@@ -158,7 +168,7 @@ export const GridItem = styled.div`
 
 	.left {
 		display: flex;
-		align-items: center;
+		align-items: start;
 		// justify-content: center;
 		flex-direction: row;
 		gap: 15px;
@@ -168,10 +178,10 @@ export const GridItem = styled.div`
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 90px;
-		height: 90px;
-		border-radius: 50%;
-		background: #fff;
+		// width: 90px;
+		// height: 90px;
+		// border-radius: 50%;
+		// background: #fff;
 
 		img {
 			width: 65px;

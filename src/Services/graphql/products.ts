@@ -46,7 +46,6 @@ const PAGINATION_DATA = gql`
 			description
 			discount
 			image
-			# type
 			slug
 			quantity
 			status
@@ -54,6 +53,14 @@ const PAGINATION_DATA = gql`
 			store
 			category
 			subcategory
+			review {
+				id
+				username
+				image
+				message
+				rating
+				product_id
+			}
 		}
 		current_page
 		per_page

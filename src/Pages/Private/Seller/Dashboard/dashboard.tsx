@@ -26,12 +26,7 @@ import {
 } from "react-icons/bs";
 import { FiBarChart2 } from "react-icons/fi";
 import { IoIosCheckmarkCircle } from "react-icons/io";
-import {
-	documentCopy,
-	noOrder,
-	noProduct,
-	wristwatch,
-} from "../../../../assets";
+import { documentCopy, noOrder, noProduct } from "../../../../assets";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectActiveModal } from "../../../../Features/modal/modalSlice";
@@ -47,6 +42,11 @@ import { fetchMe } from "../../../../Features/user/userSlice";
 import useUsers from "../../../../Features/user/userActions";
 import { alertSuccess } from "../../../../Features/alert/alertSlice";
 import { FaCheck } from "react-icons/fa";
+import {
+	calculateTotalPrice,
+	formatCurrency,
+	truncateText,
+} from "../../../../Shared/Utils/helperFunctions";
 const { Charts, Pie } = Visuals;
 
 const Screen: React.FC = () => {
@@ -252,7 +252,7 @@ const Screen: React.FC = () => {
 								<h2>Top Products</h2>
 							</div>
 							{products?.length > 0 ? (
-								<Table data={products.slice(0, 4)} columns={columns} />
+								<Table data={products.slice(0, 5)} columns={columns} />
 							) : (
 								<div className="no_product">
 									<img src={noProduct} alt="" />{" "}
@@ -281,18 +281,40 @@ const Screen: React.FC = () => {
 							<h2>Latest Orders</h2>
 						</div>
 						{store?.orders ? (
-							Array(4)
-								.fill(".")
-								.map((_, index) => {
+							store?.orders
+								?.filter((order: any) => order?.status !== "delivered")
+								?.slice(0, 4)
+								?.map((order: any, index: number) => {
 									return (
 										<div className="order-card" key={index}>
 											<OrderCard>
-												<div className="top">
+												<div
+													className="top"
+													onClick={() =>
+														nav(ROUTE.SELLER_ORDER_DETAIL + `/${order?.uuid}`, {
+															state: order,
+														})
+													}
+												>
 													<div className="right">
-														<img src={wristwatch} className="img" />
+														<img
+															src={order?.product[0]?.thumbnail}
+															className="img"
+														/>
 														<div className="info">
-															<p className="title">Headset and 2 other items</p>
-															<p className="price">N9,600</p>
+															<p className="title">
+																{order?.product?.length > 1
+																	? truncateText(order?.product[0]?.name, 50) +
+																	  ` and  ${order?.product?.length - 1}` +
+																	  " other item(s)"
+																	: truncateText(order?.product[0]?.name, 50)}
+															</p>
+															<p className="price">
+																{" "}
+																{formatCurrency(
+																	calculateTotalPrice(order?.product)
+																)}
+															</p>
 														</div>
 													</div>
 													<div className="icon">A</div>

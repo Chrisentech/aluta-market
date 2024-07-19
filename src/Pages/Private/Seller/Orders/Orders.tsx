@@ -169,13 +169,23 @@ const Screen: React.FC = () => {
 								{getCapitalizedFirstLetter(store?.name)}
 							</div>
 						</div>
-						<div className="bottom">
-							<label className="option">
-								<input type="checkbox" id={option} />
-								<span className="custom"></span>
-								Mark as Delivered
-							</label>
-						</div>
+						{order?.status !== "delivered" ? (
+							<div className="bottom">
+								<label className="option">
+									<input type="checkbox" id={option} />
+									<span className="custom"></span>
+									Mark as Delivered
+								</label>
+							</div>
+						) : (
+							<div className="bottom">
+								<label className="option">
+									<input type="checkbox" id={option} />
+									<span className="custom"></span>
+									Mark as Processing
+								</label>
+							</div>
+						)}
 					</OrderCard>
 				</div>
 			);

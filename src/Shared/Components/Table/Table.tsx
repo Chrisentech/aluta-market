@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	TableWrapper,
 	TableContainer,
@@ -39,7 +39,26 @@ const Table: React.FC<ResponsiveTableProps> = ({
 	const { updateProduct } = useProducts();
 	const { getMyStores, mystore } = useStore();
 	const me = useSelector(fetchMe);
+	const [copied, setCopied] = useState<boolean>(false);
 
+	const handleCopy = async (text: string) => {
+		try {
+			await navigator.clipboard.writeText(text);
+			setCopied(true);
+
+			// Reset copied state after a short delay
+			setTimeout(() => {
+				setCopied(false);
+			}, 1500); // Reset after 2 seconds
+		} catch (error) {
+			console.error("Failed to copy to clipboard:", error);
+		}
+	};
+	useEffect(() => {
+		if (copied) {
+			dispatch(alertSuccess("Link Copied to clipboard!!"));
+		}
+	}, [copied]);
 	const handleToggleStatus = async (id: number) => {
 		try {
 			const nextIdExists = toggling.includes(id + 1);
@@ -141,7 +160,16 @@ const Table: React.FC<ResponsiveTableProps> = ({
 											case "options":
 												return (
 													<div className="flexy">
-														<AiOutlineLink size="21px" />
+														<AiOutlineLink
+															size="21px"
+															onClick={() =>
+																handleCopy(
+																	window.location.host +
+																		"/product/view/" +
+																		item?.id
+																)
+															}
+														/>
 														<IoPencil size="21px" />
 														<MdDeleteOutline
 															size="21px"

@@ -15,3 +15,4 @@ sales: month name,order total, store visit - link/search,bank
 
 7. Product should have ratings, reviews(rating,username,userImg,date,review)
 
+8. Every Review Should have a uuid
