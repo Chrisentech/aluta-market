@@ -187,6 +187,14 @@ export const DELETE_MY_STORE = gql`
 	}
 `;
 
+export const UPDATE_ORDER = gql`
+	mutation updateOrder($input: UpdateStoreOrderInput!) {
+		updateOrder(input: $input) {
+			status
+		}
+	}
+`;
+
 // export const CONFIGURE_MY_STORE = gql``; //This would be used to either disable/delete store
 
 // export const GET_REVIEWS = gql`` //might be removed

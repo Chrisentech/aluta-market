@@ -29,6 +29,7 @@ import { AppColors, ROUTE } from "../../../Shared/Constants";
 import {
 	filterNum,
 	generateSlug,
+	generateUniqueId,
 	isValidPassword,
 } from "../../../Shared/Utils/helperFunctions";
 import { FaArrowLeft } from "react-icons/fa";
@@ -133,11 +134,12 @@ const Screen: React.FC = () => {
 			avatar: "",
 		};
 		if (userType === "seller") {
+			const uuid = generateUniqueId();
 			payload = {
 				...payload,
 				stores: {
 					address: storeaddress,
-					link: "https://www." + generateSlug(storeName) + ".alutamarket.com",
+					link: "http://thealutamarket.com/" + uuid + "/store",
 					has_physical_address: hasPhysicalAddress,
 					name: storeName,
 					description,

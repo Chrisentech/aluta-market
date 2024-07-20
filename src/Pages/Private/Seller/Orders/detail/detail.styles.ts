@@ -9,6 +9,7 @@ export const Wrapper = styled.div`
 		margin: 0px 0 30px 0;
 		align-items: center;
 		position: relative;
+		gap: 10px;
 
 		h2 {
 			color: #1c1c1c;

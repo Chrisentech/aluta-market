@@ -13,8 +13,9 @@ import {
 	GET_MY_STORE_BY_NAME,
 	GET_MY_STORES,
 	UPDATE_MY_STORE,
+	UPDATE_ORDER,
 } from "../../Services/graphql/store";
-import { alertError } from "../alert/alertSlice";
+import { alertError, alertSuccess } from "../alert/alertSlice";
 import { setLoading, setNotLoading } from "../loading/loadingSlice";
 export default function useStore() {
 	const dispatch = useDispatch();
@@ -80,6 +81,17 @@ export default function useStore() {
 		});
 		dispatch(actions.setStore(response.data.updateStore));
 	};
+	const updateOrders = async (input: any) => {
+		try {
+			const response = await apolloClient.mutate({
+				mutation: UPDATE_ORDER,
+				variables: { input },
+			});
+			dispatch(alertSuccess(response));
+		} catch (error: any) {
+			throw new Error(error?.message);
+		}
+	};
 	return {
 		maintenanceMode,
 		setMaintenanceMode,
@@ -90,5 +102,6 @@ export default function useStore() {
 		mystore,
 		createStore,
 		updateStore,
+		updateOrders,
 	};
 }

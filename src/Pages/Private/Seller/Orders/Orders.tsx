@@ -12,8 +12,14 @@ import {
 } from "../../../../assets";
 import { Card, View } from "../../../../Shared/Components";
 import { useDispatch, useSelector } from "react-redux";
-import { selectStore } from "../../../../Features/store/storeSlice";
-import { selectActiveModal } from "../../../../Features/modal/modalSlice";
+import {
+	selectStore,
+	selectStores,
+} from "../../../../Features/store/storeSlice";
+import {
+	selectActiveModal,
+	showModal,
+} from "../../../../Features/modal/modalSlice";
 import {
 	GridItem,
 	OrderCard,
@@ -23,19 +29,26 @@ import {
 	Wrapper,
 } from "./orders.styles";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { ROUTE } from "../../../../Shared/Constants";
+import { AppColors, ROUTE } from "../../../../Shared/Constants";
 import { FaCheck } from "react-icons/fa";
-import { alertSuccess } from "../../../../Features/alert/alertSlice";
+import {
+	alertError,
+	alertSuccess,
+} from "../../../../Features/alert/alertSlice";
 import {
 	calculateTotalPrice,
 	formatCurrency,
 	getCapitalizedFirstLetter,
 	GetOrdersByStatus,
 } from "../../../../Shared/Utils/helperFunctions";
+import useStore from "../../../../Features/store/storeAction";
+import { Puff } from "react-loading-icons";
+import OrderModal from "./modal/orderModal";
 
 const Screen: React.FC = () => {
 	const dispatch = useDispatch();
 	const [activeTab, setActiveTab] = useState<string>("pending");
+	const { updateOrders } = useStore();
 	const [copied, setCopied] = useState<boolean>(false);
 	const nav = useNavigate();
 	const handleCopy = async (text: string) => {
@@ -56,13 +69,56 @@ const Screen: React.FC = () => {
 			dispatch(alertSuccess("Link Copied to clipboard!!"));
 		}
 	}, [copied]);
-
 	const store = useSelector(selectStore);
-	const getDeliveredOrders = GetOrdersByStatus("delivered", store?.orders);
-	const getPendingOrders = GetOrdersByStatus("pending", store?.orders);
-	const getProcessingOrders = GetOrdersByStatus("processing", store?.orders);
-	const getCanceledOrders = GetOrdersByStatus("canceled", store?.orders);
-	const getRefundedOrders = GetOrdersByStatus("refunded", store?.orders);
+
+	const [myOrders, setMyOrders] = useState(store?.orders);
+	useEffect(() => {
+		setMyOrders(store?.orders);
+	}, [store]);
+	const handleOrderStatus = async (status: string, id: string) => {
+		if (checked === id) {
+			setChecked("");
+		} else {
+			const ok = window.confirm(
+				`Are you sure you want to change this order status to ${status}?`
+			);
+
+			if (ok) {
+				setLoading(id);
+				try {
+					await updateOrders({ id, status, store_id: store?.id });
+					setChecked(id);
+
+					const newOrder = myOrders.find((order: any) => order.uuid === id);
+					let filteredOrder = myOrders.filter(
+						(order: any) => order.uuid !== id
+					);
+					filteredOrder = [...filteredOrder, newOrder];
+					console.log(filteredOrder);
+					setMyOrders(filteredOrder);
+
+					if (status === "canceled") {
+						dispatch(showModal("canceled_order_modal"));
+					} else {
+						dispatch(showModal("processing_order_modal"));
+					}
+				} catch (error: any) {
+					console.error("Failed to update order status:", error);
+					dispatch(alertError(error?.message));
+				} finally {
+					setLoading("");
+				}
+			}
+		}
+	};
+
+	const getDeliveredOrders = GetOrdersByStatus("delivered", myOrders);
+	const getPendingOrders = GetOrdersByStatus("pending", myOrders);
+	const getProcessingOrders = GetOrdersByStatus("processing", myOrders);
+	const getCanceledOrders = GetOrdersByStatus("canceled", myOrders);
+	const getRefundedOrders = GetOrdersByStatus("refunded", myOrders);
+	const [checked, setChecked] = useState("");
+	const [loading, setLoading] = useState("");
 
 	const gridItem = [
 		<GridItem background="#00B517">
@@ -87,7 +143,7 @@ const Screen: React.FC = () => {
 			</div>
 			<div className="info">
 				<h3>Total Orders</h3>
-				<p>{store?.orders?.length ?? 0}</p>
+				<p>{myOrders?.length ?? 0}</p>
 			</div>
 		</GridItem>,
 		<GridItem background="#0D6EFD">
@@ -118,9 +174,9 @@ const Screen: React.FC = () => {
 			</div>
 		</GridItem>,
 	];
+
 	let isMobile: any = localStorage.getItem("isMobile") ?? "";
 	isMobile = isMobile === "true" ? true : false;
-	console.log(activeTab);
 
 	const getGridItems = (option: string) => {
 		let currentArray: any[] = [];
@@ -130,7 +186,7 @@ const Screen: React.FC = () => {
 				? getPendingOrders // pending orders length
 				: option === "delivered"
 				? getDeliveredOrders // delivered orders length
-				: option === "cancelled"
+				: option === "canceled"
 				? getCanceledOrders // cancelled orders length
 				: option === "refunded"
 				? getRefundedOrders // refunded orders length
@@ -169,22 +225,89 @@ const Screen: React.FC = () => {
 								{getCapitalizedFirstLetter(store?.name)}
 							</div>
 						</div>
-						{order?.status !== "delivered" ? (
+						{order?.status === "delivered" || order?.status === "pending" ? (
+							<>
+								{!loading ? (
+									<div className="bottom">
+										<label className="option">
+											<input
+												checked={checked === order?.uuid}
+												type="checkbox"
+												onChange={() =>
+													handleOrderStatus("processing", order?.uuid)
+												}
+												id={option}
+												style={{ cursor: "pointer" }}
+											/>
+											<span className="custom"></span>
+											Mark as Processing
+										</label>
+									</div>
+								) : (
+									<small
+										style={{
+											display: "flex",
+											gap: 10,
+											alignItems: "center",
+										}}
+									>
+										Loading...
+										<Puff
+											stroke={AppColors.brandOrange}
+											strokeOpacity={0.125}
+										/>
+									</small>
+								)}
+							</>
+						) : order?.status === "canceled" ? (
 							<div className="bottom">
 								<label className="option">
-									<input type="checkbox" id={option} />
+									<input
+										type="checkbox"
+										checked={true}
+										id={option}
+										onChange={() =>
+											handleOrderStatus("processing", order?.uuid)
+										}
+									/>
 									<span className="custom"></span>
-									Mark as Delivered
+									Canceled
 								</label>
 							</div>
 						) : (
-							<div className="bottom">
-								<label className="option">
-									<input type="checkbox" id={option} />
-									<span className="custom"></span>
-									Mark as Processing
-								</label>
-							</div>
+							<>
+								{loading !== order?.uuid ? (
+									<div className="bottom">
+										<label className="option">
+											<input
+												checked={checked === order?.uuid}
+												type="checkbox"
+												onChange={() =>
+													handleOrderStatus("delivered", order?.uuid)
+												}
+												id={option}
+												style={{ cursor: "pointer" }}
+											/>
+											<span className="custom"></span>
+											Mark as Delivered
+										</label>
+									</div>
+								) : (
+									<small
+										style={{
+											display: "flex",
+											gap: 10,
+											alignItems: "center",
+										}}
+									>
+										Loading...
+										<Puff
+											stroke={AppColors.brandOrange}
+											strokeOpacity={0.125}
+										/>
+									</small>
+								)}
+							</>
 						)}
 					</OrderCard>
 				</div>
@@ -212,7 +335,7 @@ const Screen: React.FC = () => {
 						className="option"
 						active={activeTab === "pending"}
 						color="#FF9017"
-						onClick={() => setActiveTab("pending")}
+						onClick={() => !loading && setActiveTab("pending")}
 					>
 						Pending
 					</TabOption>
@@ -220,7 +343,7 @@ const Screen: React.FC = () => {
 						className="option"
 						active={activeTab === "processing"}
 						color="#0D6EFD"
-						onClick={() => setActiveTab("processing")}
+						onClick={() => !loading && setActiveTab("processing")}
 					>
 						Processing
 					</TabOption>
@@ -228,7 +351,7 @@ const Screen: React.FC = () => {
 						className="option"
 						active={activeTab === "delivered"}
 						color="#00B517"
-						onClick={() => setActiveTab("delivered")}
+						onClick={() => !loading && setActiveTab("delivered")}
 					>
 						Delivered
 					</TabOption>
@@ -236,7 +359,7 @@ const Screen: React.FC = () => {
 						className="option"
 						active={activeTab === "canceled"}
 						color="#FA3434"
-						onClick={() => setActiveTab("canceled")}
+						onClick={() => !loading && setActiveTab("canceled")}
 					>
 						Canceled
 					</TabOption>
@@ -244,7 +367,7 @@ const Screen: React.FC = () => {
 						className="option"
 						active={activeTab === "refunded"}
 						color="#505050"
-						onClick={() => setActiveTab("refunded")}
+						onClick={() => !loading && setActiveTab("refunded")}
 					>
 						Refunded
 					</TabOption>
@@ -277,14 +400,20 @@ const Screen: React.FC = () => {
 
 const Orders = () => {
 	const activeModal = useSelector(selectActiveModal);
+	const stores = useSelector(selectStores);
 
 	return (
 		<Layout
 			layout={"dashboard"}
 			component={Screen}
-			isLoading={false}
+			isLoading={stores.length === 0}
 			showModal={activeModal}
 			navMode="noSearch"
+			popUpContent={
+				<OrderModal
+					type={activeModal === "canceled_order_modal" ? "canceled" : "pending"}
+				/>
+			}
 		/>
 	);
 };

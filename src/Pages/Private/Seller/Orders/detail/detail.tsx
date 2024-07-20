@@ -1,17 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import { useSelector } from "react-redux";
-import { Card, Table } from "../../../../../Shared/Components";
+import { useSelector, useDispatch } from "react-redux";
+import { Button, Card, Table } from "../../../../../Shared/Components";
 import Layout from "../../../../../Layouts";
 import { selectActiveModal } from "../../../../../Features/modal/modalSlice";
 import { calendar } from "../../../../../assets";
-import {
-	CustomerDetails,
-	OrderStatus,
-	Wrapper,
-	ModalWrapper,
-} from "./detail.styles";
+import { CustomerDetails, OrderStatus, Wrapper } from "./detail.styles";
 import { BsCheckCircle } from "react-icons/bs";
 import { IoLocationOutline } from "react-icons/io5";
 import {
@@ -20,7 +15,15 @@ import {
 } from "../../../../../Shared/Utils/helperFunctions";
 import { capitalize } from "lodash";
 import moment from "moment";
+import useStore from "../../../../../Features/store/storeAction";
+import {
+	selectStore,
+	selectStores,
+} from "../../../../../Features/store/storeSlice";
+import { showModal } from "../../../../../Features/modal/modalSlice";
+import { alertError } from "../../../../../Features/alert/alertSlice";
 
+import OrderModal from "../modal/orderModal";
 const columns = [
 	{ header: "", accessor: "thumbnail" },
 	{ header: "Product", accessor: "name" },
@@ -33,6 +36,35 @@ const Screen: React.FC = () => {
 	// const dispatch = useDispatch();
 	const { state } = useLocation();
 	const products = state?.product;
+	const dispatch = useDispatch();
+	const [loading, setLoading] = useState("");
+	const { updateOrders } = useStore();
+
+	const store = useSelector(selectStore);
+	const handleOrderStatus = async (status: string, id: string) => {
+		const ok = window.confirm(
+			`Are you sure you want to change this order status to ${status}?`
+		);
+
+		if (ok) {
+			setLoading(id);
+			try {
+				await updateOrders({ id, status, store_id: store?.id });
+
+				if (status === "canceled") {
+					dispatch(showModal("canceled_order_modal"));
+				} else {
+					dispatch(showModal("processing_order_modal"));
+				}
+			} catch (error: any) {
+				console.error("Failed to update order status:", error);
+
+				dispatch(alertError(error?.message));
+			} finally {
+				setLoading("");
+			}
+		}
+	};
 
 	return (
 		<Wrapper>
@@ -42,14 +74,40 @@ const Screen: React.FC = () => {
 			<Card className="main" width="100%">
 				<div className="head"></div>
 				<OrderStatus>
-					<div className="info">
-						<div className="title">
-							<img src={calendar} />
-							Date
+					<div className="flex">
+						<div className="info">
+							<div className="title">
+								<img src={calendar} />
+								Date
+							</div>
+							<div className="detail">
+								{moment(state?.createdAt).format("h:mma ddd D MMM, YYYY")}
+							</div>
 						</div>
-						<div className="detail">
-							{moment(state?.createdAt).format("h:mma ddd D MMM, YYYY")}
-						</div>
+						{state?.status === "pending" && (
+							<div className="flex">
+								<Button
+									onClick={() => handleOrderStatus("processing", state?.uuid)}
+									color={"#fff"}
+									background="green"
+									disabled={loading === state?.uuid}
+									loading={loading === state?.uuid}
+								>
+									Accept
+								</Button>
+
+								<Button
+									color={"red"}
+									border="1px solid red"
+									background="#fff"
+									disabled={loading === state?.uuid}
+									loading={loading === state?.uuid}
+									onClick={() => handleOrderStatus("canceled", state?.uuid)}
+								>
+									Cancel
+								</Button>
+							</div>
+						)}
 					</div>
 					<div className="info">
 						<div className="title">
@@ -98,17 +156,9 @@ const Screen: React.FC = () => {
 	);
 };
 
-const Modal: React.FC<{ confirmed?: boolean }> = () => {
-	return (
-		<ModalWrapper>
-			<div className="top"></div>
-		</ModalWrapper>
-	);
-};
-
 const OrderDetail = () => {
 	const activeModal = useSelector(selectActiveModal);
-	// const dispatch = useDispatch();
+	const stores = useSelector(selectStores);
 
 	// dispatch(showModal('confirmOrder'))
 
@@ -116,9 +166,14 @@ const OrderDetail = () => {
 		<Layout
 			layout={"dashboard"}
 			component={Screen}
-			isLoading={false}
+			isLoading={stores.length === 0}
 			showModal={activeModal}
-			popUpContent={<Modal confirmed />}
+			popUpContent={
+				<OrderModal
+					back
+					type={activeModal === "canceled_order_modal" ? "canceled" : "pending"}
+				/>
+			}
 			navMode="noSearch"
 		/>
 	);
