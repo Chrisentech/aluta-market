@@ -8,55 +8,57 @@ import { useNavigate } from "react-router-dom";
 import { deleteCookie } from "../../Utils/helperFunctions";
 import { actions } from "../../../Features/user/userSlice";
 
+const LogoutModal: React.FC<{ url?: string }> = () => {
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
-const LogoutModal:React.FC<{url?: string}> = () => {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+	const handleCancel = () => {
+		dispatch(closeModal("logout"));
+	};
 
-  const handleCancel = () => {
-    dispatch(closeModal("logout"))
-  }
+	const handleLogout = () => {
+		dispatch(closeModal("logout"));
+		dispatch(actions.logout());
+		deleteCookie("user_id");
+		deleteCookie("access_token");
+		window.location.replace("/");
+	};
 
-   const handleLogout = () => {
-    dispatch(closeModal("logout"))
-    dispatch(actions.logout())
-    deleteCookie("user_id")
-    deleteCookie("access_token")
-    navigate("/")
-  }
-
-  return (
-    <Container>
-      <Img>
-        <img src={sendSquareWhite} />      
-      </Img>
-      <Label>Are you sure?</Label>
-      <Info>it seems comrade has done enough shopping for the day. Would you like to logout?</Info>
-      <div className="buttons">
-        <Button 
-          width={180}
-          height={56}
-          color="#FFF"
-          background="#FA3434"
-          className="button"
-          onClick={handleLogout}
-        >
-          Yes, Logout
-        </Button>
-        <Button
-           width={180}
-           height={56}
-           color="#505050"
-           border="solid 1px #DEE2E7"
-           background="#F7FAFC"
-           className="button"
-           onClick={handleCancel}
-        >
-          No, Cancel
-        </Button>
-      </div>
-    </Container>
-  );
+	return (
+		<Container>
+			<Img>
+				<img src={sendSquareWhite} />
+			</Img>
+			<Label>Are you sure?</Label>
+			<Info>
+				it seems comrade has done enough shopping for the day. Would you like to
+				logout?
+			</Info>
+			<div className="buttons">
+				<Button
+					width={180}
+					height={56}
+					color="#FFF"
+					background="#FA3434"
+					className="button"
+					onClick={handleLogout}
+				>
+					Yes, Logout
+				</Button>
+				<Button
+					width={180}
+					height={56}
+					color="#505050"
+					border="solid 1px #DEE2E7"
+					background="#F7FAFC"
+					className="button"
+					onClick={handleCancel}
+				>
+					No, Cancel
+				</Button>
+			</div>
+		</Container>
+	);
 };
 
 export default LogoutModal;

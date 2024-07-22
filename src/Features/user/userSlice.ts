@@ -48,7 +48,7 @@ export const userSlice = createSlice({
 			state.me = { ...state.me, dva: payload };
 		},
 		logout: () => {
-			window.location.reload();
+			// window.location.reload();
 		},
 	},
 });

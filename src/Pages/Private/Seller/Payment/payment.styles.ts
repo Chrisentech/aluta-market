@@ -15,6 +15,13 @@ export const Wrapper = styled.div`
 		line-height: 32px; /* 133.333% */
 		letter-spacing: -0.2px;
 	}
+		.flex{
+		display:flex;
+		align-items:center;
+		justify-content:space-between;
+		margin-bottom:10px;
+	gap:10px;
+		}
 		.view_container{
 
 		}
@@ -57,6 +64,30 @@ export const Wrapper = styled.div`
 			width: calc(100% - 60px);
 		}
 	}
+		.card3{
+		input{
+		flex: 0.2;
+      padding: 10px 29px;
+      border-radius: 6px;
+      border: 1px solid #8b96a5;
+      outline: 0;
+      height: 40px;
+	  }
+		.button {
+      background: #0D6EFD;
+      color: #fff;
+      border: 0;
+      outline: 0;
+      border-radius: 6px;
+	  margin-left:10px;
+      padding: 12px;
+      cursor: pointer;
+	  font-size:14px;
+	  font-weight:700;
+	  line-height:16.94px;
+
+    }
+		}
 	.badge {
 		width: 70px;
 		height: 70px;

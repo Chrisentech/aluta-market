@@ -205,6 +205,7 @@ export const ProfileImage = styled.div`
 		right: 0;
 		width: 180px;
 		height: 180px;
+		object-fit: cover;
 		border-radius: 50%;
 	}
 	@media (max-width: 1346px) {

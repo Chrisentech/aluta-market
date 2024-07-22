@@ -92,7 +92,7 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 			setActive("orders");
 		} else if (
 			currentPath === ROUTE.SELLER_PAYMENT ||
-			currentPath.includes(ROUTE.SELLER_PAYMENT_REG)
+			currentPath.includes(ROUTE.SELLER_PAYMENT)
 		) {
 			setActive("payments");
 		} else if (
@@ -261,9 +261,16 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 								</Link>
 							</SidebarMenuLinks>
 							<SidebarMenuLinks onClick={() => dispatch(showModal("logout"))}>
-								<Link to={ROUTE.SELLER_DASHBOARD + "/logout"}>
-									<img src={sendSquare} /> Log out
-								</Link>
+								<div
+									style={{
+										display: "flex",
+										gap: 10,
+										alignItems: "center",
+										color: "#8b96a5",
+									}}
+								>
+									<img src={sendSquare} /> <span>Log out</span>
+								</div>
 							</SidebarMenuLinks>
 						</CustomLink>
 					</SidebarMenu>
@@ -379,9 +386,16 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 								</Link>
 							</SidebarMenuLinks>
 							<SidebarMenuLinks onClick={() => dispatch(showModal("logout"))}>
-								<Link to={"#"}>
-									<img src={sendSquare} /> Log out
-								</Link>
+								<div
+									style={{
+										display: "flex",
+										gap: 10,
+										alignItems: "center",
+										color: "#8b96a5",
+									}}
+								>
+									<img src={sendSquare} /> <span>Log out</span>
+								</div>
 							</SidebarMenuLinks>
 						</CustomLink>
 					</SidebarMenu>

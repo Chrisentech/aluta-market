@@ -88,7 +88,9 @@ const Screen: React.FC = () => {
 						limit: 1000,
 						offset: 0,
 					});
-					await getDva(me.email);
+					if (!me?.dva) {
+						await getDva(me.email);
+					}
 				}
 			} catch (error: any) {
 				console.error("Error fetching products:", error);
@@ -156,9 +158,9 @@ const Screen: React.FC = () => {
 			</div>
 			{me?.dva ? (
 				<div className="info">
-					<h3>{me.dva.bank.name}</h3>
-					<p>{me.dva.account_number}</p>
-					<h3>{me.dva.account_name}</h3>
+					<h3>{me?.dva?.bank?.name}</h3>
+					<p>{me?.dva?.account_number}</p>
+					<h3>{me?.dva?.account_name}</h3>
 				</div>
 			) : (
 				<div className="info">
@@ -338,17 +340,6 @@ const Screen: React.FC = () => {
 					</Card>
 				</div>
 			</Main>
-			{/* <TableWrapper>
-				<Card height="200px" width="100%">
-					<div className="flex">
-						<h2>Latest Orders</h2>
-						<p>
-							<BsThreeDots />
-						</p>
-					</div>
-					<Table data={data} columns={columns} />
-				</Card>
-			</TableWrapper> */}
 		</Wrapper>
 	);
 };

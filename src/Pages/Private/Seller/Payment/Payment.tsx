@@ -3,6 +3,11 @@ import Layout from "../../../../Layouts";
 import { Wrapper } from "./payment.styles";
 import AccountTab from "./Tabs/tabone";
 import TransactionTab from "./Tabs/tabtwo";
+import InvoiceTab from "./Tabs/tabthree";
+import { LogoutModal } from "../../../../Shared/Components";
+import { useSelector } from "react-redux";
+import { selectActiveModal } from "../../../../Features/modal/modalSlice";
+import { selectStores } from "../../../../Features/store/storeSlice";
 
 const Screen: React.FC = () => {
 	const [activeTab, setActiveTab] = useState(0);
@@ -56,6 +61,8 @@ const Screen: React.FC = () => {
 				<AccountTab />
 			) : activeTab === 1 ? (
 				<TransactionTab />
+			) : activeTab === 2 ? (
+				<InvoiceTab />
 			) : (
 				""
 			)}
@@ -64,11 +71,17 @@ const Screen: React.FC = () => {
 };
 
 const Payment = () => {
+	const activeModal = useSelector(selectActiveModal);
+
+	const stores = useSelector(selectStores);
+
 	return (
 		<Layout
 			layout={"dashboard"}
 			component={Screen}
-			isLoading={false}
+			isLoading={stores.length === 0}
+			showModal={activeModal}
+			popUpContent={<LogoutModal />}
 			navMode="noSearch"
 		/>
 	);

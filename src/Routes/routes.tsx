@@ -34,11 +34,11 @@ import {
 	BuyerReview,
 	BuyerReviewInner,
 	SellerProductReviews,
+	CreateInvoicePage,
 } from "../Pages/Private";
 import useAuthentication from "../Shared/Hooks/useAuth";
 import { setRedirectPath } from "../Shared/Utils/helperFunctions";
 import { useSelector } from "react-redux";
-import { fetchMe } from "../Features/user/userSlice";
 import { selectActiveModal } from "../Features/modal/modalSlice";
 // import { Reviews } from "../Shared/Components";
 
@@ -114,6 +114,16 @@ const Router: React.FC = () => {
 							component={BuyerReview}
 							authRoute
 							route={ROUTE.BUYER_PRODUCT_REVIEW}
+						/>
+					}
+				/>
+				<Route
+					path={"/seller/payment/invoice/generate"}
+					element={
+						<PrivateRoute
+							component={CreateInvoicePage}
+							authRoute
+							route={"/seller/payment/invoice/generate"}
 						/>
 					}
 				/>
@@ -283,7 +293,7 @@ const Router: React.FC = () => {
 interface PrivateRouteProps {
 	component: React.ComponentType;
 	authRoute?: boolean;
-	route?: string;
+	route: string;
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({
@@ -292,14 +302,14 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
 	route,
 }) => {
 	const { isAuthenticated } = useAuthentication();
-	const me = useSelector(fetchMe);
 	const activeModal = useSelector(selectActiveModal);
 
 	useEffect(() => {
 		if (route && activeModal === "logout") {
-			setRedirectPath(JSON.stringify({ route, usertype: me?.usertype }));
+			setRedirectPath(route);
+			// alert(route);
 		}
-	}, [route]);
+	}, [activeModal]);
 
 	if (authRoute && !isAuthenticated) {
 		return <Navigate to={ROUTE.LOGIN} replace />;

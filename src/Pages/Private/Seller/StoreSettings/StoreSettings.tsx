@@ -17,13 +17,12 @@ import {
 	Wrapper,
 } from "./StoreSettings.style";
 import { messageEdit, uploadImg } from "../../../../assets";
-import { Button, Card } from "../../../../Shared/Components";
+import { Button, Card, LogoutModal } from "../../../../Shared/Components";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	selectActiveModal,
 	showModal,
 } from "../../../../Features/modal/modalSlice";
-import ModalContent from "./modals";
 import { MdToggleOff, MdToggleOn } from "react-icons/md";
 import useStore from "../../../../Features/store/storeAction";
 import { selectStore } from "../../../../Features/store/storeSlice";
@@ -401,7 +400,7 @@ const StoreSettings = () => {
 			component={Screen}
 			isLoading={!store || isLoading}
 			showModal={activeModal}
-			popUpContent={<ModalContent active={activeModal} />}
+			popUpContent={<LogoutModal />}
 			navMode="noSearch"
 			modalWidth={500}
 		/>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, View } from "../../../../../Shared/Components";
 import { IoWalletOutline } from "react-icons/io5";
 import {
@@ -16,6 +16,10 @@ import * as yup from "yup";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Puff } from "react-loading-icons";
 import { AppColors } from "../../../../../Shared/Constants";
+import { useSelector } from "react-redux";
+import { selectStore } from "../../../../../Features/store/storeSlice";
+import { fetchMe } from "../../../../../Features/user/userSlice";
+import useUsers from "../../../../../Features/user/userActions";
 
 const initialValues: any = {
 	email: "",
@@ -32,9 +36,22 @@ const validationSchema = yup.object().shape({
 			"Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character (@, $, !, #,%, *, ?, &)"
 		),
 });
-const Screen: React.FC = () => {
+const AccountTab: React.FC = () => {
 	const [showPwd, setShowPwd] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const store = useSelector(selectStore);
+	const { getDva } = useUsers();
+	const me: any = useSelector(fetchMe);
+	useEffect(() => {
+		const fetchDVA = async () => {
+			await getDva(me?.email);
+		};
+
+		if (!me?.dva) {
+			fetchDVA();
+		}
+	}, [me]);
+
 	const handleSubmit = async (values: any) => {
 		// Handle form submission here
 		let payload = {
@@ -62,7 +79,7 @@ const Screen: React.FC = () => {
 			</div>
 			<div className="info">
 				<h3>Account Balance</h3>
-				<p>N245,000</p>
+				<p>{store?.wallet >= 0 ? "N " + store?.wallet.toFixed(2) : "N0.00"}</p>
 			</div>
 		</GridItem>,
 		<GridItem background="#FA3434">
@@ -71,11 +88,18 @@ const Screen: React.FC = () => {
 					<IoWalletOutline color="#fff" size="12" />
 				</div>
 			</div>
-			<div className="info">
-				<h3>Uba bank</h3>
-				<p>2092138348</p>
-				<h3>Aluta's Store</h3>
-			</div>
+			{me?.dva ? (
+				<div className="info">
+					<h3>{me?.dva?.bank?.name}</h3>
+					<p>{me?.dva?.account_number}</p>
+					<h3>{me?.dva?.account_name}</h3>
+				</div>
+			) : (
+				<div className="info">
+					<h3>Bank Details</h3>
+					<h3>loading...</h3>
+				</div>
+			)}
 		</GridItem>,
 	];
 	return (
@@ -175,4 +199,4 @@ const CustomField: React.FC<{
 		</>
 	);
 };
-export default Screen;
+export default AccountTab;

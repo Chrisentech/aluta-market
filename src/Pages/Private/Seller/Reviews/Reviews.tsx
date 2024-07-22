@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 import Layout from "../../../../Layouts";
-import { Button, Card, Rating, View } from "../../../../Shared/Components";
+import {
+	Button,
+	Card,
+	LogoutModal,
+	Rating,
+	View,
+} from "../../../../Shared/Components";
 import { GridItem, SearchTab, Wrapper } from "./Reviews.styles";
 import { BsSearch } from "react-icons/bs";
 // import { useNavigate } from "react-router-dom";
@@ -16,6 +22,7 @@ import { truncateText } from "../../../../Shared/Utils/helperFunctions";
 import { useNavigate } from "react-router-dom";
 import { ROUTE } from "../../../../Shared/Constants";
 import useProducts from "../../../../Features/products/productActions";
+import { selectActiveModal } from "../../../../Features/modal/modalSlice";
 export const sumTotalRating = (arr: any) => {
 	return (arr?.reduce((a: number, b: any) => a + b?.rating, 0) / 10).toFixed(1);
 };
@@ -148,6 +155,7 @@ const Screen: React.FC = () => {
 
 const Reviews = () => {
 	const stores = useSelector(selectStores);
+	const activeModal = useSelector(selectActiveModal);
 
 	return (
 		<Layout
@@ -155,6 +163,8 @@ const Reviews = () => {
 			component={Screen}
 			isLoading={stores.length === 0}
 			navMode="noSearch"
+			showModal={activeModal}
+			popUpContent={<LogoutModal />}
 		/>
 	);
 };
