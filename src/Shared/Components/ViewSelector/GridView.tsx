@@ -6,9 +6,10 @@ import {
 } from "./styles.ts";
 import { Card, Pagination, ImageCard, Rating, WishCard } from "../index.ts";
 import usePagination from "../../Hooks/usePagination.tsx";
-import { image34, phone } from "../../../assets/index.tsx";
+import { phone } from "../../../assets/index.tsx";
 import calculateRating, {
 	numberWithCommas,
+	truncateText,
 } from "../../Utils/helperFunctions.ts";
 import { useNavigate } from "react-router-dom";
 
@@ -17,7 +18,7 @@ interface IGridProps {
 	type?: string;
 	itempergrid?: any;
 	className?: string;
-	gridItems?: any[];
+	gridItems?: any;
 	cardType?: string;
 	cardStyle?: string;
 	showPagination?: boolean;
@@ -47,7 +48,7 @@ const GridView: React.FC<IGridProps> = ({
 						itempergrid={itempergrid}
 						className={className}
 					>
-						{gridItems?.map((product, index) => {
+						{gridItems?.map((product: any, index: number) => {
 							// Extract individual ratings
 							const ratings =
 								product?.review?.map((review: any) => review.rating) || [];
@@ -117,15 +118,24 @@ const GridView: React.FC<IGridProps> = ({
 								>
 									<ProductCard view="grid" background={background}>
 										<div className="image">
-											<ImageCard view="grid" src={image34} />
+											<ImageCard
+												view="grid"
+												src={product?.thumbnail ?? "image34"}
+											/>
 										</div>
 										<ProductDetails view="grid">
 											<div className="flex">
 												<div className="price">
-													<span>&#8358;32,000</span>
+													<span>
+														&#8358;
+														{numberWithCommas(product?.price) ?? "32,000"}
+													</span>
 												</div>
 											</div>
-											<h1>Xiaomi Redmi 8 Original</h1>
+											<h1>
+												{truncateText(product?.name, 40) ??
+													"Xiaomi Redmi 8 Original"}
+											</h1>
 										</ProductDetails>
 									</ProductCard>
 								</Card>
@@ -154,7 +164,7 @@ const GridView: React.FC<IGridProps> = ({
 					type="productGrid"
 				>
 					{!!gridItems?.length &&
-						gridItems.map((gridItem, index) => (
+						gridItems.map((gridItem: any, index: number) => (
 							<Card
 								key={index}
 								width="100%"

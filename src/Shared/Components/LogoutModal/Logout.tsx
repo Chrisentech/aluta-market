@@ -4,13 +4,11 @@ import { sendSquareWhite } from "../../../assets";
 import { Button } from "..";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../../Features/modal/modalSlice";
-import { useNavigate } from "react-router-dom";
 import { deleteCookie } from "../../Utils/helperFunctions";
 import { actions } from "../../../Features/user/userSlice";
 
 const LogoutModal: React.FC<{ url?: string }> = () => {
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
 
 	const handleCancel = () => {
 		dispatch(closeModal("logout"));

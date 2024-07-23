@@ -140,6 +140,15 @@ export const ADD_HANDLED_PRODUCTS = gql`
 	}
 `;
 
+export const REMOVE_HANDLED_PRODUCTS = gql`
+	${HANDLED_PRODUCT_FIELDS}
+	mutation removeHandledProduct($prd: Int!, $type: String) {
+		removeHandledProduct(prd: $prd, type: $type) {
+			...HandledProducFields
+		}
+	}
+`;
+
 export const UPDATE_MY_PROFILE = gql`
 	${USER_FIELDS}
 	mutation updateUser($input: UpdateUserInput!) {

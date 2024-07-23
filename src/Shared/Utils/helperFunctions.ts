@@ -324,3 +324,8 @@ export const generateUniqueId = (): string => {
 	}
 	return uniqueId;
 };
+
+export const IsInCart = (prdId?: string, items?: any[]): boolean => {
+	if (!prdId || !items) return false;
+	return items?.some((item) => item.product.id == prdId);
+};

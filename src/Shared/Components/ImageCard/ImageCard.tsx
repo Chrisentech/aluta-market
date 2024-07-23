@@ -7,8 +7,9 @@ const ImageCard: React.FC<{
 	height?: string;
 	padding?: string;
 	src: string;
+	imageHeight?: string;
 	className?: string;
-}> = ({ width, view, height, padding, src, className }) => {
+}> = ({ width, view, height, padding, src, imageHeight, className }) => {
 	return (
 		<Card
 			width={width}
@@ -17,7 +18,7 @@ const ImageCard: React.FC<{
 			view={view}
 			className={className}
 		>
-			<img src={src} alt="" width={200} />
+			<img src={src} alt="" width={200} height={imageHeight} />
 		</Card>
 	);
 };

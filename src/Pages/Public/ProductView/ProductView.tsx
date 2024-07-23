@@ -46,6 +46,7 @@ import useProducts from "../../../Features/products/productActions";
 import calculateRating, {
 	calculateDiscount,
 	formatCurrency,
+	IsInCart,
 } from "../../../Shared/Utils/helperFunctions";
 import { RootState } from "../../../store";
 import { useNavigate, useParams } from "react-router-dom";
@@ -57,17 +58,25 @@ import useStore from "../../../Features/store/storeAction";
 import useCart from "../../../Features/cart/cartAction";
 import { fetchMe } from "../../../Features/user/userSlice";
 import { alertSuccess } from "../../../Features/alert/alertSlice";
+import { selectCart } from "../../../Features/cart/cartSlice";
+import { searchedProducts } from "../../../Features/products/productSlice";
 
 const Screen: React.FC = () => {
 	const { id: product_id } = useParams<{ id: string }>();
 	const dispatch = useDispatch();
-	const { product, products, getProduct, getProducts } = useProducts();
+	const { product, products, getProduct, getSearchProducts, getProducts } =
+		useProducts();
 	const { getStoreByName, mystore } = useStore();
 	const navigate = useNavigate();
+	const searchedPrds = useSelector(searchedProducts);
 	const me: any = useSelector(fetchMe);
 	const { modifyCart } = useCart();
 	const userId = me?.id || localStorage.getItem("usr_temp_id") || "0";
 	const [loading, setbtnLoading] = useState(false);
+	const cart = useSelector(selectCart);
+	const filteredProducts =
+		searchedPrds?.filter((prd) => prd.id != product_id) || [];
+
 	const handleAddToCart = async () => {
 		setbtnLoading(true);
 		await modifyCart({
@@ -77,16 +86,8 @@ const Screen: React.FC = () => {
 		});
 		setbtnLoading(false);
 
-		dispatch(alertSuccess("poduct added to cart successfully!!"));
+		dispatch(alertSuccess("product added to cart successfully!!"));
 	};
-
-	// const breadcrumbs = [
-	// 	// should get links and labels dynamically
-	// 	{ label: "Home", link: "/" },
-	// 	{ label: "Clothings", link: "/search/Clothings" },
-	// 	{ label: "Mens Wear", link: "/search?Clothings/Mens wear" },
-	// 	{ label: "Summer clothing" },
-	// ];
 	const ratings: any = product
 		? product?.review?.map((review: any) => review.rating)
 		: [];
@@ -131,10 +132,17 @@ const Screen: React.FC = () => {
 
 		fetchStoreAndProducts();
 	}, [product?.store]);
+	useEffect(() => {
+		const fetchData = async () => {
+			let query = product?.category;
+			await getSearchProducts(query);
+			// alert("dones");
+		};
+		fetchData();
+	}, [product]);
 	return (
 		<Wrapper>
 			<Container>
-				{/* <Breadcrumb items={breadcrumbs} /> */}
 				<OrderDetail>
 					<ProductCarousel
 						images={product?.image}
@@ -267,7 +275,7 @@ const Screen: React.FC = () => {
 								height={49}
 								width="100%"
 								padding={16}
-								disabled={loading}
+								disabled={loading || IsInCart(product_id, cart?.items)}
 								loading={loading}
 								gap={10}
 								onClick={() => handleAddToCart()}
@@ -371,21 +379,26 @@ const Screen: React.FC = () => {
 					<div>
 						<Description>
 							<h3 className="title">Description</h3>
-							<p className="description">{product?.description}</p>
+							<div
+								className="description"
+								dangerouslySetInnerHTML={{ __html: product?.description ?? "" }}
+							/>
 						</Description>
-						<RelatedWrapper style={{ marginTop: 15 }}>
-							<h3 className="title">Related Products</h3>
-							<div className="grid-wrapper">
-								<GridView
-									gridItems={Array(7).fill(null)}
-									gap="20px"
-									itempergrid={8}
-									type="productGrid"
-									cardType="type2"
-									background="#EEEEEE"
-								/>
-							</div>
-						</RelatedWrapper>
+						{filteredProducts?.length > 0 && (
+							<RelatedWrapper style={{ marginTop: 15 }}>
+								<h3 className="title">Related Products</h3>
+								<div className="grid-wrapper">
+									<GridView
+										gridItems={filteredProducts}
+										gap="20px"
+										itempergrid={8}
+										type="productGrid"
+										cardType="type2"
+										background="#EEEEEE"
+									/>
+								</div>
+							</RelatedWrapper>
+						)}
 					</div>
 					<SuggestionsWrapper>
 						<h3 className="title">You may like these from same seller</h3>

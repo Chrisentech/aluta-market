@@ -191,7 +191,7 @@ export const TabContent = styled.div<{ empty: boolean }>`
 	align-items: center;
 	justify-content: center;
 	gap: 20px;
-	margin-top: ${({ empty }) => (empty ? "-100px" : "unset")};
+	margin-top: ${({ empty }) => (empty ? "" : "unset")};
 	.text {
 		color: #505050;
 		text-align: center;

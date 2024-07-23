@@ -19,6 +19,7 @@ import {
 	GET_VARIATION,
 	INITIATE_PAYMENT,
 	GET_MYDVA,
+	REMOVE_HANDLED_PRODUCTS,
 } from "../../Services/graphql/users";
 import { actions } from "./userSlice";
 import { setCookie } from "../../Shared/Utils/helperFunctions";
@@ -122,6 +123,16 @@ export default function useUsers() {
 		}
 		console.log(response);
 	};
+	const removeFromWishlist = async (productId: number) => {
+		const response = await apolloClient.mutate({
+			mutation: REMOVE_HANDLED_PRODUCTS,
+			variables: { prd: productId, type: "wishlists" },
+		});
+		if (response) {
+			getWishlist(response.data.removeHandledProduct.userId);
+			console.log(response.data.removeHandledProduct.productId);
+		}
+	};
 
 	const createSkynet = async (input: any) => {
 		const response = await apolloClient.mutate({
@@ -168,6 +179,7 @@ export default function useUsers() {
 		getMe,
 		addToWishlist,
 		getWishlist,
+		removeFromWishlist,
 		updateUser,
 		createSkynet,
 		verifySmartCard,

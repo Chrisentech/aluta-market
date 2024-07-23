@@ -120,8 +120,8 @@ export interface IProductProps {
 	slug?: string;
 	thumbnail: string;
 	discount: number;
-	category: number;
-	subcategory: number;
+	category: any;
+	subcategory: any;
 	description: string;
 	type: string;
 	id?: number;

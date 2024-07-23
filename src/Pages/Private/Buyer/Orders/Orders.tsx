@@ -26,7 +26,7 @@ const Screen: React.FC = () => {
 	const getGridItems = (option: string) => {
 		let currentArray: any[] = [];
 		//logic to handle which data to map.... example
-		let arrayLength = option === "open" ? 2 : store?.orders?.length ?? 0; // processing orders length;
+		let arrayLength = option === "open" ? 0 : store?.orders?.length ?? 0; // processing orders length;
 
 		Array(arrayLength)
 			.fill(".")
@@ -60,6 +60,7 @@ const Screen: React.FC = () => {
 	const isArrayEmpty = () => {
 		return getGridItems(activeTab).length === 0;
 	};
+
 	return (
 		<Wrapper>
 			<div className="flex">

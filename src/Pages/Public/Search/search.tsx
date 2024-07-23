@@ -88,10 +88,6 @@ const Screen: React.FC = () => {
 		{ label: "Mobile Accessory" },
 	];
 
-	// useEffect(() => {
-	//   console.log(products)
-	// }, [products])
-
 	return (
 		<Page>
 			<Container>

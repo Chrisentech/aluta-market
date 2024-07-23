@@ -79,7 +79,7 @@ export const ProductDetails = styled.div<{ view?: string; type?: string }>`
 		color: ${({ view }) => (view === "grid" ? "#606060" : "#1c1c1c")};
 		font-feature-settings: "clig" off, "liga" off;
 		font-family: Inter;
-		width: ${({ view }) => (view === "grid" ? "80%" : "inherit")};
+		width: ${({ view }) => (view === "grid" ? "" : "inherit")};
 		font-size: 16px;
 		font-style: normal;
 		font-weight: 500;

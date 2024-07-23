@@ -15,6 +15,7 @@ export const Card = styled.div<{
   height${({ height }) => (height ? height : "200px")};
   //   padding-bottom: ${({ view }) => (view === "grid" ? "30px" : "")};
   border-bottom: ${({ view }) => (view === "grid" ? "1px solid #EFF2F4" : "")};
+  object-fit:cover;
   img {
     max-width: 100%;
     max-height: 100%;
