@@ -216,8 +216,8 @@ export const TabContent = styled.div<{ empty: boolean }>`
 	}
 
 	.icon {
-		width: 140px;
-		height: 140px;
+		width: 100px;
+		height: 100px;
 		border-radius: 50%;
 		background: #d9d9d9;
 		display: flex;

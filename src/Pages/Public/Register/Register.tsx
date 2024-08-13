@@ -16,7 +16,7 @@ import {
 	Footer,
 	// Trademark,
 } from "./register.styles";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import Layout from "../../../Layouts";
 import { Formik, Form, useField } from "formik";
 import * as yup from "yup";
@@ -96,19 +96,47 @@ const Screen: React.FC = () => {
 	const [email, setEmail] = useState("");
 	const [studentCampus, setCampus] = useState("");
 	const [loading, setLoading] = useState(false);
-	const [storeName, setStoreName] = useState("");
+	const [storeName, setStoreName] = useState<any>("");
 	const [storeNumber, setStoreNumber] = useState("");
 	const [description, setDescription] = useState("");
 	const [storeaddress, setStoreAddress] = useState("");
 	const [hasPhysicalAddress, sethasPhysicalAddress] = useState(false);
-	const { createUser } = useUsers();
+	const { createUser, checkStoreName } = useUsers();
 	const [buyerNumber, setBuyerNumber] = useState("");
+	const [debouncedStoreName, setDebouncedStoreName] =
+		useState<string>(storeName);
+	const [isStoreNameAvailable, setIsStoreNameAvailable] = useState<
+		boolean | null
+	>(null);
 
 	const [isSameNumber, setSameNumber] = useState<boolean>(false);
-	const [formValues, setFormValues] = useState(initialValues); // Manage form values at a higher level
+	const [formValues, setFormValues] = useState(initialValues); 
 
 	const dispatch = useDispatch();
-	// const { createUser } = useUsers();
+	// Debounce logic
+	useEffect(() => {
+		const handler = setTimeout(() => {
+			setDebouncedStoreName(storeName);
+		}, 500); // Delay of 500ms (you can adjust this)
+
+		return () => {
+			clearTimeout(handler);
+		};
+	}, [storeName]);
+
+	useEffect(() => {
+		if (debouncedStoreName) {
+			const check = async () => {
+				try {
+					await checkStoreName(debouncedStoreName.toLowerCase().trim());
+					setIsStoreNameAvailable(true);
+				} catch (error: any) {
+					dispatch(alertError(JSON.parse(error.message).message));
+				}
+			};
+			check();
+		}
+	}, [debouncedStoreName]);
 
 	const handleSameNumber = () => {
 		if (!isSameNumber) setStoreNumber(buyerNumber);
@@ -141,7 +169,7 @@ const Screen: React.FC = () => {
 					address: storeaddress,
 					link: "http://thealutamarket.com/" + uuid + "/store",
 					has_physical_address: hasPhysicalAddress,
-					name: storeName,
+					name: storeName.toLowerCase().trim(),
 					description,
 					phone: "234" + filterNum(storeNumber),
 					user: 0,
@@ -367,9 +395,18 @@ const Screen: React.FC = () => {
 									onChange={(e: any) => setStoreName(e.target.value)}
 									type="text"
 								/>
-								<Hint>
-									Hint: You can create more stores under your dashboard
-								</Hint>
+								{storeName ? (
+									<Hint style={{ color: "green" }}>
+										{storeName} is{" "}
+										<span>
+											{!isStoreNameAvailable ? "not available" : "available"}
+										</span>
+									</Hint>
+								) : (
+									<Hint>
+										Hint: You can create more stores under your dashboard
+									</Hint>
+								)}
 							</FormControl>
 							<FormControl>
 								<Label>Store URL</Label>

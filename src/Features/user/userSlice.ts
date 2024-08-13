@@ -68,6 +68,9 @@ export const fetchWishlist = (
 export const fetchServiceVaration = (state: RootState): any[] | null =>
 	state.user.skynet?.variations;
 
+export const fetchWishlists = (state: RootState): any[] | null =>
+	state.user.wishlists;
+
 export const fetchSavedForLater = (
 	state: RootState
 ): IHandledProductProps[] | null => state.user.savedForLater;

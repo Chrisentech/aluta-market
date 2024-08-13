@@ -48,3 +48,9 @@ export const GET_MY_CART = gql`
 		}
 	}
 `;
+
+export const INITIATE_PAYEMNT = gql`
+	mutation initializePayment($input: PaymentData!) {
+		initializePayment(input: $input)
+	}
+`;

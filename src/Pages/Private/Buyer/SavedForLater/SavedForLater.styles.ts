@@ -49,6 +49,12 @@ export const GridWrapper = styled.div`
 				font-size: 12px;
 			}
 		}
+		.img-wishlist {
+			img {
+				object-fit: cover !important;
+				height: 200px;
+			}
+		}
 		.img {
 			display: flex;
 			justify-content: center;

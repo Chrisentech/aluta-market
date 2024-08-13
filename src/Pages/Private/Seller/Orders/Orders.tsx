@@ -75,8 +75,8 @@ const Screen: React.FC = () => {
 	useEffect(() => {
 		setMyOrders(store?.orders);
 	}, [store]);
-	const handleOrderStatus = async (status: string, id: string) => {
-		if (checked === id) {
+	const handleOrderStatus = async (status: string, id: string, num: number) => {
+		if (checked === id || checked === num.toString()) {
 			setChecked("");
 		} else {
 			const ok = window.confirm(
@@ -84,30 +84,30 @@ const Screen: React.FC = () => {
 			);
 
 			if (ok) {
-				setLoading(id);
-				try {
-					await updateOrders({ id, status, store_id: store?.id });
-					setChecked(id);
+				setLoading(num);
+				// try {
+				// 	await updateOrders({ id, status, store_id: store?.id });
+				// 	setChecked(id);
 
-					const newOrder = myOrders.find((order: any) => order.uuid === id);
-					let filteredOrder = myOrders.filter(
-						(order: any) => order.uuid !== id
-					);
-					filteredOrder = [...filteredOrder, newOrder];
-					console.log(filteredOrder);
-					setMyOrders(filteredOrder);
+				// 	const newOrder = myOrders.find((order: any) => order.uuid === id);
+				// 	let filteredOrder = myOrders.filter(
+				// 		(order: any) => order.uuid !== id
+				// 	);
+				// 	filteredOrder = [...filteredOrder, newOrder];
+				// 	console.log(filteredOrder);
+				// 	setMyOrders(filteredOrder);
 
-					if (status === "canceled") {
-						dispatch(showModal("canceled_order_modal"));
-					} else {
-						dispatch(showModal("processing_order_modal"));
-					}
-				} catch (error: any) {
-					console.error("Failed to update order status:", error);
-					dispatch(alertError(error?.message));
-				} finally {
-					setLoading("");
-				}
+				// 	if (status === "canceled") {
+				// 		dispatch(showModal("canceled_order_modal"));
+				// 	} else {
+				// 		dispatch(showModal("processing_order_modal"));
+				// 	}
+				// } catch (error: any) {
+				// 	console.error("Failed to update order status:", error);
+				// 	dispatch(alertError(error?.message));
+				// } finally {
+				// 	setLoading(null);
+				// }
 			}
 		}
 	};
@@ -117,8 +117,8 @@ const Screen: React.FC = () => {
 	const getProcessingOrders = GetOrdersByStatus("processing", myOrders);
 	const getCanceledOrders = GetOrdersByStatus("canceled", myOrders);
 	const getRefundedOrders = GetOrdersByStatus("refunded", myOrders);
-	const [checked, setChecked] = useState("");
-	const [loading, setLoading] = useState("");
+	const [checked, setChecked] = useState<any>("");
+	const [loading, setLoading] = useState<any>(null);
 
 	const gridItem = [
 		<GridItem background="#00B517">
@@ -227,14 +227,14 @@ const Screen: React.FC = () => {
 						</div>
 						{order?.status === "delivered" || order?.status === "pending" ? (
 							<>
-								{!loading ? (
+								{loading !== index || loading !== null ? (
 									<div className="bottom">
 										<label className="option">
 											<input
 												checked={checked === order?.uuid}
 												type="checkbox"
 												onChange={() =>
-													handleOrderStatus("processing", order?.uuid)
+													handleOrderStatus("processing", order?.uuid, index)
 												}
 												id={option}
 												style={{ cursor: "pointer" }}
@@ -267,7 +267,7 @@ const Screen: React.FC = () => {
 										checked={true}
 										id={option}
 										onChange={() =>
-											handleOrderStatus("processing", order?.uuid)
+											handleOrderStatus("processing", order?.uuid, index)
 										}
 									/>
 									<span className="custom"></span>
@@ -283,7 +283,7 @@ const Screen: React.FC = () => {
 												checked={checked === order?.uuid}
 												type="checkbox"
 												onChange={() =>
-													handleOrderStatus("delivered", order?.uuid)
+													handleOrderStatus("delivered", order?.uuid, index)
 												}
 												id={option}
 												style={{ cursor: "pointer" }}

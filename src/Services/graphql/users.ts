@@ -225,3 +225,9 @@ export const GET_MYDVA = gql`
 		}
 	}
 `;
+
+export const CHECK_STORE_NAME = gql`
+	mutation checkStoreName($input: String!) {
+		checkStoreName(input: $input)
+	}
+`;

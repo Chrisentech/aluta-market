@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { apolloClient } from "../../Services/graphql/apolloClient";
 import {
 	IVerifyOTPProps,
@@ -20,12 +20,14 @@ import {
 	INITIATE_PAYMENT,
 	GET_MYDVA,
 	REMOVE_HANDLED_PRODUCTS,
+	CHECK_STORE_NAME,
 } from "../../Services/graphql/users";
-import { actions } from "./userSlice";
+import { actions, fetchWishlists } from "./userSlice";
 import { setCookie } from "../../Shared/Utils/helperFunctions";
 
 export default function useUsers() {
 	const dispatch = useDispatch();
+	const wishlists: any = useSelector(fetchWishlists);
 	const createUser = async (input: RegisterFormValues) => {
 		const response = await apolloClient.mutate({
 			mutation: CREATE_USER,
@@ -57,6 +59,14 @@ export default function useUsers() {
 			dispatch(actions.getMe(rest));
 			return response.data.updateUser;
 		}
+	};
+
+	const checkStoreName = async (input: String) => {
+		const response = await apolloClient.mutate({
+			mutation: CHECK_STORE_NAME,
+			variables: { input },
+		});
+		return response.data.checkStoreName;
 	};
 
 	const loginUser = async (input: LoginFormValues) => {
@@ -103,6 +113,7 @@ export default function useUsers() {
 				variables: { user: userId, type: "wishlists" },
 			});
 			dispatch(actions.addWishlist(response.data.HandledProducts));
+
 			return response.data;
 		} else {
 			let wishlist: any = window.sessionStorage.getItem("wishlist");
@@ -117,20 +128,32 @@ export default function useUsers() {
 			mutation: ADD_HANDLED_PRODUCTS,
 			variables: { userId, productId, type: "wishlists" },
 		});
-		console.log(response);
-		if (response) {
-			getWishlist(userId);
+		try {
+			if (response) {
+				dispatch(
+					actions.addWishlist(wishlists.concat(response.data.addHandledProduct))
+				);
+			}
+		} catch (error) {
+			throw error;
 		}
-		console.log(response);
 	};
 	const removeFromWishlist = async (productId: number) => {
 		const response = await apolloClient.mutate({
 			mutation: REMOVE_HANDLED_PRODUCTS,
 			variables: { prd: productId, type: "wishlists" },
 		});
+
 		if (response) {
 			getWishlist(response.data.removeHandledProduct.userId);
-			console.log(response.data.removeHandledProduct.productId);
+			dispatch(
+				actions.addWishlist(
+					wishlists.filter(
+						(wishlist: any) =>
+							wishlist.productId != response.data.removeHandledProduct.productId
+					)
+				)
+			);
 		}
 	};
 
@@ -186,5 +209,7 @@ export default function useUsers() {
 		getServicesVariation,
 		initializePayment,
 		getDva,
+		wishlists,
+		checkStoreName,
 	};
 }

@@ -91,6 +91,7 @@ const Screen: React.FC = () => {
 	const ratings: any = product
 		? product?.review?.map((review: any) => review.rating)
 		: [];
+
 	// Calculate the average rating
 	const averageRating = calculateRating(ratings);
 
@@ -166,8 +167,8 @@ const Screen: React.FC = () => {
 								<WishCard
 									size="32px"
 									boxShadow={false}
-									userId={7}
-									productId={1}
+									userId={me?.id}
+									productId={product?.id}
 								/>
 							</div>
 							<div className="list">

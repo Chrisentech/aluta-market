@@ -50,6 +50,7 @@ const Screen: React.FC = () => {
 	const me = useSelector((state: any) => state.user.me);
 	const dispatch = useDispatch();
 	const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
 	const handleResize = () => {
 		setIsMobile(window.innerWidth < 768); // Adjust the threshold as needed
 	};

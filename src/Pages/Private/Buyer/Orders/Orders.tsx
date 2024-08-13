@@ -92,7 +92,7 @@ const Screen: React.FC = () => {
 					{isArrayEmpty() ? (
 						<>
 							<div className="icon">
-								<img src={bagHappy} alt="" />
+								<img src={bagHappy} alt="" width={60} />
 							</div>
 							<div className="text">
 								<p className="header">Empty Orders</p>

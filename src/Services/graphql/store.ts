@@ -195,6 +195,15 @@ export const UPDATE_ORDER = gql`
 	}
 `;
 
+export const UPDATE_STORE_FOLLOWERSHIP = gql`
+	mutation updateStoreFollower($input: StoreFollowerInput!) {
+		updateStoreFollower(input: $input) {
+			status
+			name
+		}
+	}
+`;
+
 // export const CONFIGURE_MY_STORE = gql``; //This would be used to either disable/delete store
 
 // export const GET_REVIEWS = gql`` //might be removed

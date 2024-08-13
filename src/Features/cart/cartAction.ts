@@ -2,8 +2,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { actions, selectCart } from "./cartSlice";
 import { ICartProps } from "../../Interfaces";
 import { apolloClient } from "../../Services/graphql/apolloClient";
-import { GET_MY_CART, MODIFY_CART } from "../../Services/graphql/cart";
+import {
+	GET_MY_CART,
+	INITIATE_PAYEMNT,
+	MODIFY_CART,
+} from "../../Services/graphql/cart";
 import { REMOVE_ALL_CARTS } from "../../Services/graphql/cart";
+import { closeModal } from "../modal/modalSlice";
 
 export default function useCart() {
 	const dispatch = useDispatch();
@@ -15,8 +20,12 @@ export default function useCart() {
 			mutation: MODIFY_CART,
 			variables: { input },
 		});
-		if (response?.data?.modifyCart) {
-			dispatch(actions.setCart(response.data.modifyCart));
+		try {
+			if (response?.data?.modifyCart) {
+				dispatch(actions.setCart(response.data.modifyCart));
+			}
+		} catch (error) {
+			throw error;
 		}
 	};
 
@@ -49,10 +58,21 @@ export default function useCart() {
 		}
 	};
 
+	const initializePayment = async (input: any) => {
+		const response = await apolloClient.mutate({
+			mutation: INITIATE_PAYEMNT,
+			variables: { input },
+		});
+		if (response.data.initializePayment) {
+			window.location.replace(response.data.initializePayment);
+			dispatch(closeModal("payment"));
+		}
+	};
 	return {
 		cart,
 		modifyCart,
 		removeAllCart,
 		getmyCart,
+		initializePayment,
 	};
 }
