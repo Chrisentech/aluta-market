@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Container, Img, Label } from "./Payment.style";
 import {
 	ArrowLeftIcon,

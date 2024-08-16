@@ -10,6 +10,98 @@ export const Home = styled.section`
 	.btn-start {
 		margin: 30px 0;
 	}
+	.categories2 {
+		h3 {
+			display: none;
+			margin: 10px 0;
+		}
+		@media (max-width: 1200px) {
+			background-color: #fff;
+			width: 90%;
+			padding: 10px;
+			h3 {
+				display: block;
+			}
+		}
+	}
+	.flex-container2 {
+		display: flex;
+		flex-wrap: wrap; /* Allows items to wrap onto the next row */
+		// justify-content: space-between; /* Add space between items */
+		width: 90%;
+		margin: auto;
+		.flex-item {
+			margin-bottom: 10px; /* Space between rows */
+			border: solid 1px #dee2e7;
+			padding: 10px;
+			box-sizing: border-box;
+		}
+		@media (max-width: 1200px) {
+			width: 100%;
+			.flex-item {
+				width: 25% !important; /* 2 items per row on mobile screens */
+				@media (max-width: 768px) {
+					width: 50% !important; /* 2 items per row on mobile screens */
+				}
+			}
+		}
+	}
+	.flex-container {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		// width: 90%;
+		margin: auto;
+		@media (max-width: 768px) {
+			overflow-x: auto;
+			white-space: nowrap; /* Prevent line breaks */
+			flex-wrap: nowrap; /* Prevent wrapping on mobile */
+		}
+		.flex-item {
+			flex: 1 1 calc(15.66% - 10px); /* 16.66% for 6 items per row, with some spacing */
+			// margin: 5px;
+			border: solid 1px #dee2e7;
+			padding: 10px;
+			.image {
+				background: #fff;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				margin: 0 0 20px 0;
+			}
+			.detail {
+				font-family: inter;
+				// height: 35%;
+				background: #fff;
+				.price {
+					color: var(--base-color-dark, #1c1c1c);
+					font-feature-settings: "clig" off, "liga" off;
+					font-family: Inter;
+					font-size: 16px;
+					font-style: normal;
+					font-weight: 500;
+					line-height: 22px; /* 137.5% */
+					margin: 10px 0;
+				}
+				.name {
+					color: var(--gray-500, #8b96a5);
+					font-feature-settings: "clig" off, "liga" off;
+					font-family: Inter;
+					font-size: 16px;
+					font-style: normal;
+					font-weight: 400;
+					line-height: 24px; /* 150% */
+					letter-spacing: -0.2px;
+				}
+			}
+			@media (max-width: 768px) {
+				flex: 0 0 auto;
+				width: 40%; /* Set width for each item in mobile view */
+				margin-right: 10px;
+			}
+		}
+	}
 `;
 
 export const Hero = styled.section`
@@ -31,10 +123,15 @@ export const Hero = styled.section`
 	border-radius: 10px;
 	@media (max-width: 780px) {
 		display: block !important;
+		width: 100%;
 	}
 	@media (max-width: 480px) {
 		height: unset !important;
-		min-height: 400px;
+		min-height: unset;
+
+		.tt {
+			width: 169px !important;
+		}
 	}
 	.flex {
 		display: flex;
@@ -42,8 +139,19 @@ export const Hero = styled.section`
 		justify-content: space-between;
 		align-items: center;
 		@media (max-width: 1530px) {
+			@media (max-width: 600px) {
+				margin-top: 52px;
+			}
 			&.tt {
 				// margin-top: 62px;
+				@media (max-width: 600px) {
+					width: 169px;
+				}
+			}
+			img {
+				@media (max-width: 600px) {
+					width: 235px;
+				}
 			}
 			span {
 				font-weight: 700;
@@ -54,11 +162,14 @@ export const Hero = styled.section`
 				color: transparent;
 				@media (max-width: 780px) {
 					font-size: 37px;
+					@media (max-width: 600px) {
+						font-size: 26px;
+					}
 				}
 			}
 		}
 		@media (max-width: 780px) {
-			flex-direction: column-reverse;
+			// flex-direction: column-reverse;
 		}
 		@media (min-width: 1531px) {
 			div {
@@ -86,6 +197,7 @@ export const Hero = styled.section`
 		@media (max-width: 780px) {
 			width: 93% !important;
 			border: 0 !important;
+			padding: 0;
 			&:hover {
 				box-shadow: none !important;
 				transform: translateY(0px) !important;
@@ -253,11 +365,16 @@ export const GridContainer = styled.div`
 	}
 	@media (max-width: 1200px) {
 		height: unset;
-		display: block;
+		// display: block;
+		grid-template-columns: repeat(2, 4fr);
+		width: 100%;
 	}
 	.first {
 		padding: 22px;
 		background-position: center center;
+		@media (max-width: 1200px) {
+			display: none;
+		}
 		div {
 			display: flex;
 			flex-direction: column;
@@ -285,6 +402,12 @@ export const GridContainer = styled.div`
 		&:hover {
 			background: #55bdc3;
 			transform: translateY(-1px);
+		}
+		@media (max-width: 1200px) {
+			flex-direction: column-reverse;
+			p {
+				text-align: center;
+			}
 		}
 	}
 `;

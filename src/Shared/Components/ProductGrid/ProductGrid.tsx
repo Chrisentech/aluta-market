@@ -38,7 +38,7 @@ const ProductGrid: React.FC<IProductGridProps> = ({
 				</div>
 				<div className="detail">
 					<p className="price">NGN {numberWithCommas(prd.price)}</p>
-					<p className="name">{truncateText(prd.name, 60)}</p>
+					<p className="name">{truncateText(prd.name, 30)}</p>
 				</div>
 			</Card>
 		));

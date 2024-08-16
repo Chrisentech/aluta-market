@@ -23,10 +23,9 @@ import { BsCart3 } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ROUTE } from "../../Constants";
-import { BiUser } from "react-icons/bi";
 import { RxCross2 } from "react-icons/rx";
 import { ImUser } from "react-icons/im";
-import { CartIcon, logo } from "../../../assets";
+import { CartIcon, logo, ThreeDots } from "../../../assets";
 import { categories } from "../../../test-data";
 import { Badge } from "..";
 import { useDispatch, useSelector } from "react-redux";
@@ -113,7 +112,7 @@ const SideBar: React.FC<{
 // Mobile Navbar Component
 const MobileNavbar: React.FC<{ scrolled: boolean }> = ({ scrolled }) => {
 	const [show, setShow] = useState(false);
-	const [type, setType] = useState("");
+	const [type, _] = useState("");
 	const handleToggleSidebar = () => {
 		setShow(!show);
 	};
@@ -135,14 +134,8 @@ const MobileNavbar: React.FC<{ scrolled: boolean }> = ({ scrolled }) => {
 					</Flex>
 					<Flex>
 						<BsCart3 size={26} />
-						<BiUser
-							size={26}
-							style={{ cursor: "pointer" }}
-							onClick={() => {
-								handleToggleSidebar();
-								setType("blank");
-							}}
-						/>
+
+						<ThreeDots />
 					</Flex>
 				</Wrapper>
 				{/* Sidebar component */}

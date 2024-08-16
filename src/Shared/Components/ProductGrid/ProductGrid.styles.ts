@@ -14,8 +14,12 @@ export const Container = styled.div<IProductGridProps>`
 	margin: 20px auto;
 	gap: 10px;
 	@media (max-width: 800px) {
-		grid-template-columns: repeat(1, 1fr);
-		grid-template-rows: repeat(4, 1fr);
+		// grid-template-columns: repeat(1, 1fr);
+		// grid-template-rows: repeat(4, 1fr);
+		display: flex;
+		overflow: auto !important;
+		gap: 0;
+		width: 100%;
 	}
 	.ad {
 		@media (max-width: 800px) {
@@ -26,7 +30,7 @@ export const Container = styled.div<IProductGridProps>`
 		display: flex;
 		flex-direction: column;
 		border: solid 1px #dee2e7;
-
+		padding: 0 10px 3px 10px;
 		.image {
 			background: ${({ background }) => (background ? background : "#FFF")};
 			display: flex;

@@ -19,41 +19,42 @@ import {
 	utensilImg,
 	wallet,
 	watch,
+	eventImg,
 	writingImg,
 } from "../assets";
 import { image1, image2, image3, image4, image5 } from "./product-info img";
 
 export const categories = [
 	{
-		title: "Stationaries and Textbooks",
+		title: "Stationaries and Textbooks ",
 		image: stationeryImg,
 	},
 	{
-		title: "Gadgets and Electronics",
+		title: "Gadgets and Electronics ",
 		image: electronicsImg,
 	},
 	{
-		title: "Fashion and Accessories",
+		title: "Fashion and Accessories ",
 		image: clothImg,
 	},
 	{
-		title: "Footwears and Bags",
+		title: "Footwears and Bags ",
 		image: bagImg,
 	},
 	{
-		title: "Food and Beverages",
+		title: "Food and Beverages ",
 		image: foodImg,
 	},
 	{
-		title: "Household Utensils",
+		title: "Household Utensils ",
 		image: utensilImg,
 	},
 	{
-		title: "Cosmetics and Toiletries",
+		title: "Cosmetics and Toiletries ",
 		image: cosmeticImg,
 	},
 	{
-		title: "Skills and Services",
+		title: "Digital Products ",
 		image: healthImg,
 	},
 ];
@@ -64,31 +65,31 @@ export const services = [
 		image: accomodationImg,
 	},
 	{
-		title: "Tutoring Services",
+		title: "Tutoring Services ",
 		image: tutoringImg,
 	},
 	{
-		title: "Writing Assistance",
+		title: "Writing Assistance ",
 		image: writingImg,
 	},
 	{
-		title: "Airtime and Data Recharge",
+		title: "Airtime and Data Recharge ",
 		image: airtimeImg,
 	},
 	{
-		title: "Career Development Programs",
+		title: "Career Development Programs ",
 		image: careerImg,
 	},
 	{
-		title: "Events Organizing",
-		image: null,
+		title: "Events Organizing ",
+		image: eventImg,
 	},
 	{
-		title: "Cyber Cafe Operations",
+		title: "Cyber Cafe Operations ",
 		image: cyberImg,
 	},
 	{
-		title: "Entertainment and Advertising",
+		title: "Entertainment and Advertising ",
 		image: entertainmentImg,
 	},
 ];
