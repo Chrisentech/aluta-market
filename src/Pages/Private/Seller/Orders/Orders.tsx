@@ -16,10 +16,7 @@ import {
 	selectStore,
 	selectStores,
 } from "../../../../Features/store/storeSlice";
-import {
-	selectActiveModal,
-	showModal,
-} from "../../../../Features/modal/modalSlice";
+import { selectActiveModal } from "../../../../Features/modal/modalSlice";
 import {
 	GridItem,
 	OrderCard,
@@ -31,24 +28,19 @@ import {
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { AppColors, ROUTE } from "../../../../Shared/Constants";
 import { FaCheck } from "react-icons/fa";
-import {
-	alertError,
-	alertSuccess,
-} from "../../../../Features/alert/alertSlice";
+import { alertSuccess } from "../../../../Features/alert/alertSlice";
 import {
 	calculateTotalPrice,
 	formatCurrency,
 	getCapitalizedFirstLetter,
 	GetOrdersByStatus,
 } from "../../../../Shared/Utils/helperFunctions";
-import useStore from "../../../../Features/store/storeAction";
 import { Puff } from "react-loading-icons";
 import OrderModal from "./modal/orderModal";
 
 const Screen: React.FC = () => {
 	const dispatch = useDispatch();
 	const [activeTab, setActiveTab] = useState<string>("pending");
-	const { updateOrders } = useStore();
 	const [copied, setCopied] = useState<boolean>(false);
 	const nav = useNavigate();
 	const handleCopy = async (text: string) => {

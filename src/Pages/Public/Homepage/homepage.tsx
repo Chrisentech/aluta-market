@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Layout from "../../../Layouts";
 import {
 	Home,
@@ -16,9 +16,9 @@ import { categories, services } from "../../../test-data";
 import {
 	Card,
 	Button,
-	ProductGrid,
 	LogoutModal,
 	SkynetModal,
+	SkeletonLoader,
 } from "../../../Shared/Components";
 import { lol, lor, secure, log } from "../../../assets";
 import { MdOutlineInventory2, MdOutlineSearch, MdSend } from "react-icons/md";
@@ -41,7 +41,11 @@ import {
 	selectProducts,
 	selectSkinCareProducts,
 } from "../../../Features/products/productSlice";
-import { generateSlug } from "../../../Shared/Utils/helperFunctions";
+import {
+	generateSlug,
+	numberWithCommas,
+	truncateText,
+} from "../../../Shared/Utils/helperFunctions";
 import useProducts from "../../../Features/products/productActions";
 
 const Screen: React.FC = () => {
@@ -49,18 +53,7 @@ const Screen: React.FC = () => {
 	const { isAuthenticated } = useAuthentication();
 	const me = useSelector((state: any) => state.user.me);
 	const dispatch = useDispatch();
-	const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
-	const handleResize = () => {
-		setIsMobile(window.innerWidth < 768); // Adjust the threshold as needed
-	};
-	useEffect(() => {
-		window.addEventListener("resize", handleResize);
-		handleResize(); // Set initial isMobile value on component mount
-		return () => {
-			window.removeEventListener("resize", handleResize);
-		};
-	}, []);
 	const beveragesProducts = useSelector(selectBeveragesProducts);
 	const accomodationProduct = useSelector(selectAccomodationProducts);
 	const gadgetsProducts = useSelector(selectGadgetProducts);
@@ -72,7 +65,13 @@ const Screen: React.FC = () => {
 		getAccomodationProducts,
 		getGadgetsProducts,
 		getSkincareProducts,
+		getProducts,
 	} = useProducts();
+
+	useEffect(() => {
+		// Fetch products when the component mounts
+		getProducts({ store: "", limit: 12, offset: 0 });
+	}, [getProducts]);
 
 	useEffect(() => {
 		const fetchProducts = async () => {
@@ -229,15 +228,58 @@ const Screen: React.FC = () => {
 					padding: 10,
 					borderRadius: 10,
 					background: "#fff",
-					width: "calc(90% - 20px)",
+					width: "90%",
 					margin: "20px auto",
 				}}
 			>
 				<Header1>Products Students in Your School are Buying</Header1>
-				<ProductGrid data={products} isMobile={isMobile} />
+				{/* <ProductGrid data={products} isMobile={isMobile} /> */}
+				<div className="flex-container" style={{ marginBottom: 10 }}>
+					{products?.length
+						? products?.slice(0, 6)?.map((prd, i) => {
+								return (
+									<div key={i} className="flex-item">
+										<div className="image">
+											<img src={prd.thumbnail} alt={"alt"} width={"80%"} />
+										</div>
+										<div className="detail">
+											<p className="price">NGN {numberWithCommas(prd.price)}</p>
+											<p className="name">{truncateText(prd.name, 30)}</p>
+										</div>
+									</div>
+								);
+						  })
+						: Array(6)
+								.fill("*")
+								.map((_, i) => {
+									return <SkeletonLoader key={i} />;
+								})}
+				</div>
+				<div className="flex-container">
+					{products?.length
+						? products?.slice(6, 12)?.map((prd, i) => {
+								return (
+									<div key={i} className="flex-item">
+										<div className="image">
+											<img src={prd.thumbnail} alt={"alt"} width={"80%"} />
+										</div>
+										<div className="detail">
+											<p className="price">NGN {numberWithCommas(prd.price)}</p>
+											<p className="name">{truncateText(prd.name, 30)}</p>
+										</div>
+									</div>
+								);
+						  })
+						: Array(6)
+								.fill("*")
+								.map((_, i) => {
+									return <SkeletonLoader key={i} />;
+								})}
+				</div>
 			</section>
 			{/* Product and Services section */}
-			<section>
+			<section className="categories2">
+				<h3>Product Categories</h3>
 				<GridContainer>
 					<GridItem
 						isLarge={true}
@@ -276,6 +318,7 @@ const Screen: React.FC = () => {
 						</GridItem>
 					))}
 				</GridContainer>
+				<h3>Skills and Services</h3>
 				<GridContainer>
 					<GridItem
 						isLarge={true}
@@ -295,6 +338,7 @@ const Screen: React.FC = () => {
 							</Button>
 						</div>
 					</GridItem>
+
 					{services.map((item, index) => (
 						<GridItem
 							key={index + item.title}
@@ -320,12 +364,42 @@ const Screen: React.FC = () => {
 						padding: 10,
 						borderRadius: 10,
 						background: "#fff",
-						width: "calc(90% - 20px)",
+						width: "100%",
 						margin: "20px auto",
 					}}
 				>
 					<Header1>Recommended Items</Header1>
-					<ProductGrid isMobile={isMobile} />
+					{/* <ProductGrid isMobile={isMobile} />
+					 */}
+					<div className="flex-container2">
+						{skincareProducts?.length
+							? skincareProducts?.map((prd: any, i: number) => {
+									return (
+										<div
+											key={i}
+											className="flex-item"
+											style={{
+												width: `16.6666%`,
+											}}
+										>
+											<div className="image">
+												<img src={prd.thumbnail} alt={"alt"} width={"80%"} />
+											</div>
+											<div className="detail">
+												<p className="price">
+													NGN {numberWithCommas(prd.price)}
+												</p>
+												<p className="name">{truncateText(prd.name, 30)}</p>
+											</div>
+										</div>
+									);
+							  })
+							: Array(6)
+									.fill("*")
+									.map((_, i) => {
+										return <SkeletonLoader key={i} />;
+									})}
+					</div>
 				</section>
 
 				<section
@@ -333,12 +407,41 @@ const Screen: React.FC = () => {
 						padding: 10,
 						borderRadius: 10,
 						background: "#fff",
-						width: "calc(90% - 20px)",
+						width: "100%",
 						margin: "20px auto",
 					}}
 				>
 					<Header1>Food and Beverages</Header1>
-					<ProductGrid data={beveragesProducts} isMobile={isMobile} />
+					{/* <ProductGrid data={beveragesProducts} isMobile={isMobile} /> */}
+					<div className="flex-container2">
+						{beveragesProducts?.length
+							? beveragesProducts?.map((prd: any, i: number) => {
+									return (
+										<div
+											key={i}
+											className="flex-item"
+											style={{
+												width: `16.6666%`,
+											}}
+										>
+											<div className="image">
+												<img src={prd.thumbnail} alt={"alt"} width={"80%"} />
+											</div>
+											<div className="detail">
+												<p className="price">
+													NGN {numberWithCommas(prd.price)}
+												</p>
+												<p className="name">{truncateText(prd.name, 30)}</p>
+											</div>
+										</div>
+									);
+							  })
+							: Array(6)
+									.fill("*")
+									.map((_, i) => {
+										return <SkeletonLoader key={i} />;
+									})}
+					</div>
 				</section>
 
 				<section
@@ -346,12 +449,41 @@ const Screen: React.FC = () => {
 						padding: 10,
 						borderRadius: 10,
 						background: "#fff",
-						width: "calc(90% - 20px)",
+						width: "100%",
 						margin: "20px auto",
 					}}
 				>
 					<Header1>Accomodation</Header1>
-					<ProductGrid data={accomodationProduct} isMobile={isMobile} />
+					{/* <ProductGrid data={accomodationProduct} isMobile={isMobile} /> */}
+					<div className="flex-container2">
+						{accomodationProduct?.length
+							? accomodationProduct?.map((prd: any, i: number) => {
+									return (
+										<div
+											key={i}
+											className="flex-item"
+											style={{
+												width: `16.6666%`,
+											}}
+										>
+											<div className="image">
+												<img src={prd.thumbnail} alt={"alt"} width={"80%"} />
+											</div>
+											<div className="detail">
+												<p className="price">
+													NGN {numberWithCommas(prd.price)}
+												</p>
+												<p className="name">{truncateText(prd.name, 30)}</p>
+											</div>
+										</div>
+									);
+							  })
+							: Array(6)
+									.fill("*")
+									.map((_, i) => {
+										return <SkeletonLoader key={i} />;
+									})}
+					</div>
 				</section>
 
 				<section
@@ -359,12 +491,41 @@ const Screen: React.FC = () => {
 						padding: 10,
 						borderRadius: 10,
 						background: "#fff",
-						width: "calc(90% - 20px)",
+						width: "100%",
 						margin: "20px auto",
 					}}
 				>
 					<Header1>Gadgets</Header1>
-					<ProductGrid data={gadgetsProducts} isMobile={isMobile} />
+					{/* <ProductGrid data={gadgetsProducts} isMobile={isMobile} /> */}
+					<div className="flex-container2">
+						{gadgetsProducts?.length
+							? gadgetsProducts?.map((prd: any, i: number) => {
+									return (
+										<div
+											key={i}
+											className="flex-item"
+											style={{
+												width: `16.6666%`,
+											}}
+										>
+											<div className="image">
+												<img src={prd.thumbnail} alt={"alt"} width={"80%"} />
+											</div>
+											<div className="detail">
+												<p className="price">
+													NGN {numberWithCommas(prd.price)}
+												</p>
+												<p className="name">{truncateText(prd.name, 30)}</p>
+											</div>
+										</div>
+									);
+							  })
+							: Array(6)
+									.fill("*")
+									.map((_, i) => {
+										return <SkeletonLoader key={i} />;
+									})}
+					</div>
 				</section>
 
 				<section
@@ -372,12 +533,41 @@ const Screen: React.FC = () => {
 						padding: 10,
 						borderRadius: 10,
 						background: "#fff",
-						width: "calc(90% - 20px)",
+						width: "100%",
 						margin: "20px auto",
 					}}
 				>
 					<Header1>Skin Care</Header1>
-					<ProductGrid data={skincareProducts} isMobile={isMobile} />
+					{/* <ProductGrid data={skincareProducts} isMobile={isMobile} /> */}
+					<div className="flex-container2">
+						{skincareProducts?.length
+							? skincareProducts?.map((prd: any, i: number) => {
+									return (
+										<div
+											key={i}
+											className="flex-item"
+											style={{
+												width: `16.6666%`,
+											}}
+										>
+											<div className="image">
+												<img src={prd.thumbnail} alt={"alt"} width={"80%"} />
+											</div>
+											<div className="detail">
+												<p className="price">
+													NGN {numberWithCommas(prd.price)}
+												</p>
+												<p className="name">{truncateText(prd.name, 30)}</p>
+											</div>
+										</div>
+									);
+							  })
+							: Array(6)
+									.fill("*")
+									.map((_, i) => {
+										return <SkeletonLoader key={i} />;
+									})}
+					</div>
 				</section>
 
 				<ProductRequestForm>
