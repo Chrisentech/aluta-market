@@ -18,31 +18,44 @@ import useCart from "../../../../Features/cart/cartAction";
 import { alertSuccess } from "../../../../Features/alert/alertSlice";
 
 const Screen: React.FC = () => {
-	const { getWishlist } = useUsers();
+	const { getWishlist, wishlists, removeFromWishlist } = useUsers();
 	const { modifyCart } = useCart();
 	const me: any = useSelector(fetchMe);
-	const wishlists: any = useSelector(fetchWishlist);
 	const dispatch = useDispatch();
+
+	// const itemNames = cart?.items
+	// 	? new Set(cart?.items.map((item) => item.product?.name))
+	// 	: new Set();
+
+	// const filteredProduct = wishlists?.filter(
+	// 	(product: any) => !itemNames.has(product.productName)
+	// );
 	const [btnLoading, setbtnLoading] = React.useState<number | string>(0);
 	useEffect(() => {
 		const fetchData = async () => {
-			await getWishlist(me.id);
+			await getWishlist(me?.id);
 		};
 		if (!wishlists) {
 			fetchData();
 		}
 	}, [me]);
 	const handleAddToCart = async (id: number, name: string) => {
-		setbtnLoading(id);
+		setbtnLoading(name);
 		await modifyCart({
 			productName: name,
 			productId: 0,
 			quantity: 1,
 			user: parseInt(me?.id, 10),
 		});
+		await removeFromWishlist(id);
+
 		setbtnLoading("");
 
-		dispatch(alertSuccess("poduct moved to cart successfully!!"));
+		dispatch(alertSuccess("product moved to cart successfully!!"));
+	};
+	const handleRemoveFromWishlist = (id: string) => {
+		localStorage.setItem("product_id", id);
+		dispatch(showModal("saved-for-later-modal"));
 	};
 	return (
 		<Wrapper>
@@ -59,13 +72,14 @@ const Screen: React.FC = () => {
 									<MdOutlineCancel
 										className="svg"
 										size={24}
-										onClick={() => dispatch(showModal("saved-for-later-modal"))}
+										onClick={() => handleRemoveFromWishlist(wishlist.productId)}
 									/>
 									<div className="img">
 										<ImageCard
 											src={wishlist.productThumbnail}
-											width={"120px"}
+											width={"100%"}
 											imageHeight="100px"
+											className="img-wishlist"
 										/>
 									</div>
 
@@ -74,8 +88,14 @@ const Screen: React.FC = () => {
 										N{numberWithCommas(wishlist.productPrice)}
 									</p>
 									<Button
-										loading={btnLoading === wishlist.productId}
-										disabled={btnLoading === wishlist.productId}
+										loading={
+											wishlist.productQuantity === 0 ||
+											btnLoading === wishlist.productName
+										}
+										disabled={
+											wishlist.productQuantity === 0 ||
+											btnLoading === wishlist.productName
+										}
 										color="#fff"
 										background="#FF9017"
 										onClick={() =>
@@ -83,7 +103,11 @@ const Screen: React.FC = () => {
 										}
 									>
 										<IoMdCart color="#fff" />
-										<span>Move to Cart</span>
+										<span>
+											{wishlist.productQuantity === 0
+												? "Out of stock"
+												: "Move to Cart"}
+										</span>
 									</Button>
 								</div>
 							);
@@ -96,7 +120,7 @@ const Screen: React.FC = () => {
 							flexDirection: "column",
 							alignItems: "center",
 							justifyContent: "center",
-							height: "300px",
+							height: "500px",
 							width: "100%",
 							padding: "20px",
 							textAlign: "center",

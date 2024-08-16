@@ -12,7 +12,7 @@ export const Wrapper = styled.div`
 	padding-right: 45px;
 	@media (max-width: 890px) {
 		height: unset;
-		padding: 20px 0;
+		padding: 10px;
 		flex-direction: column;
 	}
 	.text {

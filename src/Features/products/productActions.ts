@@ -62,7 +62,6 @@ export default function useProducts() {
 		});
 		if (response.data.searchProducts) {
 			dispatch(actions.setSeacrhedProducts(response.data.searchProducts));
-			console.log(response.data.searchProducts);
 		} else {
 			dispatch(actions.setSeacrhedProducts([]));
 		}

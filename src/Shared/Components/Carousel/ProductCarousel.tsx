@@ -73,7 +73,6 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({
 	const handleImageSelect = (image: string) => {
 		setSelectedImage(image);
 	};
-	console.log(images);
 	return (
 		<CarouselContainer>
 			<SelectedImage src={selectedImage} alt="Selected Product" />

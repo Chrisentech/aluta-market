@@ -37,17 +37,17 @@ const Screen: React.FC = () => {
 	const { state } = useLocation();
 	const products = state?.product;
 	const dispatch = useDispatch();
-	const [loading, setLoading] = useState("");
+	const [loading, setLoading] = useState<number>(0);
 	const { updateOrders } = useStore();
 
 	const store = useSelector(selectStore);
-	const handleOrderStatus = async (status: string, id: string) => {
+	const handleOrderStatus = async (status: string, id: string, num: number) => {
 		const ok = window.confirm(
 			`Are you sure you want to change this order status to ${status}?`
 		);
 
 		if (ok) {
-			setLoading(id);
+			setLoading(num);
 			try {
 				await updateOrders({ id, status, store_id: store?.id });
 
@@ -61,7 +61,7 @@ const Screen: React.FC = () => {
 
 				dispatch(alertError(error?.message));
 			} finally {
-				setLoading("");
+				setLoading(0);
 			}
 		}
 	};
@@ -87,11 +87,13 @@ const Screen: React.FC = () => {
 						{state?.status === "pending" && (
 							<div className="flex">
 								<Button
-									onClick={() => handleOrderStatus("processing", state?.uuid)}
+									onClick={() =>
+										handleOrderStatus("processing", state?.uuid, 1)
+									}
 									color={"#fff"}
 									background="green"
-									disabled={loading === state?.uuid}
-									loading={loading === state?.uuid}
+									disabled={loading === 1}
+									loading={loading === 1}
 								>
 									Accept
 								</Button>
@@ -100,9 +102,9 @@ const Screen: React.FC = () => {
 									color={"red"}
 									border="1px solid red"
 									background="#fff"
-									disabled={loading === state?.uuid}
-									loading={loading === state?.uuid}
-									onClick={() => handleOrderStatus("canceled", state?.uuid)}
+									disabled={loading === 2}
+									loading={loading === 2}
+									onClick={() => handleOrderStatus("canceled", state?.uuid, 2)}
 								>
 									Cancel
 								</Button>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Info, Label } from "./SavedForLater.styles";
 import { Button } from "../../../../Shared/Components";
 import { closeModal } from "../../../../Features/modal/modalSlice";
@@ -8,8 +8,18 @@ import useUsers from "../../../../Features/user/userActions";
 const Modal: React.FC = () => {
 	const dispatch = useDispatch();
 	const { removeFromWishlist } = useUsers();
+	const [loading, setLoading] = useState(false);
+	const product_id = localStorage.getItem("product_id") || "";
 	const handleRemoveSavedPrd = async () => {
-		await removeFromWishlist(2);
+		setLoading(true);
+		await removeFromWishlist(parseInt(product_id, 10));
+		localStorage.removeItem("product_id");
+		dispatch(closeModal("saved-for-later-modal"));
+		setLoading(false);
+	};
+	const handleCancel = () => {
+		localStorage.removeItem("product_id");
+		dispatch(closeModal("saved-for-later-modal"));
 	};
 	return (
 		<Container>
@@ -25,6 +35,8 @@ const Modal: React.FC = () => {
 					background="#FA3434"
 					className="button"
 					onClick={handleRemoveSavedPrd}
+					disabled={loading}
+					loading={loading}
 				>
 					Yes, Remove
 				</Button>
@@ -35,7 +47,7 @@ const Modal: React.FC = () => {
 					border="solid 1px #DEE2E7"
 					background="#F7FAFC"
 					className="button"
-					onClick={() => dispatch(closeModal("saved-for-later-modal"))}
+					onClick={handleCancel}
 				>
 					No, Cancel
 				</Button>

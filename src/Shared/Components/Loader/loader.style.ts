@@ -14,7 +14,7 @@ const bounceAnimation = keyframes`
 export const LoaderContainer = styled.span`
 	display: flex;
 	justify-content: center;
-	z-index: 1000000;
+	z-index: 10000000000000;
 	position: relative;
 	flex-direction: column;
 	height: 100%;
@@ -25,7 +25,8 @@ export const LoaderContainer = styled.span`
 export const Flex = styled.div`
 	display: flex;
 	flex-direction: column;
-	z-index: 1000000;
+	z-index: 10000000000000;
+
 	position: fixed;
 	top: 0;
 	left: 0;

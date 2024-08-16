@@ -21,6 +21,7 @@ import {
 	ImageCard,
 	ItemCounter,
 	View,
+	PaymentModal,
 } from "../../../Shared/Components";
 import {
 	amexpress,
@@ -29,11 +30,13 @@ import {
 	lockGray,
 	masterpay,
 	messageGray,
+	noProduct,
 	paypal,
 	shopGrayScale,
 	visa,
 } from "../../../assets";
 import { CartProduct } from "../../../test-data/data";
+import lodash from "lodash";
 import {
 	formatCurrency,
 	IsInHandledProduct,
@@ -43,9 +46,14 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 import useCart from "../../../Features/cart/cartAction";
 import { useDispatch, useSelector } from "react-redux";
 import { alertSuccess } from "../../../Features/alert/alertSlice";
-import { fetchMe, fetchWishlist } from "../../../Features/user/userSlice";
+import { fetchMe } from "../../../Features/user/userSlice";
 import { ICartProps } from "../../../Interfaces";
 import useUsers from "../../../Features/user/userActions";
+import {
+	selectActiveModal,
+	showModal,
+} from "../../../Features/modal/modalSlice";
+import { selectLoadingState } from "../../../Features/loading/loadingSlice";
 
 const Screen: React.FC = () => {
 	const [products, _] = useState<any[]>(CartProduct);
@@ -53,9 +61,8 @@ const Screen: React.FC = () => {
 	const discount = 60;
 	const tax = 14;
 	const { cart, removeAllCart, modifyCart } = useCart();
-	const { addToWishlist, getWishlist } = useUsers();
+	const { addToWishlist, wishlists, getWishlist } = useUsers();
 	const me: any = useSelector(fetchMe);
-	const wishlist: any = useSelector(fetchWishlist);
 	const [cartItems, setCartItems] = useState<ICartProps | null>(cart);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -71,7 +78,9 @@ const Screen: React.FC = () => {
 	};
 	useEffect(() => {
 		setCartItems(cart);
-		getWishListedProducts();
+		if (!wishlists) {
+			getWishListedProducts();
+		}
 	}, [cart]);
 	const handleRemoveFromCart = async (productId: string, quantity: number) => {
 		setButtonLoader(productId);
@@ -84,6 +93,9 @@ const Screen: React.FC = () => {
 		await removeAllCart(parseInt(cartID, 10));
 		dispatch(alertSuccess("Cart has been cleared!!"));
 		setButtonLoader(0);
+	};
+	const handlePaymentModal = () => {
+		dispatch(showModal("payment"));
 	};
 	const handleAddSavedLater = async (
 		productId: string,
@@ -100,7 +112,7 @@ const Screen: React.FC = () => {
 		let currentArray: any[] = [];
 
 		//logic to handle which data to map.... example
-		wishlist?.map((prod: any, index: number) => {
+		wishlists?.map((prod: any, index: number) => {
 			currentArray.push(
 				<GridProductCard key={index}>
 					<div className="image">
@@ -169,7 +181,7 @@ const Screen: React.FC = () => {
 															</p>
 														)}
 														<p className="store-name" style={{ fontSize: 12 }}>
-															{item?.product?.store}
+															{lodash.capitalize(item?.product?.store)}
 														</p>
 													</div>
 													<div className="buttons">
@@ -202,7 +214,7 @@ const Screen: React.FC = () => {
 															)}
 														{!IsInHandledProduct(
 															item?.product?.name,
-															wishlist
+															wishlists
 														) && (
 															<Button
 																disabled={buttonLoader === item?.product?.price}
@@ -334,6 +346,7 @@ const Screen: React.FC = () => {
 										height="40px"
 										background="#00B517"
 										color="#fff"
+										onClick={handlePaymentModal}
 									>
 										Checkout
 									</Button>
@@ -377,7 +390,7 @@ const Screen: React.FC = () => {
 
 				<SectionCard>
 					<h3 className="title">Saved for later</h3>
-					{wishlist && (
+					{wishlists?.length > 0 ? (
 						<View
 							mode="grid"
 							itempergrid={6}
@@ -386,19 +399,65 @@ const Screen: React.FC = () => {
 							gap="5px"
 							className="view"
 						/>
+					) : (
+						<div
+							style={{
+								display: "flex",
+								flexDirection: "column",
+								alignItems: "center",
+								justifyContent: "center",
+								height: "300px",
+								width: "100%",
+								padding: "20px",
+								textAlign: "center",
+								color: "#777",
+							}}
+						>
+							<img src={noProduct} alt="no_product" width={100} />
+							<p style={{ marginBottom: 10 }}>
+								You haven't saved any items yet.
+							</p>
+							<Button color="#fff" background="#FF9017">
+								<span>Start Shopping</span>
+							</Button>
+						</div>
 					)}
 				</SectionCard>
 				<div style={{ height: "30px" }}></div>
 				<SectionCard>
 					<h3 className="title">Recently viewed</h3>
-					<View
-						mode="grid"
-						itempergrid={6}
-						gridItems={getGridItems()}
-						cardStyle="card"
-						gap="5px"
-						className="view"
-					/>
+					{true ? (
+						<View
+							mode="grid"
+							itempergrid={6}
+							gridItems={getGridItems()}
+							cardStyle="card"
+							gap="5px"
+							className="view"
+						/>
+					) : (
+						<div
+							style={{
+								display: "flex",
+								flexDirection: "column",
+								alignItems: "center",
+								justifyContent: "center",
+								height: "300px",
+								width: "100%",
+								padding: "20px",
+								textAlign: "center",
+								color: "#777",
+							}}
+						>
+							<img src={noProduct} alt="no_product" width={100} />
+							<p style={{ marginBottom: 10 }}>
+								You haven't no recently viewed items yet.
+							</p>
+							<Button color="#fff" background="#FF9017">
+								<span>Start Shopping</span>
+							</Button>
+						</div>
+					)}
 				</SectionCard>
 				<div className="banner-wrapper">
 					<Banner />
@@ -409,14 +468,18 @@ const Screen: React.FC = () => {
 };
 
 const Cart = () => {
-	// const { loading } = useSelector((store: any) => store.products);
+	const activeModal = useSelector(selectActiveModal);
 	const { cart } = useCart();
+	const loading = useSelector(selectLoadingState);
 	return (
 		<Layout
 			layout={"full"}
 			component={Screen}
-			isLoading={!cart}
+			popUpContent={<PaymentModal data={cart} />}
+			showModal={activeModal}
+			isLoading={!cart || loading}
 			navMode="noSearch"
+			modalWidth={560}
 		/>
 	);
 };

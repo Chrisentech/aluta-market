@@ -98,6 +98,12 @@ export const SectionCard = styled.div`
 		margin-top: 20px;
 		align-self: flex-start;
 		margin-left: 25px;
+		@media (max-width: 680px) {
+			align-self: unset;
+			margin-top: 0;
+			margin-left: 0;
+			text-align: center;
+		}
 	}
 	.card {
 		box-shadow: none !important;
@@ -284,7 +290,9 @@ export const ProductCard = styled.div`
 		overflow: hidden;
 		@media (max-width: 890px) {
 			min-height: 150px;
-			min-width: 150px;
+			max-width:unset;
+			min-width: unset;
+			max-height:unset
 		}
 		img {
 			width: 100%;
@@ -292,9 +300,14 @@ export const ProductCard = styled.div`
 			object-fit: contain;
 		}
 	}
-	.left-cide {
-		display: flex;
-		flex-direction: row;
+	.left-side {
+		    display: flex;
+    // align-items: center;
+    gap: 10px;
+	@media(max-width:680px){
+	flex-direction:column
+	}
+}
 	}
 	.right-side {
 		height: 100%;

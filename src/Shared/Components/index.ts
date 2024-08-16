@@ -25,6 +25,7 @@ import RangeSlider from "./RangeSlider/RangeSlider";
 import VerifyOTPModal from "./VerifyOTPModal";
 import ItemCounter from "./ItemCounter/ItemCounter";
 import LogoutModal from "./LogoutModal/Logout";
+import PaymentModal from "./PaymentModal/Payment";
 import SkynetModal from "./SkynetModal/Skynet";
 import DeleteModal from "./DeleteModal/DeleteModal";
 import Banner from "./Bannner/Banner";
@@ -60,6 +61,7 @@ export {
 	RangeSlider,
 	ItemCounter,
 	LogoutModal,
+	PaymentModal,
 	Banner,
 	SkeletonLoader,
 	AddProductImage,

@@ -14,6 +14,7 @@ import {
 	GET_MY_STORES,
 	UPDATE_MY_STORE,
 	UPDATE_ORDER,
+	UPDATE_STORE_FOLLOWERSHIP,
 } from "../../Services/graphql/store";
 import { alertError, alertSuccess } from "../alert/alertSlice";
 import { setLoading, setNotLoading } from "../loading/loadingSlice";
@@ -81,6 +82,18 @@ export default function useStore() {
 		});
 		dispatch(actions.setStore(response.data.updateStore));
 	};
+
+	const updateStoreFollowership = async (input: any) => {
+		try {
+			const response = await apolloClient.mutate({
+				mutation: UPDATE_STORE_FOLLOWERSHIP,
+				variables: { input },
+			});
+			dispatch(alertSuccess(response));
+		} catch (error: any) {
+			throw new Error(error?.message);
+		}
+	};
 	const updateOrders = async (input: any) => {
 		try {
 			const response = await apolloClient.mutate({
@@ -103,5 +116,6 @@ export default function useStore() {
 		createStore,
 		updateStore,
 		updateOrders,
+		updateStoreFollowership,
 	};
 }
