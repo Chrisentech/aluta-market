@@ -19,13 +19,19 @@ import { showModal } from "../../../Features/modal/modalSlice";
 import messageIcon from "../../../assets/messages.svg";
 import profileIcon from "../../../assets/profile.svg";
 import shopIcon from "../../../assets/shop.svg";
-import { BsCart3 } from "react-icons/bs";
+// import { BsCart3 } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ROUTE } from "../../Constants";
 import { RxCross2 } from "react-icons/rx";
 import { ImUser } from "react-icons/im";
-import { CartIcon, logo, ThreeDots } from "../../../assets";
+import {
+	CartIcon,
+	ContactIcon,
+	logo,
+	SearchIcon,
+	ThreeDots,
+} from "../../../assets";
 import { categories } from "../../../test-data";
 import { Badge } from "..";
 import { useDispatch, useSelector } from "react-redux";
@@ -116,11 +122,14 @@ const MobileNavbar: React.FC<{ scrolled: boolean }> = ({ scrolled }) => {
 	const handleToggleSidebar = () => {
 		setShow(!show);
 	};
-
+	const { message } = useSelector((st: any) => st.notifications);
+	const nav = useNavigate();
+	const me: any = useSelector(fetchMe);
 	// ...
+	const [isToggled, setIsToggled] = useState(false);
 
 	return (
-		<>
+		<div onClick={() => setIsToggled(false)}>
 			{/* Blurred background when the Sidebar is open */}
 			<BlurredBackground show={show} />
 			<Container scrolled={scrolled}>
@@ -133,15 +142,64 @@ const MobileNavbar: React.FC<{ scrolled: boolean }> = ({ scrolled }) => {
 						</div>
 					</Flex>
 					<Flex>
-						<BsCart3 size={26} />
+						<SearchIcon />
+						<CartIcon color="#000" />
+						<ThreeDots onClick={() => setIsToggled(!isToggled)} />
+						{isToggled && (
+							<div className="dropdown">
+								<div className="offset"></div>
+								<ul>
+									<IconWrapper onClick={() => nav(ROUTE.BUYER_ORDER)}>
+										<img src={shopIcon} alt="..." />
+										<label>My Orders</label>
+									</IconWrapper>
+									<IconWrapper onClick={() => nav(ROUTE.MESSAGING + "/1")}>
+										{message > 0 && (
+											<Badge
+												count={
+													message < 10 ? (
+														message
+													) : (
+														<small>
+															9<span>+</span>
+														</small>
+													)
+												}
+											/>
+										)}
 
-						<ThreeDots />
+										<img src={messageIcon} alt="#BDC4CD" />
+										<label>Message</label>
+									</IconWrapper>
+									<IconWrapper
+										onClick={() =>
+											me?.usertype === "seller"
+												? nav(ROUTE.SELLER_PROFILE)
+												: nav(ROUTE.BUYER_PROFILE)
+										}
+									>
+										<img src={profileIcon} alt="..." />
+										<label>Profile</label>
+									</IconWrapper>
+									<IconWrapper
+										onClick={() =>
+											me?.usertype === "seller"
+												? nav(ROUTE.SELLER_PROFILE)
+												: nav(ROUTE.BUYER_PROFILE)
+										}
+									>
+										<ContactIcon />
+										<label>Contact Us</label>
+									</IconWrapper>
+								</ul>
+							</div>
+						)}
 					</Flex>
 				</Wrapper>
 				{/* Sidebar component */}
 				<SideBar type={type} show={show} onClose={handleToggleSidebar} />
 			</Container>
-		</>
+		</div>
 	);
 };
 

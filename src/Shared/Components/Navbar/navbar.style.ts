@@ -40,6 +40,45 @@ export const Flex = styled.div`
 	display: flex;
 	gap: 20px;
 	align-items: center;
+	svg {
+		cursor: pointer;
+		color: #000;
+		width: 31px;
+		height: 27px;
+	}
+	.dropdown {
+		position: absolute;
+		min-width: 150px;
+		min-height: 113px;
+		right: 30px;
+		top: 75px;
+		background: #fff;
+		box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+		border-radius: 8px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 10px;
+		.offset {
+			position: absolute;
+			width: 106px;
+			height: 113px;
+			left: 234px;
+			top: 41px;
+		}
+		ul {
+			a {
+				display: flex;
+				gap: 4px;
+				align-items: center;
+				flex-direction: row;
+				margin: 10px 0;
+				label {
+					color: #000;
+				}
+			}
+		}
+	}
 `;
 
 export const SearchContainer = styled.form`

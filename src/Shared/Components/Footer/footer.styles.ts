@@ -2,7 +2,8 @@ import styled from "styled-components";
 
 export const Wrapper = styled.footer`
 	// padding: 40px 80px;
-
+	background: #fff;
+	margin-top: 20px;
 	.logo_content {
 		color: #505050;
 		font-feature-settings: "clig" off, "liga" off;

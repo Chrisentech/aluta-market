@@ -10,6 +10,10 @@ import {
 	Store,
 	ProductView,
 	TermsAndConditions,
+	AboutPage,
+	FaqPage,
+	PrivacyPage,
+	ContactPage,
 } from "../Pages/Public";
 import {
 	SellerDashboard,
@@ -46,17 +50,20 @@ const Router: React.FC = () => {
 	return (
 		<BrowserRouter>
 			<Routes>
-				{/* <BreadcrumbsProvider> */}
+				{/* Public Routes */}
 				<Route path={ROUTE.HOME} element={<Homepage />} />
 				<Route path={ROUTE.SEARCH} element={<SearchPage />} />
 				<Route path={ROUTE.STORE + "/:id"} element={<Store />} />
 				<Route path={ROUTE.LOGIN} element={<Loginpage />} />
 				<Route path={ROUTE.REGISTER} element={<Registerpage />} />
-
 				<Route path={ROUTE.PRODUCTVIEW} element={<ProductView />} />
 				<Route path={ROUTE.TERMS} element={<TermsAndConditions />} />
-				{/* <Route path={ROUTE.VERIFY} element={<Veri />} /> */}
+				<Route path={ROUTE.ABOUT} element={<AboutPage />} />
+				<Route path={ROUTE.FAQ} element={<FaqPage />} />
+				<Route path={ROUTE.PRIVACY} element={<PrivacyPage />} />
+				<Route path={ROUTE.CONTACT} element={<ContactPage />} />
 
+				{/* Protected Routes */}
 				<Route
 					path={ROUTE.BUYER_ORDER}
 					element={

@@ -54,10 +54,10 @@ const Footer: React.FC = () => {
 					<h3>About</h3>
 					<ul>
 						<li>
-							<NavLink to="#">About Us</NavLink>
+							<NavLink to={ROUTE.ABOUT}>About Us</NavLink>
 						</li>
 						<li>
-							<NavLink to="#">FAQs</NavLink>
+							<NavLink to={ROUTE.FAQ}>FAQs</NavLink>
 						</li>
 						<li>
 							<NavLink to="#">Our Stations</NavLink>
@@ -77,10 +77,10 @@ const Footer: React.FC = () => {
 							<NavLink to="#">Return Policy</NavLink>
 						</li>
 						<li>
-							<NavLink to="#">Contact Us</NavLink>
+							<NavLink to={ROUTE.CONTACT}>Contact Us</NavLink>
 						</li>
 						<li>
-							<NavLink to="#">Terms and Conditions</NavLink>
+							<NavLink to={ROUTE.TERMS}>Terms and Conditions</NavLink>
 						</li>
 					</ul>
 				</FooterItems>
@@ -88,16 +88,16 @@ const Footer: React.FC = () => {
 					<h3>For Users</h3>
 					<ul>
 						<li>
-							<NavLink to="#">Login</NavLink>
+							<NavLink to={ROUTE.LOGIN}>Login</NavLink>
 						</li>
 						<li>
-							<NavLink to="#">Register</NavLink>
+							<NavLink to={ROUTE.REGISTER}>Register</NavLink>
 						</li>
 						<li>
 							<NavLink to="#">Settings</NavLink>
 						</li>
 						<li>
-							<NavLink to="#">My Orders</NavLink>
+							<NavLink to={ROUTE.BUYER_ORDER}>My Orders</NavLink>
 						</li>
 					</ul>
 				</FooterItems>
@@ -114,8 +114,6 @@ const Footer: React.FC = () => {
 				<div>&copy; Alutamarket {new Date().getFullYear()}</div>
 				<select>
 					<option>🇺🇸 English</option>
-					<option>🇫🇷 French</option>
-					<option>🇳🇬 Yoruba</option>
 				</select>
 			</FooterBottom>
 		</Wrapper>
