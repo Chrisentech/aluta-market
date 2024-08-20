@@ -128,6 +128,7 @@ export const Hero = styled.section`
 	@media (max-width: 480px) {
 		height: unset !important;
 		min-height: unset;
+		padding: 0;
 
 		.tt {
 			width: 169px !important;
@@ -141,16 +142,22 @@ export const Hero = styled.section`
 		@media (max-width: 1530px) {
 			@media (max-width: 600px) {
 				margin-top: 52px;
+				@media (max-width: 480px) {
+					font-size: 77px;
+				}
 			}
 			&.tt {
 				// margin-top: 62px;
 				@media (max-width: 600px) {
-					width: 169px;
+					width: 159px;
 				}
 			}
 			img {
 				@media (max-width: 600px) {
 					width: 235px;
+					@media (max-width: 480px) {
+						width: 185px;
+					}
 				}
 			}
 			span {
@@ -164,6 +171,9 @@ export const Hero = styled.section`
 					font-size: 37px;
 					@media (max-width: 600px) {
 						font-size: 26px;
+						@media (max-width: 480px) {
+							font-size: 17px;
+						}
 					}
 				}
 			}
