@@ -143,7 +143,7 @@ export const Hero = styled.section`
 			@media (max-width: 600px) {
 				margin-top: 52px;
 				@media (max-width: 480px) {
-					font-size: 77px;
+					margin-top: 77px;
 				}
 			}
 			&.tt {
