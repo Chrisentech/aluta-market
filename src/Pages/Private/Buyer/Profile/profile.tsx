@@ -8,7 +8,7 @@ import {
 } from "./Profile.style";
 import Layout from "../../../../Layouts";
 import { messageEdit } from "../../../../assets";
-import { Button, Card } from "../../../../Shared/Components";
+import { Button, Card, LogoutModal } from "../../../../Shared/Components";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	selectActiveModal,
@@ -204,7 +204,13 @@ const Profile = () => {
 			isLoading={false}
 			showModal={activeModal}
 			navMode="noSearch"
-			popUpContent={<ModalContent active={activeModal} />}
+			popUpContent={
+				activeModal === "logout" ? (
+					<LogoutModal />
+				) : (
+					<ModalContent active={activeModal} />
+				)
+			}
 			modalWidth={500}
 		/>
 	);

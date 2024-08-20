@@ -684,8 +684,8 @@ const HomePage = () => {
 		<Layout
 			layout={"full"}
 			component={Screen}
-			showModal={activeModal}
 			isLoading={!products}
+			showModal={activeModal}
 			popUpContent={
 				activeModal === "skynet" ? <SkynetModal /> : <LogoutModal />
 			}
