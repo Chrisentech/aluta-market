@@ -32,6 +32,8 @@ import {
 } from "../../../../Features/alert/alertSlice";
 import axios from "axios";
 import { selectLoadingState } from "../../../../Features/loading/loadingSlice";
+import MaintenanceMode from "./modals/MaintenanceMode";
+import { Loader } from "../../../../Shared/Components/Button/Button.styles";
 
 const Screen: React.FC = () => {
 	const dispatch = useDispatch();
@@ -41,6 +43,8 @@ const Screen: React.FC = () => {
 	// alert(JSON.stringify(store));
 	const thumbnailInputRef = useRef<HTMLInputElement>(null);
 	const profileImgInputRef = useRef<HTMLInputElement>(null);
+
+	const [isActive, setActive] = useState(store?.status ?? false);
 	const [thumbnail, setThumbnail] = useState<string | ArrayBuffer | null>(
 		store?.background || null
 	);
@@ -107,12 +111,53 @@ const Screen: React.FC = () => {
 		console.log(maintenanceMode);
 	}, [maintenanceMode]);
 
+	const handleMaintenanceMode = async () => {
+		try {
+			setLoading(true);
+			await updateStore({ id: store?.id, status: false });
+			dispatch(alertSuccess("Update successful."));
+			setMaintenanceMode(true);
+			setActive(true);
+		} catch (error: any) {
+			if (error.graphQLErrors && error.graphQLErrors.length > 0) {
+				for (let index = 0; index < error.graphQLErrors.length; index++) {
+					dispatch(
+						alertError(JSON.parse(error.graphQLErrors[index].message).message)
+					);
+				}
+			}
+			if (error.protocolErrors && error.protocolErrors.length > 0) {
+				for (let index = 0; index < error.protocolErrors.length; index++) {
+					dispatch(
+						alertError(JSON.parse(error.protocolErrors[index].message).message)
+					);
+				}
+			}
+			if (error.clientErrors && error.clientErrors.length > 0) {
+				for (let index = 0; index < error.clientErrors.length; index++) {
+					dispatch(
+						alertError(JSON.parse(error.clientErrors[index].message).message)
+					);
+				}
+			}
+			if (error.networkErrors && error.networkErrors.length > 0) {
+				for (let index = 0; index < error.networkErrors.length; index++) {
+					dispatch(
+						alertError(JSON.parse(error.networkErrors[index].message).message)
+					);
+				}
+			}
+		} finally {
+			setLoading(false);
+		}
+	};
 	const saveChnageBtnDisabled =
 		description?.trim() === store?.description &&
 		phone?.trim() === store?.phone &&
 		address?.trim() === store?.address &&
 		email?.trim() === store?.email &&
 		profileImg === store?.thumbnail;
+
 	// alert(saveChnageBtnDisabled);s
 	const handleSubmit = async () => {
 		setLoading(true);
@@ -315,12 +360,16 @@ const Screen: React.FC = () => {
 							>
 								<div className="top-card">
 									<p className="top-text">Maintenance Mode</p>
-									{maintenanceMode || store?.status ? (
-										<MdToggleOn
-											size="55px"
-											color="rgb(255 21 18 / 91%)"
-											onClick={() => setMaintenanceMode(false)}
-										/>
+									{!isActive ? (
+										!loading ? (
+											<MdToggleOn
+												size="55px"
+												color="rgb(255 21 18 / 91%)"
+												onClick={handleMaintenanceMode}
+											/>
+										) : (
+											<Loader />
+										)
 									) : (
 										<MdToggleOff
 											size="55px"
@@ -394,13 +443,20 @@ const StoreSettings = () => {
 	const activeModal = useSelector(selectActiveModal);
 	const store = useSelector(selectStore);
 	const isLoading = useSelector(selectLoadingState);
+	const { maintenanceMode } = useStore();
 	return (
 		<Layout
 			layout={"dashboard"}
 			component={Screen}
 			isLoading={!store || isLoading}
 			showModal={activeModal}
-			popUpContent={<LogoutModal />}
+			popUpContent={
+				activeModal === "maintenanceMode" ? (
+					<MaintenanceMode active={maintenanceMode} />
+				) : (
+					<LogoutModal />
+				)
+			}
 			navMode="noSearch"
 			modalWidth={500}
 		/>

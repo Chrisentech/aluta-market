@@ -1,6 +1,13 @@
+import { useSelector } from "react-redux";
 import { NoFollow } from "../../../../assets";
+import { selectActiveModal } from "../../../../Features/modal/modalSlice";
 import Layout from "../../../../Layouts";
-import { Button, Card } from "../../../../Shared/Components";
+import {
+	Button,
+	Card,
+	LogoutModal,
+	SkynetModal,
+} from "../../../../Shared/Components";
 import { GridWrapper, ImgWrapper, Wrapper } from "./FollowedStores.styles";
 
 interface IFollowedStoresProps {
@@ -88,12 +95,18 @@ Screen.defaultProps = {
 };
 
 const FollowedStores = () => {
+	const activeModal = useSelector(selectActiveModal);
+
 	return (
 		<Layout
 			layout={"dashboard"}
+			showModal={activeModal}
 			component={Screen}
 			isLoading={false}
 			navMode="noSearch"
+			popUpContent={
+				activeModal === "skynet" ? <SkynetModal /> : <LogoutModal />
+			}
 		/>
 	);
 };

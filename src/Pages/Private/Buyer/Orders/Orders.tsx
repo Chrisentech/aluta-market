@@ -3,7 +3,13 @@ import Layout from "../../../../Layouts";
 import { NavLink } from "react-router-dom";
 
 import { bagHappy, wristwatch } from "../../../../assets";
-import { Button, Card, View } from "../../../../Shared/Components";
+import {
+	Button,
+	Card,
+	LogoutModal,
+	SkynetModal,
+	View,
+} from "../../../../Shared/Components";
 import { useSelector } from "react-redux";
 import { selectStore } from "../../../../Features/store/storeSlice";
 import { selectActiveModal } from "../../../../Features/modal/modalSlice";
@@ -127,6 +133,9 @@ const Orders = () => {
 			component={Screen}
 			isLoading={false}
 			showModal={activeModal}
+			popUpContent={
+				activeModal === "skynet" ? <SkynetModal /> : <LogoutModal />
+			}
 			navMode="noSearch"
 		/>
 	);

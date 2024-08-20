@@ -17,7 +17,7 @@ import {
 	alertSuccess,
 } from "../../../../../Features/alert/alertSlice";
 
-const MaintenanceMode: React.FC<{ active: string }> = ({ active }) => {
+const MaintenanceMode: React.FC<{ active: boolean }> = () => {
 	const dispatch = useDispatch();
 	const { setMaintenanceMode, updateStore } = useStore();
 	const [loading, setLoading] = useState(false);
@@ -26,10 +26,10 @@ const MaintenanceMode: React.FC<{ active: string }> = ({ active }) => {
 	const handleMaintenanceMode = async () => {
 		try {
 			setLoading(true);
-			await updateStore({ id: store?.id, status: true });
+			await updateStore({ id: store?.id, status: false });
 			dispatch(alertSuccess("Update successful."));
 			setMaintenanceMode(true);
-			dispatch(closeModal(active));
+			dispatch(closeModal("maintenanceMode"));
 		} catch (error: any) {
 			setLoading(false);
 			if (error.graphQLErrors && error.graphQLErrors.length > 0) {
@@ -68,7 +68,7 @@ const MaintenanceMode: React.FC<{ active: string }> = ({ active }) => {
 			<FormImage>
 				<img src={setting} />
 			</FormImage>
-			<CloseButton onClick={() => dispatch(closeModal(active))}>
+			<CloseButton onClick={() => dispatch(closeModal("maintenanceMode"))}>
 				<AiOutlineCloseCircle size={34} color="#292D32" />
 			</CloseButton>
 			<h2>Maintenanance Mode</h2>
@@ -95,7 +95,7 @@ const MaintenanceMode: React.FC<{ active: string }> = ({ active }) => {
 					color="#FA3434"
 					className="button"
 					borderRadius={10}
-					onClick={() => dispatch(closeModal(active))}
+					onClick={() => dispatch(closeModal("maintenanceMode"))}
 				>
 					Cancel
 				</Button>

@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
 import Layout from "../../../../Layouts";
 import { GridWrapper, Wrapper } from "./SavedForLater.styles";
-import { Button, Card, ImageCard } from "../../../../Shared/Components";
+import {
+	Button,
+	Card,
+	ImageCard,
+	LogoutModal,
+} from "../../../../Shared/Components";
 import { noProduct } from "../../../../assets";
 import { IoMdCart } from "react-icons/io";
 import { MdOutlineCancel } from "react-icons/md";
@@ -150,7 +155,7 @@ const SavedForOthers = () => {
 			component={Screen}
 			showModal={activeModal}
 			isLoading={!wishlists || !me}
-			popUpContent={<Modal />}
+			popUpContent={activeModal === "skynet" ? <LogoutModal /> : <Modal />}
 			navMode="noSearch"
 		/>
 	);
