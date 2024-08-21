@@ -17,7 +17,7 @@ import {
 	alertSuccess,
 } from "../../../../../Features/alert/alertSlice";
 
-const MaintenanceMode: React.FC<{ active: boolean }> = () => {
+const MaintenanceMode: React.FC<{ active: any}> = () => {
 	const dispatch = useDispatch();
 	const { setMaintenanceMode, updateStore } = useStore();
 	const [loading, setLoading] = useState(false);
