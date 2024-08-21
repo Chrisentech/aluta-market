@@ -385,6 +385,7 @@ const Screen: React.FC = () => {
 									return (
 										<div
 											key={i}
+											onClick={() => nav(`/product/view/${prd.id}`)}
 											className="flex-item"
 											style={{
 												width: `16.6666%`,
@@ -427,6 +428,7 @@ const Screen: React.FC = () => {
 									return (
 										<div
 											key={i}
+											onClick={() => nav(`/product/view/${prd.id}`)}
 											className="flex-item"
 											style={{
 												width: `16.6666%`,
@@ -469,6 +471,7 @@ const Screen: React.FC = () => {
 									return (
 										<div
 											key={i}
+											onClick={() => nav(`/product/view/${prd.id}`)}
 											className="flex-item"
 											style={{
 												width: `16.6666%`,
@@ -511,6 +514,7 @@ const Screen: React.FC = () => {
 									return (
 										<div
 											key={i}
+											onClick={() => nav(`/product/view/${prd.id}`)}
 											className="flex-item"
 											style={{
 												width: `16.6666%`,
@@ -553,6 +557,7 @@ const Screen: React.FC = () => {
 									return (
 										<div
 											key={i}
+											onClick={() => nav(`/product/view/${prd.id}`)}
 											className="flex-item"
 											style={{
 												width: `16.6666%`,
