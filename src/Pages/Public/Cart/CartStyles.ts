@@ -72,7 +72,7 @@ export const Product = styled.div<{ empty: boolean }>`
 
 export const SectionCard = styled.div`
 	width: 100%;
-	height: 475px;
+	min-height: 475px;
 	border-radius: 6px;
 	border: 1px solid #dee2e7;
 	background: #fff;

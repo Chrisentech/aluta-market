@@ -238,7 +238,11 @@ const Screen: React.FC = () => {
 					{products?.length
 						? products?.slice(0, 6)?.map((prd, i) => {
 								return (
-									<div key={i} className="flex-item">
+									<div
+										key={i}
+										className="flex-item"
+										onClick={() => nav(`/product/view/${prd.id}`)}
+									>
 										<div className="image">
 											<img src={prd.thumbnail} alt={"alt"} width={"80%"} />
 										</div>

@@ -35,6 +35,7 @@ export const Home = styled.section`
 			border: solid 1px #dee2e7;
 			padding: 10px;
 			box-sizing: border-box;
+			cursor: pointer;
 		}
 		@media (max-width: 1200px) {
 			width: 100%;
@@ -62,6 +63,8 @@ export const Home = styled.section`
 			// margin: 5px;
 			border: solid 1px #dee2e7;
 			padding: 10px;
+			cursor: pointer;
+
 			.image {
 				background: #fff;
 				display: flex;
