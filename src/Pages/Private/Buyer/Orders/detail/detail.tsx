@@ -11,12 +11,7 @@ import {
 import Layout from "../../../../../Layouts";
 import { selectActiveModal } from "../../../../../Features/modal/modalSlice";
 import { calendar } from "../../../../../assets";
-import {
-	DeliveryDetails,
-	OrderStatus,
-	Wrapper,
-	ModalWrapper,
-} from "./detail.styles";
+import { DeliveryDetails, OrderStatus, Wrapper } from "./detail.styles";
 import { BsCheckCircle } from "react-icons/bs";
 import { BiArrowBack } from "react-icons/bi";
 import {
@@ -105,14 +100,6 @@ const Screen: React.FC = () => {
 				</DeliveryDetails>
 			</Card>
 		</Wrapper>
-	);
-};
-
-const Modal: React.FC<{ confirmed?: boolean }> = () => {
-	return (
-		<ModalWrapper>
-			<div className="top"></div>
-		</ModalWrapper>
 	);
 };
 
