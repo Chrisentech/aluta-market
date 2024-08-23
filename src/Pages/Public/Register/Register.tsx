@@ -111,6 +111,7 @@ const Screen: React.FC = () => {
 
 	const [isSameNumber, setSameNumber] = useState<boolean>(false);
 	const [formValues, setFormValues] = useState(initialValues);
+	const [isTerms, setIsTerms] = useState(false);
 
 	const dispatch = useDispatch();
 	// Debounce logic
@@ -149,6 +150,9 @@ const Screen: React.FC = () => {
 		!!studentCampus &&
 		!!userType &&
 		!!buyerNumber;
+
+	const sellerFormIsValid =
+		!!storeName && !!storeNumber && !!description && !!isTerms;
 	const handleSubmit = async (values: RegisterFormValues) => {
 		localStorage.setItem("number", String(filterNum(buyerNumber)));
 		setFormValues(values);
@@ -220,18 +224,18 @@ const Screen: React.FC = () => {
 	};
 
 	const handleChangeScreen = (e: any) => {
-		setUserType(e.target.value);
-
-		if (!fullname && !email && !password && !studentCampus && !buyerNumber) {
-			dispatch(alertError({ message: "All Fields are required" }));
+		if (!fullname || !email || !password || !studentCampus || !buyerNumber) {
+			dispatch(alertError("All Fields are required"));
 			return null;
 		}
-		localStorage.setItem("number", "234" + filterNum(buyerNumber));
+		setUserType(e.target.value);
+
+		localStorage.setItem("number", String(filterNum(buyerNumber)));
 		let payload = {
 			email,
 			password,
 			fullname,
-			phone: "234" + filterNum(buyerNumber),
+			phone: filterNum(buyerNumber),
 			campus: studentCampus,
 			usertype: userType,
 		};
@@ -344,6 +348,7 @@ const Screen: React.FC = () => {
 								active
 								type="submit"
 								loading={loading}
+								disabled={loading || !buyerFormIsValid}
 								style={{ padding: loading ? "7px" : "17px 20px" }}
 							>
 								{loading ? (
@@ -482,8 +487,12 @@ const Screen: React.FC = () => {
 									I have a physical address
 								</Label>
 								<Label checkbox>
-									<CustomField name="termsAndConditions" type="checkbox" />I
-									agree to the<span style={{ width: "0.2em" }}></span>
+									<CustomField
+										name="termsAndConditions"
+										type="checkbox"
+										onChange={() => setIsTerms(!isTerms)}
+									/>
+									I agree to the<span style={{ width: "0.2em" }}></span>
 									<NavLink to="#" className="terms">
 										Terms and Conditions
 									</NavLink>
@@ -492,7 +501,8 @@ const Screen: React.FC = () => {
 							<SubmitButton
 								active={true}
 								type="submit"
-								disabled={false}
+								disabled={loading || !sellerFormIsValid}
+								loading={loading}
 								style={{ padding: loading ? "7px" : "17px 20px" }}
 							>
 								{loading ? (
