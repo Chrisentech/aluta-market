@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../../Layouts";
-import { NavLink } from "react-router-dom";
 
-import { bagHappy, wristwatch } from "../../../../assets";
+import { bagHappy } from "../../../../assets";
 import {
 	Button,
 	Card,
@@ -11,58 +10,59 @@ import {
 	View,
 } from "../../../../Shared/Components";
 import { useSelector } from "react-redux";
-import { selectStore } from "../../../../Features/store/storeSlice";
 import { selectActiveModal } from "../../../../Features/modal/modalSlice";
-import {
-	OrderCard,
-	TabContent,
-	TabOption,
-	Tabs,
-	Wrapper,
-} from "./orders.styles";
-import { ROUTE } from "../../../../Shared/Constants";
-
+import { TabContent, TabOption, Tabs, Wrapper } from "./orders.styles";
+import { fetchMe } from "../../../../Features/user/userSlice";
+import useProducts from "../../../../Features/products/productActions";
 const Screen: React.FC = () => {
 	const [activeTab, setActiveTab] = useState<string>("open");
-
-	const store = useSelector(selectStore);
+	const me = useSelector(fetchMe);
 
 	let isMobile: any = localStorage.getItem("isMobile") ?? "";
 	isMobile = isMobile === "true" ? true : false;
+	const { getPurchasedData, purchasedOrders } = useProducts();
+	// console.log(purchasedOrders);
+
 	const getGridItems = (option: string) => {
 		let currentArray: any[] = [];
-		//logic to handle which data to map.... example
-		let arrayLength = option === "open" ? 0 : store?.orders?.length ?? 0; // processing orders length;
 
-		Array(arrayLength)
-			.fill(".")
-			.map((_, index) => {
-				currentArray.push(
-					<NavLink key={index} to={ROUTE.SELLER_ORDER_DETAIL + `/${index}`}>
-						<OrderCard>
-							<div className="top">
-								<div className="right">
-									<img src={wristwatch} className="img" />
-									<div className="info">
-										<p className="title">Headset and 2 other items</p>
-										<p className="price">N9,600</p>
-									</div>
-								</div>
-								<div className="icon">A</div>
-							</div>
-							<div className="bottom">
-								<label className="option">
-									<input type="checkbox" id={option} />
-									<span className="custom"></span>
-									Mark as Delivered
-								</label>
-							</div>
-						</OrderCard>
-					</NavLink>
-				);
+		// Filter orders based on the status (open or closed)
+		const filteredOpenOrders = purchasedOrders?.filter((order: any) => {
+			return order.status === "pending" || order.status === "processing"; // Assuming each order has a 'status' field
+		});
+
+		const filteredClosedOrders = purchasedOrders?.filter((order: any) => {
+			return order.status === "delivered" || order.status === "refunded"; // Assuming each order has a 'status' field
+		});
+
+		// Map through the filtered orders and push the products to the currentArray
+		if (option === "open") {
+			filteredOpenOrders?.forEach((order: any) => {
+				// order.products.forEach((product: any) => {
+				currentArray.push(order);
+				// });
 			});
+		} else {
+			filteredClosedOrders?.forEach((order: any) => {
+				// order.products.forEach((product: any) => {
+				currentArray.push(order);
+				// });
+			});
+		}
+
 		return currentArray;
 	};
+
+	useEffect(() => {
+		console.log(purchasedOrders);
+		const fetchData = async () => {
+			await getPurchasedData(me?.id ?? 0);
+		};
+		if (!purchasedOrders) {
+			fetchData();
+		}
+	}, [me]);
+
 	const isArrayEmpty = () => {
 		return getGridItems(activeTab).length === 0;
 	};
@@ -70,7 +70,7 @@ const Screen: React.FC = () => {
 	return (
 		<Wrapper>
 			<div className="flex">
-				<h2>Orders</h2>
+				<h2>Purchased Orders</h2>
 			</div>
 			<Card className="main" width="100%">
 				<Tabs>
@@ -113,6 +113,7 @@ const Screen: React.FC = () => {
 							mode="list"
 							gridItems={getGridItems(activeTab)}
 							itempergrid={3}
+							listItems={getGridItems(activeTab)}
 							cardStyle="order-card"
 							className="dash_grid_2"
 							type="order"

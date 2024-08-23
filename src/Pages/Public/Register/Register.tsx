@@ -110,7 +110,7 @@ const Screen: React.FC = () => {
 	>(null);
 
 	const [isSameNumber, setSameNumber] = useState<boolean>(false);
-	const [formValues, setFormValues] = useState(initialValues); 
+	const [formValues, setFormValues] = useState(initialValues);
 
 	const dispatch = useDispatch();
 	// Debounce logic
@@ -150,16 +150,16 @@ const Screen: React.FC = () => {
 		!!userType &&
 		!!buyerNumber;
 	const handleSubmit = async (values: RegisterFormValues) => {
-		localStorage.setItem("number", "234" + filterNum(buyerNumber));
+		localStorage.setItem("number", String(filterNum(buyerNumber)));
 		setFormValues(values);
 		let payload: any = {
 			campus: studentCampus,
 			usertype: userType,
-			phone: "234" + filterNum(buyerNumber),
+			phone: filterNum(buyerNumber),
 			fullname,
 			email,
 			password,
-			avatar: "",
+			// avatar: "",
 		};
 		if (userType === "seller") {
 			const uuid = generateUniqueId();
@@ -610,7 +610,10 @@ const RegisterPage = () => {
 			isLoading={false}
 			navMode="blank"
 			popUpContent={
-				<VerifyOTPModal url="/" number={localStorage.getItem("number") ?? ""} />
+				<VerifyOTPModal
+					url={ROUTE.LOGIN}
+					number={localStorage.getItem("number") ?? ""}
+				/>
 			}
 		/>
 	);

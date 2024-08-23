@@ -85,7 +85,7 @@ export const Wrapper = styled.div`
 	}
 `;
 
-export const OrderStatus = styled.div`
+export const OrderStatus = styled.div<{ status?: string }>`
 	border-bottom: 1px solid #dee2e7;
 	margin-bottom: 20px;
 	padding: 20px 0;
@@ -118,8 +118,18 @@ export const OrderStatus = styled.div`
 			}
 		}
 		.status {
-			background: rgba(13, 110, 253, 0.1);
-			color: #0d6efd;
+			background: ${({ status }) =>
+				status === "pending"
+					? "#ff76121a"
+					: status === "processing"
+					? "#FF001F1A"
+					: "#00B5171A"};
+			color: ${({ status }) =>
+				status === "pending"
+					? "#ff7612"
+					: status === "processing"
+					? "#FF001F"
+					: "#00B517"};
 			font-weight: 500;
 			padding: 4px 13px;
 			border-radius: 29px;

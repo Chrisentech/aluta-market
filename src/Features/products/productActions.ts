@@ -17,8 +17,10 @@ import {
 	actions,
 	selectProduct,
 	selectMyProducts,
+	selectPurchasedOrders,
 } from "./productSlice";
 import { IProductProps } from "../../Interfaces";
+import { PURCHASED_ORDER } from "../../Services/graphql/store";
 
 // https://www.youtube.com/watch?v=qmCAnvE_KAU
 
@@ -28,6 +30,7 @@ export default function useProducts() {
 
 	const myproducts = useSelector(selectMyProducts);
 	const product = useSelector(selectProduct);
+	const purchasedOrders = useSelector(selectPurchasedOrders);
 
 	const getProducts = async (filter?: any) => {
 		const response = await apolloClient.query({
@@ -188,6 +191,19 @@ export default function useProducts() {
 		});
 		dispatch(actions.setMyProducts(productsData));
 	};
+
+	const getPurchasedData = async (userId: number) => {
+		try {
+			const response = await apolloClient.query({
+				query: PURCHASED_ORDER,
+				variables: { user: userId },
+			});
+			dispatch(actions.setPurchasedOrders(response.data.PurchasedOrder));
+		} catch (error) {
+			console.error("Error getting purchased order:", error);
+			throw error;
+		}
+	};
 	return {
 		getProducts,
 		getProduct,
@@ -205,5 +221,7 @@ export default function useProducts() {
 		getAccomodationProducts,
 		getSkincareProducts,
 		getGadgetsProducts,
+		getPurchasedData,
+		purchasedOrders,
 	};
 }

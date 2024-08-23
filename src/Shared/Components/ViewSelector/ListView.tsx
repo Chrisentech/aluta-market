@@ -13,10 +13,15 @@ import { Card, ImageCard, Pagination, Rating } from "../index.ts";
 import { PiDotOutlineFill } from "react-icons/pi";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { AppColors, ROUTE } from "../../Constants/index.ts";
-import calculateRating, { truncateText } from "../../Utils/helperFunctions.ts";
+import calculateRating, {
+	calculateDiscount,
+	numberWithCommas,
+	truncateText,
+} from "../../Utils/helperFunctions.ts";
 import { phone } from "../../../assets/index.tsx";
 import usePagination from "../../Hooks/usePagination.tsx";
 import { useNavigate } from "react-router-dom";
+import { capitalize } from "lodash";
 
 const ListView: React.FC<{
 	gap?: string;
@@ -38,7 +43,7 @@ const ListView: React.FC<{
 		return (
 			<ListWrapper gap={gap} className={className} type={type}>
 				{listItems &&
-					listItems.map((_, index: number) => {
+					listItems.map((item: any, index: number) => {
 						return (
 							<Card
 								key={index}
@@ -47,21 +52,39 @@ const ListView: React.FC<{
 								height="139px"
 								onHover
 								className="card"
-								onClick={() => nav(ROUTE.BUYER_ORDER + `${index}`)}
+								onClick={() =>
+									nav(ROUTE.BUYER_ORDER + `${item.uuid}`, { state: item })
+								}
 							>
 								<ProductCard>
-									<ImageCard className="list" view="list" src={phone} />
+									<ImageCard
+										className="list"
+										view="list"
+										src={item?.products[0].thumbnail}
+									/>
 									<ProductDetails>
-										<h1>Canon Camera EOS 2000, Black 10x zoom</h1>
+										<h1>{item?.products[0].name}</h1>
 										<div className="price">
-											<span>&#8358;80,000</span>
-											<span>&#8358;92,000</span>
+											<span>
+												&#8358;{" "}
+												{numberWithCommas(
+													calculateDiscount(
+														item?.products[0]?.price,
+														item?.products[0]?.discount
+													)
+												)}
+											</span>
+											<span>
+												&#8358; {numberWithCommas(item?.products[0].price)}
+											</span>
 										</div>
 										<ProductFlex>
-											<div>Order TAM00294</div>
+											<div>Order TAM00294 </div>
 										</ProductFlex>
 
-										<StatusBadge status="pending">Pending</StatusBadge>
+										<StatusBadge status={item.status}>
+											{capitalize(item.status)}
+										</StatusBadge>
 										<div className="time">Monday 10-11-2023</div>
 									</ProductDetails>
 									<div className="detail">View details</div>

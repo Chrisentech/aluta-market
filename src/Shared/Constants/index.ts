@@ -22,7 +22,7 @@ export const ROUTE = {
 	CHANGEADDRESS: "/product/view/change-address",
 
 	//Dashboard
-	BUYER_ORDER: "/buyer/order/",
+	BUYER_ORDER: "/purchased/order/",
 	BUYER_SAVED_ORDER: "/buyer/saved-order/",
 	BUYER_STORES_FOLLOWED: "/buyer/stores-followed/",
 	BUYER_PRODUCT_REVIEW: "/buyer/product-review/",

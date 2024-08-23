@@ -63,6 +63,26 @@ const STORE_FIELDS = gql`
 		}
 	}
 `;
+const PURCHASED_ORDER_DATA = gql`
+	fragment purchasedOrderProps on PurchasedOrder {
+		cart_id
+		coupon
+		fee
+		status
+		user_id
+		amount
+		uuid
+		paymentGateway
+		products {
+			id
+			name
+			price
+			thumbnail
+			discount
+			status
+		}
+	}
+`;
 const PAGINATION_DATA = gql`
 	fragment paginationProps on StorePaginationData {
 		data {
@@ -200,6 +220,15 @@ export const UPDATE_STORE_FOLLOWERSHIP = gql`
 		updateStoreFollower(input: $input) {
 			status
 			name
+		}
+	}
+`;
+
+export const PURCHASED_ORDER = gql`
+	${PURCHASED_ORDER_DATA}
+	query PurchasedOrder($user: Int!) {
+		PurchasedOrder(user: $user) {
+			...purchasedOrderProps
 		}
 	}
 `;

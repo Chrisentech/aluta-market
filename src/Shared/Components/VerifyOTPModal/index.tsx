@@ -72,7 +72,7 @@ const VerifyOTPModal: React.FC<{
 			if (url) {
 				nav(url);
 			} else {
-				dispatch(closeModal("verifyOTP"));
+				dispatch(closeModal("VerifyOTP"));
 			}
 		} catch (error: any) {
 			setLoading(false);

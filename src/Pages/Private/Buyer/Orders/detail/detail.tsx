@@ -1,11 +1,16 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
-import { Card, Table } from "../../../../../Shared/Components";
+import {
+	Card,
+	LogoutModal,
+	SkynetModal,
+	Table,
+} from "../../../../../Shared/Components";
 import Layout from "../../../../../Layouts";
 import { selectActiveModal } from "../../../../../Features/modal/modalSlice";
-import { calendar, phone } from "../../../../../assets";
+import { calendar } from "../../../../../assets";
 import {
 	DeliveryDetails,
 	OrderStatus,
@@ -14,22 +19,15 @@ import {
 } from "./detail.styles";
 import { BsCheckCircle } from "react-icons/bs";
 import { BiArrowBack } from "react-icons/bi";
-
-const data = [
-	{
-		img: phone,
-		item: "Iphone 13 pro",
-		category: "Mobile Phone & PC",
-		price: "N7000",
-		options: "10",
-		stock: "12 Aug 2023",
-		quantity: "5",
-	},
-];
+import {
+	base64UrlEncode,
+	uuidToBinaryString,
+} from "../../../../../Shared/Utils/helperFunctions";
+import { capitalize } from "lodash";
 
 const columns = [
 	{ header: "", accessor: "img" },
-	{ header: "Product", accessor: "item" },
+	{ header: "Product", accessor: "name" },
 	{ header: "Quantity", accessor: "quantity" },
 	{ header: "Price", accessor: "price" },
 	{ header: "Total", accessor: "price" },
@@ -37,19 +35,19 @@ const columns = [
 
 const Screen: React.FC = () => {
 	// const dispatch = useDispatch();
-	const { id } = useParams();
 	const nav = useNavigate();
+	const { state } = useLocation();
+	const orderId = base64UrlEncode(uuidToBinaryString(state?.uuid));
+
 	return (
 		<Wrapper>
 			<div className="flex">
 				<BiArrowBack onClick={() => nav(-1)} size={20} />
-				<h2>Order {id}</h2>
+				<h2>Order {capitalize(orderId)}</h2>
 			</div>
 			<Card className="main" width="100%">
-				<div className="head">
-					<h3>Order details for {id}</h3>
-				</div>
-				<OrderStatus>
+				<div className="head">{/* <h3>Order details for {orderId}</h3> */}</div>
+				<OrderStatus status={state?.status}>
 					<div className="info">
 						<div className="title">
 							<img src={calendar} />
@@ -61,11 +59,11 @@ const Screen: React.FC = () => {
 						<div className="title">
 							<BsCheckCircle size={22} color="#292D32" /> Status
 						</div>
-						<div className="status">Processing</div>
+						<div className="status">{state?.status}</div>
 					</div>
 				</OrderStatus>
 				<div className="table-wrapper">
-					<Table data={data} columns={columns} />
+					<Table data={state.products} columns={columns} />
 				</div>
 				<DeliveryDetails>
 					<div className="div">
@@ -130,7 +128,9 @@ const OrderDetail = () => {
 			component={Screen}
 			isLoading={false}
 			showModal={activeModal}
-			popUpContent={<Modal confirmed />}
+			popUpContent={
+				activeModal === "skynet" ? <SkynetModal /> : <LogoutModal />
+			}
 			navMode="noSearch"
 		/>
 	);

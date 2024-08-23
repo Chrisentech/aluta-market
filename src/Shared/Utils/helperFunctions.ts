@@ -67,9 +67,8 @@ export const formatCurrency = (
 
 export const calculateDiscount = (
 	originalPrice: number,
-	discountPercentage: number
+	discountAmount: number
 ): number => {
-	const discountAmount = (originalPrice * discountPercentage) / 100;
 	return originalPrice - discountAmount;
 };
 
@@ -329,3 +328,23 @@ export const IsInCart = (prdId?: string, items?: any[]): boolean => {
 	if (!prdId || !items) return false;
 	return items?.some((item) => item.product.id == prdId);
 };
+
+export function base64UrlEncode(str: string) {
+	return btoa(str)
+		.replace(/\+/g, "-") // Replace + with -
+		.replace(/\//g, "_") // Replace / with _
+		.replace(/=+$/, ""); // Remove trailing =
+}
+
+export function uuidToBinaryString(uuid: string) {
+	// Remove dashes from UUID
+	const uuidStr = uuid.replace(/-/g, "");
+	let binaryString = "";
+
+	for (let i = 0; i < uuidStr.length; i += 2) {
+		const byte = parseInt(uuidStr.substr(i, 2), 16);
+		binaryString += String.fromCharCode(byte);
+	}
+
+	return binaryString;
+}
