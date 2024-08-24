@@ -57,9 +57,9 @@ import { selectLoadingState } from "../../../Features/loading/loadingSlice";
 
 const Screen: React.FC = () => {
 	const [products, _] = useState<any[]>(CartProduct);
-	const costOfDelivery = 2000;
-	const discount = 60;
-	const tax = 14;
+	const costOfDelivery = 200;
+	const discount = 0;
+	const tax = 0;
 	const { cart, removeAllCart, modifyCart } = useCart();
 	const { addToWishlist, wishlists, getWishlist } = useUsers();
 	const me: any = useSelector(fetchMe);
@@ -470,12 +470,19 @@ const Screen: React.FC = () => {
 const Cart = () => {
 	const activeModal = useSelector(selectActiveModal);
 	const { cart } = useCart();
+	const costOfDelivery = 200;
+	const discount = 0;
+	console.log(cart);
+	const payload = {
+		...cart,
+		total: costOfDelivery + (cart?.total ?? 0 + discount),
+	};
 	const loading = useSelector(selectLoadingState);
 	return (
 		<Layout
 			layout={"full"}
 			component={Screen}
-			popUpContent={<PaymentModal data={cart} />}
+			popUpContent={<PaymentModal data={payload} />}
 			showModal={activeModal}
 			isLoading={!cart || loading}
 			navMode="noSearch"

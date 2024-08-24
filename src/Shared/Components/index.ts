@@ -31,6 +31,7 @@ import DeleteModal from "./DeleteModal/DeleteModal";
 import Banner from "./Bannner/Banner";
 import SkeletonLoader from "./SkeletonLoader/SkeletonLoader";
 import AddProductImage from "./AddProductImage/AddProductImage";
+import UploadModal from "./UploadModal/uploadModal";
 export {
 	Loader,
 	Navbar,
@@ -66,4 +67,5 @@ export {
 	SkeletonLoader,
 	AddProductImage,
 	SkynetModal,
+	UploadModal,
 };

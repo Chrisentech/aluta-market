@@ -20,6 +20,7 @@ const USER_FIELDS = gql`
 			has_physical_address
 			wallet
 			phone
+			status
 		}
 	}
 `;

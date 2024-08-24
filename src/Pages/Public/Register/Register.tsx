@@ -153,6 +153,7 @@ const Screen: React.FC = () => {
 
 	const sellerFormIsValid =
 		!!storeName && !!storeNumber && !!description && !!isTerms;
+
 	const handleSubmit = async (values: RegisterFormValues) => {
 		localStorage.setItem("number", String(filterNum(buyerNumber)));
 		setFormValues(values);
@@ -178,6 +179,7 @@ const Screen: React.FC = () => {
 					phone: "234" + filterNum(storeNumber),
 					user: 0,
 					wallet: 0,
+					status: true,
 				},
 			};
 		}

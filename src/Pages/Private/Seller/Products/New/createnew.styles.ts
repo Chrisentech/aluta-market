@@ -428,7 +428,7 @@ export const Modal = styled.div`
   }
   .popup {
   .card {
-    padding-bottom: 74px;
+    padding-bottom: 0px !important;
   }
   .size-variant {
     display: grid;

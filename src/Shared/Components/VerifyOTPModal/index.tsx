@@ -71,8 +71,6 @@ const VerifyOTPModal: React.FC<{
 			dispatch(alertSuccess("Verification successful!"));
 			if (url) {
 				nav(url);
-			} else {
-				dispatch(closeModal("VerifyOTP"));
 			}
 		} catch (error: any) {
 			setLoading(false);
@@ -80,6 +78,8 @@ const VerifyOTPModal: React.FC<{
 			for (let index = 0; index < error.graphQLErrors.length; index++) {
 				dispatch(alertError(error.graphQLErrors[index].message));
 			}
+		} finally {
+			dispatch(closeModal("VerifyOTP"));
 		}
 	};
 

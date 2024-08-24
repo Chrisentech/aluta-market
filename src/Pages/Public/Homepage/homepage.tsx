@@ -164,7 +164,7 @@ const Screen: React.FC = () => {
 									disabled={!me}
 									padding={10}
 									gap={10}
-									background="purple"
+									background="#00B517"
 									color="#ffffff"
 								>
 									My Dashboard

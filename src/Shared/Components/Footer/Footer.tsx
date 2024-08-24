@@ -63,7 +63,7 @@ const Footer: React.FC = () => {
 							<NavLink to="#">Our Stations</NavLink>
 						</li>
 						<li>
-							<NavLink to="#">Blogs</NavLink>
+							<NavLink to={ROUTE.PRIVACY}>Privacy and Policy</NavLink>
 						</li>
 					</ul>
 				</FooterItems>

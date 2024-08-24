@@ -27,6 +27,7 @@ import {
 	AddProductImage,
 	Card,
 	Dropdown,
+	UploadModal,
 } from "../../../../../Shared/Components";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -44,6 +45,7 @@ import { BiPlus, BiMinus, BiArrowBack } from "react-icons/bi";
 import axios from "axios";
 import {
 	closeModal,
+	selectActiveModal,
 	showModal,
 } from "../../../../../Features/modal/modalSlice";
 import useProducts from "../../../../../Features/products/productActions";
@@ -250,6 +252,10 @@ const Screen: React.FC = () => {
 		getCategories();
 	}, []);
 
+	useEffect(() => {
+		dispatch(showModal("digital"));
+	}, [state]);
+
 	const handleIncreaseQuantity = (q: number) => {
 		setQuantity(++q);
 	};
@@ -335,7 +341,7 @@ const Screen: React.FC = () => {
 	};
 	const formIsValid =
 		!!productName && !!productPrice && !!reduxCategory && !!thumbnail;
-
+	const productCategoryIds = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 	return (
 		<Wrapper>
 			<Card className="card" width={"100%"} onHover={false} height={"570px"}>
@@ -441,11 +447,31 @@ const Screen: React.FC = () => {
 											}
 										>
 											<option value="" label="Select a category" />
-											{reduxCategories?.map((category: any) => (
-												<option key={category.id} value={category.name}>
-													{category.name}
-												</option>
-											))}
+											{state?.type === "product"
+												? reduxCategories
+														.filter((category: any) =>
+															productCategoryIds.includes(category.id)
+														)
+														?.map((category: any) => (
+															<option key={category.id} value={category.name}>
+																{category.name}
+															</option>
+														))
+												: state?.type === "digital"
+												? reduxCategories
+														.filter((category: any) => category.id === "10")
+														?.map((category: any) => (
+															<option key={category.id} value={category.name}>
+																{category.name}
+															</option>
+														))
+												: reduxCategories
+														?.slice(11, 21)
+														?.map((category: any) => (
+															<option key={category.id} value={category.name}>
+																{category.name}
+															</option>
+														))}
 										</Input>
 									</FormControl>
 									<FormControl>
@@ -705,319 +731,327 @@ const NewProduct = () => {
 		if (option === "Color") setColorStep(1);
 	};
 
-	const ModalContent: JSX.Element = (
-		<Modal>
-			{modals.addOptions && (
-				<ModalWrapper>
-					<div className="label">
-						<BiArrowBack
-							size={32}
-							color="#bdc4cd"
-							onClick={() => handleNextStep(selectedOption as string, true)}
-						/>
-						<MdOutlineCancel
-							className="svg"
-							size={32}
-							color="#bdc4cd"
-							onClick={() => dispatch(closeModal("addOptions"))}
-						/>
-					</div>
-					<h3 className="title">Add Product options</h3>
-					{selectedOption === "Size" ? (
-						<div className="info gray">
-							Simply use alphabets e.g S,M,L,XXL e.t.c or numbers e.g. 38,45,48
+	const ModalContent = () => {
+		return (
+			<Modal>
+				{modals.addOptions && (
+					<ModalWrapper>
+						<div className="label">
+							<BiArrowBack
+								size={32}
+								color="#bdc4cd"
+								onClick={() => handleNextStep(selectedOption as string, true)}
+							/>
+							<MdOutlineCancel
+								className="svg"
+								size={32}
+								color="#bdc4cd"
+								onClick={() => dispatch(closeModal("addOptions"))}
+							/>
 						</div>
-					) : (
-						<div className="info">
-							This Option is for Products that have different size or colors
-						</div>
-					)}
+						<h3 className="title">Add Product options</h3>
+						{selectedOption === "Size" ? (
+							<div className="info gray">
+								Simply use alphabets e.g S,M,L,XXL e.t.c or numbers e.g.
+								38,45,48
+							</div>
+						) : (
+							<div className="info">
+								This Option is for Products that have different size or colors
+							</div>
+						)}
 
-					<Dropdown2
-						options={variations}
-						selectedOption={selectedOption}
-						handleOptionEvent={handleDropdownEvent}
-						padding="15px"
-						background="#f7fafc"
-						className="drpdwn"
-						margin={"10px 0"}
-						width="100%"
-					>
-						Choose Option
-					</Dropdown2>
+						<Dropdown2
+							options={variations}
+							selectedOption={selectedOption}
+							handleOptionEvent={handleDropdownEvent}
+							padding="15px"
+							background="#f7fafc"
+							className="drpdwn"
+							margin={"10px 0"}
+							width="100%"
+						>
+							Choose Option
+						</Dropdown2>
 
-					<Formik
-						initialValues={initialValues}
-						onSubmit={handleModalSubmit}
-						validationSchema={variationValidationSchema}
-					>
-						<Form>
-							{selectedOption === "Size" && (
-								<FormControl>
-									{sizeStep === 1 && (
-										<>
-											{sizeVariant.map((variant, index) => {
-												return (
-													<div className="size-variant" key={variant.id}>
-														<Label>
-															Add Size
-															<input
-																className="input price"
-																value={variant.variant as string}
-																onChange={(e) =>
-																	handleVariantChange(
-																		selectedOption,
-																		index,
-																		"variant",
-																		e.target.value
-																	)
-																}
-															/>
-															<IoMdClose
-																className="close"
-																size={24}
-																onClick={() =>
-																	deleteVariant(selectedOption, index)
-																}
-															/>
-														</Label>
-														<Label>
-															Price
-															<input
-																className="input"
-																value={parseInt(variant.price)}
-																type="number"
-																min={1}
-																onChange={(e) =>
-																	handleVariantChange(
-																		selectedOption,
-																		index,
-																		"price",
-																		e.target.value
-																	)
-																}
-															/>
-														</Label>
-													</div>
-												);
-											})}
-										</>
-									)}
-									{sizeStep === 2 && (
-										<>
-											{sizeVariant.map((variant, index) => (
-												<SizeVariantCard key={variant.id}>
-													<div className="left">
-														<Img
-															background={
-																localStorage.getItem("thumbnail") || image34
-															}
-														/>
-														<div className="info">
-															<p>{variant?.variant as string}</p>
-															<p>
-																N {numberWithCommas(parseInt(variant.price))}
-															</p>
-														</div>
-													</div>
-													<div
-														className="right"
-														style={{ position: "relative" }}
-													>
-														<MdDeleteOutline
-															size={19}
-															color="#FA3434"
-															className="icon"
-															style={{
-																position: "absolute",
-																right: 0,
-																top: -21,
-															}}
-															onClick={() =>
-																deleteVariant(
-																	selectedOption.toLowerCase(),
-																	index
-																)
-															}
-														/>
-														<Incrementor small>
-															<div
-																className="leftButton"
-																onClick={() =>
-																	decreaseQuantity(
-																		selectedOption.toLowerCase(),
-																		index
-																	)
-																}
-															>
-																<BiMinus />
-															</div>
-															<div className="main">{variant.quantity}</div>
-															<div
-																className="rightButton"
-																onClick={() =>
-																	increaseQuantity(
-																		selectedOption.toLowerCase(),
-																		index
-																	)
-																}
-															>
-																<BiPlus />
-															</div>
-														</Incrementor>
-													</div>
-												</SizeVariantCard>
-											))}
-										</>
-									)}
-								</FormControl>
-							)}
-							{selectedOption === "Color" && (
-								<FormControl>
-									{colorStep > 1 ? (
-										<>
-											{moreOption ? (
-												<>
-													{colorStep === 2 && (
-														<ColorVariantCard>
-															<label>
-																Input value for the option e.g. size?
-																<input placeholder="" className="input" />
-															</label>
-														</ColorVariantCard>
-													)}
-												</>
-											) : (
-												<>
-													{colorVariant.map((variant, index) => (
-														<SizeVariantCard key={variant.id}>
-															<div className="left">
-																<Img background={image34} />
-																<div className="info">
-																	<p>{"variant.variant"}</p>
-																	<p>{variant.price}</p>
-																</div>
-															</div>
-															<div className="right">
-																<MdDeleteOutline
-																	size={19}
-																	color="#FA3434"
-																	className="icon"
+						<Formik
+							initialValues={initialValues}
+							onSubmit={handleModalSubmit}
+							validationSchema={variationValidationSchema}
+						>
+							<Form>
+								{selectedOption === "Size" && (
+									<FormControl>
+										{sizeStep === 1 && (
+											<>
+												{sizeVariant.map((variant, index) => {
+													return (
+														<div className="size-variant" key={variant.id}>
+															<Label>
+																Add Size
+																<input
+																	className="input price"
+																	value={variant.variant as string}
+																	onChange={(e) =>
+																		handleVariantChange(
+																			selectedOption,
+																			index,
+																			"variant",
+																			e.target.value
+																		)
+																	}
+																/>
+																<IoMdClose
+																	className="close"
+																	size={24}
 																	onClick={() =>
 																		deleteVariant(selectedOption, index)
 																	}
 																/>
-																<Incrementor small>
-																	<div
-																		className="leftButton"
-																		onClick={() =>
-																			decreaseQuantity(selectedOption, index)
-																		}
-																	>
-																		<BiMinus />
-																	</div>
-																	<div className="main">{variant.quantity}</div>
-																	<div
-																		className="rightButton"
-																		onClick={() =>
-																			increaseQuantity(selectedOption, index)
-																		}
-																	>
-																		<BiPlus />
-																	</div>
-																</Incrementor>
+															</Label>
+															<Label>
+																Price
+																<input
+																	className="input"
+																	value={parseInt(variant.price)}
+																	type="number"
+																	min={1}
+																	onChange={(e) =>
+																		handleVariantChange(
+																			selectedOption,
+																			index,
+																			"price",
+																			e.target.value
+																		)
+																	}
+																/>
+															</Label>
+														</div>
+													);
+												})}
+											</>
+										)}
+										{sizeStep === 2 && (
+											<>
+												{sizeVariant.map((variant, index) => (
+													<SizeVariantCard key={variant.id}>
+														<div className="left">
+															<Img
+																background={
+																	localStorage.getItem("thumbnail") || image34
+																}
+															/>
+															<div className="info">
+																<p>{variant?.variant as string}</p>
+																<p>
+																	N {numberWithCommas(parseInt(variant.price))}
+																</p>
 															</div>
-														</SizeVariantCard>
-													))}
-												</>
-											)}
-										</>
-									) : (
-										<>
-											{colorStep === 1 && (
-												<>
-													<label>
-														Does this colour have extra option e.g. size?
-														<Dropdown2
-															options={["Yes", "No"]}
-															selectedOption={moreOption}
-															handleOptionEvent={handleMoreOption}
-															padding="15px"
-															background="#f7fafc"
-															className="drpDwn"
-														/>
-													</label>
-													<AddProductImage />
-												</>
-											)}
-										</>
-									)}
-								</FormControl>
-							)}
-							{selectedOption === "Condition" && (
-								<FormControl>
-									<>
-										<Dropdown2
-											options={["new", "fairly used", "refurbished"]}
-											selectedOption={selectedCondition}
-											handleOptionEvent={(option) =>
-												setselectedCondition(option)
-											}
-											padding="15px"
-											background="#f7fafc"
-											className="drpDwn"
-										>
-											Choose Option
-										</Dropdown2>
-									</>
-								</FormControl>
-							)}
-						</Form>
-					</Formik>
-					{selectedOption && (
-						<>
-							{!(selectedOption === "Color" && colorStep === 1) &&
-								hasNextStep(selectedOption) && (
-									<OptionButton
-										type="button"
-										className="addNewBtn"
-										onClick={() => addNewVariant(selectedOption)}
-									>
-										Add New
-									</OptionButton>
+														</div>
+														<div
+															className="right"
+															style={{ position: "relative" }}
+														>
+															<MdDeleteOutline
+																size={19}
+																color="#FA3434"
+																className="icon"
+																style={{
+																	position: "absolute",
+																	right: 0,
+																	top: -21,
+																}}
+																onClick={() =>
+																	deleteVariant(
+																		selectedOption.toLowerCase(),
+																		index
+																	)
+																}
+															/>
+															<Incrementor small>
+																<div
+																	className="leftButton"
+																	onClick={() =>
+																		decreaseQuantity(
+																			selectedOption.toLowerCase(),
+																			index
+																		)
+																	}
+																>
+																	<BiMinus />
+																</div>
+																<div className="main">{variant.quantity}</div>
+																<div
+																	className="rightButton"
+																	onClick={() =>
+																		increaseQuantity(
+																			selectedOption.toLowerCase(),
+																			index
+																		)
+																	}
+																>
+																	<BiPlus />
+																</div>
+															</Incrementor>
+														</div>
+													</SizeVariantCard>
+												))}
+											</>
+										)}
+									</FormControl>
 								)}
-							{hasNextStep(selectedOption) ? (
-								<button
-									className="submit lsxaj2"
-									type="button"
-									onClick={() => handleNextStep(selectedOption)}
-								>
-									Next
-								</button>
-							) : (
-								<button
-									className="submit lsxaj2"
-									type="button"
-									onClick={() => handleAdd(selectedOption)}
-								>
-									Add Option
-								</button>
-							)}
-						</>
-					)}
-				</ModalWrapper>
-			)}
-		</Modal>
-	);
-
+								{selectedOption === "Color" && (
+									<FormControl>
+										{colorStep > 1 ? (
+											<>
+												{moreOption ? (
+													<>
+														{colorStep === 2 && (
+															<ColorVariantCard>
+																<label>
+																	Input value for the option e.g. size?
+																	<input placeholder="" className="input" />
+																</label>
+															</ColorVariantCard>
+														)}
+													</>
+												) : (
+													<>
+														{colorVariant.map((variant, index) => (
+															<SizeVariantCard key={variant.id}>
+																<div className="left">
+																	<Img background={image34} />
+																	<div className="info">
+																		<p>{"variant.variant"}</p>
+																		<p>{variant.price}</p>
+																	</div>
+																</div>
+																<div className="right">
+																	<MdDeleteOutline
+																		size={19}
+																		color="#FA3434"
+																		className="icon"
+																		onClick={() =>
+																			deleteVariant(selectedOption, index)
+																		}
+																	/>
+																	<Incrementor small>
+																		<div
+																			className="leftButton"
+																			onClick={() =>
+																				decreaseQuantity(selectedOption, index)
+																			}
+																		>
+																			<BiMinus />
+																		</div>
+																		<div className="main">
+																			{variant.quantity}
+																		</div>
+																		<div
+																			className="rightButton"
+																			onClick={() =>
+																				increaseQuantity(selectedOption, index)
+																			}
+																		>
+																			<BiPlus />
+																		</div>
+																	</Incrementor>
+																</div>
+															</SizeVariantCard>
+														))}
+													</>
+												)}
+											</>
+										) : (
+											<>
+												{colorStep === 1 && (
+													<>
+														<label>
+															Does this colour have extra option e.g. size?
+															<Dropdown2
+																options={["Yes", "No"]}
+																selectedOption={moreOption}
+																handleOptionEvent={handleMoreOption}
+																padding="15px"
+																background="#f7fafc"
+																className="drpDwn"
+															/>
+														</label>
+														<AddProductImage />
+													</>
+												)}
+											</>
+										)}
+									</FormControl>
+								)}
+								{selectedOption === "Condition" && (
+									<FormControl>
+										<>
+											<Dropdown2
+												options={["new", "fairly used", "refurbished"]}
+												selectedOption={selectedCondition}
+												handleOptionEvent={(option) =>
+													setselectedCondition(option)
+												}
+												padding="15px"
+												background="#f7fafc"
+												className="drpDwn"
+											>
+												Choose Option
+											</Dropdown2>
+										</>
+									</FormControl>
+								)}
+							</Form>
+						</Formik>
+						{selectedOption && (
+							<>
+								{!(selectedOption === "Color" && colorStep === 1) &&
+									hasNextStep(selectedOption) && (
+										<OptionButton
+											type="button"
+											className="addNewBtn"
+											onClick={() => addNewVariant(selectedOption)}
+										>
+											Add New
+										</OptionButton>
+									)}
+								{hasNextStep(selectedOption) ? (
+									<button
+										className="submit lsxaj2"
+										type="button"
+										onClick={() => handleNextStep(selectedOption)}
+									>
+										Next
+									</button>
+								) : (
+									<button
+										className="submit lsxaj2"
+										type="button"
+										onClick={() => handleAdd(selectedOption)}
+									>
+										Add Option
+									</button>
+								)}
+							</>
+						)}
+					</ModalWrapper>
+				)}
+			</Modal>
+		);
+	};
 	const reduxCategories = useSelector(selectCategories);
 	const isLoading = useSelector(selectLoadingState);
+	const activeModal = useSelector(selectActiveModal);
+
 	return (
 		<Layout
-			showModal="addOptions"
+			showModal={activeModal}
 			layout={"dashboard"}
 			component={Screen}
-			popUpContent={ModalContent}
+			popUpContent={
+				activeModal === "addOptions" ? <ModalContent /> : <UploadModal />
+			}
 			isLoading={!reduxCategories || isLoading}
 			navMode="noSearch"
 			modalWidth="500px"
