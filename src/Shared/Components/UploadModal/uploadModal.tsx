@@ -28,18 +28,18 @@ const UploadInput = styled.input`
 `;
 
 const UploadModal: React.FC<any> = () => {
-	const [file, setFile] = useState(null);
+	const [_, setFile] = useState(null);
 
 	const handleFileChange = (event: any) => {
 		setFile(event.target.files[0]);
 	};
 
-	const handleSubmit = () => {
-		if (file) {
-			// Handle file upload
-			console.log("File uploaded:", file);
-		}
-	};
+	// const handleSubmit = () => {
+	// 	if (file) {
+	// 		// Handle file upload
+	// 		console.log("File uploaded:", file);
+	// 	}
+	// };
 
 	return (
 		<ModalContainer>
