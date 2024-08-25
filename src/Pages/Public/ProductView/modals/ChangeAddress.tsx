@@ -11,7 +11,9 @@ import { location } from "../../../../assets";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 
-const DeliveryAddressFormModal: React.FC<{ active: string }> = ({ active }) => {
+const DeliveryAddressFormModal: React.FC<{ active?: string }> = ({
+	active,
+}) => {
 	const [receiverName, setReceiverName] = useState<string>("");
 	const [phoneNumber, setPhoneNumber] = useState<string>("");
 	const [address, setAddress] = useState<string>("");
@@ -34,7 +36,9 @@ const DeliveryAddressFormModal: React.FC<{ active: string }> = ({ active }) => {
 			<FormImage>
 				<img src={location} />
 			</FormImage>
-			<CloseButton onClick={() => dispatch(closeModal(active))}>
+			<CloseButton
+				onClick={() => dispatch(closeModal(active ?? "changeAddress"))}
+			>
 				<AiOutlineCloseCircle size={34} color="#292D32" />
 			</CloseButton>
 			<h2>Set delivery address</h2>

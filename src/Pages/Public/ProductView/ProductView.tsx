@@ -141,6 +141,23 @@ const Screen: React.FC = () => {
 		};
 		fetchData();
 	}, [product]);
+	// Calculate the discount amount
+	const originalPrice = product?.price ?? 0;
+	const discount = product?.discount ?? 0;
+
+	const discountAmount = calculateDiscount(originalPrice, discount);
+
+	// Calculate the final price after discount
+	const finalPrice = originalPrice - discountAmount;
+
+	// Calculate the discount percentage
+	const discountPercentage: number = (discountAmount / originalPrice) * 100;
+	// alert(discountPercentage / 100);
+
+	// Display the formatted final price
+
+	formatCurrency(finalPrice);
+
 	return (
 		<Wrapper>
 			<Container>
@@ -189,20 +206,18 @@ const Screen: React.FC = () => {
 						</ProductName>
 
 						<PriceCard>
-							<p>{formatCurrency(product?.price as number)}</p>
+							<p>
+								{formatCurrency(
+									calculateDiscount(
+										product?.price as number,
+										product?.discount as number
+									)
+								)}
+							</p>
 							{product?.discount !== 0 && (
 								<p>
 									<span>{formatCurrency(product?.price)}</span>{" "}
-									<span>
-										-
-										{formatCurrency(
-											calculateDiscount(
-												product?.price as number,
-												product?.discount as number
-											)
-										)}
-										%
-									</span>
+									<span>-{100 - parseInt(discountPercentage.toFixed(2))}%</span>
 								</p>
 							)}
 						</PriceCard>

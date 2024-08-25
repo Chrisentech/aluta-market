@@ -211,10 +211,9 @@ export const RightSection = styled.div`
 
 	.checkout {
 		box-sizing: border-box;
-		height: 329px;
+		max-height: 329px;
 		padding: 20px;
 		background: #fff;
-		border: 1px solid #dee2e7;
 		border-radius: 6px;
 		margin-top: 12px;
 		font-size: 16px;

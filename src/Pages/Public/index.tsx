@@ -9,4 +9,5 @@ export { default as AboutPage } from "./About/About";
 export { default as FaqPage } from "./Faq/Faqpage";
 export { default as PrivacyPage } from "./Privacy/Privacy";
 export { default as ContactPage } from "./Contact/Contact";
+export { default as CheckoutPage } from "./Cart/Checkout";
 // export { default as VerifyOtp } from "./VerifyOtp/VerifyOtp"

@@ -5,7 +5,7 @@ export const Container = styled.div`
 	background: #fff;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	// align-items: center;
 	// justify-content: center;
 	gap: 10px;
 	padding: 20px 0;
@@ -34,57 +34,73 @@ export const Container = styled.div`
 			font-family: "Inter";
 		}
 	}
+	.flex {
+		display: flex;
+		align-items: start;
+		gap: 20px;
+	}
+	.content {
+		padding: 10px 15px;
+		margin: 10px;
+		margin: 10px 0;
+		h2 {
+			font-family: Inter;
+			font-weight: 600;
+			font-size: 18px;
+		}
+		p {
+			font-family: Inter;
+			font-weight: 400;
+			font-size: 16px;
+			margin-top: 10px;
+		}
+		/* Hide the default radio button */
+		.radio-container input[type="radio"] {
+			position: absolute;
+			opacity: 0;
+			cursor: pointer;
+		}
 
-	form {
-		width: 80%;
-		margin: 20px auto;
-		input,
-		select {
-			width: calc(100% - 40px);
-			padding: 15px 20px;
-			border-radius: 10px;
-			outline: 0;
-			margin: 10px 0;
-			background: #f7fafc;
-			border: none;
+		/* Create a custom radio button */
+		.checkmark {
+			position: relative;
+			height: 20px;
+			width: 20px;
+			cursor: pointer;
+			background-color: #eee;
+			border: 1px #eee;
+			border-radius: 50%;
+			display: inline-block;
+			margin-right: 10px;
 		}
-		select {
-			width: 100%;
-			option {
-				font-size: 16px;
-				line-height: 19px;
-				font-family: "Inter";
-				margin: 10px;
-			}
+
+		/* When the radio button is checked, add a background color */
+		.radio-container input[type="radio"]:checked ~ .checkmark {
+			// background-color: #2196f3;
 		}
-		label {
-		font-family:"Inter",
-		font-weight:600;
-		font-size:16px
+
+		/* Create the indicator (the dot/circle inside the radio button) */
+		.checkmark::after {
+			content: "";
+			position: absolute;
+			display: none;
+		}
+
+		.radio-container input[type="radio"]:checked ~ .checkmark::after {
+			display: block;
+		}
+
+		/* Style the indicator */
+		.radio-container .checkmark::after {
+			top: 50%;
+			left: 50%;
+			width: 12px;
+			height: 12px;
+			border-radius: 50%;
+			background: #00b517;
+			transform: translate(-50%, -50%);
 		}
 	}
-		.gateway{
-		padding:20px;
-		background:#F7FAFC;
-		display:flex;
-		align-items:center;
-		gap:10px;
-		width:80%;
-		border-radius:10px;
-		margin:10px;
-		h2{
-		font-size:16px;
-		color:#505050;
-		font-weight:600;
-		font-family: Inter;
-		}
-		p{
-		font-size:12px;
-		color:#505050;
-		font-family: Inter;
-		font-weight:500
-		}
-		}
 `;
 
 export const Img = styled.div`

@@ -49,27 +49,18 @@ import { alertSuccess } from "../../../Features/alert/alertSlice";
 import { fetchMe } from "../../../Features/user/userSlice";
 import { ICartProps } from "../../../Interfaces";
 import useUsers from "../../../Features/user/userActions";
-import {
-	selectActiveModal,
-	showModal,
-} from "../../../Features/modal/modalSlice";
+import { selectActiveModal } from "../../../Features/modal/modalSlice";
 import { selectLoadingState } from "../../../Features/loading/loadingSlice";
 
 const Screen: React.FC = () => {
 	const [products, _] = useState<any[]>(CartProduct);
-	const costOfDelivery = 200;
-	const discount = 0;
-	const tax = 0;
+
 	const { cart, removeAllCart, modifyCart } = useCart();
 	const { addToWishlist, wishlists, getWishlist } = useUsers();
 	const me: any = useSelector(fetchMe);
 	const [cartItems, setCartItems] = useState<ICartProps | null>(cart);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const totalCartPrice =
-		cartItems?.total !== undefined
-			? cartItems?.total + costOfDelivery + tax - discount
-			: 0;
 
 	const hasProduct: boolean = products.length > 0;
 	const [buttonLoader, setButtonLoader] = useState<any>(0);
@@ -94,9 +85,7 @@ const Screen: React.FC = () => {
 		dispatch(alertSuccess("Cart has been cleared!!"));
 		setButtonLoader(0);
 	};
-	const handlePaymentModal = () => {
-		dispatch(showModal("payment"));
-	};
+
 	const handleAddSavedLater = async (
 		productId: string,
 		price: string,
@@ -321,24 +310,11 @@ const Screen: React.FC = () => {
 										{formatCurrency(cartItems?.total)}
 									</span>
 								</p>
-								<p>
-									<span className="label">Delivery:</span>
-									<span className="cost">{formatCurrency(costOfDelivery)}</span>
-								</p>
-								<p>
-									<span className="label">Discount:</span>
-									<span className="cost discount">
-										- {formatCurrency(discount)}
-									</span>
-								</p>
-								<p>
-									<span className="label">Tax:</span>
-									<span className="cost tax">+ {formatCurrency(tax)}</span>
-								</p>
+								<p>Delivery fee not included</p>
 								<div className="bottom">
 									<p className="total">
 										<span>Total:</span>
-										<span>{formatCurrency(totalCartPrice)}</span>
+										<span>{formatCurrency(cartItems?.total)}</span>
 									</p>
 									<Button
 										className="button"
@@ -346,7 +322,7 @@ const Screen: React.FC = () => {
 										height="40px"
 										background="#00B517"
 										color="#fff"
-										onClick={handlePaymentModal}
+										onClick={() => navigate("/checkout")}
 									>
 										Checkout
 									</Button>

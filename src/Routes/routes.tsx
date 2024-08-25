@@ -14,6 +14,7 @@ import {
 	FaqPage,
 	PrivacyPage,
 	ContactPage,
+	CheckoutPage,
 } from "../Pages/Public";
 import {
 	SellerDashboard,
@@ -148,6 +149,16 @@ const Router: React.FC = () => {
 					path={ROUTE.CART}
 					element={
 						<PrivateRoute component={Cart} authRoute route={ROUTE.CART} />
+					}
+				/>
+				<Route
+					path={"/checkout"}
+					element={
+						<PrivateRoute
+							component={CheckoutPage}
+							authRoute
+							route={"/checkout"}
+						/>
 					}
 				/>
 				<Route
