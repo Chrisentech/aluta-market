@@ -9,9 +9,12 @@ export const Page = styled.div`
 `;
 
 export const Container = styled.div`
-	width: 90%;
+	width: 80%;
 	margin: auto;
 	position: relative;
+	@media (max-width: 1220px) {
+		width: 90%;
+	}
 	h1 {
 		margin: 25px 0px;
 		font-size: 24px;

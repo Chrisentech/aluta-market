@@ -8,21 +8,76 @@ import {
 import { Wrapper } from "./CheckoutStyles";
 import Layout from "../../../Layouts";
 import { Button, PaymentModal, PickupModal } from "../../../Shared/Components";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { formatCurrency } from "../../../Shared/Utils/helperFunctions";
 import { ROUTE } from "../../../Shared/Constants";
 import DeliveryAddressFormModal from "../ProductView/modals/ChangeAddress";
-import { ArrowLeftIcon, cloth } from "../../../assets";
+import { ArrowLeftIcon } from "../../../assets";
 import { useNavigate } from "react-router-dom";
+import { capitalize } from "lodash";
+import {
+	actions,
+	fetchMe,
+	selectHomeDelivery,
+	selectPickupStation,
+} from "../../../Features/user/userSlice";
+import { alertError } from "../../../Features/alert/alertSlice";
 
-const Screen: React.FC = () => {
+const Screen: React.FC<{
+	setDeliveryFee: (fee: number) => void;
+}> = ({ setDeliveryFee }) => {
 	const dispatch = useDispatch();
 	const { cart } = useCart();
 	const nav = useNavigate();
+	const [deliveryFee, setDeliveryFee2] = useState<any>(0);
+	const [address, setAddress] = useState("");
+	const me = useSelector(fetchMe);
+	const homeAddress = useSelector(selectHomeDelivery) || me?.paymnetDetails;
+
 	const handlePaymentModal = () => {
+		if (!address) {
+			dispatch(alertError("Select one of the delivery addresses"));
+			return;
+		}
 		dispatch(showModal("payment"));
 	};
+	const pickUpLocation = useSelector(selectPickupStation);
+	const handleRadioSelection = async (value: any) => {
+		if (value === "delivery_not_needed") {
+			setDeliveryFee2(0.0);
+			setAddress("No Address");
+			setDeliveryFee(0.0);
+		} else if (value === "home_delivery") {
+			setDeliveryFee2(7890);
+			setAddress("Home Delivery");
+			setDeliveryFee(7890);
+		} else if (value === "pickup_station") {
+			setDeliveryFee2(2000);
+			setAddress("Pickup Station: " + value);
+			setDeliveryFee(2000);
+		}
+	};
+	useEffect(() => {
+		dispatch(
+			actions.setPickUpStation({
+				value: "North Gate",
+				type: "pickup_station",
+				slug: "north_gate",
+				meta: {
+					previous_value: "",
+					current_value: "north_gate",
+					is_valid: true,
+					error_message: "",
+				},
+			})
+		);
+	}, []);
 
+	useEffect(() => {
+		if (!cart) {
+			nav(ROUTE.CART);
+		}
+	}, []);
 	return (
 		<Wrapper>
 			<div className="flex">
@@ -57,6 +112,7 @@ const Screen: React.FC = () => {
 										type="radio"
 										name="option"
 										value="delivery_not_needed"
+										onChange={(e) => handleRadioSelection(e.target.value)}
 									/>
 									<span className="checkmark"></span>
 								</label>
@@ -80,7 +136,12 @@ const Screen: React.FC = () => {
 								}}
 							>
 								<label className="radio-container">
-									<input type="radio" name="option" value="home_delivery" />
+									<input
+										type="radio"
+										name="option"
+										value="home_delivery"
+										onChange={(e) => handleRadioSelection(e.target.value)}
+									/>
 									<span className="checkmark"></span>
 								</label>
 								<div style={{ width: "100%" }}>
@@ -98,7 +159,7 @@ const Screen: React.FC = () => {
 													padding: "0 10px",
 												}}
 											>
-												N7,890
+												{homeAddress?.address ? "N7,890" : "N0.00"}
 											</span>
 										</h2>
 										<h2
@@ -110,13 +171,10 @@ const Screen: React.FC = () => {
 											}}
 											onClick={() => dispatch(showModal("changeAddress"))}
 										>
-											Change Address
+											{homeAddress?.address ? "Change" : "Add"} Address
 										</h2>
 									</div>
-									<p>
-										Arike Laureen Scarlet Hostel, adjacent Yemco saloon,
-										Education, Fuoye, Oye 0801122344
-									</p>
+									<p>{homeAddress?.address}</p>
 								</div>
 							</div>
 						</div>
@@ -130,7 +188,12 @@ const Screen: React.FC = () => {
 								}}
 							>
 								<label className="radio-container">
-									<input type="radio" name="option" value="pickup_station" />
+									<input
+										type="radio"
+										name="option"
+										value="pickup_station"
+										onChange={(e) => handleRadioSelection(e.target.value)}
+									/>
 									<span className="checkmark"></span>
 								</label>
 								<div style={{ width: "100%" }}>
@@ -138,7 +201,7 @@ const Screen: React.FC = () => {
 										style={{ display: "flex", justifyContent: "space-between" }}
 									>
 										<h2>
-											<span>North Gate Pickup Station</span>
+											<span>{pickUpLocation?.value} Pickup Station</span>
 											<span
 												style={{
 													marginLeft: 20,
@@ -163,27 +226,27 @@ const Screen: React.FC = () => {
 											Select Option
 										</h2>
 									</div>
-									<p>North Gate</p>
+									<p>{pickUpLocation?.value}</p>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div className="card">
 						<div className="heading">Shipment Order</div>
-						{Array(3)
-							.fill(null)
-							.map((_, i) => (
+						{cart &&
+							cart?.items &&
+							cart?.items.map((item: any, i: number) => (
 								<div key={i} className="section2">
 									<div className="img_container">
-										<img src={cloth} alt="Men’s Short Sleeve T-shirt" />
+										<img src={item.product.thumbnail} alt={item.product.name} />
 									</div>
 									<div className="details">
-										<h2>
-											Men’s Short Sleeve T-shirt Cotton Base Layer Slim Muscle
-										</h2>
+										<h2>{item.product.name}</h2>
 										<p>Variation: Small</p>
-										<p>Arike Collection</p>
-										<h2 style={{ marginTop: 10 }}>N7,098.99</h2>
+										<p>{capitalize(item.product.store)}</p>
+										<h2 style={{ marginTop: 10 }}>
+											{formatCurrency(item.product.price)}
+										</h2>
 									</div>
 								</div>
 							))}
@@ -197,12 +260,12 @@ const Screen: React.FC = () => {
 						</p>
 						<p>
 							<span className="label">Delivery Fee:</span>
-							<span className="cost">N200.00</span>
+							<span className="cost">{formatCurrency(deliveryFee)}</span>
 						</p>
 						<div className="bottom">
 							<p className="total">
 								<span>Total:</span>
-								<span>{formatCurrency(cart?.total)}</span>
+								<span>{formatCurrency((cart?.total ?? 0) + deliveryFee)}</span>
 							</p>
 							<Button
 								className="button"
@@ -240,22 +303,29 @@ const Screen: React.FC = () => {
 const CheckoutPage = () => {
 	const activeModal = useSelector(selectActiveModal);
 	const { cart } = useCart();
-	const costOfDelivery = 200;
-	const discount = 0;
+	const [pickUpStation, setPickUpStation] = useState("");
+	console.log(pickUpStation);
+
+	const [deliveryFee, setDeliveryFee] = useState(0); // Step 1: Lift state
+
 	const payload = {
 		...cart,
-		total: costOfDelivery + (cart?.total ?? 0 + discount),
+		total: deliveryFee + (cart?.total ?? 0),
 	};
 	const loading = useSelector(selectLoadingState);
 	return (
 		<Layout
 			layout={"full"}
-			component={Screen}
+			component={() => (
+				<Screen
+					setDeliveryFee={setDeliveryFee} // Pass the state and updater
+				/>
+			)}
 			popUpContent={
 				activeModal === "changeAddress" ? (
 					<DeliveryAddressFormModal />
 				) : activeModal === "pickup" ? (
-					<PickupModal />
+					<PickupModal setPickUpStation={setPickUpStation} />
 				) : (
 					<PaymentModal data={payload} />
 				)

@@ -81,6 +81,12 @@ const PURCHASED_ORDER_DATA = gql`
 			discount
 			status
 		}
+		textRef
+		deliveryDetails {
+			method
+			address
+			fee
+		}
 	}
 `;
 const PAGINATION_DATA = gql`

@@ -17,18 +17,14 @@ import {
 	setLoading,
 	setNotLoading,
 } from "../../../Features/loading/loadingSlice";
+import { alertError } from "../../../Features/alert/alertSlice";
 
 const PaymentModal: React.FC<{ data?: any }> = ({ data }) => {
 	const dispatch = useDispatch();
 	const me = useSelector(fetchMe);
-	const { initializePayment } = useCart();
+	const { initializePayment, cart } = useCart();
 
 	const handleCancel = () => {
-		// const confirmed = window.confirm(
-		// 	"All data will be lost. Do you want to continue?"
-		// );
-		// if (confirmed) {
-		// }
 		dispatch(closeModal("payment"));
 	};
 
@@ -39,9 +35,18 @@ const PaymentModal: React.FC<{ data?: any }> = ({ data }) => {
 			const payload = {
 				paymentGateway,
 				userID: me?.id,
+				amount: data?.total - (cart?.total ?? 0),
 			};
 			await initializePayment(payload);
-		} catch (error) {
+		} catch (error: any) {
+			let err;
+
+			try {
+				err = JSON.parse(error.message).message;
+			} catch (e) {
+				err = error.message;
+			}
+			dispatch(alertError(err));
 			throw error;
 		} finally {
 			dispatch(setNotLoading());

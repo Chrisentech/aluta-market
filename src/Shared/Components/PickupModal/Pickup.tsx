@@ -1,46 +1,43 @@
 import React from "react";
-import { Container, Img, Label } from "./Pickup.style";
-import {
-	ArrowLeftIcon,
-	CircleDismissIcon,
-	PaymentIcon,
-	FlutterwaveIcon,
-	PaystackIcon,
-	SquadIcon,
-} from "../../../assets";
-import { useDispatch, useSelector } from "react-redux";
+import { Container } from "./Pickup.style";
+import { ArrowLeftIcon, CircleDismissIcon } from "../../../assets";
+import { useDispatch } from "react-redux";
 import { closeModal } from "../../../Features/modal/modalSlice";
-import { fetchMe } from "../../../Features/user/userSlice";
-import { numberWithCommas } from "../../Utils/helperFunctions";
-import useCart from "../../../Features/cart/cartAction";
-import {
-	setLoading,
-	setNotLoading,
-} from "../../../Features/loading/loadingSlice";
-
-const PickupModal: React.FC<{ data?: any }> = ({ data }) => {
+import { actions } from "../../../Features/user/userSlice";
+const PickupModal: React.FC<{
+	setPickUpStation: (pickup_station: string) => void;
+}> = ({ setPickUpStation }) => {
 	const dispatch = useDispatch();
-	const me = useSelector(fetchMe);
-	const { initializePayment } = useCart();
 
 	const handleCancel = () => {
 		dispatch(closeModal("pickup"));
 	};
 
-	const handlePayment = async (paymentGateway: any) => {
-		dispatch(setLoading());
-
-		try {
-			const payload = {
-				paymentGateway,
-				userID: me?.id,
-			};
-			await initializePayment(payload);
-		} catch (error) {
-			throw error;
-		} finally {
-			dispatch(setNotLoading());
+	const handleRadioSelection = async (value: string) => {
+		setPickUpStation(value);
+		let pickUpStation;
+		if (value === "north_gate") {
+			pickUpStation = "North Gate";
+		} else if (value === "south_gate") {
+			pickUpStation = "South Gate";
+		} else {
+			pickUpStation = "Westgate";
 		}
+		dispatch(
+			actions.setPickUpStation({
+				value: pickUpStation,
+				type: "pickup_station",
+				slug: value,
+				school: "futa",
+				meta: {
+					previous_value: "",
+					current_value: value,
+					is_valid: true,
+					error_message: "",
+					price: "2000",
+				},
+			})
+		);
 	};
 
 	return (
@@ -59,7 +56,12 @@ const PickupModal: React.FC<{ data?: any }> = ({ data }) => {
 					}}
 				>
 					<label className="radio-container">
-						<input type="radio" name="option" value="north_gate" />
+						<input
+							type="radio"
+							name="option"
+							value="north_gate"
+							onChange={(e: any) => handleRadioSelection(e.target.value)}
+						/>
 						<span className="checkmark"></span>
 					</label>
 					<div style={{ width: "100%" }}>
@@ -93,7 +95,12 @@ const PickupModal: React.FC<{ data?: any }> = ({ data }) => {
 					}}
 				>
 					<label className="radio-container">
-						<input type="radio" name="option" value="south_gate" />
+						<input
+							type="radio"
+							name="option"
+							value="south_gate"
+							onChange={(e: any) => handleRadioSelection(e.target.value)}
+						/>
 						<span className="checkmark"></span>
 					</label>
 					<div style={{ width: "100%" }}>
@@ -127,7 +134,12 @@ const PickupModal: React.FC<{ data?: any }> = ({ data }) => {
 					}}
 				>
 					<label className="radio-container">
-						<input type="radio" name="option" value="west_gate" />
+						<input
+							type="radio"
+							name="option"
+							value="west_gate"
+							onChange={(e: any) => handleRadioSelection(e.target.value)}
+						/>
 						<span className="checkmark"></span>
 					</label>
 					<div style={{ width: "100%" }}>

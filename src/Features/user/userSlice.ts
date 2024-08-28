@@ -10,6 +10,8 @@ export interface UserState {
 	wishlists: IHandledProductProps[] | null;
 	savedForLater: IHandledProductProps[] | null;
 	recentlyViewed: IHandledProductProps[] | null;
+	pickUpStation: any;
+	homeDelivery: any;
 }
 
 const initialState: UserState = {
@@ -20,6 +22,8 @@ const initialState: UserState = {
 	savedForLater: null,
 	recentlyViewed: null,
 	skynet: {}, // Initialize skynet as an empty object
+	pickUpStation: null,
+	homeDelivery: null,
 };
 
 export const userSlice = createSlice({
@@ -46,6 +50,12 @@ export const userSlice = createSlice({
 		},
 		setDVA: (state, { payload }) => {
 			state.me = { ...state.me, dva: payload };
+		},
+		setPickUpStation: (state, { payload }) => {
+			state.pickUpStation = payload;
+		},
+		setHomeDelivery: (state, { payload }) => {
+			state.homeDelivery = payload;
 		},
 		logout: () => {
 			// window.location.reload();
@@ -78,6 +88,10 @@ export const fetchSavedForLater = (
 export const fetchRecentlyViewed = (
 	state: RootState
 ): IHandledProductProps[] | null => state.user.recentlyViewed;
+
+export const selectPickupStation = (state: RootState) =>
+	state.user.pickUpStation;
+export const selectHomeDelivery = (state: RootState) => state.user.homeDelivery;
 
 // Export user reducer
 export default userSlice.reducer;

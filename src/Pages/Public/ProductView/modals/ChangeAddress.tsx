@@ -3,13 +3,15 @@ import { closeModal } from "../../../../Features/modal/modalSlice";
 import {
 	FormContainer,
 	InputField,
-	SubmitButton,
 	CloseButton,
 	FormImage,
 } from "./ChangeAddress.style";
 import { location } from "../../../../assets";
 import { AiOutlineCloseCircle } from "react-icons/ai";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import useUsers from "../../../../Features/user/userActions";
+import { actions, fetchMe } from "../../../../Features/user/userSlice";
+import { Button } from "../../../../Shared/Components";
 
 const DeliveryAddressFormModal: React.FC<{ active?: string }> = ({
 	active,
@@ -18,17 +20,33 @@ const DeliveryAddressFormModal: React.FC<{ active?: string }> = ({
 	const [phoneNumber, setPhoneNumber] = useState<string>("");
 	const [address, setAddress] = useState<string>("");
 	const [additionalInfo, setAdditionalInfo] = useState<string>("");
-
+	const { updateUser } = useUsers();
+	const [loading, setLoading] = useState(false);
+	const me = useSelector(fetchMe);
 	const dispatch = useDispatch();
 
-	const handleSubmit = () => {
-		// Handle form submission logic here
-		// const formData = {
-		//   receiverName,
-		//   phoneNumber,
-		//   address,
-		//   additionalInfo,
-		// }
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault(); // Prevent default form submission behavior
+		setLoading(true);
+		const payload: any = {
+			id: me?.id,
+			paymnetDetails: {
+				name: receiverName,
+				address: address,
+				info: additionalInfo,
+				phone: phoneNumber,
+			},
+		};
+
+		try {
+			await updateUser(payload);
+			dispatch(actions.setHomeDelivery(payload.paymnetDetails));
+			dispatch(closeModal("changeAddress"));
+		} catch (error) {
+			console.log({ error });
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -86,7 +104,14 @@ const DeliveryAddressFormModal: React.FC<{ active?: string }> = ({
 						}
 					/>
 				</label>
-				<SubmitButton type="submit">Set Address</SubmitButton>
+				<Button
+					className="btn"
+					loading={loading}
+					disabled={loading}
+					type="submit"
+				>
+					Set Address
+				</Button>
 			</form>
 		</FormContainer>
 	);

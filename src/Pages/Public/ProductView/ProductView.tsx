@@ -56,7 +56,12 @@ import {
 } from "../../../Features/loading/loadingSlice";
 import useStore from "../../../Features/store/storeAction";
 import useCart from "../../../Features/cart/cartAction";
-import { fetchMe } from "../../../Features/user/userSlice";
+import {
+	actions,
+	fetchMe,
+	selectHomeDelivery,
+	selectPickupStation,
+} from "../../../Features/user/userSlice";
 import { alertSuccess } from "../../../Features/alert/alertSlice";
 import { selectCart } from "../../../Features/cart/cartSlice";
 import { searchedProducts } from "../../../Features/products/productSlice";
@@ -77,16 +82,39 @@ const Screen: React.FC = () => {
 	const filteredProducts =
 		searchedPrds?.filter((prd) => prd.id != product_id) || [];
 
+	const homeAddress = useSelector(selectHomeDelivery) || me?.paymnetDetails;
+
+	const pickUpLocation = useSelector(selectPickupStation);
+	useEffect(() => {
+		dispatch(
+			actions.setPickUpStation({
+				value: "North Gate",
+				type: "pickup_station",
+				slug: "north_gate",
+				meta: {
+					previous_value: "",
+					current_value: "north_gate",
+					is_valid: true,
+					error_message: "",
+				},
+			})
+		);
+	}, []);
 	const handleAddToCart = async () => {
 		setbtnLoading(true);
-		await modifyCart({
-			productId: product_id as string,
-			quantity: 1,
-			user: parseInt(userId, 10),
-		});
-		setbtnLoading(false);
+		try {
+			await modifyCart({
+				productId: product_id as string,
+				quantity: 1,
+				user: parseInt(userId, 10),
+			});
 
-		dispatch(alertSuccess("product added to cart successfully!!"));
+			dispatch(alertSuccess("product added to cart successfully!!"));
+		} catch (error: any) {
+			dispatch(alertSuccess(error.message));
+		} finally {
+			setbtnLoading(false);
+		}
 	};
 	const ratings: any = product
 		? product?.review?.map((review: any) => review.rating)
@@ -332,17 +360,19 @@ const Screen: React.FC = () => {
 								<div className="card-info">
 									<p className="header">Home Delivery</p>
 									<p className="fee">
-										Fee: <span>N700</span>
+										Fee:{" "}
+										<span>{homeAddress?.address ? "N7,890" : "N0.00"}</span>
 									</p>
 									<p className="detail">
-										Scarlet Hostel, adjacent Yemco Saloon, Education, Fuoye, Oye{" "}
+										{homeAddress?.address}
 										<span>Delivery within 24 hours</span>
 									</p>
 									<p
 										className="action"
 										onClick={() => dispatch(showModal("changeAddress"))}
 									>
-										<BiSolidRightArrowSquare size={18} /> Change Address
+										<BiSolidRightArrowSquare size={18} />{" "}
+										{homeAddress?.address ? "Change" : "Add"} Address
 									</p>
 								</div>
 							</InfoCard>
@@ -353,11 +383,10 @@ const Screen: React.FC = () => {
 								<div className="card-info">
 									<p className="header">Pickup Station</p>
 									<p className="fee">
-										Fee: <span>N200</span>
+										Fee: <span>N2000</span>
 									</p>
 									<p className="detail">
-										Peniel Plaza, opp Fuoye school gate, Oye Ekiti Pickup within
-										6 hours
+										{pickUpLocation?.value} Pickup Station
 									</p>
 								</div>
 							</InfoCard>

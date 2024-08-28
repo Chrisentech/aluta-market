@@ -28,6 +28,7 @@ export interface RegisterFormValues {
 	storeName?: string;
 	stores?: any;
 	active?: boolean;
+	paymentDetails?: any;
 }
 
 export interface UpdateUserFormValues {
@@ -56,6 +57,7 @@ export interface IUserProps {
 	dob?: string;
 	dva?: any;
 	// stores?:
+	paymnetDetails?: any;
 	active?: boolean;
 	access_token?: string;
 	refresh_token?: string;

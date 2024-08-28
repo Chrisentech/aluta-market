@@ -6,7 +6,7 @@ ul {
 	padding-inline: 0;
 }
 .Toastify__toast-container--top-right {
-	z-index: 100000;
+	z-index: 10000000000000000000000000000000000000000000000000000;
 }
 ::-webkit-scrollbar {
 	width: 5px; /* width of the scrollbar */
@@ -20,7 +20,7 @@ ul {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-	background:#ccc; /* color of the handle */
+	background: #ccc; /* color of the handle */
 	border-radius: 5px; /* roundness of the handle */
 }
 

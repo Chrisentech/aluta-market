@@ -22,6 +22,12 @@ const USER_FIELDS = gql`
 			phone
 			status
 		}
+		paymnetDetails {
+			name
+			phone
+			address
+			info
+		}
 	}
 `;
 
