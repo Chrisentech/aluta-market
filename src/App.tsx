@@ -35,7 +35,7 @@ const App: React.FC = () => {
 			window.removeEventListener("online", handleOnlineStatus);
 			window.removeEventListener("offline", handleOfflineStatus);
 		};
-	}, []);
+	}, [isOnline]);
 
 	return (
 		<>

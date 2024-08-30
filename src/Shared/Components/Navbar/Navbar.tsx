@@ -377,9 +377,9 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 				<>
 					<hr />
 					<SecondWrapper>
-						<GiHamburgerMenu size={20} />
-						<MenuItem to="#">All Categories</MenuItem>
-						<MenuItem to="#">Hot Offers</MenuItem>
+						{/**<GiHamburgerMenu size={20} />*/}
+						{/**<MenuItem to="#">All Categories</MenuItem>*/}
+						{/**<MenuItem to="#">Hot Offers</MenuItem>*/}
 						<MenuItem to="#" onClick={() => dispatch(showModal("skynet"))}>
 							Skynet
 						</MenuItem>

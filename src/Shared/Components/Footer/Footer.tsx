@@ -17,7 +17,10 @@ import { BsFacebook } from "react-icons/bs";
 import { TiSocialLinkedinCircular } from "react-icons/ti";
 // import { appleStoreImg, googlePlayImg } from "../../../assets";
 import { ROUTE } from "../../Constants";
+import { useSelector } from "react-redux";
+import { fetchMe } from "../../../Features/user/userSlice";
 const Footer: React.FC = () => {
+	const me = useSelector(fetchMe);
 	return (
 		<Wrapper>
 			<FooterTop>
@@ -60,7 +63,7 @@ const Footer: React.FC = () => {
 							<NavLink to={ROUTE.FAQ}>FAQs</NavLink>
 						</li>
 						<li>
-							<NavLink to="#">Our Stations</NavLink>
+							<NavLink to={ROUTE.CONTACT}>Our Stations</NavLink>
 						</li>
 						<li>
 							<NavLink to={ROUTE.PRIVACY}>Privacy and Policy</NavLink>
@@ -94,7 +97,15 @@ const Footer: React.FC = () => {
 							<NavLink to={ROUTE.REGISTER}>Register</NavLink>
 						</li>
 						<li>
-							<NavLink to="#">Settings</NavLink>
+							<NavLink
+								to={
+									me?.usertype === "seller"
+										? ROUTE.SELLER_PROFILE
+										: ROUTE.BUYER_PROFILE
+								}
+							>
+								Settings
+							</NavLink>
 						</li>
 						<li>
 							<NavLink to={ROUTE.BUYER_ORDER}>My Orders</NavLink>

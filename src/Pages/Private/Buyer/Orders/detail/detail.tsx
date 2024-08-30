@@ -14,11 +14,7 @@ import { calendar } from "../../../../../assets";
 import { DeliveryDetails, OrderStatus, Wrapper } from "./detail.styles";
 import { BsCheckCircle } from "react-icons/bs";
 import { BiArrowBack } from "react-icons/bi";
-import {
-	base64UrlEncode,
-	uuidToBinaryString,
-} from "../../../../../Shared/Utils/helperFunctions";
-import { capitalize } from "lodash";
+import { upperFirst } from "lodash";
 
 const columns = [
 	{ header: "", accessor: "img" },
@@ -32,13 +28,12 @@ const Screen: React.FC = () => {
 	// const dispatch = useDispatch();
 	const nav = useNavigate();
 	const { state } = useLocation();
-	const orderId = base64UrlEncode(uuidToBinaryString(state?.uuid));
 
 	return (
 		<Wrapper>
 			<div className="flex">
 				<BiArrowBack onClick={() => nav(-1)} size={20} />
-				<h2>Order {capitalize(orderId)}</h2>
+				<h2>Order {upperFirst(state?.uuid)}</h2>
 			</div>
 			<Card className="main" width="100%">
 				<div className="head">{/* <h3>Order details for {orderId}</h3> */}</div>

@@ -21,7 +21,7 @@ import calculateRating, {
 import { phone } from "../../../assets/index.tsx";
 import usePagination from "../../Hooks/usePagination.tsx";
 import { useNavigate } from "react-router-dom";
-import { capitalize } from "lodash";
+import { capitalize, upperFirst } from "lodash";
 
 const ListView: React.FC<{
 	gap?: string;
@@ -79,7 +79,7 @@ const ListView: React.FC<{
 											</span>
 										</div>
 										<ProductFlex>
-											<div>Order TAM00294 </div>
+											<div>Order {upperFirst(item?.uuid)} </div>
 										</ProductFlex>
 
 										<StatusBadge status={item.status}>

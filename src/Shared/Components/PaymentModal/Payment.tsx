@@ -11,7 +11,10 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../../Features/modal/modalSlice";
 import { fetchMe } from "../../../Features/user/userSlice";
-import { numberWithCommas } from "../../Utils/helperFunctions";
+import {
+	generateUniqueId,
+	numberWithCommas,
+} from "../../Utils/helperFunctions";
 import useCart from "../../../Features/cart/cartAction";
 import {
 	setLoading,
@@ -36,6 +39,7 @@ const PaymentModal: React.FC<{ data?: any }> = ({ data }) => {
 				paymentGateway,
 				userID: me?.id,
 				amount: data?.total - (cart?.total ?? 0),
+				UUID: generateUniqueId(),
 			};
 			await initializePayment(payload);
 		} catch (error: any) {

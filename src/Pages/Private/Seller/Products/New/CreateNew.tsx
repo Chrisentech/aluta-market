@@ -449,7 +449,7 @@ const Screen: React.FC = () => {
 											<option value="" label="Select a category" />
 											{state?.type === "product"
 												? reduxCategories
-														.filter((category: any) =>
+														?.filter((category: any) =>
 															productCategoryIds.includes(category.id)
 														)
 														?.map((category: any) => (
@@ -459,7 +459,7 @@ const Screen: React.FC = () => {
 														))
 												: state?.type === "digital"
 												? reduxCategories
-														.filter((category: any) => category.id === "10")
+														?.filter((category: any) => category.id === "10")
 														?.map((category: any) => (
 															<option key={category.id} value={category.name}>
 																{category.name}

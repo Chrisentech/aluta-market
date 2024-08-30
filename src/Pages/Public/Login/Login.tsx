@@ -88,7 +88,6 @@ const Screen: React.FC = () => {
 			setLoading(false);
 			if (error.graphQLErrors && error.graphQLErrors.length > 0) {
 				for (let index = 0; index < error.graphQLErrors.length; index++) {
-					console.log(JSON.parse(error.graphQLErrors[index].message));
 					if (JSON.parse(error.graphQLErrors[index].message).status === 302) {
 						setTimeout(async () => {
 							dispatch(showModal("VerifyOTP"));
