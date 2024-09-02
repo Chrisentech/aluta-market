@@ -578,64 +578,66 @@ const Screen: React.FC = () => {
 										</FormControl>
 									)}
 								</Flex>
-								<FormControl>
-									{catalogue?.file ? (
-										<div className="upload_container">
-											<h2>
-												{catalogue?.file} <CircleCheck />
-											</h2>
-										</div>
-									) : (
-										<div
-											className="upload_container"
-											onClick={handleUpoadDigitalProduct}
-										>
-											<h2>
-												<svg
-													width="24"
-													height="24"
-													viewBox="0 0 24 24"
-													fill="none"
-													xmlns="http://www.w3.org/2000/svg"
-												>
-													<path
-														d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
-														stroke="#505050"
-														stroke-width="1.5"
-														stroke-linecap="round"
-														stroke-linejoin="round"
-													/>
-													<path
-														d="M9 9.51001L12 6.51001L15 9.51001"
-														stroke="#505050"
-														stroke-width="1.5"
-														stroke-linecap="round"
-														stroke-linejoin="round"
-													/>
-													<path
-														d="M12 6.51001V14.51"
-														stroke="#505050"
-														stroke-width="1.5"
-														stroke-linecap="round"
-														stroke-linejoin="round"
-													/>
-													<path
-														d="M6 16.51C9.89 17.81 14.11 17.81 18 16.51"
-														stroke="#505050"
-														stroke-width="1.5"
-														stroke-linecap="round"
-														stroke-linejoin="round"
-													/>
-												</svg>
+								{state?.type === "digital" && (
+									<FormControl>
+										{catalogue?.file ? (
+											<div className="upload_container">
+												<h2>
+													{catalogue?.file} <CircleCheck />
+												</h2>
+											</div>
+										) : (
+											<div
+												className="upload_container"
+												onClick={handleUpoadDigitalProduct}
+											>
+												<h2>
+													<svg
+														width="24"
+														height="24"
+														viewBox="0 0 24 24"
+														fill="none"
+														xmlns="http://www.w3.org/2000/svg"
+													>
+														<path
+															d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+															stroke="#505050"
+															stroke-width="1.5"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														/>
+														<path
+															d="M9 9.51001L12 6.51001L15 9.51001"
+															stroke="#505050"
+															stroke-width="1.5"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														/>
+														<path
+															d="M12 6.51001V14.51"
+															stroke="#505050"
+															stroke-width="1.5"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														/>
+														<path
+															d="M6 16.51C9.89 17.81 14.11 17.81 18 16.51"
+															stroke="#505050"
+															stroke-width="1.5"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														/>
+													</svg>
 
-												<span>Upload Document</span>
-											</h2>
-											<p>
-												txt, doc, docx and pdf are the only acceptable formats
-											</p>
-										</div>
-									)}
-								</FormControl>
+													<span>Upload Document</span>
+												</h2>
+												<p>
+													txt, doc, docx and pdf are the only acceptable formats
+												</p>
+											</div>
+										)}
+									</FormControl>
+								)}
 								<SubmitButton
 									type="submit"
 									loading={loading}
