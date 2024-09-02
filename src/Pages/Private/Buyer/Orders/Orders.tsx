@@ -58,7 +58,7 @@ const Screen: React.FC = () => {
 		const fetchData = async () => {
 			await getPurchasedData(me?.id ?? 0);
 		};
-		if (!purchasedOrders) {
+		if (me?.id && !purchasedOrders) {
 			fetchData();
 		}
 	}, [me]);

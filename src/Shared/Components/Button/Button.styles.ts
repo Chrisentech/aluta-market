@@ -37,8 +37,8 @@ export const Container = styled.button<IButtonInterface>`
 	cursor: pointer !important;
 	padding: ${(props) => (props.loading ? "7px" : "20px")};
 	&:hover {
-		box-shadow: ${({ onHover }) =>
-			onHover ? "rgba(0, 0, 0, 0.35) 0px 5px 15px" : ""};
+		box-shadow: ${({ onHover, hasBoxShadow }) =>
+			onHover && hasBoxShadow ? "rgba(0, 0, 0, 0.35) 0px 5px 15px" : ""};
 		transform: translateY(-1px);
 	}
 	&:disabled {

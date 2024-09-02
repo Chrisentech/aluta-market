@@ -53,11 +53,12 @@ import {
 	// actions,
 	selectCategories,
 	selectCategory,
+	selectCatlogue,
 } from "../../../../../Features/products/productSlice";
 import Dropdown2 from "../../../../../Shared/Components/Dropdown/Dropdown2";
 import useVariants from "../../../../../test-data/variant-data";
 import { IoMdClose } from "react-icons/io";
-import { image34 } from "../../../../../assets";
+import { CircleCheck, image34 } from "../../../../../assets";
 import { numberWithCommas } from "../../../../../Shared/Utils/helperFunctions";
 import { selectStore } from "../../../../../Features/store/storeSlice";
 import { Puff } from "react-loading-icons";
@@ -76,6 +77,7 @@ const initialValues: IProductProps = {
 	subcategory: 0,
 	description: "",
 	thumbnail: "",
+	file: "",
 	variants: [],
 	review: [],
 	type: "",
@@ -122,11 +124,14 @@ const Screen: React.FC = () => {
 	const hiddenInputRef = useRef<HTMLInputElement | null>(null);
 	const { state } = useLocation();
 	const store = useSelector(selectStore);
-
+	const catalogue = useSelector(selectCatlogue);
 	const reduxCategory = useSelector(selectCategory);
 	const reduxCategories = useSelector(selectCategories);
 	const [imgLoading, setImgLoading] = useState(false);
-	const [thumbnail, setthumbnail] = useState<string | undefined>(imageUrls[0]);
+	const [thumbnail, setthumbnail] = useState<string | undefined>(
+		imageUrls[0] || catalogue?.thumbnail
+	);
+
 	const [subCategory, setSubcategory] = useState(0);
 	const { createProduct, getCategories, getCategory } = useProducts();
 
@@ -176,6 +181,17 @@ const Screen: React.FC = () => {
 			};
 		}
 	}, [files]);
+
+	useEffect(() => {
+		if (
+			catalogue?.thumbnail &&
+			state?.type != "product" &&
+			state?.type != "service"
+		) {
+			setthumbnail(catalogue?.thumbnail);
+			setImageUrls([catalogue?.thumbnail, ...imageUrls]);
+		}
+	}, [catalogue]);
 	const HandleUploadImages = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setImgLoading(true);
 		const selectedFiles: any = e.target.files;
@@ -187,6 +203,11 @@ const Screen: React.FC = () => {
 	const handleSubmit = async (values: IProductProps) => {
 		setLoading(true);
 
+		if (state?.type === "digital" && !catalogue?.file) {
+			dispatch(alertError("Please upload a file for digital products"));
+			return;
+		}
+
 		let payload: any = {
 			description,
 			name: productName,
@@ -197,6 +218,7 @@ const Screen: React.FC = () => {
 			subcategory: subCategory,
 			image: imageUrls,
 			thumbnail,
+			file: catalogue?.file ?? "",
 			quantity,
 			// type: state?.type, //digital,physical or service
 			store: store?.name,
@@ -240,6 +262,8 @@ const Screen: React.FC = () => {
 					);
 				}
 			}
+		}finally{
+			setLoading(false);
 		}
 	};
 
@@ -252,9 +276,9 @@ const Screen: React.FC = () => {
 		getCategories();
 	}, []);
 
-	useEffect(() => {
+	const handleUpoadDigitalProduct = () => {
 		dispatch(showModal("digital"));
-	}, [state]);
+	};
 
 	const handleIncreaseQuantity = (q: number) => {
 		setQuantity(++q);
@@ -342,13 +366,14 @@ const Screen: React.FC = () => {
 	const formIsValid =
 		!!productName && !!productPrice && !!reduxCategory && !!thumbnail;
 	const productCategoryIds = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+
 	return (
 		<Wrapper>
 			<Card className="card" width={"100%"} onHover={false} height={"570px"}>
 				<div className="badge">
 					<MdOutlineAddHomeWork size={30} />
 				</div>
-				<h3>Add {state?.type === "product" ? "Product" : "Service"}</h3>
+				<h3>Add {state?.type != "service" ? "Product" : "Service"}</h3>
 				<Container>
 					<ImageWrapper>
 						{!!imageUrls.length &&
@@ -397,7 +422,7 @@ const Screen: React.FC = () => {
 							<Form>
 								<FormControl>
 									<Label>
-										{state?.type === "product" ? "Product" : "Service"}
+										{state?.type != "service" ? "Product Name" : "Service Name"}
 										<span>*</span>
 									</Label>
 									<CustomField
@@ -497,8 +522,8 @@ const Screen: React.FC = () => {
 								</Flex>
 								<FormControl>
 									<Label>
-										{state?.type === "product" ? "Product" : "Service"}{" "}
-										description<span>*</span>{" "}
+										{state?.type != "service" ? "Product" : "Service"}{" "}
+										description<span>*</span> min(50 words)
 									</Label>
 									<TextEditor width={"100%"} height="209px">
 										<ReactQuill
@@ -506,7 +531,7 @@ const Screen: React.FC = () => {
 											modules={modules}
 											formats={formats}
 											placeholder={`Describe your ${
-												state?.type === "product" ? "product" : "service"
+												state?.type != "service" ? "product" : "service"
 											} to your customer`}
 											onChange={handleProcedureContentChange}
 											// style={{ height: "109px", width: "100%" }}ss
@@ -534,19 +559,83 @@ const Screen: React.FC = () => {
 												<BiPlus />
 											</div>
 										</Incrementor>
+										<div style={{ display: "flex", alignItems: "center" }}>
+											<CustomField name="checkbox" type="checkbox" />
+											<span style={{ marginLeft: 5 }}>Always available</span>
+										</div>
 									</FormControl>
-									<FormControl>
-										<OptionButton
-											type="button"
-											onClick={() => {
-												dispatch(showModal("addOptions"));
-											}}
-											disabled={!thumbnail || !productPrice || !productName}
-										>
-											Add Options
-										</OptionButton>
-									</FormControl>
+									{state?.type === "product" && (
+										<FormControl>
+											<OptionButton
+												type="button"
+												onClick={() => {
+													dispatch(showModal("addOptions"));
+												}}
+												disabled={!thumbnail || !productPrice || !productName}
+											>
+												Add Options
+											</OptionButton>
+										</FormControl>
+									)}
 								</Flex>
+								<FormControl>
+									{catalogue?.file ? (
+										<div className="upload_container">
+											<h2>
+												{catalogue?.file} <CircleCheck />
+											</h2>
+										</div>
+									) : (
+										<div
+											className="upload_container"
+											onClick={handleUpoadDigitalProduct}
+										>
+											<h2>
+												<svg
+													width="24"
+													height="24"
+													viewBox="0 0 24 24"
+													fill="none"
+													xmlns="http://www.w3.org/2000/svg"
+												>
+													<path
+														d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+														stroke="#505050"
+														stroke-width="1.5"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													/>
+													<path
+														d="M9 9.51001L12 6.51001L15 9.51001"
+														stroke="#505050"
+														stroke-width="1.5"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													/>
+													<path
+														d="M12 6.51001V14.51"
+														stroke="#505050"
+														stroke-width="1.5"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													/>
+													<path
+														d="M6 16.51C9.89 17.81 14.11 17.81 18 16.51"
+														stroke="#505050"
+														stroke-width="1.5"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													/>
+												</svg>
+
+												<span>Upload Document</span>
+											</h2>
+											<p>
+												txt, doc, docx and pdf are the only acceptable formats
+											</p>
+										</div>
+									)}
+								</FormControl>
 								<SubmitButton
 									type="submit"
 									loading={loading}
@@ -566,7 +655,7 @@ const Screen: React.FC = () => {
 										/>
 									) : (
 										`Publish ${
-											state?.type === "product" ? "Product" : "Service"
+											state?.type != "service" ? "Product" : "Service"
 										}`
 									)}
 								</SubmitButton>
@@ -590,6 +679,7 @@ const CustomField: React.FC<{
 	onChange?: any;
 	padding?: string;
 	width?: string;
+	checked?: boolean;
 	height?: string;
 	offset?: string;
 	margin?: string;
@@ -604,6 +694,7 @@ const CustomField: React.FC<{
 	height,
 	background,
 	padding,
+	checked,
 	offset,
 	margin,
 	onChange,
@@ -625,6 +716,9 @@ const CustomField: React.FC<{
 				// onChange={onCLick}
 			/>
 		);
+	}
+	if (type === "checkbox") {
+		return <input checked={checked} type={"checkbox"} onChange={onChange} />;
 	}
 	if (type === "textarea") {
 		const { values, handleChange } = useFormikContext<any>();

@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 import {
+	Button,
 	Card,
 	LogoutModal,
 	SkynetModal,
@@ -14,7 +15,7 @@ import { calendar } from "../../../../../assets";
 import { DeliveryDetails, OrderStatus, Wrapper } from "./detail.styles";
 import { BsCheckCircle } from "react-icons/bs";
 import { BiArrowBack } from "react-icons/bi";
-import { upperFirst } from "lodash";
+import { capitalize, upperFirst } from "lodash";
 
 const columns = [
 	{ header: "", accessor: "img" },
@@ -49,7 +50,32 @@ const Screen: React.FC = () => {
 						<div className="title">
 							<BsCheckCircle size={22} color="#292D32" /> Status
 						</div>
-						<div className="status">{state?.status}</div>
+
+						<div
+							style={{
+								display: state?.transStatus === "not processed" ? "flex" : "",
+								gap: 10,
+								alignItems: "center",
+								justifyContent: "space-between",
+							}}
+						>
+							<div className="status">
+								{state?.transStatus === "not processed" ? (
+									<small>{upperFirst(state.transStatus)}</small>
+								) : (
+									capitalize(state?.status)
+								)}
+							</div>
+
+							<Button
+								background="transparent"
+								padding={"10px !important"}
+								color="#002"
+								hasBoxShadow={false}
+							>
+								Finish Payment
+							</Button>
+						</div>
 					</div>
 				</OrderStatus>
 				<div className="table-wrapper">
@@ -62,15 +88,17 @@ const Screen: React.FC = () => {
 							<div className="contact">
 								<div>
 									<p className="name">Delivery Method</p>
-									<p className="number">Home Delivery</p>
+									<p className="number">
+										{state.deliveryDetails.method
+											? upperFirst(state.deliveryDetails.method)
+											: "Home Delivery"}
+									</p>
 								</div>
 							</div>
 							<div className="contact">
 								<div>
 									<p className="name">Delivery Address</p>
-									<p className="number">
-										Scarlet Hostel, adjacent Yemco saloon, Education, Fuoye, Oye
-									</p>
+									<p className="number">{state.deliveryDetails.address}</p>
 								</div>
 							</div>
 						</div>
@@ -81,13 +109,17 @@ const Screen: React.FC = () => {
 							<div className="contact">
 								<div>
 									<p className="name">Payment Method</p>
-									<p className="number">Card Payment</p>
+									<p className="number">
+										{state.paymentMethod
+											? upperFirst(state.paymentMethod)
+											: "Card Payment"}
+									</p>
 								</div>
 							</div>
 							<div className="contact">
 								<div>
 									<p className="name">Transaction Status</p>
-									<p className="number"> Payment not confirmed</p>
+									<p className="number">{upperFirst(state.transStatus)}</p>
 								</div>
 							</div>
 						</div>

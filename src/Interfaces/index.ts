@@ -125,6 +125,7 @@ export interface IProductProps {
 	category: any;
 	subcategory: any;
 	description: string;
+	file: string;
 	type: string;
 	id?: number;
 	store?: string;

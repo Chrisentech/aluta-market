@@ -1,6 +1,12 @@
 import { jwtDecode } from "jwt-decode";
+import * as pdfjs from "pdfjs-dist";
+import "pdfjs-dist/build/pdf.worker.min.mjs"; // Ensure this imports the correct worker for the installed version
+
 type Timer = ReturnType<typeof setTimeout>;
 
+// // Set the workerSrc to the correct path
+// pdfjs.GlobalWorkerOptions.workerSrc =
+// 	"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.6.172/pdf.worker.min.js";
 export function debounce<T extends (...args: any[]) => void>(
 	func: T,
 	delay: number
@@ -348,3 +354,37 @@ export function uuidToBinaryString(uuid: string) {
 
 	return binaryString;
 }
+
+export const generatePdfThumbnail = async (arrayBuffer: ArrayBuffer) => {
+	try {
+		// Check the type of arrayBuffer if needed
+		console.log("ArrayBuffer size:", arrayBuffer.byteLength);
+
+		const loadingTask = pdfjs.getDocument({ data: arrayBuffer });
+		const pdf = await loadingTask.promise;
+
+		// Check if pdf object is valid
+		console.log("PDF loaded:", pdf);
+
+		const page = await pdf.getPage(1); // Get the first page
+
+		const viewport = page.getViewport({ scale: 0.2 });
+		const canvas = document.createElement("canvas");
+		const context = canvas.getContext("2d");
+		if (!context) return;
+
+		canvas.width = viewport.width;
+		canvas.height = viewport.height;
+
+		await page.render({
+			canvasContext: context,
+			viewport: viewport,
+		}).promise;
+
+		const thumbnailUrl = canvas.toDataURL();
+		console.log({ thumbnailUrl });
+		return thumbnailUrl;
+	} catch (error) {
+		console.error("Error rendering PDF page:", error);
+	}
+};

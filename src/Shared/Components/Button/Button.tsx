@@ -71,6 +71,7 @@ Button.defaultProps = {
 	background: "white",
 	onHover: true,
 	border: "none",
+	hasBoxShadow: true,
 };
 
 export default Button;

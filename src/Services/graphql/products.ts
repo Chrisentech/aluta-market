@@ -14,6 +14,7 @@ const PRODUCT_FIELDS = gql`
 		status
 		thumbnail
 		store
+		file
 		category
 		subcategory
 		review {

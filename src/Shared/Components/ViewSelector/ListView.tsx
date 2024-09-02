@@ -9,7 +9,7 @@ import {
 	ViewButton,
 	StatusBadge,
 } from "./styles.ts";
-import { Card, ImageCard, Pagination, Rating } from "../index.ts";
+import { Button, Card, ImageCard, Pagination, Rating } from "../index.ts";
 import { PiDotOutlineFill } from "react-icons/pi";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { AppColors, ROUTE } from "../../Constants/index.ts";
@@ -83,7 +83,11 @@ const ListView: React.FC<{
 										</ProductFlex>
 
 										<StatusBadge status={item.status}>
-											{capitalize(item.status)}
+											{item?.transStatus === "not processed" ? (
+												<small>{upperFirst(item.transStatus)}</small>
+											) : (
+												capitalize(item.status)
+											)}
 										</StatusBadge>
 										<div className="time">Monday 10-11-2023</div>
 									</ProductDetails>

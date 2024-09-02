@@ -72,7 +72,9 @@ const PURCHASED_ORDER_DATA = gql`
 		user_id
 		amount
 		uuid
-		paymentGateway
+		paymentMethod
+		transRef
+		transStatus
 		products {
 			id
 			name

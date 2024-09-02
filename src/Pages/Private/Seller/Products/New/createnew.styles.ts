@@ -114,6 +114,34 @@ export const Wrapper = styled.div`
     font-weight: 600;
     line-height: normal;
   }
+
+  .upload_container{
+  background:#F7FAFC;
+  width:calc(100% - 40px);
+  height:60px;
+  padding:20px;
+  margin-top:20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  cursor:pointer;
+h2{
+  font-size:16px;
+  color:#505050;
+  font-family:Inter;
+  font-weight:400;
+  display:flex;
+  gap:10px;
+  margin-bottom:7px;
+align-items:center;
+  }
+  p{
+  font-size:10px;
+  color:#505050;
+  font-family:Inter;
+  }
+  }
 `;
 export const ErrorMessageWrapper = styled.div`
 	color: red;
