@@ -46,6 +46,78 @@ export const Wrapper = styled.div`
 			width:90%
 		}
 	}
+		.card4 .container{
+		width:400px;
+		margin:auto;
+		display:flex;
+		flex-direction:column;
+		justify-content:center;
+		align-items:center;
+		.button {
+      background: #0D6EFD;
+      color: #fff;
+      border: 0;
+      outline: 0;
+      border-radius: 6px;
+	  margin-left:auto;
+    margin-right: -20px;
+      padding: 12px;
+      cursor: pointer;
+	  font-size:14px;
+	  font-weight:700;
+	  line-height:16.94px;
+	  svg{
+	  color:#fff;
+	  font-weight:700
+	  }
+
+    }
+		.account{
+		margin-bottom:20px;
+		padding:20px;
+		position:relative;
+		background:#F7FAFC;
+		width:400px;
+		font-family:Inter;
+		min-height:70px;
+	
+		h2{
+		font-weight:700;
+		font-size:35px;
+		line-height:1.5;
+		}
+		@media(max-width:500px){
+			width:90%
+		}
+		img{
+		position:absolute;
+		right:10px;
+		top:10px;
+		// width:15px
+		// height:15px;
+		border-radius:50%;
+		border:5px solid white
+		}
+		svg{
+		position:absolute;
+		right:20px;
+		bottom:10px;
+
+		}
+		}
+		.info2{
+		background:#EFF2F4;
+		padding:20px;
+		width:400px;
+		margin:20px 0;
+		@media(max-width:500px){
+			width:90%
+		}
+		}
+		@media(max-width:500px){
+			width:90%
+		}
+		}
 	.card {
 		width: 250px !important;
 		margin: 20px 0;
@@ -55,7 +127,7 @@ export const Wrapper = styled.div`
 			width: calc(100% - 60px);
 		}
 	}
-		.card2{
+		.	{
 		width: calc(100% - 160px) !important;
 		margin: 20px 0;
 		@media (max-width: 1080px) {
@@ -346,7 +418,7 @@ export const ErrorMessageWrapper = styled.div`
 	font-weight: 400;
 	letter-spacing: -0.2px;
 `;
-export const Input = styled(Field)<{ error: boolean; type: string }>`
+export const Input = styled(Field) <{ error: boolean; type: string }>`
 	width: ${(props) =>
 		props.type === "checkbox" ? "unset" : "calc(100% -  40px)"};
 	padding: 20px;

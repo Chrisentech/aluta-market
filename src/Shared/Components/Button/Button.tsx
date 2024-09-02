@@ -59,7 +59,7 @@ const Button: React.FC<IButtonInterface> = ({
 			padding={typeof padding === "number" ? padding + "px" : padding}
 		>
 			{loading && <Loader />}
-			{children}
+			<>{children}</>
 		</Container>
 	);
 };

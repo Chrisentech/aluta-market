@@ -1,52 +1,58 @@
 import React from "react";
 import { Card, Table } from "../../../../../Shared/Components";
 import { DepositIcon, WithdrawIcon } from "../../../../../assets";
+import { useSelector } from "react-redux";
+import { selectStore } from "../../../../../Features/store/storeSlice";
 
 const TransactionTab: React.FC = () => {
-	const data = [
-		{
-			date: "01:06pm 12.03.23",
-			amount: "N12,000",
-			deposit: "Deposit from",
-			contact: "Ebenezer Adelaja",
-			approved: "Approved",
-		},
-		{
-			date: "02:15pm 12.03.23",
-			amount: "N5,000",
-			withdraw: "Withdraw to",
-			contact: "Grace Johnson",
-			canceled: "Canceled",
-		},
-		{
-			date: "09:45am 13.03.23",
-			amount: "N20,000",
-			deposit: "Deposit from",
-			contact: "Michael Opeyemi",
-			approved: "approved",
-		},
-		{
-			date: "11:30am 14.03.23",
-			amount: "N7,500",
-			deposit: "Deposit from",
-			contact: "Chidi Okeke",
-			pending: "Pending",
-		},
-		{
-			date: "03:22pm 15.03.23",
-			amount: "N10,000",
-			deposit: "Deposit from",
-			contact: "Amara Chukwu",
-			approved: "approved",
-		},
-		{
-			date: "08:05am 16.03.23",
-			amount: "N15,000",
-			withdraw: "Withdraw to",
-			contact: "Olumide Balogun",
-			approved: "approved",
-		},
-	];
+	const store = useSelector(selectStore);
+	const transactions = store?.transactions?.filter(
+		(transaction: any) => transaction.category === "transaction"
+	);
+	// const data = [
+	// 	{
+	// 		date: "01:06pm 12.03.23",
+	// 		amount: "N12,000",
+	// 		deposit: "Deposit from",
+	// 		contact: "Ebenezer Adelaja",
+	// 		approved: "Approved",
+	// 	},
+	// 	{
+	// 		date: "02:15pm 12.03.23",
+	// 		amount: "N5,000",
+	// 		withdraw: "Withdraw to",
+	// 		user: "Grace Johnson",
+	// 		canceled: "Canceled",
+	// 	},
+	// 	{
+	// 		date: "09:45am 13.03.23",
+	// 		amount: "N20,000",
+	// 		deposit: "Deposit from",
+	// 		user: "Michael Opeyemi",
+	// 		approved: "approved",
+	// 	},
+	// 	{
+	// 		date: "11:30am 14.03.23",
+	// 		amount: "N7,500",
+	// 		deposit: "Deposit from",
+	// 		user: "Chidi Okeke",
+	// 		pending: "Pending",
+	// 	},
+	// 	{
+	// 		date: "03:22pm 15.03.23",
+	// 		amount: "N10,000",
+	// 		deposit: "Deposit from",
+	// 		user: "Amara Chukwu",
+	// 		approved: "approved",
+	// 	},
+	// 	{
+	// 		date: "08:05am 16.03.23",
+	// 		amount: "N15,000",
+	// 		withdraw: "Withdraw to",
+	// 		user: "Olumide Balogun",
+	// 		approved: "approved",
+	// 	},
+	// ];
 
 	const columns = [
 		{ header: "Date", accessor: "date" },
@@ -71,7 +77,7 @@ const TransactionTab: React.FC = () => {
 				}
 			},
 		},
-		{ header: "Contact Name", accessor: "contact" },
+		{ header: "Contact Name", accessor: "user" },
 		{
 			header: "Status",
 			accessor: (row: any) => {
@@ -137,7 +143,7 @@ const TransactionTab: React.FC = () => {
 			<div className="flex">
 				<h2>All Transactions</h2>
 			</div>
-			<Table data={data} columns={columns} />
+			<Table data={transactions} columns={columns} />
 		</Card>
 	);
 };

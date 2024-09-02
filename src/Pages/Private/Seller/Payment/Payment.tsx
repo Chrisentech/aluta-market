@@ -8,6 +8,7 @@ import { LogoutModal } from "../../../../Shared/Components";
 import { useSelector } from "react-redux";
 import { selectActiveModal } from "../../../../Features/modal/modalSlice";
 import { selectStores } from "../../../../Features/store/storeSlice";
+import WithdrawAccountTab from "./Tabs/tabfour";
 
 const Screen: React.FC = () => {
 	const [activeTab, setActiveTab] = useState(0);
@@ -64,7 +65,7 @@ const Screen: React.FC = () => {
 			) : activeTab === 2 ? (
 				<InvoiceTab />
 			) : (
-				""
+				<WithdrawAccountTab />
 			)}
 		</Wrapper>
 	);

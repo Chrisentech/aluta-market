@@ -113,7 +113,7 @@ const AccountTab: React.FC = () => {
 				/>
 			</div>
 			<Card
-				width="100%"
+				width="unset"
 				padding="40px 80px"
 				height="500px"
 				borderRadius="20px"

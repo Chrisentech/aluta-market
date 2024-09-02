@@ -262,7 +262,7 @@ const Screen: React.FC = () => {
 					);
 				}
 			}
-		}finally{
+		} finally {
 			setLoading(false);
 		}
 	};

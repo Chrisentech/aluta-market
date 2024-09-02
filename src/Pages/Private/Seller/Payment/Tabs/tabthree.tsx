@@ -2,11 +2,18 @@ import { Card, Table } from "../../../../../Shared/Components";
 import { AiOutlineLink } from "react-icons/ai";
 import { UploadIcon } from "../../../../../assets";
 import { useNavigate } from "react-router-dom";
+import { selectStore } from "../../../../../Features/store/storeSlice";
+import { useSelector } from "react-redux";
 const InvoiceTab: React.FC = () => {
 	const nav = useNavigate();
+	const store = useSelector(selectStore);
+	const invoices = store?.transactions?.filter(
+		(invoice: any) => invoice.category === "invoice"
+	);
+
 	const columns = [
-		{ header: "Invoice ID", accessor: "invoice_id" },
-		{ header: "Customer", accessor: "customer" },
+		{ header: "Invoice ID", accessor: "UUID" },
+		{ header: "Customer", accessor: "user" },
 		{ header: "Amount", accessor: "amount" },
 
 		{
@@ -74,26 +81,26 @@ const InvoiceTab: React.FC = () => {
 			},
 		},
 	];
-	const data = [
-		{
-			invoice_id: "AM-24EDX6",
-			amount: "N12,000",
-			customer: "Fola Peters",
-			approved: true,
-		},
-		{
-			invoice_id: "AM-24DWX4",
-			amount: "N2,000",
-			customer: "Jerome Kings",
-			canceled: true,
-		},
-		{
-			invoice_id: "AM-WFDWV4",
-			amount: "N4,000",
-			customer: "Aluko Johana",
-			pending: true,
-		},
-	];
+	// const data = [
+	// 	{
+	// 		UUID: "AM-24EDX6",
+	// 		amount: "N12,000",
+	// 		user: "Fola Peters",
+	// 		approved: true,
+	// 	},
+	// 	{
+	// 		UUID: "AM-24DWX4",
+	// 		amount: "N2,000",
+	// 		user: "Jerome Kings",
+	// 		canceled: true,
+	// 	},
+	// 	{
+	// 		UUID: "AM-WFDWV4",
+	// 		amount: "N4,000",
+	// 		user: "Aluko Johana",
+	// 		pending: true,
+	// 	},
+	// ];
 	return (
 		<Card
 			width="unset"
@@ -116,7 +123,7 @@ const InvoiceTab: React.FC = () => {
 				</div>
 			</div>
 
-			<Table data={data} columns={columns} />
+			<Table data={invoices} columns={columns} />
 		</Card>
 	);
 };

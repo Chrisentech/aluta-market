@@ -61,6 +61,16 @@ const STORE_FIELDS = gql`
 				price
 			}
 		}
+		transactions {
+			storeID
+			status
+			type
+			user
+			amount
+			UUID
+			category
+			created_at
+		}
 	}
 `;
 const PURCHASED_ORDER_DATA = gql`

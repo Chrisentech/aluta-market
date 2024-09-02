@@ -37,3 +37,8 @@ button,
 select {
 	font-family: "Inter";
 }
+
+button:disabled {
+	background: #ccc !important;
+	cursor: not-allowed;
+}
