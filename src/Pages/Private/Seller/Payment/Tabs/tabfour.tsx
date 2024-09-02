@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card } from "../../../../../Shared/Components";
+import { Card } from "../../../../../Shared/Components";
 import { MoneyIcon } from "../../../../../assets";
 import { Heading } from "../payment.styles";
 import { MdDeleteOutline } from "react-icons/md";

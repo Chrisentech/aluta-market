@@ -9,7 +9,7 @@ import {
 	ViewButton,
 	StatusBadge,
 } from "./styles.ts";
-import { Button, Card, ImageCard, Pagination, Rating } from "../index.ts";
+import {  Card, ImageCard, Pagination, Rating } from "../index.ts";
 import { PiDotOutlineFill } from "react-icons/pi";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { AppColors, ROUTE } from "../../Constants/index.ts";
