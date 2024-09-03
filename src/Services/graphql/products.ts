@@ -15,6 +15,7 @@ const PRODUCT_FIELDS = gql`
 		thumbnail
 		store
 		file
+		always_available
 		category
 		subcategory
 		review {
@@ -51,6 +52,8 @@ const PAGINATION_DATA = gql`
 			quantity
 			status
 			thumbnail
+			file
+			always_available
 			store
 			category
 			subcategory

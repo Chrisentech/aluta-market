@@ -19,6 +19,7 @@ const WithdrawAccountTab: React.FC = () => {
 			const bankData = await response.json(); // Assuming the response is JSON
 			setBanks(bankData);
 		} catch (error) {
+			setBanks({ logo: "https://nigerianbanks.xyz/logo/default-image.png" });
 			console.error("Error fetching banks:", error);
 			// Handle errors appropriately (e.g., display an error message to the user)
 		}
@@ -55,7 +56,7 @@ const WithdrawAccountTab: React.FC = () => {
 					.map((_, i: number) => {
 						return (
 							<div className="account" key={i}>
-								<img src={myBank("Wema Bank")?.logo} alt="" width={30} />
+								<img src={myBank("Wema Bdank")?.logo} alt="" width={30} />
 
 								<div className="descr">
 									<p>{myBank("Wema Bank")?.name}</p>

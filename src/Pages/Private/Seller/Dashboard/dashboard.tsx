@@ -128,7 +128,7 @@ const Screen: React.FC = () => {
 			</div>
 			<div className="info">
 				<h3>Total Orders</h3>
-				<p>{store?.order?.length || 0}</p>
+				<p>{store?.orders?.length || 0}</p>
 			</div>
 		</GridItem>,
 		<GridItem background="#0D6EFD">
