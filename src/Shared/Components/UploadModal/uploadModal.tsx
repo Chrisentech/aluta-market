@@ -111,7 +111,7 @@ const UploadModal: React.FC<any> = () => {
 			try {
 				// Start the upload request with progress tracking
 				const response = await axios.post(
-					"http://localhost:8082/upload",
+					"https://aluta-market-api.onrender.com/upload",
 					formData,
 					{
 						headers: { "Content-Type": "multipart/form-data" },
