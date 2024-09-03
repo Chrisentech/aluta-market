@@ -33,7 +33,6 @@ const PaymentModal: React.FC<{ data?: any }> = ({ data }) => {
 
 	const handlePayment = async (paymentGateway: any) => {
 		dispatch(setLoading());
-
 		try {
 			const payload = {
 				paymentGateway,
@@ -47,8 +46,10 @@ const PaymentModal: React.FC<{ data?: any }> = ({ data }) => {
 
 			try {
 				err = JSON.parse(error.message).message;
+				console.log(err);
 			} catch (e) {
 				err = error.message;
+				console.log(err);
 			}
 			dispatch(alertError(err));
 			throw error;
