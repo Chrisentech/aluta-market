@@ -16,7 +16,11 @@ import useUsers from "../../../Features/user/userActions";
 import { keySquare, tickCircle } from "../../../assets";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { MaskNumber } from "../../Utils/helperFunctions";
-
+const formatTime = (seconds: number): string => {
+	const minutes = Math.floor(seconds / 60);
+	const secs = seconds % 60;
+	return `${minutes}m:${secs < 10 ? `0${secs}` : secs}s`;
+};
 const VerifyOTPModal: React.FC<{
 	url?: string;
 	number?: string;
@@ -24,22 +28,46 @@ const VerifyOTPModal: React.FC<{
 }> = ({ url, number, error }) => {
 	const [loading, setLoading] = useState(false);
 	const [otp, setOtp] = useState<string[]>(new Array(5).fill(""));
-	const [activeOtpIndex, setactiveOtpIndex] = useState<number>(0);
+	const [activeOtpIndex, setActiveOtpIndex] = useState<number>(0);
 	const { verifyOTP } = useUsers();
 	const inputRef = useRef<HTMLInputElement>(null);
 	const [resend, setResend] = useState(false);
-	const [timer, setTimer] = useState(300000);
+	const [timer, setTimer] = useState(0); // Timer in seconds
 	const [isVerified, setVerified] = useState<boolean>(false);
+	const [attempts, setAttempts] = useState<number>(() => {
+		// Initialize attempts from localStorage
+		const savedAttempts = localStorage.getItem("otpAttempts");
+		return savedAttempts ? parseInt(savedAttempts, 10) : 1;
+	});
 	let nav = useNavigate();
 	const dispatch = useDispatch();
-	// check if the user has enter all the values for the otp
+
+	// Effect to handle countdown timer
+	useEffect(() => {
+		let interval: NodeJS.Timeout;
+		if (resend && timer > 0) {
+			interval = setInterval(() => {
+				setTimer((prev) => prev - 1);
+			}, 1000);
+		} else if (timer === 0) {
+			setResend(false);
+		}
+		return () => clearInterval(interval);
+	}, [resend, timer]);
+
+	// Effect to reset resend state and timer after a successful submission or resend
+	useEffect(() => {
+		if (resend) {
+			setTimer(180); // 3 minutes cooldown period
+		}
+	}, [resend]);
+
+	// Check if the user has entered all the values for the OTP
 	useEffect(() => {
 		let key = 0;
 		for (let i = 0; i < otp.length; i++) {
 			if (otp[i]) {
 				key++;
-				setTimer(30000);
-				setVerified(false);
 			}
 			if (key === otp.length) {
 				let value = {
@@ -51,24 +79,26 @@ const VerifyOTPModal: React.FC<{
 		}
 	}, [otp]);
 
-	useEffect(() => {
-		setTimeout(() => {
-			setResend(false);
-			setInterval;
-		}, 300000);
-	}, [resend]);
-
 	const onPaste = async (val: any) => {
 		const pasted = val.clipboardData.getData("text/plain");
 		if (!!parseInt(pasted)) {
 			setOtp(pasted.split("").slice(0, otp.length));
 		}
 	};
+
 	const handleSubmit = async (values: any) => {
 		setLoading(true);
+		setAttempts((prev) => {
+			const newAttempts = prev + 1;
+			localStorage.setItem("otpAttempts", newAttempts.toString()); // Persist attempts in localStorage
+			return newAttempts;
+		});
+
 		try {
-			await verifyOTP(values);
+			await verifyOTP({ attempts, ...values });
 			dispatch(alertSuccess("Verification successful!"));
+			localStorage.removeItem("otpAttempts"); // Clear attempts on success
+			setVerified(true);
 			if (url) {
 				nav(url);
 			}
@@ -83,7 +113,6 @@ const VerifyOTPModal: React.FC<{
 		}
 	};
 
-	// handle the onchange event on the otp
 	const handleOnChange = (
 		{ target }: React.ChangeEvent<HTMLInputElement>,
 		index: number
@@ -92,10 +121,10 @@ const VerifyOTPModal: React.FC<{
 		const newOTP: string[] = [...otp];
 		newOTP[index] = value.substring(value.length - 1);
 		value.length === 4 ? setOtp(value.split("")) : setOtp(newOTP);
-		if (!value) setactiveOtpIndex(index - 1);
-		else setactiveOtpIndex(index + 1);
+		if (!value) setActiveOtpIndex(index - 1);
+		else setActiveOtpIndex(index + 1);
 	};
-	// add keyboard event
+
 	const handleKeyDown = (
 		e: React.KeyboardEvent<HTMLInputElement>,
 		index: number
@@ -103,9 +132,17 @@ const VerifyOTPModal: React.FC<{
 		console.log(e, index);
 	};
 
+	const handleResendClick = () => {
+		setResend(true);
+		if (timer === 0) {
+			setResend(true);
+		}
+	};
+
 	useEffect(() => {
 		inputRef.current?.focus();
 	}, [activeOtpIndex]);
+
 	return (
 		<Container success={isVerified}>
 			<Top>
@@ -169,9 +206,16 @@ const VerifyOTPModal: React.FC<{
 						))}
 					</div>
 					<span className="message">
-						Didn’t receive OTP?<span style={{ width: "0.3rem" }}></span>
-						<ResendButton onClick={() => setResend(true)}>
-							Resend Code {resend && `(${timer})`}
+						Didn’t receive OTP? <span style={{ width: "0.3rem" }}></span>
+						<ResendButton
+							onClick={handleResendClick}
+							disabled={resend && timer > 0}
+							style={{
+								color: "red !important",
+								background: "transparent !important",
+							}}
+						>
+							Resend Code {resend && timer > 0 ? `(${formatTime(timer)})` : ""}
 						</ResendButton>
 					</span>
 				</FormControl>

@@ -116,13 +116,15 @@ export const Top = styled.div`
 
 export const ResendButton = styled.button`
 	display: inline-block;
-	color: #000;
+	color: #000 !important;
 	border: 0;
 	outline: 0;
 	cursor: pointer;
 	font-size: 14px;
-	background: transparent;
+	background: transparent !!important;
 	font-weight: 700 !important;
+	padding:5px
+
 `;
 
 export const SuccessContainer = styled.div`

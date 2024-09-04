@@ -126,6 +126,18 @@ const Screen: React.FC = () => {
 	}, [storeName]);
 
 	useEffect(() => {
+		// Function to clear the localStorage
+		const cleanup = () => {
+			localStorage.removeItem("otpAttempts");
+		};
+
+		// Cleanup on component unmount
+		return () => {
+			cleanup();
+		};
+	}, []); // Empty dependency array means this effect runs on mount and unmount
+
+	useEffect(() => {
 		if (debouncedStoreName) {
 			const check = async () => {
 				try {

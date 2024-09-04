@@ -10,7 +10,7 @@ import {
 	CustomCheckbox,
 	Modal,
 } from "./login.styles";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../Layouts";
 import { Formik, Form, useField } from "formik";
 import * as yup from "yup";
@@ -34,7 +34,6 @@ import useUsers from "../../../Features/user/userActions";
 import { alertError, alertSuccess } from "../../../Features/alert/alertSlice";
 import { setCookie } from "../../../Shared/Utils/helperFunctions";
 import { VerifyOTPModal } from "../../../Shared/Components";
-import { fetchMe } from "../../../Features/user/userSlice";
 const initialValues: LoginFormValues = {
 	email: "",
 	password: "",
@@ -65,8 +64,19 @@ const Screen: React.FC = () => {
 	const dispatch = useDispatch();
 	const { loginUser, getMe } = useUsers();
 	const redirectPath = sessionStorage.getItem("redirectPath") || "/";
-
 	const url = sessionStorage.getItem("redirectPath") ? redirectPath : "/";
+
+	useEffect(() => {
+		// Function to clear the localStorage
+		const cleanup = () => {
+			localStorage.removeItem("otpAttempts");
+		};
+
+		// Cleanup on component unmount
+		return () => {
+			cleanup();
+		};
+	}, []); // Empty dependency array means this effect runs on mount and unmount
 
 	const handleSubmit = async (values: LoginFormValues) => {
 		// Handle form submission here
@@ -91,6 +101,10 @@ const Screen: React.FC = () => {
 					console.log(JSON.parse(error.graphQLErrors[index].message).status);
 
 					if (JSON.parse(error.graphQLErrors[index].message).status == 417) {
+						localStorage.setItem(
+							"phone",
+							JSON.parse(error.graphQLErrors[index].message).code
+						);
 						setTimeout(async () => {
 							dispatch(showModal("VerifyOTP"));
 							dispatch(
@@ -100,7 +114,7 @@ const Screen: React.FC = () => {
 									)
 								)
 							);
-						}, 1500);
+						}, 1000);
 					}
 					dispatch(
 						alertError(JSON.parse(error.graphQLErrors[index].message).message)
@@ -248,7 +262,7 @@ const LoginPage = () => {
 	const [loading, setLoading] = useState(false);
 	const dispatch = useDispatch();
 	const activeModal = useSelector(selectActiveModal);
-	const existingUser = useSelector(fetchMe);
+	const phone = localStorage.getItem("phone") ?? "";
 
 	const { status, message } = useSelector((state: any) => state.alert);
 	const handleSubmit = () => {
@@ -311,7 +325,7 @@ const LoginPage = () => {
 				activeModal === "VerifyOTP" ? (
 					<VerifyOTPModal
 						url="/"
-						number={existingUser?.phone}
+						number={phone}
 						error={status === "error" && message?.message}
 					/>
 				) : (
@@ -321,7 +335,7 @@ const LoginPage = () => {
 			modalPadding={"20px 12px"}
 			showModal={activeModal}
 			layout={"blank"}
-			component={Screen}
+			component={() => <Screen />}
 			modalWidth={500}
 			navMode="blank"
 			isLoading={false}
