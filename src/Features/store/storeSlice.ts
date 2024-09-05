@@ -6,6 +6,7 @@ export interface StoreState {
 	maintenanceMode: boolean;
 	stores: any[];
 	store: any;
+	sellerStore: any
 }
 
 // Create the productSlice
@@ -15,6 +16,8 @@ export const storeSlice = createSlice({
 		maintenanceMode: false,
 		store: null,
 		stores: [],
+		sellerStore: null
+
 	} as StoreState, // Set the initial state using the ProductState type
 	reducers: {
 		setMaintenanceMode: (state, action: PayloadAction<boolean>) => {
@@ -24,6 +27,9 @@ export const storeSlice = createSlice({
 			state.stores = action.payload;
 		},
 		setStore: (state, action: PayloadAction<any>) => {
+			state.store = action.payload;
+		},
+		setSellerStore: (state, action: PayloadAction<any>) => {
 			state.store = action.payload;
 		},
 	},
@@ -39,6 +45,7 @@ export const selectMaintenanceMode = (state: RootState): boolean =>
 export const selectStores = (state: RootState): any[] => state.store.stores;
 
 export const selectStore = (state: RootState): any => state.store.store;
+export const selectSellerStore = (state: RootState): any => state.store.sellerStore;
 
 // Export the reducer
 export default storeSlice.reducer;

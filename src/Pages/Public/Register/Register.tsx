@@ -28,7 +28,6 @@ import { RegisterFormValues } from "../../../Interfaces";
 import { AppColors, ROUTE } from "../../../Shared/Constants";
 import {
 	filterNum,
-	generateSlug,
 	generateUniqueId,
 	isValidPassword,
 } from "../../../Shared/Utils/helperFunctions";
@@ -87,6 +86,7 @@ const validationSchemaTwo = yup.object().shape({
 const responseGoogle = (response: any | void) => {
 	console.log(response);
 };
+const uuid = generateUniqueId();
 
 const Screen: React.FC = () => {
 	const [showPwd, setShowPwd] = useState(false);
@@ -180,7 +180,6 @@ const Screen: React.FC = () => {
 			// avatar: "",
 		};
 		if (userType === "seller") {
-			const uuid = generateUniqueId();
 			payload = {
 				...payload,
 				stores: {
@@ -435,11 +434,7 @@ const Screen: React.FC = () => {
 									type="text"
 									readOnly
 									value={
-										storeName
-											? "https://www." +
-											  generateSlug(storeName) +
-											  ".alutamarket.com"
-											: ""
+										storeName ? window.location.href + uuid + "/store" : ""
 									}
 								/>
 								<Hint>storeName.alutamarket.com</Hint>

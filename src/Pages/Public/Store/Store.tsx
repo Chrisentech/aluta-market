@@ -28,10 +28,10 @@ import { ROUTE } from "../../../Shared/Constants";
 
 const Screen: React.FC = () => {
 	const { id } = useParams();
-	const { getStoreByName, mystore } = useStore();
+	const { getStoreByName, sellerStore } = useStore();
 	const { getProducts, myproducts } = useProducts();
 	const nav = useNavigate();
-	console.log(id);
+
 	useEffect(() => {
 		const fetchStore = async () => {
 			await getStoreByName(id + "/store");
@@ -41,22 +41,24 @@ const Screen: React.FC = () => {
 	}, [id]);
 	useEffect(() => {
 		const fetchProducts = async () => {
-			await getProducts({ store: mystore?.name, limit: 1000, offset: 0 });
+			await getProducts({ store: sellerStore?.name, limit: 1000, offset: 0 });
 		};
 		fetchProducts();
-	}, [mystore]);
+	}, [sellerStore]);
 	// alert(JSON.stringify(products));
 	return (
 		<Page>
-			<BackgroundPhoto background={mystore ? mystore?.background : arike} />
+			<BackgroundPhoto
+				background={sellerStore ? sellerStore?.background : arike}
+			/>
 			<Container>
 				<div className="profile-image">
-					{getCapitalizedFirstLetter(mystore?.name) || "A"}
+					{getCapitalizedFirstLetter(sellerStore?.name) || "A"}
 				</div>
 				<ShopInfo>
 					<div className="title">
-						<h1>{mystore?.name?.toUpperCase()}</h1>
-						<p>{mystore?.description}</p>
+						<h1>{sellerStore?.name?.toUpperCase()}</h1>
+						<p>{sellerStore?.description}</p>
 						<div className="buttons">
 							<Button
 								className="button"
@@ -90,12 +92,12 @@ const Screen: React.FC = () => {
 					<div className="contact-info">
 						<div className="contact">
 							<h2>Contact</h2>
-							<p>{mystore?.phone}</p>
-							<p>{mystore?.email}</p>
+							<p>{sellerStore?.phone}</p>
+							<p>{sellerStore?.email}</p>
 						</div>
 						<div className="address">
 							<h2>Address</h2>
-							<p>{mystore?.address}</p>
+							<p>{sellerStore?.address}</p>
 						</div>
 					</div>
 				</ShopInfo>
@@ -162,13 +164,13 @@ const Screen: React.FC = () => {
 };
 
 const LiveView = () => {
-	const { mystore } = useStore();
+	const { sellerStore } = useStore();
 
 	return (
 		<Layout
 			layout={"blank"}
 			component={Screen}
-			isLoading={!mystore}
+			isLoading={!sellerStore}
 			navMode="noSearch"
 		/>
 	);

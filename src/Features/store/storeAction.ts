@@ -5,6 +5,7 @@ import {
 	selectMaintenanceMode,
 	selectStore,
 	selectStores,
+	selectSellerStore
 } from "./storeSlice";
 import { apolloClient } from "../../Services/graphql/apolloClient";
 import {
@@ -23,6 +24,7 @@ export default function useStore() {
 	const maintenanceMode = useSelector(selectMaintenanceMode);
 	const mystores = useSelector(selectStores);
 	const mystore = useSelector(selectStore);
+	const sellerStore = useSelector(selectSellerStore)
 
 	const setMaintenanceMode = (mode: boolean) => {
 		dispatch(actions.setMaintenanceMode(mode));
@@ -66,7 +68,7 @@ export default function useStore() {
 			query: GET_MY_STORE_BY_NAME,
 			variables: { name },
 		});
-		dispatch(actions.setStore(response.data.StoreByName));
+		dispatch(actions.setSellerStore(response.data.StoreByName));
 	};
 	const createStore = async (input: any) => {
 		const response = await apolloClient.mutate({
@@ -113,6 +115,7 @@ export default function useStore() {
 		getStoreByName,
 		mystores,
 		mystore,
+		sellerStore,
 		createStore,
 		updateStore,
 		updateOrders,
