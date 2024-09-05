@@ -30,7 +30,7 @@ export const storeSlice = createSlice({
 			state.store = action.payload;
 		},
 		setSellerStore: (state, action: PayloadAction<any>) => {
-			state.store = action.payload;
+			state.sellerStore = action.payload;
 		},
 	},
 });
