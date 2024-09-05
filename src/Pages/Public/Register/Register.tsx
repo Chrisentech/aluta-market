@@ -185,7 +185,7 @@ const Screen: React.FC = () => {
 				...payload,
 				stores: {
 					address: storeaddress,
-					link: "http://thealutamarket.com/" + uuid + "/store",
+					link: uuid + "/store",
 					has_physical_address: hasPhysicalAddress,
 					name: storeName.toLowerCase().trim(),
 					description,
