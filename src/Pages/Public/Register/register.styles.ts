@@ -68,7 +68,7 @@ export const LeftPanel = styled.div`
 	}
 	.back {
 		top: -33px;
-		left: -100px;
+		left: -70px;
 		position: absolute;
 		font-size: 32px;
 		color: ${AppColors.brandGray};
@@ -201,7 +201,7 @@ export const Label = styled.label<{ checkbox?: boolean; small?: boolean }>`
 	}
 `;
 
-export const CustomCheckbox = styled.input.attrs({ type: "checkbox" })<{
+export const CustomCheckbox = styled.input.attrs({ type: "checkbox" }) <{
 	checked?: boolean;
 }>`
 	appearance: none;
@@ -224,7 +224,7 @@ export const CustomCheckbox = styled.input.attrs({ type: "checkbox" })<{
 	}
 `;
 
-export const Input = styled(Field)<{
+export const Input = styled(Field) <{
 	error: boolean;
 	type: string;
 	readOnly?: boolean;

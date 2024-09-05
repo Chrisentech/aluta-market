@@ -15,7 +15,7 @@ import { alertError, alertSuccess } from "../../../Features/alert/alertSlice";
 import useUsers from "../../../Features/user/userActions";
 import { keySquare, tickCircle } from "../../../assets";
 import { AiOutlineCloseCircle } from "react-icons/ai";
-import { MaskNumber } from "../../Utils/helperFunctions";
+import { MaskNumber, setCookie } from "../../Utils/helperFunctions";
 const formatTime = (seconds: number): string => {
 	const minutes = Math.floor(seconds / 60);
 	const secs = seconds % 60;
@@ -82,7 +82,11 @@ const VerifyOTPModal: React.FC<{
 	const onPaste = async (val: any) => {
 		const pasted = val.clipboardData.getData("text/plain");
 		if (!!parseInt(pasted)) {
-			setOtp(pasted.split("").slice(0, otp.length));
+			const newOtp = pasted.slice(0, otp.length).split(""); // Ensure pasted value fits OTP length
+			setOtp(newOtp);
+			setActiveOtpIndex(
+				newOtp.length >= otp.length ? otp.length - 1 : newOtp.length
+			);
 		}
 	};
 
@@ -95,13 +99,19 @@ const VerifyOTPModal: React.FC<{
 		});
 
 		try {
-			await verifyOTP({ attempts, ...values });
+			const resp: any = await verifyOTP({ attempts, ...values });
 			dispatch(alertSuccess("Verification successful!"));
 			localStorage.removeItem("otpAttempts"); // Clear attempts on success
 			setVerified(true);
-			if (url) {
-				nav(url);
-			}
+			setLoading(false);
+			setCookie("user_id", resp?.id, 0);
+			setCookie("access_token", resp?.access_token, 0);
+			setTimeout(() => {
+				if (url) {
+					nav(url);
+				}
+			}, 1500);
+			dispatch(closeModal("VerifyOTP"));
 		} catch (error: any) {
 			setLoading(false);
 			console.log(error);
@@ -109,7 +119,7 @@ const VerifyOTPModal: React.FC<{
 				dispatch(alertError(error.graphQLErrors[index].message));
 			}
 		} finally {
-			dispatch(closeModal("VerifyOTP"));
+			setLoading(false);
 		}
 	};
 
@@ -119,17 +129,41 @@ const VerifyOTPModal: React.FC<{
 	): void => {
 		const { value } = target;
 		const newOTP: string[] = [...otp];
-		newOTP[index] = value.substring(value.length - 1);
-		value.length === 4 ? setOtp(value.split("")) : setOtp(newOTP);
-		if (!value) setActiveOtpIndex(index - 1);
-		else setActiveOtpIndex(index + 1);
+
+		// Set the OTP value to the last character of the input (only 1 digit)
+		newOTP[index] = value.slice(-1);
+
+		setOtp(newOTP);
+
+		// If value is not empty, move focus to the next field, else stay
+		if (value) {
+			if (index < otp.length - 1) {
+				setActiveOtpIndex(index + 1); // Move to the next input
+			}
+		}
 	};
 
 	const handleKeyDown = (
 		e: React.KeyboardEvent<HTMLInputElement>,
 		index: number
 	) => {
-		console.log(e, index);
+		if (e.key === "Backspace") {
+			const newOTP = [...otp];
+			if (!otp[index]) {
+				// If the current field is empty, move focus to the previous input
+				if (index > 0) setActiveOtpIndex(index - 1);
+			} else {
+				// If the field is not empty, clear the current value
+				newOTP[index] = "";
+				setOtp(newOTP);
+				setActiveOtpIndex(index); // Stay on the same field
+			}
+		}
+	};
+
+	// Ensure focus management after all inputs are filled or being edited
+	const handleInputClick = (index: number) => {
+		setActiveOtpIndex(index); // Set focus to the clicked field
 	};
 
 	const handleResendClick = () => {
@@ -193,14 +227,11 @@ const VerifyOTPModal: React.FC<{
 									disabled={loading}
 									ref={index === activeOtpIndex ? inputRef : null}
 									value={otp[index]}
-									onChange={(e) => {
-										handleOnChange(e, index);
-									}}
-									onPaste={onPaste}
-									onKeyDown={(e) => {
-										handleKeyDown(e, index);
-									}}
+									onChange={(e) => handleOnChange(e, index)}
+									onClick={() => handleInputClick(index)} // Allow manual clicking
+									onKeyDown={(e) => handleKeyDown(e, index)}
 									type="number"
+									onPaste={onPaste}
 								/>
 							</React.Fragment>
 						))}

@@ -438,6 +438,7 @@ const Screen: React.FC = () => {
 											? window.location.origin + "/" + uuid + "/store"
 											: ""
 									}
+									onCopy={(e: any) => e.preventDefault()}
 								/>
 								<Hint>storeName.alutamarket.com</Hint>
 							</FormControl>
@@ -545,6 +546,7 @@ const CustomField: React.FC<{
 	defaultText?: string;
 	value?: string;
 	onChange?: any;
+	onCopy?: any;
 	readOnly?: boolean;
 	checked?: boolean;
 }> = ({
@@ -556,6 +558,7 @@ const CustomField: React.FC<{
 	readOnly,
 	onChange,
 	checked,
+	onCopy,
 }) => {
 	const [field, meta] = useField(name);
 	// console.log(meta)
@@ -614,6 +617,7 @@ const CustomField: React.FC<{
 				value={value}
 				readOnly={readOnly}
 				onChange={onChange}
+				onCopy={onCopy}
 			/>
 			{meta.touched && meta.error && (
 				<ErrorMessageWrapper>{meta.error}</ErrorMessageWrapper>
