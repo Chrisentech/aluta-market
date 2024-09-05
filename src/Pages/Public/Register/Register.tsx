@@ -108,7 +108,7 @@ const Screen: React.FC = () => {
 	const [isStoreNameAvailable, setIsStoreNameAvailable] = useState<
 		boolean | null
 	>(null);
-
+	// console.log(meta)
 	const [isSameNumber, setSameNumber] = useState<boolean>(false);
 	const [formValues, setFormValues] = useState(initialValues);
 	const [isTerms, setIsTerms] = useState(false);
@@ -161,6 +161,7 @@ const Screen: React.FC = () => {
 		!!password &&
 		!!studentCampus &&
 		!!userType &&
+		isValidPassword(password) &&
 		!!buyerNumber;
 
 	const sellerFormIsValid =
@@ -188,7 +189,7 @@ const Screen: React.FC = () => {
 					has_physical_address: hasPhysicalAddress,
 					name: storeName.toLowerCase().trim(),
 					description,
-					phone: "234" + filterNum(storeNumber),
+					phone: filterNum(storeNumber),
 					user: 0,
 					wallet: 0,
 					status: true,
@@ -254,7 +255,7 @@ const Screen: React.FC = () => {
 			usertype: userType,
 		};
 		setFormValues(payload);
-		console.log(formValues);
+		// console.log(formValues);
 	};
 
 	return (

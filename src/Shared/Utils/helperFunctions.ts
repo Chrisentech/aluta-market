@@ -197,8 +197,8 @@ export const setCookie = (name: string, value: string, days: number) => {
 	days === 0
 		? (document.cookie = `${name}=${value}; path=/`) //creates a session cookie
 		: (document.cookie = `${name}=${value}; expires=${calcExpiryDate(
-				days
-		  ).toUTCString()}; path=/`);
+			days
+		).toUTCString()}; path=/`);
 };
 
 export const getCookie = (name: string) => {
@@ -249,6 +249,7 @@ export const MaskNumber = (phoneNumber: string): string => {
 
 export const isValidPassword = (password: string): boolean => {
 	const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&])/;
+
 	return passwordPattern.test(password);
 };
 
