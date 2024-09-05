@@ -111,10 +111,11 @@ export const CREATE_USER = gql`
 `;
 
 export const VERIFY_OTP = gql`
-	${USER_FIELDS}
 	mutation ($input: NewVerifyOTP!) {
 		createVerifyOTP(input: $input) {
-			...UserFields
+			access_token
+			id
+			refresh_token
 		}
 	}
 `;
