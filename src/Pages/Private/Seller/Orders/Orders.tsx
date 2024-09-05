@@ -158,9 +158,9 @@ const Screen: React.FC = () => {
 					<img src={link} alt="" />
 				</div>
 			</div>
-			<div className="info">
+			<div className="info" style={{ width: "100%" }}>
 				<h3>Store link</h3>
-				<NavLink to="#" className="navLink">
+				<NavLink to="#" className="navLink" style={{ wordBreak: "break-all" }}>
 					{store?.link}
 				</NavLink>
 			</div>
