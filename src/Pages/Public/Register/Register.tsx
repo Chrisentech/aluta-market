@@ -434,7 +434,9 @@ const Screen: React.FC = () => {
 									type="text"
 									readOnly
 									value={
-										storeName ? window.location.href + uuid + "/store" : ""
+										storeName
+											? window.location.origin + "/" + uuid + "/store"
+											: ""
 									}
 								/>
 								<Hint>storeName.alutamarket.com</Hint>

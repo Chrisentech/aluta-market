@@ -161,7 +161,7 @@ const Screen: React.FC = () => {
 			<div className="info" style={{ width: "100%" }}>
 				<h3>Store link</h3>
 				<NavLink to="#" className="navLink" style={{ wordBreak: "break-all" }}>
-					{window.location.href + store?.link}
+					{window.location.origin + "/" + store?.link}
 				</NavLink>
 			</div>
 		</GridItem>,
