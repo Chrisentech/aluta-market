@@ -50,7 +50,7 @@ export default function useStore() {
 
 		// setCookie("store_id", state?.store?.store?.id, 7);
 	};
-	const getStore = async (id: Number) => {
+	const getStore = async (id: Number | String) => {
 		dispatch(setLoading());
 
 		const response = await apolloClient.query({

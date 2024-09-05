@@ -54,7 +54,7 @@ const Router: React.FC = () => {
 				{/* Public Routes */}
 				<Route path={ROUTE.HOME} element={<Homepage />} />
 				<Route path={ROUTE.SEARCH} element={<SearchPage />} />
-				<Route path={ROUTE.STORE + "/:id"} element={<Store />} />
+				<Route path={"/:id" + ROUTE.STORE} element={<Store />} />
 				<Route path={ROUTE.LOGIN} element={<Loginpage />} />
 				<Route path={ROUTE.REGISTER} element={<Registerpage />} />
 				<Route path={ROUTE.PRODUCTVIEW} element={<ProductView />} />

@@ -28,12 +28,13 @@ import { ROUTE } from "../../../Shared/Constants";
 
 const Screen: React.FC = () => {
 	const { id } = useParams();
-	const { getStore, mystore } = useStore();
+	const { getStoreByName, mystore } = useStore();
 	const { getProducts, myproducts } = useProducts();
 	const nav = useNavigate();
+	console.log(id);
 	useEffect(() => {
 		const fetchStore = async () => {
-			await getStore(parseInt(id || ""));
+			await getStoreByName(id + "/store");
 		};
 
 		fetchStore();
