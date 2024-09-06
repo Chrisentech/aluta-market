@@ -91,6 +91,7 @@ export interface LoginFormValues {
 export interface ICardInterface {
 	width?: string | number;
 	height?: string | number;
+	minHeight?: string | number;
 	borderRadius?: string | number;
 	hasBoxShadow?: boolean;
 	background?: string;

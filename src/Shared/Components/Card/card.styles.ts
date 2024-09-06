@@ -20,7 +20,7 @@ export const Container = styled.div<ICardInterface>`
 	}
 	&:hover {
 		box-shadow: ${({ onHover }) =>
-			onHover ? "rgba(0, 0, 0, 0.35) 0px 5px 15px" : ""};
+		onHover ? "rgba(0, 0, 0, 0.35) 0px 5px 15px" : ""};
 		transform: translateY(-1px);
 	}
 `;

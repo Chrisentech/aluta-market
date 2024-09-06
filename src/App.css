@@ -42,3 +42,12 @@ button:disabled {
 	background: #ccc !important;
 	cursor: not-allowed;
 }
+
+.labedl {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	height: 200px;
+	flex-direction: column;
+}

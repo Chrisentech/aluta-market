@@ -12,6 +12,7 @@ import calculateRating, {
 	truncateText,
 } from "../../Utils/helperFunctions.ts";
 import { useNavigate } from "react-router-dom";
+import { truncate } from "lodash";
 
 interface IGridProps {
 	gap?: string;
@@ -57,7 +58,7 @@ const GridView: React.FC<IGridProps> = ({
 							return cardType === "type1" ? (
 								<Card
 									key={index}
-									width="100%"
+									width="unset"
 									hasBoxShadow={false}
 									height="200px"
 									onHover
@@ -103,7 +104,7 @@ const GridView: React.FC<IGridProps> = ({
 												</div>
 											</ProductFlex>
 
-											<h1>{product?.name}</h1>
+											<h1>{truncate(product?.name)}</h1>
 										</ProductDetails>
 									</ProductCard>
 								</Card>

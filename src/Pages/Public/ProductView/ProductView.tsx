@@ -49,7 +49,7 @@ import calculateRating, {
 	IsInCart,
 } from "../../../Shared/Utils/helperFunctions";
 import { RootState } from "../../../store";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
 	setLoading,
 	setNotLoading,
@@ -57,7 +57,7 @@ import {
 import useStore from "../../../Features/store/storeAction";
 import useCart from "../../../Features/cart/cartAction";
 import {
-	actions,
+	actions as ax1,
 	fetchMe,
 	selectHomeDelivery,
 	selectPickupStation,
@@ -65,14 +65,14 @@ import {
 import { alertSuccess } from "../../../Features/alert/alertSlice";
 import { selectCart } from "../../../Features/cart/cartSlice";
 import { searchedProducts } from "../../../Features/products/productSlice";
+import { actions as ax2 } from "../../../Features/store/storeSlice";
 
 const Screen: React.FC = () => {
 	const { id: product_id } = useParams<{ id: string }>();
 	const dispatch = useDispatch();
 	const { product, products, getProduct, getSearchProducts, getProducts } =
 		useProducts();
-	const { getStoreByName, mystore } = useStore();
-	const navigate = useNavigate();
+	const { getStoreByName, sellerStore } = useStore();
 	const searchedPrds = useSelector(searchedProducts);
 	const me: any = useSelector(fetchMe);
 	const { modifyCart } = useCart();
@@ -87,7 +87,7 @@ const Screen: React.FC = () => {
 	const pickUpLocation = useSelector(selectPickupStation);
 	useEffect(() => {
 		dispatch(
-			actions.setPickUpStation({
+			ax1.setPickUpStation({
 				value: "North Gate",
 				type: "pickup_station",
 				slug: "north_gate",
@@ -168,6 +168,19 @@ const Screen: React.FC = () => {
 			// alert("dones");
 		};
 		fetchData();
+	}, [product]);
+	useEffect(() => {
+		const fetchStore = async () => {
+			try {
+				if (product) {
+					await getStoreByName(product.store ?? "");
+				}
+			} catch (error) {
+				dispatch(showModal("storeModal"));
+				dispatch(ax2.setSellerStore({}));
+			}
+		};
+		fetchStore();
 	}, [product]);
 	// Calculate the discount amount
 	const originalPrice = product?.price ?? 0;
@@ -336,7 +349,9 @@ const Screen: React.FC = () => {
 								</CardIcon>
 								<div className="card-info">
 									<p className="header">Seller’s Information</p>
-									<p className="store-name">{mystore?.name?.toUpperCase()}</p>
+									<p className="store-name">
+										{sellerStore?.name?.toUpperCase()}
+									</p>
 								</div>
 							</InfoCard>
 							<Button
@@ -347,7 +362,12 @@ const Screen: React.FC = () => {
 								background="#FF9017"
 								className="button"
 								color="#fff"
-								onClick={() => navigate(mystore?.link)}
+								onClick={() =>
+									window.open(
+										window.location.origin + "/" + sellerStore?.link,
+										"_blank"
+									)
+								}
 							>
 								View Store
 							</Button>

@@ -10,13 +10,7 @@ import {
 	Top,
 } from "./Store.styles";
 import Layout from "../../../Layouts";
-import {
-	arike,
-	message,
-	noCatalog2,
-	profileAdd,
-	ReportIcon,
-} from "../../../assets";
+import { message, noCatalog2, profileAdd, ReportIcon } from "../../../assets";
 import { BsSearch } from "react-icons/bs";
 import { Button, View } from "../../../Shared/Components";
 import { useNavigate, useParams } from "react-router-dom";
@@ -25,19 +19,35 @@ import { getCapitalizedFirstLetter } from "../../../Shared/Utils/helperFunctions
 import { categories } from "../../../test-data";
 import useProducts from "../../../Features/products/productActions";
 import { ROUTE } from "../../../Shared/Constants";
+import { actions } from "../../../Features/store/storeSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { Modal } from "../Login/login.styles";
+import {
+	closeModal,
+	selectActiveModal,
+	showModal,
+} from "../../../Features/modal/modalSlice";
 
 const Screen: React.FC = () => {
 	const { id } = useParams();
 	const { getStoreByName, sellerStore } = useStore();
 	const { getProducts, myproducts } = useProducts();
 	const nav = useNavigate();
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		const fetchStore = async () => {
-			await getStoreByName(id + "/store");
+			try {
+				await getStoreByName(id + "/store");
+			} catch (error) {
+				dispatch(showModal("storeModal"));
+				dispatch(actions.setSellerStore({}));
+			}
 		};
-
 		fetchStore();
+		return () => {
+			dispatch(closeModal("storeModal"));
+		};
 	}, [id]);
 	useEffect(() => {
 		const fetchProducts = async () => {
@@ -49,7 +59,11 @@ const Screen: React.FC = () => {
 	return (
 		<Page>
 			<BackgroundPhoto
-				background={sellerStore ? sellerStore?.background : arike}
+				background={
+					sellerStore?.background
+						? sellerStore?.background
+						: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQLbvWGTFQh6OGWPfkLx2xBS_OP3oZJzQubA&s"
+				}
 			/>
 			<Container>
 				<div className="profile-image">
@@ -133,9 +147,10 @@ const Screen: React.FC = () => {
 								className="view"
 								mode="grid"
 								gridItems={myproducts}
-								itempergrid={5}
+								itempergrid={7}
 								type="productGrid"
 								gap="20px"
+								showPagination={false}
 							/>
 						</ProductSection>
 					) : (
@@ -165,12 +180,35 @@ const Screen: React.FC = () => {
 
 const LiveView = () => {
 	const { sellerStore } = useStore();
+	const activeModal = useSelector(selectActiveModal);
+	const nav = useNavigate();
+	const ModalContent = (
+		<Modal>
+			<div className="labedl">
+				<p style={{ color: "red", fontSize: 18, fontWeight: 700 }}>
+					Store does not exist !!
+				</p>
+				<Button
+					className="button"
+					width={117}
+					onClick={() => nav("/")}
+					background="linear-gradient(180deg, #FF7612 0%, #FF001F 100%)"
+					color="#FFFFFF"
+				>
+					Go Home
+				</Button>
+			</div>
+		</Modal>
+	);
 
 	return (
 		<Layout
 			layout={"blank"}
 			component={Screen}
 			isLoading={!sellerStore}
+			showModal={activeModal}
+			modalWidth={500}
+			popUpContent={ModalContent}
 			navMode="noSearch"
 		/>
 	);

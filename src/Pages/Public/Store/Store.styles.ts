@@ -6,6 +6,9 @@ export const Page = styled.div`
 
 	margin: 20px auto;
 	background: #f7fafc;
+
+	
+	
 `;
 
 export const Container = styled.div`
@@ -42,6 +45,32 @@ export const Container = styled.div`
             flex-direction: row;
         }
     }
+
+	.view{
+	
+	.card{
+		min-height:unset !important;
+		// height:200px !important;
+		// padding: !important;
+		.grid_img{
+				border-bottom: unset !important;}
+				img{
+				height: 100px;
+    margin-bottom: 10px;
+}
+				}
+		.price{
+			margin:unset !important;
+			font-size:14px !important;
+		}
+			h1{
+			    font-size: 14px;
+				line-height:unset !important;
+				}
+
+	}
+				
+	}
 `;
 
 export const ShopInfo = styled.div`
@@ -49,7 +78,8 @@ export const ShopInfo = styled.div`
 	padding: 30px;
 	display: flex;
 	flex-direction: row;
-	gap: 160px;
+	// gap: 160px;
+	justify-content: space-between;
 	font-family: inter;
 	.title {
 		margin-left: 180px;
@@ -93,6 +123,7 @@ export const BackgroundPhoto = styled.div<{ background: string }>`
 	width: 100%;
 	background: ${({ background }) => background && "url(" + background + ")"};
 	background-size: cover;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
 export const MainSection = styled.div`

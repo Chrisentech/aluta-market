@@ -21,6 +21,8 @@ import {
 	GET_MYDVA,
 	REMOVE_HANDLED_PRODUCTS,
 	CHECK_STORE_NAME,
+	SEND_RESET_PASSWORD_LINK,
+	VERIFY_RESET_PASSWORD_LINK,
 } from "../../Services/graphql/users";
 import { actions, fetchWishlists } from "./userSlice";
 import { setCookie } from "../../Shared/Utils/helperFunctions";
@@ -195,6 +197,39 @@ export default function useUsers() {
 		}
 	};
 
+	const sendResetPasswordLink = async (input: any) => {
+		const response = await apolloClient.mutate({
+			mutation: SEND_RESET_PASSWORD_LINK,
+			variables: { input },
+		});
+
+		console.log(response.data)
+
+	};
+
+	const verifyResetPasswordLink = async (input: any) => {
+		const response = await apolloClient.mutate({
+			mutation: VERIFY_RESET_PASSWORD_LINK,
+			variables: { input },
+		});
+		console.log(response.data)
+
+	};
+
+	const updateMyPassword = async (input: any) => {
+		const response = await apolloClient.mutate({
+			mutation: VERIFY_RESET_PASSWORD_LINK,
+			variables: { input },
+		});
+		console.log(response.data)
+
+	};
+
+
+
+
+
+
 	return {
 		createUser,
 		loginUser,
@@ -211,5 +246,8 @@ export default function useUsers() {
 		getDva,
 		wishlists,
 		checkStoreName,
+		sendResetPasswordLink,
+		verifyResetPasswordLink,
+		updateMyPassword,
 	};
 }

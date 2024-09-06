@@ -157,13 +157,13 @@ export const Label = styled.label<{ checkbox?: boolean; small?: boolean }>`
 	}
 `;
 
-export const Input = styled(Field)<{ error: boolean; type: string }>`
+export const Input = styled(Field) <{ error: boolean; type: string }>`
 	width: ${(props) =>
 		props.type === "checkbox" ? "unset" : "calc(100% -  40px)"};
 	padding: 20px;
 	border-radius: 10px;
 	// background: #f7fafc;
-	border: ${(props) => (props.error ? "1px solid red" : "0")};
+	border: ${(props) => (props.error ? "1px solid red !important" : "0")};
 	outline: 0;
 	margin: 5px 0px 20px 0;
 	font-family: Inter;
@@ -208,10 +208,11 @@ export const SubmitButton = styled.button<{ loading?: boolean }>`
 `;
 
 export const Flex = styled.div`
-	display: flex;
+	// display: flex;
 	justify-content: space-between;
 	width: 100%;
 	align-items: center;
+	
 	span {
 		color: var(--gray-600, #505050);
 		font-feature-settings: "clig" off, "liga" off;
@@ -273,7 +274,9 @@ export const Modal = styled.div`
 .label{
   display:flex;
   justify-content:space-between;
-  margin:20px 0
+  margin:20px 0;
+  position:relative;
+  
 }
 img{
   display:flex;
@@ -284,13 +287,18 @@ img{
   background:#EFF2F4;
   padding:18px;
   border-radius:  20px 0 0 20px;
-  margin-top:-15px
+//   margin-top:-15px;
+  position:absolute;
+  top:6px
 } svg{
   position:unset !important;
   color:${AppColors.brandGray}
 }
 input{
-  border-radius:   0  20px 20px 0;
-
+  border-radius:20px;
+  margin-left:-2px; border: 1px solid #ccc;
+  padding-left:66px;  
+    width: calc(100% - 85px);
+margin-bottom:0
 }
 `;

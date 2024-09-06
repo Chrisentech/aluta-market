@@ -176,7 +176,7 @@ const Screen: React.FC = () => {
 							<AiFillEye onClick={() => setShowPwd(!showPwd)} />
 						)}
 					</FormControl>
-					<Flex>
+					<Flex style={{ display: "flex" }}>
 						<div>
 							<CustomField
 								name="checkbox"
@@ -263,10 +263,28 @@ const LoginPage = () => {
 	const dispatch = useDispatch();
 	const activeModal = useSelector(selectActiveModal);
 	const phone = localStorage.getItem("phone") ?? "";
+	const { sendResetPasswordLink } = useUsers();
 
 	const { status, message } = useSelector((state: any) => state.alert);
-	const handleSubmit = () => {
+	const handleSubmit = async (value: any) => {
+		console.log(value);
 		setLoading(true);
+		try {
+			await sendResetPasswordLink({
+				email: value.email,
+				link: window.location.origin,
+			});
+		} catch (error) {
+		} finally {
+			setLoading(false);
+			dispatch(closeModal("forgotPassword"));
+
+			dispatch(
+				alertSuccess(
+					"We've sent a password reset link to your email(if it exists in our db)."
+				)
+			);
+		}
 	};
 	const ModalContent = (
 		<Modal>
@@ -293,27 +311,39 @@ const LoginPage = () => {
 
 					<Formik
 						initialValues={initialValues}
-						onSubmit={handleSubmit}
+						onSubmit={(values, { resetForm }) => {
+							handleSubmit(values); // Your submit handler
+							resetForm(); // This will clear the form
+						}}
 						validationSchema={resePWdValidationSchema} // Specify the validation schema
 					>
-						<Form>
-							<FormControl>
-								<Flex>
-									<div className="gray">
-										<MdOutlineMailOutline size={20} />
-									</div>
-									<CustomField name="email" type="email" />
-								</Flex>
-							</FormControl>
-							<SubmitButton loading={loading} disabled={loading} type="submit">
-								{" "}
-								{loading ? (
-									<Puff stroke={AppColors.brandOrange} strokeOpacity={0.125} />
-								) : (
-									"Submit"
-								)}
-							</SubmitButton>
-						</Form>
+						{({ resetForm }) => (
+							<Form>
+								<FormControl>
+									<Flex>
+										<div className="gray">
+											<MdOutlineMailOutline className="mail" size={20} />
+										</div>
+										<CustomField name="email" type="email" />
+									</Flex>
+								</FormControl>
+								<SubmitButton
+									loading={loading}
+									disabled={loading}
+									type="submit"
+									onSubmit={() => resetForm()}
+								>
+									{loading ? (
+										<Puff
+											stroke={AppColors.brandOrange}
+											strokeOpacity={0.125}
+										/>
+									) : (
+										"Submit"
+									)}
+								</SubmitButton>
+							</Form>
+						)}
 					</Formik>
 				</>
 			)}

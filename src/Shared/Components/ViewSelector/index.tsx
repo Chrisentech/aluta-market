@@ -16,6 +16,7 @@ interface IVeiw {
 	listItems?: any[];
 	gridItems?: any[];
 	cardStyle?: string;
+	showPagination?: boolean;
 }
 const View: React.FC<IVeiw> = ({
 	mode,
@@ -27,6 +28,7 @@ const View: React.FC<IVeiw> = ({
 	gridItems,
 	itempergrid,
 	cardStyle,
+	showPagination,
 }) => {
 	return (
 		<Container>
@@ -47,11 +49,14 @@ const View: React.FC<IVeiw> = ({
 					className={className}
 					cardType="type1"
 					cardStyle={cardStyle}
-					showPagination
+					showPagination={showPagination}
 				/>
 			)}
 		</Container>
 	);
 };
 
+View.defaultProps = {
+	showPagination: true,
+};
 export default View;

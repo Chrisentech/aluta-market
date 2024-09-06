@@ -239,3 +239,22 @@ export const CHECK_STORE_NAME = gql`
 		checkStoreName(input: $input)
 	}
 `;
+
+export const SEND_RESET_PASSWORD_LINK = gql`
+	mutation createResetPasswordLink($input:passwordResetInput!) {
+		createResetPasswordLink(input: $input)
+	}
+`;
+
+
+export const VERIFY_RESET_PASSWORD_LINK = gql`
+	mutation verifyResetPasswordLink($input:String!) {
+		verifyResetPasswordLink(input: $input)
+	}
+`;
+
+export const UPDATE_PASSWORD = gql`
+	mutation updateUserPassword($input: passwordUpdateInput!) {
+		updateUserPassword(input: $input)
+	}
+`;
