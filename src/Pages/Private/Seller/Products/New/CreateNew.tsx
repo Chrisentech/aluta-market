@@ -434,257 +434,246 @@ const Screen: React.FC = () => {
 						onSubmit={handleSubmit}
 						validationSchema={!formIsValid && validationSchema}
 					>
-						{({ errors }) => (
-							<Form>
+						<Form>
+							<FormControl>
+								<Label>
+									{state?.type != "service" ? "Product Name" : "Service Name"}
+									<span>*</span>
+								</Label>
+								<CustomField
+									type="text"
+									name={!!productName ? "none" : "name"}
+									value={productName}
+									onChange={(e: any) => setProductName(e.target.value)}
+								/>
+							</FormControl>
+							<Flex>
 								<FormControl>
 									<Label>
-										{state?.type != "service" ? "Product Name" : "Service Name"}
-										<span>*</span>
+										Price<span>*</span>{" "}
+										<span className="info">(No Commas)</span>
 									</Label>
 									<CustomField
-										type="text"
-										name={!!productName ? "none" : "name"}
-										value={productName}
-										onChange={(e: any) => setProductName(e.target.value)}
+										name={productPrice > 100 ? "none" : "price"}
+										type="number"
+										value={productPrice}
+										onChange={(e: any) => setProductPrice(e.target.value)}
 									/>
 								</FormControl>
-								<Flex>
-									<FormControl>
-										<Label>
-											Price<span>*</span>{" "}
-											<span className="info">(No Commas)</span>
-										</Label>
-										<CustomField
-											name={productPrice > 100 ? "none" : "price"}
-											type="number"
-											value={productPrice}
-											onChange={(e: any) => setProductPrice(e.target.value)}
-										/>
-									</FormControl>
-									<FormControl>
-										<Label>
-											Discount Price <span className="info">(Optional)</span>
-										</Label>
-										<CustomField
-											name={discountedPrice ? "none" : "discount"}
-											type="number"
-											min={0}
-											value={discountedPrice}
-											onChange={(e: any) => setDiscountedPrice(e.target.value)}
-										/>
-									</FormControl>
-								</Flex>
-								<Flex>
-									<FormControl>
-										<Label>
-											Category<span>*</span>{" "}
-										</Label>
-										<Input
-											as="select"
-											id="selectedCategory"
-											name="category"
-											onChange={(e: any) =>
-												handleSelectCategory(e.target.value)
-											}
-										>
-											<option value="" label="Select a category" />
-											{state?.type === "product"
-												? reduxCategories
-														?.filter((category: any) =>
-															productCategoryIds.includes(category.id)
-														)
-														?.map((category: any) => (
-															<option key={category.id} value={category.name}>
-																{category.name}
-															</option>
-														))
-												: state?.type === "digital"
-												? reduxCategories
-														?.filter((category: any) => category.id === "10")
-														?.map((category: any) => (
-															<option key={category.id} value={category.name}>
-																{category.name}
-															</option>
-														))
-												: reduxCategories
-														?.slice(11, 21)
-														?.map((category: any) => (
-															<option key={category.id} value={category.name}>
-																{category.name}
-															</option>
-														))}
-										</Input>
-									</FormControl>
-									<FormControl>
-										<Label>
-											Sub Category<span>*</span>
-										</Label>
-										<Input
-											as="select"
-											id="selectedCategory"
-											name="subcategory"
-											onChange={(e: any) => setSubcategory(e.target.value)}
-										>
-											<option value="" label="Select a subcategory" />
-											{reduxCategory?.subcategories?.map(
-												(category: any, index: number) => (
-													<option key={category.slug} value={index + 1}>
-														{category.name}
-													</option>
-												)
-											)}
-										</Input>
-									</FormControl>
-								</Flex>
 								<FormControl>
 									<Label>
-										{state?.type != "service" ? "Product" : "Service"}{" "}
-										description<span>*</span> min(50 words)
+										Discount Price <span className="info">(Optional)</span>
 									</Label>
-									<TextEditor width={"100%"} height="209px">
-										<ReactQuill
-											theme="snow"
-											modules={modules}
-											formats={formats}
-											placeholder={`Describe your ${
-												state?.type != "service" ? "product" : "service"
-											} to your customer`}
-											onChange={handleProcedureContentChange}
-											// style={{ height: "109px", width: "100%" }}ss
-										/>
-									</TextEditor>
+									<CustomField
+										name={discountedPrice ? "none" : "discount"}
+										type="number"
+										min={0}
+										value={discountedPrice}
+										onChange={(e: any) => setDiscountedPrice(e.target.value)}
+									/>
 								</FormControl>
-								<Flex>
-									<FormControl>
-										<Label>
-											Manage Quantity <span className="info">(Optional)</span>
-										</Label>
-
-										<Incrementor>
-											<div
-												className="leftButton"
-												onClick={() => handleDecreaseQuantity(quantity)}
-											>
-												<BiMinus />
-											</div>
-											<div className="main">{quantity}</div>
-											<div
-												className="rightButton"
-												onClick={() => handleIncreaseQuantity(quantity)}
-											>
-												<BiPlus />
-											</div>
-										</Incrementor>
-										<div style={{ display: "flex", alignItems: "center" }}>
-											<CustomField
-												name="checkbox"
-												type="checkbox"
-												onChange={() => setAlwaysavailable(!alwaysAvailable)}
-											/>
-											<span style={{ marginLeft: 5 }}>Always available</span>
-										</div>
-									</FormControl>
-									{state?.type === "product" && (
-										<FormControl>
-											<OptionButton
-												type="button"
-												onClick={() => {
-													dispatch(showModal("addOptions"));
-												}}
-												disabled={!thumbnail || !productPrice || !productName}
-											>
-												Add Options
-											</OptionButton>
-										</FormControl>
-									)}
-								</Flex>
-								{state?.type === "digital" && (
-									<FormControl>
-										{catalogue?.file ? (
-											<div className="upload_container">
-												<h2>
-													{catalogue?.file} <CircleCheck />
-												</h2>
-											</div>
-										) : (
-											<div
-												className="upload_container"
-												onClick={handleUpoadDigitalProduct}
-											>
-												<h2>
-													<svg
-														width="24"
-														height="24"
-														viewBox="0 0 24 24"
-														fill="none"
-														xmlns="http://www.w3.org/2000/svg"
-													>
-														<path
-															d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
-															stroke="#505050"
-															stroke-width="1.5"
-															stroke-linecap="round"
-															stroke-linejoin="round"
-														/>
-														<path
-															d="M9 9.51001L12 6.51001L15 9.51001"
-															stroke="#505050"
-															stroke-width="1.5"
-															stroke-linecap="round"
-															stroke-linejoin="round"
-														/>
-														<path
-															d="M12 6.51001V14.51"
-															stroke="#505050"
-															stroke-width="1.5"
-															stroke-linecap="round"
-															stroke-linejoin="round"
-														/>
-														<path
-															d="M6 16.51C9.89 17.81 14.11 17.81 18 16.51"
-															stroke="#505050"
-															stroke-width="1.5"
-															stroke-linecap="round"
-															stroke-linejoin="round"
-														/>
-													</svg>
-
-													<span>Upload Document</span>
-												</h2>
-												<p>
-													txt, doc, docx and pdf are the only acceptable formats
-												</p>
-											</div>
+							</Flex>
+							<Flex>
+								<FormControl>
+									<Label>
+										Category<span>*</span>{" "}
+									</Label>
+									<Input
+										as="select"
+										id="selectedCategory"
+										name="category"
+										onChange={(e: any) => handleSelectCategory(e.target.value)}
+									>
+										<option value="" label="Select a category" />
+										{state?.type === "product"
+											? reduxCategories
+													?.filter((category: any) =>
+														productCategoryIds.includes(category.id)
+													)
+													?.map((category: any) => (
+														<option key={category.id} value={category.name}>
+															{category.name}
+														</option>
+													))
+											: state?.type === "digital"
+											? reduxCategories
+													?.filter((category: any) => category.id === "10")
+													?.map((category: any) => (
+														<option key={category.id} value={category.name}>
+															{category.name}
+														</option>
+													))
+											: reduxCategories?.slice(11, 21)?.map((category: any) => (
+													<option key={category.id} value={category.name}>
+														{category.name}
+													</option>
+											  ))}
+									</Input>
+								</FormControl>
+								<FormControl>
+									<Label>
+										Sub Category<span>*</span>
+									</Label>
+									<Input
+										as="select"
+										id="selectedCategory"
+										name="subcategory"
+										onChange={(e: any) => setSubcategory(e.target.value)}
+									>
+										<option value="" label="Select a subcategory" />
+										{reduxCategory?.subcategories?.map(
+											(category: any, index: number) => (
+												<option key={category.slug} value={index + 1}>
+													{category.name}
+												</option>
+											)
 										)}
+									</Input>
+								</FormControl>
+							</Flex>
+							<FormControl>
+								<Label>
+									{state?.type != "service" ? "Product" : "Service"} description
+									<span>*</span> min(50 words)
+								</Label>
+								<TextEditor width={"100%"} height="209px">
+									<ReactQuill
+										theme="snow"
+										modules={modules}
+										formats={formats}
+										placeholder={`Describe your ${
+											state?.type != "service" ? "product" : "service"
+										} to your customer`}
+										onChange={handleProcedureContentChange}
+										// style={{ height: "109px", width: "100%" }}ss
+									/>
+								</TextEditor>
+							</FormControl>
+							<Flex>
+								<FormControl>
+									<Label>
+										Manage Quantity <span className="info">(Optional)</span>
+									</Label>
+
+									<Incrementor>
+										<div
+											className="leftButton"
+											onClick={() => handleDecreaseQuantity(quantity)}
+										>
+											<BiMinus />
+										</div>
+										<div className="main">{quantity}</div>
+										<div
+											className="rightButton"
+											onClick={() => handleIncreaseQuantity(quantity)}
+										>
+											<BiPlus />
+										</div>
+									</Incrementor>
+									<div style={{ display: "flex", alignItems: "center" }}>
+										<CustomField
+											name="checkbox"
+											type="checkbox"
+											onChange={() => setAlwaysavailable(!alwaysAvailable)}
+										/>
+										<span style={{ marginLeft: 5 }}>Always available</span>
+									</div>
+								</FormControl>
+								{state?.type === "product" && (
+									<FormControl>
+										<OptionButton
+											type="button"
+											onClick={() => {
+												dispatch(showModal("addOptions"));
+											}}
+											disabled={!thumbnail || !productPrice || !productName}
+										>
+											Add Options
+										</OptionButton>
 									</FormControl>
 								)}
-								<SubmitButton
-									type="submit"
-									loading={loading}
-									disabled={
-										!reduxCategory ||
-										!thumbnail ||
-										!productPrice ||
-										productPrice < 100 ||
-										!productName ||
-										imgLoading ||
-										description.length <= 12 ||
-										loading
-									}
-								>
-									{loading ? (
-										<Puff
-											stroke={AppColors.brandOrange}
-											strokeOpacity={0.125}
-										/>
+							</Flex>
+							{state?.type === "digital" && (
+								<FormControl>
+									{catalogue?.file ? (
+										<div className="upload_container">
+											<h2>
+												{catalogue?.file} <CircleCheck />
+											</h2>
+										</div>
 									) : (
-										`Publish ${
-											state?.type != "service" ? "Product" : "Service"
-										}`
+										<div
+											className="upload_container"
+											onClick={handleUpoadDigitalProduct}
+										>
+											<h2>
+												<svg
+													width="24"
+													height="24"
+													viewBox="0 0 24 24"
+													fill="none"
+													xmlns="http://www.w3.org/2000/svg"
+												>
+													<path
+														d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+														stroke="#505050"
+														stroke-width="1.5"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													/>
+													<path
+														d="M9 9.51001L12 6.51001L15 9.51001"
+														stroke="#505050"
+														stroke-width="1.5"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													/>
+													<path
+														d="M12 6.51001V14.51"
+														stroke="#505050"
+														stroke-width="1.5"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													/>
+													<path
+														d="M6 16.51C9.89 17.81 14.11 17.81 18 16.51"
+														stroke="#505050"
+														stroke-width="1.5"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													/>
+												</svg>
+
+												<span>Upload Document</span>
+											</h2>
+											<p>
+												txt, doc, docx and pdf are the only acceptable formats
+											</p>
+										</div>
 									)}
-								</SubmitButton>
-							</Form>
-						)}
+								</FormControl>
+							)}
+							<SubmitButton
+								type="submit"
+								loading={loading}
+								disabled={
+									!reduxCategory ||
+									!thumbnail ||
+									!productPrice ||
+									productPrice < 100 ||
+									!productName ||
+									imgLoading ||
+									description.length <= 12 ||
+									loading
+								}
+							>
+								{loading ? (
+									<Puff stroke={AppColors.brandOrange} strokeOpacity={0.125} />
+								) : (
+									`Publish ${state?.type != "service" ? "Product" : "Service"}`
+								)}
+							</SubmitButton>
+						</Form>
 					</Formik>
 				</Container>
 				{/* Replace "#" with the correct route for your component */}

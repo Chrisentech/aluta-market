@@ -60,16 +60,28 @@ const Screen: React.FC = () => {
 	const [imgLoading, setImgLoading] = useState(false);
 	const [loading, setLoading] = useState<boolean>(false);
 
-	const handleThumbnailChange = (
+	const handleThumbnailChange = async (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
 		const file = event.target.files?.[0];
 		if (file) {
-			const reader = new FileReader();
-			reader.onloadend = () => {
-				setThumbnail(reader.result);
-			};
-			reader.readAsDataURL(file);
+			const formData = new FormData();
+			formData.append("file", file);
+			formData.append("upload_preset", "rbwlt6de");
+			try {
+				const response = await axios.post(
+					"https://api.cloudinary.com/v1_1/de7i4zy3m/image/upload",
+					formData
+				);
+				setImgLoading(false);
+
+				const imageUrl = response.data.secure_url;
+				setThumbnail(imageUrl);
+				console.log("Uploaded image URL:", imageUrl);
+			} catch (error) {
+				console.error("Error uploading image:", error);
+				setImgLoading(false);
+			}
 		}
 	};
 
@@ -156,7 +168,8 @@ const Screen: React.FC = () => {
 		phone?.trim() === store?.phone &&
 		address?.trim() === store?.address &&
 		email?.trim() === store?.email &&
-		profileImg === store?.thumbnail;
+		profileImg === store?.thumbnail &&
+		thumbnail === store?.background;
 
 	// alert(saveChnageBtnDisabled);s
 	const handleSubmit = async () => {
