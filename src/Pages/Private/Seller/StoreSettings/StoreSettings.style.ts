@@ -119,6 +119,7 @@ export const ProfileImg = styled.div`
 		width: 180px;
 		height: 180px;
 		border-radius: 50%;
+		object-fit: cover;
 	}
 	@media (max-width: 690px) {
 		width: 100px;

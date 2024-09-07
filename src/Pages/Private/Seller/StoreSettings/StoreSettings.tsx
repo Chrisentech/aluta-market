@@ -183,16 +183,21 @@ const Screen: React.FC = () => {
 
 				return;
 			}
-			if (address?.trim() === "") {
-				dispatch(alertError("Address cannot be empty"));
+			// if (address?.trim() === "") {
+			// 	dispatch(alertError("Address cannot be empty"));
 
-				return;
-			}
-			await updateStore({ id: store?.id, address, phone, description, email });
+			// 	return;
+			// }
+			await updateStore({
+				id: store?.id,
+				address,
+				phone,
+				description,
+				email,
+				thumbnail: profileImg,
+				background: thumbnail,
+			});
 			dispatch(alertSuccess("Update successful."));
-			setTimeout(() => {
-				location.reload();
-			}, 1500);
 		} catch (error: any) {
 			// alert(error);
 
@@ -259,7 +264,7 @@ const Screen: React.FC = () => {
 							<AddImg>
 								<input
 									type="file"
-									accept="image/png, image/jpg"
+									accept="image/*"
 									ref={profileImgInputRef}
 									style={{ display: "none" }}
 									onChange={handleProfileImgChange}
@@ -280,7 +285,10 @@ const Screen: React.FC = () => {
 							border="1px solid #FA3434"
 							color="#FA3434"
 							onClick={() =>
-								window.open(window.location.origin + "/" + store?.link, "_blank")
+								window.open(
+									window.location.origin + "/" + store?.link,
+									"_blank"
+								)
 							}
 						>
 							Live view

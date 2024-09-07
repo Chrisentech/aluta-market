@@ -82,7 +82,10 @@ export default function useStore() {
 			mutation: UPDATE_MY_STORE,
 			variables: { input },
 		});
-		dispatch(actions.setStore(response.data.updateStore));
+		if (response.data.updateStore) {
+			dispatch(actions.setStore(response.data.updateStore));
+		}
+
 	};
 
 	const updateStoreFollowership = async (input: any) => {
