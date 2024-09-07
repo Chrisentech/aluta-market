@@ -350,6 +350,7 @@ const LoginPage = () => {
 			await updateMyPassword({
 				email,
 				password: value.password,
+				token,
 			});
 			dispatch(alertSuccess("Password changed successfully"));
 			nav(ROUTE.LOGIN);
