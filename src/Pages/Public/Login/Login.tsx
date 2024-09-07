@@ -353,6 +353,7 @@ const LoginPage = () => {
 				token,
 			});
 			dispatch(alertSuccess("Password changed successfully"));
+
 			nav(ROUTE.LOGIN);
 		} catch (error: any) {
 			dispatch(
@@ -362,10 +363,9 @@ const LoginPage = () => {
 					}`
 				)
 			);
-
-			dispatch(closeModal("resetPassword"));
 		} finally {
 			setLoading(false);
+			dispatch(closeModal("resetPassword"));
 		}
 	};
 	const ModalContent = (
