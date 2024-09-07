@@ -16,7 +16,7 @@ import { Formik, Form, useField } from "formik";
 import * as yup from "yup";
 import { ErrorIcon, loginLogo } from "../../../assets";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 // import { GoogleLogin } from "react-google-login";
 import { GoogleLogin } from "@react-oauth/google";
 import { LoginFormValues } from "../../../Interfaces";
@@ -233,9 +233,10 @@ const Screen: React.FC = () => {
 const CustomField: React.FC<{
 	name: string;
 	type: string;
+	className?: string;
 	checked?: boolean;
 	onChange?: React.ChangeEventHandler<HTMLInputElement>;
-}> = ({ name, type, checked, onChange }) => {
+}> = ({ name, type, checked, onChange, className }) => {
 	const [field, meta] = useField(name);
 	const inputHasError = meta?.error?.length ? true : false;
 
@@ -244,7 +245,12 @@ const CustomField: React.FC<{
 	}
 	return (
 		<>
-			<Input {...field} error={inputHasError} type={type} />
+			<Input
+				className={className}
+				{...field}
+				error={inputHasError}
+				type={type}
+			/>
 			{meta.touched && meta.error && (
 				<div style={{ display: "flex", gap: 2, alignItems: "center" }}>
 					<div style={{ position: "relative" }}>
@@ -261,9 +267,60 @@ const CustomField: React.FC<{
 const LoginPage = () => {
 	const [loading, setLoading] = useState(false);
 	const dispatch = useDispatch();
+	const [showPwd, setShowPwd] = useState(false);
+	const [showPwd2, setShowPwd2] = useState(false);
+	const nav = useNavigate();
 	const activeModal = useSelector(selectActiveModal);
 	const phone = localStorage.getItem("phone") ?? "";
-	const { sendResetPasswordLink } = useUsers();
+	const { sendResetPasswordLink, verifyResetPasswordLink, updateMyPassword } =
+		useUsers();
+	const location = useLocation();
+	const initialValues2 = {
+		password: "",
+		confirmPassword: "",
+	};
+	const resetPWdValidationSchema = yup.object({
+		password: yup
+			.string()
+			.min(8, "Password must be at least 8 characters long")
+			.matches(/[a-z]/, "Password must contain at least one lowercase letter")
+			.matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+			.matches(/\d/, "Password must contain at least one number")
+			.matches(
+				/[@$!%*?&#]/,
+				"Password must contain at least one special character (@, $, !, %, *, ?, &, #)"
+			)
+			.required("Password is required"),
+		confirmPassword: yup
+			.string()
+			.oneOf([yup.ref("password"), ""], "Passwords must match")
+			.required("Confirm Password is required"),
+	});
+	// Parse the query parameters from the URL
+	const queryParams = new URLSearchParams(location.search);
+	const token = queryParams.get("token"); // Get the token parameter
+	const email = queryParams.get("email"); // Get the token parameter
+
+	useEffect(() => {
+		const verifyTokenLink = async () => {
+			try {
+				await verifyResetPasswordLink(token);
+				dispatch(showModal("resetPassword"));
+			} catch (error: any) {
+				dispatch(
+					alertError(
+						`An error has occurred- ${
+							JSON.parse(error.message).message || error.message
+						}`
+					)
+				);
+			} finally {
+			}
+		};
+		if (token) {
+			verifyTokenLink();
+		}
+	}, [token]);
 
 	const { status, message } = useSelector((state: any) => state.alert);
 	const handleSubmit = async (value: any) => {
@@ -286,6 +343,30 @@ const LoginPage = () => {
 			);
 		}
 	};
+	const handleSubmit2 = async (value: any) => {
+		console.log(value);
+		setLoading(true);
+		try {
+			await updateMyPassword({
+				email,
+				password: value.password,
+			});
+			dispatch(alertSuccess("Password changed successfully"));
+			nav(ROUTE.LOGIN);
+		} catch (error: any) {
+			dispatch(
+				alertError(
+					`An error has occurred- ${
+						JSON.parse(error.message).message || error.message
+					}`
+				)
+			);
+
+			dispatch(closeModal("resetPassword"));
+		} finally {
+			setLoading(false);
+		}
+	};
 	const ModalContent = (
 		<Modal>
 			{true && (
@@ -293,7 +374,6 @@ const LoginPage = () => {
 					<div className="label">
 						<BiArrowBack size={32} color="#bdc4cd" />
 						<MdOutlineCancel
-							className="svg"
 							size={32}
 							color="#bdc4cd"
 							onClick={() => dispatch(closeModal("forgotPassword"))}
@@ -324,7 +404,7 @@ const LoginPage = () => {
 										<div className="gray">
 											<MdOutlineMailOutline className="mail" size={20} />
 										</div>
-										<CustomField name="email" type="email" />
+										<CustomField className="input" name="email" type="email" />
 									</Flex>
 								</FormControl>
 								<SubmitButton
@@ -349,6 +429,72 @@ const LoginPage = () => {
 			)}
 		</Modal>
 	);
+
+	const ModalContent2 = (
+		<Modal>
+			{true && (
+				<>
+					<div className="label">
+						<BiArrowBack size={32} color="#bdc4cd" />
+						<MdOutlineCancel
+							className="svg"
+							size={32}
+							color="#bdc4cd"
+							onClick={() => dispatch(closeModal("forgotPassword"))}
+						/>
+					</div>
+					<Heading>
+						<img src={loginLogo} alt="login-logo" />
+						<div className="content">
+							<h2>Reset Password</h2>
+						</div>
+					</Heading>
+
+					<Formik
+						initialValues={initialValues2}
+						onSubmit={(values) => {
+							handleSubmit2(values); // Your submit handler
+						}}
+						validationSchema={resetPWdValidationSchema} // Specify the validation schema
+					>
+						<Form>
+							<FormControl>
+								<Label>New Password</Label>
+								<CustomField
+									name="password"
+									type={showPwd ? "text" : "password"}
+								/>
+								{showPwd ? (
+									<AiFillEyeInvisible onClick={() => setShowPwd(!showPwd)} />
+								) : (
+									<AiFillEye onClick={() => setShowPwd(!showPwd)} />
+								)}
+							</FormControl>
+							<FormControl>
+								<Label>Confirm Password</Label>
+								<CustomField
+									name="confirmPassword"
+									type={showPwd2 ? "text" : "password"}
+								/>
+								{showPwd2 ? (
+									<AiFillEyeInvisible onClick={() => setShowPwd2(!showPwd)} />
+								) : (
+									<AiFillEye onClick={() => setShowPwd2(!showPwd2)} />
+								)}
+							</FormControl>
+							<SubmitButton loading={loading} disabled={loading} type="submit">
+								{loading ? (
+									<Puff stroke={AppColors.brandOrange} strokeOpacity={0.125} />
+								) : (
+									"Submit"
+								)}
+							</SubmitButton>
+						</Form>
+					</Formik>
+				</>
+			)}
+		</Modal>
+	);
 	return (
 		<Layout
 			popUpContent={
@@ -358,6 +504,8 @@ const LoginPage = () => {
 						number={phone}
 						error={status === "error" && message?.message}
 					/>
+				) : activeModal === "resetPassword" ? (
+					ModalContent2
 				) : (
 					ModalContent
 				)

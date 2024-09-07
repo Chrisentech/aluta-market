@@ -56,6 +56,7 @@ const Router: React.FC = () => {
 				<Route path={ROUTE.SEARCH} element={<SearchPage />} />
 				<Route path={"/:id" + ROUTE.STORE} element={<Store />} />
 				<Route path={ROUTE.LOGIN} element={<Loginpage />} />
+				<Route path="/reset_password" element={<Loginpage />} />
 				<Route path={ROUTE.REGISTER} element={<Registerpage />} />
 				<Route path={ROUTE.PRODUCTVIEW} element={<ProductView />} />
 				<Route path={ROUTE.TERMS} element={<TermsAndConditions />} />

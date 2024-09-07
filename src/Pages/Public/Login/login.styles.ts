@@ -290,11 +290,13 @@ img{
 //   margin-top:-15px;
   position:absolute;
   top:6px
-} svg{
+} .mail{
   position:unset !important;
   color:${AppColors.brandGray}
 }
-input{
+  input{
+  border: 1px solid #ccc;}
+.input{
   border-radius:20px;
   margin-left:-2px; border: 1px solid #ccc;
   padding-left:66px;  

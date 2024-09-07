@@ -23,6 +23,7 @@ import {
 	CHECK_STORE_NAME,
 	SEND_RESET_PASSWORD_LINK,
 	VERIFY_RESET_PASSWORD_LINK,
+	UPDATE_PASSWORD,
 } from "../../Services/graphql/users";
 import { actions, fetchWishlists } from "./userSlice";
 import { setCookie } from "../../Shared/Utils/helperFunctions";
@@ -218,7 +219,7 @@ export default function useUsers() {
 
 	const updateMyPassword = async (input: any) => {
 		const response = await apolloClient.mutate({
-			mutation: VERIFY_RESET_PASSWORD_LINK,
+			mutation: UPDATE_PASSWORD,
 			variables: { input },
 		});
 		console.log(response.data)
