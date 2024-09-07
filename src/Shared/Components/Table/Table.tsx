@@ -402,6 +402,8 @@ const Table: React.FC<ResponsiveTableProps> = ({
 													return (
 														<img width={50} src={item?.thumbnail} alt="Image" />
 													);
+												case "item":
+													return <p>{item?.name}</p>;
 												case "thumbnail":
 													return (
 														<img width={50} src={item?.thumbnail} alt="Image" />

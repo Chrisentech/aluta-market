@@ -21,6 +21,7 @@ import { useSelector } from "react-redux";
 import useProducts from "../../../../Features/products/productActions";
 import { selectActiveModal } from "../../../../Features/modal/modalSlice";
 import { calculateTotalPages } from "../../../../Shared/Utils/helperFunctions";
+import { selectMyProducts } from "../../../../Features/products/productSlice";
 
 const columns = [
 	{ header: "S/N", accessor: "id" },
@@ -33,10 +34,12 @@ const columns = [
 	{ header: "in-stock", accessor: "stock" },
 ];
 const Screen: React.FC = () => {
-	const { getProducts, myproducts } = useProducts();
+	const { getProducts } = useProducts();
+	const myproducts = useSelector(selectMyProducts);
 	const [selectedOption, setSelectedOption] = useState(categoryOptions[0]);
 	const [limit, setLimit] = useState(10);
 	const [currentPage, setCurrentPage] = useState(myproducts?.current_page ?? 1);
+	const [data, setData] = useState(myproducts);
 	const [loading, setLoading] = useState(false);
 
 	const handleOptionClick = (option: string) => {
@@ -99,8 +102,13 @@ const Screen: React.FC = () => {
 			}
 		};
 
-		fetchProducts();
+		if(!myproducts){
+			fetchProducts()
+		}
 	}, [store]);
+	useEffect(() => {
+		setData(myproducts);
+	}, [myproducts]);
 
 	return (
 		<Wrapper>
@@ -139,15 +147,12 @@ const Screen: React.FC = () => {
 						/>
 					</div>
 				</div>
-				{myproducts?.length > 0 ? (
+				{data?.length > 0 ? (
 					<>
-						<Table data={myproducts} columns={columns} />
-						{myproducts?.length > 9 && (
+						<Table data={data} columns={columns} />
+						{data?.length > 9 && (
 							<Pagination
-								totalPages={calculateTotalPages(
-									totalPages,
-									myproducts?.per_page
-								)}
+								totalPages={calculateTotalPages(totalPages, data?.per_page)}
 								currentPage={currentPage}
 								goToPage={goToPage}
 								nextPage={nextPage}

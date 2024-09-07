@@ -134,6 +134,7 @@ const Screen: React.FC = () => {
 
 	const [subCategory, setSubcategory] = useState(0);
 	const { createProduct, getCategories, getCategory } = useProducts();
+	const [alwaysAvailable, setAlwaysavailable] = useState(false);
 
 	const handleSelectCategory = async (name: string) => {
 		const cat = reduxCategories.find((el: any) => el.name === name);
@@ -221,6 +222,7 @@ const Screen: React.FC = () => {
 			file: catalogue?.file ?? "",
 			quantity,
 			// type: state?.type, //digital,physical or service
+			always_available: alwaysAvailable,
 			store: store?.name,
 		};
 		try {
@@ -395,6 +397,9 @@ const Screen: React.FC = () => {
 							})}
 						<div
 							className="addBtn"
+							style={{
+								border: !thumbnail ? "1px dashed red" : "1px dashed lightgray",
+							}}
 							onClick={() => hiddenInputRef.current?.click()}
 						>
 							{imgLoading ? (
@@ -405,14 +410,25 @@ const Screen: React.FC = () => {
 						</div>
 						<input
 							multiple
-							style={{ display: "none" }}
+							style={{
+								display: "none",
+							}}
 							type="file"
 							ref={hiddenInputRef}
 							accept=".jpg, .jpeg, .png"
 							onChange={HandleUploadImages}
 						/>
 					</ImageWrapper>
-					<div className="options">Choose any of them as thumbnail</div>
+					<div
+						className="options"
+						style={{
+							color: !thumbnail ? "red" : "#1c1c1c",
+						}}
+					>
+						{thumbnail
+							? "Choose any of them as thumbnail"
+							: "Thumbnails are required"}
+					</div>
 					<Formik
 						initialValues={initialValues}
 						onSubmit={handleSubmit}
@@ -560,7 +576,11 @@ const Screen: React.FC = () => {
 											</div>
 										</Incrementor>
 										<div style={{ display: "flex", alignItems: "center" }}>
-											<CustomField name="checkbox" type="checkbox" />
+											<CustomField
+												name="checkbox"
+												type="checkbox"
+												onChange={() => setAlwaysavailable(!alwaysAvailable)}
+											/>
 											<span style={{ marginLeft: 5 }}>Always available</span>
 										</div>
 									</FormControl>
@@ -643,8 +663,10 @@ const Screen: React.FC = () => {
 									loading={loading}
 									disabled={
 										!reduxCategory ||
-										!!errors.name ||
-										!!errors.price ||
+										!thumbnail ||
+										!productPrice ||
+										productPrice < 100 ||
+										!productName ||
 										imgLoading ||
 										description.length <= 12 ||
 										loading

@@ -149,6 +149,7 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 						background="#eff2f4"
 						options={options}
 						type="dropdown_one"
+						allowHover={false}
 						selectedOption={selectedOption}
 						handleOptionClick={handleOptionClick}
 						className="dropdown-one"

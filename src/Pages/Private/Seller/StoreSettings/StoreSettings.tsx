@@ -240,14 +240,14 @@ const Screen: React.FC = () => {
 							<img className="img" src={thumbnail as string} alt="..." />
 							<img
 								src={uploadImg}
-								alt=".."
+								alt="..."
 								onClick={() => thumbnailInputRef.current?.click()}
 								style={{ position: "absolute", right: 0, cursor: "pointer" }}
 							/>
 
 							<input
 								type="file"
-								accept="image/png, image/jpg"
+								accept="image/*"
 								ref={thumbnailInputRef}
 								style={{ display: "none" }}
 								onChange={handleThumbnailChange}
@@ -279,6 +279,9 @@ const Screen: React.FC = () => {
 							width={117}
 							border="1px solid #FA3434"
 							color="#FA3434"
+							onClick={() =>
+								window.open(window.location.origin + "/" + store?.link, "_blank")
+							}
 						>
 							Live view
 						</Button>

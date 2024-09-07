@@ -151,8 +151,16 @@ export default function useProducts() {
 				mutation: CREATE_PRODUCT,
 				variables: { input },
 			});
+
+			// Check if the product was created successfully
 			if (response?.data?.createProduct) {
-				const currentProducts = products ?? []; // Provide a default empty array if products is null
+				// alert("HI")
+				console.log("Created product:", response.data.createProduct);
+
+				// Ensure currentProducts is fetched correctly from Redux store
+				const currentProducts = products ?? [];
+
+				// Dispatch action to update products in the store
 				dispatch(
 					actions.setMyProducts([
 						...currentProducts,

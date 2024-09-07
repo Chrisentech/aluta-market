@@ -34,6 +34,7 @@ const USER_FIELDS = gql`
 const DVA_FIELDS = gql`
 	fragment DvaFields on Account {
 		customer {
+			id
 			first_name
 			last_name
 		}
@@ -41,6 +42,7 @@ const DVA_FIELDS = gql`
 			name
 			slug
 		}
+		id
 		account_number
 		account_name
 	}

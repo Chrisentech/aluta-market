@@ -234,13 +234,13 @@ const Screen: React.FC = () => {
 								<p style={{ display: "flex", alignItems: "center" }}>
 									<BsDot size="32" color="#FF9017" /> Search
 								</p>
-								<p>0%</p>
+								<p>0</p>
 							</div>
 							<div>
 								<p style={{ display: "flex", alignItems: "center" }}>
 									<BsDot size="32" color="#2776EA" /> Link
 								</p>
-								<p>0%</p>
+								<p>0</p>
 							</div>
 						</div>
 					</Card>

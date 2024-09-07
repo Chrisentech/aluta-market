@@ -30,6 +30,7 @@ interface DropdownProps {
 	offset?: string;
 	width?: string;
 	state?: boolean;
+	allowHover?: boolean;
 	margin?: string;
 	className?: string;
 	disabled?: boolean;
@@ -46,6 +47,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 	type,
 	disabled,
 	className,
+	allowHover,
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	let stores = useSelector(selectStores);
@@ -85,20 +87,40 @@ const Dropdown: React.FC<DropdownProps> = ({
 			margin={margin}
 			type={type}
 			onClick={() => setIsOpen(state ? !state : !isOpen && !disabled)}
-			onMouseOver={() => setIsOpen(state ? state : true && !disabled)}
-			onMouseOut={() => setIsOpen(state ? !state : !isOpen && !disabled)}
+			onMouseOver={() =>
+				allowHover ? setIsOpen(state ? state : true && !disabled) : null
+			}
+			onMouseOut={() =>
+				allowHover ? setIsOpen(state ? state : true && !disabled) : null
+			}
 			width={width}
 			className={className}
 		>
 			<DropdownSelected padding={padding} onChange={() => alert("hi")}>
 				{(state ? state : isOpen) ? <PiCaretUpBold /> : <PiCaretDownBold />}
 				{type === "dropdown_one" && selectedStores?.name ? (
-					<>
-						<span className="avatar">
-							{getCapitalizedFirstLetter(selectedStores?.name)}
-						</span>{" "}
+					<div
+						style={{
+							display: "flex",
+							gap: 10,
+							alignItems: "center",
+							marginLeft: 20,
+						}}
+					>
+						{!selectedStores?.thumbnail ? (
+							<span className="avatar">
+								{getCapitalizedFirstLetter(selectedStores?.name)}
+							</span>
+						) : (
+							<img
+								src={selectedStores?.thumbnail}
+								alt="..."
+								width={50}
+								style={{ borderRadius: "50%", height: 50 }}
+							/>
+						)}
 						<span className="store-title">{selectedStores?.name} </span>
-					</>
+					</div>
 				) : (
 					<span className="store-title">{"+ Create a new Store"} </span>
 				)}
@@ -127,6 +149,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 Dropdown.defaultProps = {
 	type: "sidebar_menu",
 	disabled: false,
+	allowHover: true,
 };
 export default Dropdown;
 

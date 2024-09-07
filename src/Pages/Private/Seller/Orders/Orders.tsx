@@ -150,7 +150,10 @@ const Screen: React.FC = () => {
 			</div>
 		</GridItem>,
 		<GridItem background="#FA3434">
-			<div className="topIcon dark" onClick={() => handleCopy(store?.link)}>
+			<div
+				className="topIcon dark"
+				onClick={() => handleCopy(window.location.origin + "/" + store?.link)}
+			>
 				{copied ? <FaCheck color="green" /> : <img src={documentCopy} />}
 			</div>
 			<div className="wrap">
