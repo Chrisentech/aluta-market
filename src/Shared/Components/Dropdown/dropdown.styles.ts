@@ -21,7 +21,7 @@ export const DropdownWrapper = styled.button<{
   flex-direction: column;
 
   border: ${({ type }) =>
-    type === "dropdown_one" ? "1px solid #eff2f4 !important" : "0" };
+    type === "dropdown_one" ? "1px solid #eff2f4 !important" : "0"};
   background: ${({ background }) =>
     background ? background + " !important" : "transparent !important"};
   transition: 0.6s ease;
@@ -32,12 +32,12 @@ export const DropdownWrapper = styled.button<{
     position: absolute;
     right: 10px;
     top: ${({ offset }) =>
-      offset ? offset + " !important" : "20px !important"};
+    offset ? offset + " !important" : "20px !important"};
     transition: 0.6s ease;
   }
   &:hover {
-    background: ${({ type }) => type === "dropdown_one" ? "#fff !important" : "transparent !important"};
-    box-shadow: ${({ type }) => type === "dropdown_one" ? '2px -1px 8px #EFF2F4, -2px -1px 8px #EFF2F4 !important' : 'unset !important'};
+    // background: ${({ type }) => type === "dropdown_one" ? "#fff !important" : "transparent !important"};
+    // box-shadow: ${({ type }) => type === "dropdown_one" ? '2px -1px 8px #EFF2F4, -2px -1px 8px #EFF2F4 !important' : 'unset !important'};
   }
 `;
 
@@ -58,14 +58,14 @@ export const DropdownOptions = styled.ul<{ open: boolean, type?: string }>`
   left: 0;
   width: 100%;
   background-color: ${({ type }) =>
-  type === "dropdown_one" ? '#fff' : 'transparent'};
+    type === "dropdown_one" ? '#fff' : 'transparent'};
   border: ${({ type }) =>
-  type === "dropdown_one" ? '1px solid #EFF2F4' : 'none'};
+    type === "dropdown_one" ? '1px solid #EFF2F4' : 'none'};
   border-top: none;
   z-index: 1000;
   border-radius: 6px;
   box-shadow: ${({ type }) =>
-  type === "dropdown_one" ? '2px 3px 5px #EFF2F4, -2px 3px 5px #EFF2F4' : 'unset'};
+    type === "dropdown_one" ? '2px 3px 5px #EFF2F4, -2px 3px 5px #EFF2F4' : 'unset'};
 `;
 
 export const DropdownOption = styled.li<{ type?: string }>`
@@ -73,15 +73,15 @@ export const DropdownOption = styled.li<{ type?: string }>`
   cursor: pointer;
   // height: 44px;
   line-height: ${({ type }) =>
-  type === "dropdown_one" ? '44px' : 'unset' };
+    type === "dropdown_one" ? '44px' : 'unset'};
   border-top: ${({ type }) =>
-  type === "dropdown_one" ? '1px solid #eff2f4' : 'none' };
+    type === "dropdown_one" ? '1px solid #eff2f4' : 'none'};
 
   font-size: 16px;
   font-weight: 500;
   letter-spacing: -0.32px;
   color: ${({ type }) =>
-  type === "dropdown_one" ? "#000" : "#8B96A5"};
+    type === "dropdown_one" ? "#000" : "#8B96A5"};
   display: flex;
   padding-left: 35px;
   justify-content: flex-start;
