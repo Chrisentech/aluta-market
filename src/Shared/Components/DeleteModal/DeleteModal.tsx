@@ -29,6 +29,7 @@ const DeleteModal: React.FC<{ url?: string }> = () => {
 			dispatch(closeModal("deleteProduct"));
 			setLoading(false);
 			localStorage.removeItem("productId");
+			// location.reload();
 		} catch (error: any) {
 			setLoading(false);
 			if (error.graphQLErrors && error.graphQLErrors.length > 0) {

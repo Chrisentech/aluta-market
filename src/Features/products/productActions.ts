@@ -154,11 +154,9 @@ export default function useProducts() {
 
 			// Check if the product was created successfully
 			if (response?.data?.createProduct) {
-				// alert("HI")
-				console.log("Created product:", response.data.createProduct);
 
 				// Ensure currentProducts is fetched correctly from Redux store
-				const currentProducts = products ?? [];
+				const currentProducts = myproducts ?? [];
 
 				// Dispatch action to update products in the store
 				dispatch(
@@ -190,15 +188,19 @@ export default function useProducts() {
 		}
 	};
 	const deleteProduct = async (id: number) => {
-		await apolloClient.mutate({
+		const res = await apolloClient.mutate({
 			mutation: DELETE_PRODUCT,
 			variables: { productId: id },
 		});
+
+		// Ensure the correct return from the filter function
 		const productsData = myproducts.filter((product: IProductProps) => {
-			product.id !== id;
+			return product.name !== res.data.deleteProduct.name;
 		});
+
 		dispatch(actions.setMyProducts(productsData));
 	};
+
 
 	const getPurchasedData = async (userId: number) => {
 		try {

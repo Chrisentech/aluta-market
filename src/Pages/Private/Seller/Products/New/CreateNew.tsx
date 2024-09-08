@@ -201,7 +201,7 @@ const Screen: React.FC = () => {
 	};
 	// console.log(imageUrls);
 
-	const handleSubmit = async (values: IProductProps) => {
+	const handleSubmit = async () => {
 		setLoading(true);
 
 		if (state?.type === "digital" && !catalogue?.file) {
@@ -228,7 +228,6 @@ const Screen: React.FC = () => {
 		try {
 			// Call the createProduct function to submit the form
 			await createProduct(payload);
-			console.log(values);
 			dispatch(alertSuccess("Product added successfully"));
 			await getProducts({ store: store.name, limit: 12, offset: 0 });
 			nav(ROUTE.SELLER_PRODUCTS);

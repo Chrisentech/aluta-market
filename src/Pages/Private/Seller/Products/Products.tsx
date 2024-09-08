@@ -102,8 +102,8 @@ const Screen: React.FC = () => {
 			}
 		};
 
-		if(!myproducts){
-			fetchProducts()
+		if (!myproducts) {
+			fetchProducts();
 		}
 	}, [store]);
 	useEffect(() => {
@@ -177,7 +177,10 @@ const Screen: React.FC = () => {
 
 const Products = () => {
 	const activeModal = useSelector(selectActiveModal);
-	const { myproducts } = useProducts();
+	const { myproducts, getProduct } = useProducts();
+	useEffect(() => {
+		// alert("hi");
+	}, [myproducts]);
 	return (
 		<Layout
 			layout={"dashboard"}

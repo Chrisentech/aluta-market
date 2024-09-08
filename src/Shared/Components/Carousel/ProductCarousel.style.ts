@@ -45,8 +45,9 @@ export const CarouselContainer = styled.div`
 `;
 
 export const SelectedImage = styled.img`
-	// width: 380px;
+	width: 90%;
 	height: 380px;
+	object-fit:cover;
 	border-radius: 4px;
 	border: 1px solid #dee2e7;
 	@media (max-width: 978px) {

@@ -137,8 +137,8 @@ const Screen: React.FC = () => {
 							<img
 								src={me?.avatar ?? "src/assets/Avatar.png"}
 								alt=""
-								height={50}
-								width={50}
+								height={40}
+								width={40}
 								style={{ borderRadius: "50%", objectFit: "fill" }}
 							/>
 							{!isAuthenticated ? (
