@@ -129,7 +129,7 @@ export const CREATE_PRODUCT = gql`
 
 export const UPDATE_PRODUCT = gql`
 	${PRODUCT_FIELDS}
-	mutation ($input: UpdateProductInput!) {
+	mutation updateProduct($input:  UpdateProductInput!) {
 		updateProduct(input: $input) {
 			...ProductFields
 		}

@@ -25,13 +25,14 @@ import {
 	VERIFY_RESET_PASSWORD_LINK, CONFIRM_PASSWORD,
 	UPDATE_PASSWORD,
 } from "../../Services/graphql/users";
-import { actions, fetchWishlists } from "./userSlice";
+import { actions, fetchMe, fetchWishlists } from "./userSlice";
 import { setCookie } from "../../Shared/Utils/helperFunctions";
 import { CREATE_CHATLIST, MY_CHATS, SEND_MESSAGE } from "../../Services/graphql/messages";
 
 export default function useUsers() {
 	const dispatch = useDispatch();
 	const wishlists: any = useSelector(fetchWishlists);
+	const me = useSelector(fetchMe)
 	const createUser = async (input: RegisterFormValues) => {
 		const response = await apolloClient.mutate({
 			mutation: CREATE_USER,
@@ -57,10 +58,11 @@ export default function useUsers() {
 			variables: { input },
 		});
 		if (response.data.updateUser) {
-			const { password, access_token, refresh_token, __typename, ...rest } =
-				response?.data?.updateUser;
-
-			dispatch(actions.getMe(rest));
+			const updatedUser: any = {
+				...me,
+				...input
+			}
+			dispatch(actions.getMe(updatedUser));
 			return response.data.updateUser;
 		}
 	};
@@ -122,7 +124,7 @@ export default function useUsers() {
 		} else {
 			let wishlist: any = window.sessionStorage.getItem("wishlist");
 			wishlist ? JSON.parse(wishlist) : null;
-			console.log("wishlist from session Storage: ", wishlist);
+			// console.log("wishlist from session Storage: ", wishlist);
 			// dispatch(actions.getWishlist(wishlist));
 		}
 	};

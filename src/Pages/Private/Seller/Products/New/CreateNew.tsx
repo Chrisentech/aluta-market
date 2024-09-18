@@ -222,7 +222,7 @@ const Screen: React.FC = () => {
 			image: imageUrls,
 			thumbnail,
 			file: catalogue?.file ?? "",
-			quantity: alwaysAvailable ? 0 : quantity,
+			quantity: alwaysAvailable ? 1 : quantity,
 			// type: state?.type, //digital,physical or service
 			always_available: alwaysAvailable,
 			store: store?.name,

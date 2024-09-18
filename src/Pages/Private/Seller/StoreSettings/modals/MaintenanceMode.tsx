@@ -17,18 +17,17 @@ import {
 	alertSuccess,
 } from "../../../../../Features/alert/alertSlice";
 
-const MaintenanceMode: React.FC<{ active: any}> = () => {
+const MaintenanceMode: React.FC<{ active: any }> = () => {
 	const dispatch = useDispatch();
-	const { setMaintenanceMode, updateStore } = useStore();
+	const { updateStore } = useStore();
 	const [loading, setLoading] = useState(false);
 	const store = useSelector(selectStore);
 
 	const handleMaintenanceMode = async () => {
 		try {
 			setLoading(true);
-			await updateStore({ id: store?.id, status: false });
+			await updateStore({ id: store?.id, status: true });
 			dispatch(alertSuccess("Update successful."));
-			setMaintenanceMode(true);
 			dispatch(closeModal("maintenanceMode"));
 		} catch (error: any) {
 			setLoading(false);

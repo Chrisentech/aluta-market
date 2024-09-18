@@ -33,7 +33,7 @@ export interface RegisterFormValues {
 
 export interface UpdateUserFormValues {
 	id: string;
-	uuid?: string;
+	UUID?: string;
 	email?: string;
 	password?: string;
 	fullname?: string;
@@ -48,7 +48,7 @@ export interface UpdateUserFormValues {
 
 export interface IUserProps {
 	id: number;
-	uuid?: string;
+	UUID?: string;
 	fullname: string;
 	email: string;
 	campus: string;

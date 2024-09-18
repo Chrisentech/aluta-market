@@ -86,7 +86,6 @@ export default function useStore() {
 
 			if (response.data.updateStore) {
 				// Or however you access your state
-
 				// Spread current state, then spread input to override any matching fields
 				const updatedStore = {
 					...mystore,
@@ -104,8 +103,9 @@ export default function useStore() {
 		}
 
 	};
-	const setMaintenanceMode = async (mode: boolean) => {
-		await updateStore({ status: mode })
+	const setMaintenanceMode = async (mode: boolean, id: any) => {
+		console.log(mode)
+		await updateStore({ id, status: mode })
 		dispatch(actions.setMaintenanceMode(mode));
 	};
 

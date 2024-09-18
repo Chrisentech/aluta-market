@@ -10,7 +10,7 @@ import {
 	link,
 	people,
 } from "../../../../assets";
-import { Card, View } from "../../../../Shared/Components";
+import { Card, LogoutModal, View } from "../../../../Shared/Components";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	selectStore,
@@ -405,9 +405,15 @@ const Orders = () => {
 			showModal={activeModal}
 			navMode="noSearch"
 			popUpContent={
-				<OrderModal
-					type={activeModal === "canceled_order_modal" ? "canceled" : "pending"}
-				/>
+				activeModal === "logout" ? (
+					<LogoutModal />
+				) : (
+					<OrderModal
+						type={
+							activeModal === "canceled_order_modal" ? "canceled" : "pending"
+						}
+					/>
+				)
 			}
 		/>
 	);

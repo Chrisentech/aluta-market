@@ -42,7 +42,7 @@ const Screen: React.FC = () => {
 	const nav = useNavigate();
 	const [loading, setLoading] = useState("");
 	const dispatch = useDispatch();
-	const userID = me?.uuid ?? localStorage.getItem("uuid");
+	const userID = me?.UUID != "" ? me?.UUID : localStorage.getItem("uuid");
 
 	const handleMessage = async () => {
 		setLoading("message");
@@ -89,15 +89,15 @@ const Screen: React.FC = () => {
 	useEffect(() => {
 		let id = "";
 		const updatedUser = async (id: any) => {
-			if (me) {
-				await updateUser({ id: me.id.toString(), uuid: id });
+			if (me && !me?.UUID) {
+				await updateUser({ id: me.id.toString(), UUID: id });
 			}
 		};
 		if (!userID) {
 			id = generateUniqueId();
 			localStorage.setItem("uuid", id);
-			updatedUser(id);
 		}
+		updatedUser(userID);
 	}, []);
 
 	useEffect(() => {

@@ -282,6 +282,7 @@ export const StoreDesc = styled.div`
 		padding:10px;
 		outline: none;
 		background: #f7fafc;
+		    font-family: 'Inter';
 		@media (max-width: 690px) {
 			padding:5px;
 				width:calc(100% - 10px)

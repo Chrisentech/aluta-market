@@ -34,6 +34,7 @@ import axios from "axios";
 import { selectLoadingState } from "../../../../Features/loading/loadingSlice";
 import MaintenanceMode from "./modals/MaintenanceMode";
 import { Loader } from "../../../../Shared/Components/Button/Button.styles";
+import DeleteAccountModal from "../Profile/modals/DeleteAccountModal";
 
 const Screen: React.FC = () => {
 	const dispatch = useDispatch();
@@ -127,7 +128,6 @@ const Screen: React.FC = () => {
 		try {
 			setLoading(true);
 			await updateStore({ id: store?.id, status: false });
-			setMaintenanceMode(true);
 			dispatch(alertSuccess("Update successful."));
 			setActive(true);
 		} catch (error: any) {
@@ -384,7 +384,7 @@ const Screen: React.FC = () => {
 							>
 								<div className="top-card">
 									<p className="top-text">Maintenance Mode</p>
-									{!isActive ? (
+									{store?.status ? (
 										!loading ? (
 											<MdToggleOn
 												size="55px"
@@ -477,6 +477,8 @@ const StoreSettings = () => {
 			popUpContent={
 				activeModal === "maintenanceMode" ? (
 					<MaintenanceMode active={maintenanceMode} />
+				) : activeModal === "deleteAccount" ? (
+					<DeleteAccountModal />
 				) : (
 					<LogoutModal />
 				)
