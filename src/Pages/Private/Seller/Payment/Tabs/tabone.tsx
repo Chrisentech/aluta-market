@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, View } from "../../../../../Shared/Components";
+import { Card, View, Dropdown } from "../../../../../Shared/Components";
 import { IoWalletOutline } from "react-icons/io5";
 import {
 	ErrorMessageWrapper,
@@ -22,11 +22,13 @@ import { fetchMe } from "../../../../../Features/user/userSlice";
 import useUsers from "../../../../../Features/user/userActions";
 
 const initialValues: any = {
-	email: "",
+	amount: "",
 	password: "",
+	account: "",
 };
 const validationSchema = yup.object().shape({
-	email: yup.string().email("Invalid email").required("Email is required"),
+	amount: yup.number().required("Amount is required"),
+	account: yup.string().required("Account  is required"),
 	password: yup
 		.string()
 		.required("Password is required")
@@ -56,7 +58,13 @@ const AccountTab: React.FC = () => {
 		// Handle form submission here
 		let payload = {
 			...values,
+			store_id: store?.id,
+			user_id: me?.id,
+			email: me?.email,
+			// account_number
+			// bank_code:
 		};
+
 		console.log(payload);
 		try {
 			// Simulate API call
@@ -133,11 +141,28 @@ const AccountTab: React.FC = () => {
 					<Form className="form">
 						<FormControl>
 							<Label>Amount</Label>
-							<CustomField name="amount" type="text" placeholder="NGN100,000" />
+							<CustomField name="amount" type="select" />
 						</FormControl>
 						<FormControl>
 							<Label>Withdraw to</Label>
-							<CustomField name="account" type="text" />
+							<Input
+								as="select"
+								name="account"
+								style={{ background: "#F7FAFC", width: "100%" }}
+								// onChange={(e: any) => handleSelectCategory(e.target.value)}
+							>
+								<option
+									label="Select withdrawal account"
+									disabled
+									selected
+								></option>
+								<option value="">
+									<p>2092138348 - UBA</p>
+								</option>
+								<option value="">
+									<p>9126669941 - OPAY</p>
+								</option>
+							</Input>
 						</FormControl>
 						<FormControl>
 							<Label>Input Password</Label>
@@ -175,9 +200,6 @@ const CustomField: React.FC<{
 	const [field, meta] = useField(name);
 	const inputHasError = meta?.error?.length ? true : false;
 
-	// if (type === "checkbox") {
-	// 	return <CustomCheckbox checked={checked} type={type} onChange={onChange} />;
-	// }
 	return (
 		<>
 			<Input

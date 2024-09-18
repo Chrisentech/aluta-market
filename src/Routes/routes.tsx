@@ -331,6 +331,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
 	}, [activeModal]);
 
 	if (authRoute && !isAuthenticated) {
+		setRedirectPath(route);
 		return <Navigate to={ROUTE.LOGIN} replace />;
 	}
 

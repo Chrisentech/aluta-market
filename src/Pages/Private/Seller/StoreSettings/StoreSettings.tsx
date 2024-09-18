@@ -127,8 +127,8 @@ const Screen: React.FC = () => {
 		try {
 			setLoading(true);
 			await updateStore({ id: store?.id, status: false });
-			dispatch(alertSuccess("Update successful."));
 			setMaintenanceMode(true);
+			dispatch(alertSuccess("Update successful."));
 			setActive(true);
 		} catch (error: any) {
 			if (error.graphQLErrors && error.graphQLErrors.length > 0) {

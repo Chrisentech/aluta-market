@@ -371,7 +371,7 @@ const Table: React.FC<ResponsiveTableProps> = ({
 							</TableCell>
 						</TableRow>
 					) : (
-						data.map((item, index) => (
+						data.map((item: any, index: number) => (
 							<TableRow key={index}>
 								{columns.map((column) => (
 									<TableCell
@@ -384,6 +384,7 @@ const Table: React.FC<ResponsiveTableProps> = ({
 									>
 										{(() => {
 											const value = getValue(item, column.accessor);
+
 											switch (column.accessor) {
 												case "order":
 													return null;
@@ -407,6 +408,29 @@ const Table: React.FC<ResponsiveTableProps> = ({
 												case "thumbnail":
 													return (
 														<img width={50} src={item?.thumbnail} alt="Image" />
+													);
+												case "quantity":
+													return (
+														<>
+															{item?.always_available ? (
+																<p
+																	style={{
+																		color: "#00b517",
+																		background: "#00b5170d",
+																		width: 96,
+																		borderRadius: 5,
+																		textAlign: "center",
+																		padding: 2,
+																	}}
+																>
+																	Available
+																</p>
+															) : (
+																<p style={{ marginLeft: 20 }}>
+																	{item?.quantity}
+																</p>
+															)}
+														</>
 													);
 												case "options":
 													return (
@@ -439,11 +463,25 @@ const Table: React.FC<ResponsiveTableProps> = ({
 																	stroke={AppColors.brandOrange}
 																	strokeOpacity={0.125}
 																/>
-															) : item?.status && item?.quantity > 0 ? (
+															) : (item?.status && item?.quantity > 0) ||
+															  item?.always_available ? (
 																<MdToggleOn
 																	size="55px"
-																	color="rgb(255 21 18 / 91%)"
-																	onClick={() => handleToggleStatus(index)}
+																	color={
+																		item?.always_available
+																			? "#8b96a5"
+																			: "rgb(255 21 18 / 91%)"
+																	}
+																	style={{
+																		cursor: item?.always_available
+																			? "not-allowed"
+																			: "pointer",
+																	}}
+																	onClick={() =>
+																		item?.always_available
+																			? null
+																			: handleToggleStatus(index)
+																	}
 																/>
 															) : (
 																<MdToggleOff

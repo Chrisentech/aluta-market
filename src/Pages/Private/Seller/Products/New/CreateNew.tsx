@@ -206,6 +206,8 @@ const Screen: React.FC = () => {
 
 		if (state?.type === "digital" && !catalogue?.file) {
 			dispatch(alertError("Please upload a file for digital products"));
+			setLoading(false);
+
 			return;
 		}
 
@@ -220,13 +222,12 @@ const Screen: React.FC = () => {
 			image: imageUrls,
 			thumbnail,
 			file: catalogue?.file ?? "",
-			quantity,
+			quantity: alwaysAvailable ? 0 : quantity,
 			// type: state?.type, //digital,physical or service
 			always_available: alwaysAvailable,
 			store: store?.name,
 		};
 		try {
-			// Call the createProduct function to submit the form
 			await createProduct(payload);
 			dispatch(alertSuccess("Product added successfully"));
 			await getProducts({ store: store.name, limit: 12, offset: 0 });
@@ -454,9 +455,21 @@ const Screen: React.FC = () => {
 									</Label>
 									<CustomField
 										name={productPrice > 100 ? "none" : "price"}
-										type="number"
+										type={"number"}
 										value={productPrice}
-										onChange={(e: any) => setProductPrice(e.target.value)}
+										min={0}
+										onChange={(e: any) => {
+											const inputValue = e.target.value;
+
+											// Check for leading zeros and remove them
+											const sanitizedValue = inputValue.replace(
+												/^0+(?=\d)/,
+												""
+											);
+
+											// Update the state with the sanitized value
+											setProductPrice(sanitizedValue);
+										}}
 									/>
 								</FormControl>
 								<FormControl>
@@ -550,25 +563,29 @@ const Screen: React.FC = () => {
 							</FormControl>
 							<Flex>
 								<FormControl>
-									<Label>
-										Manage Quantity <span className="info">(Optional)</span>
-									</Label>
+									{!alwaysAvailable && (
+										<>
+											<Label>
+												Manage Quantity <span className="info">(Optional)</span>
+											</Label>
 
-									<Incrementor>
-										<div
-											className="leftButton"
-											onClick={() => handleDecreaseQuantity(quantity)}
-										>
-											<BiMinus />
-										</div>
-										<div className="main">{quantity}</div>
-										<div
-											className="rightButton"
-											onClick={() => handleIncreaseQuantity(quantity)}
-										>
-											<BiPlus />
-										</div>
-									</Incrementor>
+											<Incrementor>
+												<div
+													className="leftButton"
+													onClick={() => handleDecreaseQuantity(quantity)}
+												>
+													<BiMinus />
+												</div>
+												<div className="main">{quantity}</div>
+												<div
+													className="rightButton"
+													onClick={() => handleIncreaseQuantity(quantity)}
+												>
+													<BiPlus />
+												</div>
+											</Incrementor>
+										</>
+									)}
 									<div style={{ display: "flex", alignItems: "center" }}>
 										<CustomField
 											name="checkbox"

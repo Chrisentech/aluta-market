@@ -51,6 +51,7 @@ const Screen: React.FC = () => {
 								<InputField
 									type="text"
 									value={fullname}
+									readOnly
 									onChange={(e: any) => setFullname(e.target.value)}
 								/>
 							</label>
@@ -65,6 +66,7 @@ const Screen: React.FC = () => {
 							<label>
 								Phone Number
 								<InputField
+									readOnly
 									type="email"
 									value={"+234" + phone}
 									onChange={(e: any) => {

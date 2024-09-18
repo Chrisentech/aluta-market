@@ -177,9 +177,10 @@ const Screen: React.FC = () => {
 
 const Products = () => {
 	const activeModal = useSelector(selectActiveModal);
-	const { myproducts, getProduct } = useProducts();
+	const { myproducts } = useProducts();
 	useEffect(() => {
 		// alert("hi");
+		console.log(navigator);
 	}, [myproducts]);
 	return (
 		<Layout

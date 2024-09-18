@@ -10,6 +10,7 @@ const USER_FIELDS = gql`
 		avatar
 		password
 		phone
+		UUID
 		usertype
 		stores {
 			link
@@ -22,6 +23,7 @@ const USER_FIELDS = gql`
 			phone
 			status
 		}
+		online
 		paymnetDetails {
 			name
 			phone
@@ -258,5 +260,11 @@ export const VERIFY_RESET_PASSWORD_LINK = gql`
 export const UPDATE_PASSWORD = gql`
 	mutation updateUserPassword($input: passwordUpdateInput!) {
 		updateUserPassword(input: $input)
+	}
+`;
+
+export const CONFIRM_PASSWORD = gql`
+	mutation confirmPassword($input: confirmPasswordInput!) {
+		confirmPassword(input: $input)
 	}
 `;

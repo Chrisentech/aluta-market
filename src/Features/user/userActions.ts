@@ -22,11 +22,12 @@ import {
 	REMOVE_HANDLED_PRODUCTS,
 	CHECK_STORE_NAME,
 	SEND_RESET_PASSWORD_LINK,
-	VERIFY_RESET_PASSWORD_LINK,
+	VERIFY_RESET_PASSWORD_LINK, CONFIRM_PASSWORD,
 	UPDATE_PASSWORD,
 } from "../../Services/graphql/users";
 import { actions, fetchWishlists } from "./userSlice";
 import { setCookie } from "../../Shared/Utils/helperFunctions";
+import { CREATE_CHATLIST, MY_CHATS, SEND_MESSAGE } from "../../Services/graphql/messages";
 
 export default function useUsers() {
 	const dispatch = useDispatch();
@@ -226,10 +227,52 @@ export default function useUsers() {
 
 	};
 
+	const createChat = async (input: any) => {
+		const response = await apolloClient.mutate({
+			mutation: CREATE_CHATLIST,
+			variables: { input },
+		});
+		console.log(response.data)
+
+	};
+
+	const getChats = async (userID: String) => {
+		const response = await apolloClient.query({
+			query: MY_CHATS,
+			variables: { userID },
+		});
+		if (response.data.Chats) {
+			dispatch(
+				actions.setChats(response.data.Chats)
+			);
+		} else {
+			dispatch(
+				actions.setChats([])
+			);
+		}
+		return response.data.Chats
+	}
 
 
+	const sendMessage = async (input: any) => {
+		const response = await apolloClient.mutate({
+			mutation: SEND_MESSAGE,
+			variables: { input },
+		});
+		console.log(response.data)
 
+	};
 
+	const confirmPassword = async (input: any) => {
+		try {
+			await apolloClient.mutate({
+				mutation: CONFIRM_PASSWORD,
+				variables: { input },
+			});
+		} catch (e) {
+			console.log(e)
+		}
+	}
 
 	return {
 		createUser,
@@ -245,10 +288,14 @@ export default function useUsers() {
 		getServicesVariation,
 		initializePayment,
 		getDva,
+		getChats,
 		wishlists,
+		createChat,
 		checkStoreName,
 		sendResetPasswordLink,
 		verifyResetPasswordLink,
 		updateMyPassword,
+		sendMessage,
+		confirmPassword
 	};
 }

@@ -240,7 +240,7 @@ const Screen: React.FC = () => {
 								<p style={{ display: "flex", alignItems: "center" }}>
 									<BsDot size="32" color="#2776EA" /> Link
 								</p>
-								<p>0</p>
+								<p>{store?.visitors?.length}</p>
 							</div>
 						</div>
 					</Card>

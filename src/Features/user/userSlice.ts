@@ -7,6 +7,8 @@ export interface UserState {
 	cart: ICartProps | null;
 	token: string | null;
 	skynet: any;
+	messages: any;
+	chats: any;
 	wishlists: IHandledProductProps[] | null;
 	savedForLater: IHandledProductProps[] | null;
 	recentlyViewed: IHandledProductProps[] | null;
@@ -18,6 +20,8 @@ const initialState: UserState = {
 	me: null,
 	cart: null,
 	token: null,
+	messages: null,
+	chats: null,
 	wishlists: null,
 	savedForLater: null,
 	recentlyViewed: null,
@@ -57,8 +61,14 @@ export const userSlice = createSlice({
 		setHomeDelivery: (state, { payload }) => {
 			state.homeDelivery = payload;
 		},
-		logout: () => {
-			// window.location.reload();
+		setMessages: (state, { payload }) => {
+			state.messages = { ...state.messages, payload };
+		},
+		setChats: (state, { payload }) => {
+			state.chats = { ...state.chats, payload };
+		},
+		logout: (state) => {
+			// state = null
 		},
 	},
 });
@@ -92,6 +102,7 @@ export const fetchRecentlyViewed = (
 export const selectPickupStation = (state: RootState) =>
 	state.user.pickUpStation;
 export const selectHomeDelivery = (state: RootState) => state.user.homeDelivery;
+export const selectMyChats = (state: RootState) => state.user.chats;
 
 // Export user reducer
 export default userSlice.reducer;

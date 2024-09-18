@@ -251,6 +251,12 @@ export const PURCHASED_ORDER = gql`
 	}
 `;
 
+export const WITHDRAW_FUND = gql`
+mutation withdrawFund($input: fundInput!) {
+		withdrawFund(input: $input) 
+}
+`
+
 // export const CONFIGURE_MY_STORE = gql``; //This would be used to either disable/delete store
 
 // export const GET_REVIEWS = gql`` //might be removed

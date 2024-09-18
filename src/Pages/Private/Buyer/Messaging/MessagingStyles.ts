@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-	background: red;
+	background: white;
 	width: 85%;
-	height: 72vh;
+	min-height: 72vh;
 	margin: 40px auto;
 	// padding: 20px;
 	top: 0px;
@@ -59,7 +59,8 @@ export const Sidebar = styled.div`
 				border-radius: 50%;
 				// margin-right: 10px;
 				background: #dbdbdb;
-				flex: 0.2;
+				// flex: 0.2;
+				object-fit: cover;
 				margin-right: 15px;
 			}
 			.header {
@@ -89,7 +90,6 @@ export const Sidebar = styled.div`
 				height: 8px;
 				border-radius: 50%;
 				z-index: 1;
-				background: green;
 			}
 		}
 		.left {
@@ -126,7 +126,7 @@ export const Sidebar = styled.div`
 
 export const Main = styled.div`
 	flex: 0.75;
-	height: 100%;
+		height: 100%;
 	background: #eff2f4;
 	.no_message {
 		display: flex;
@@ -154,6 +154,7 @@ export const MessageHeader = styled.div`
 		margin: 0px 10px 0px 30px;
 		background: #dbdbdb;
 		flex: none;
+		object-fit: cover;
 	}
 	h1 {
 		color: #333333;
@@ -182,14 +183,14 @@ export const MessageBody = styled.div`
 			letter-spacing: -0.24px;
 		}
 		.line {
-			width: 45%;
+			width: 35%;
 			height: 2px;
 			background: #e0e5f2;
 		}
 	}
 	form {
 		position: absolute;
-        bottom: 77px;
+        bottom:0px;
 		// left: 20px;
         padding:10px 20px;
 		width: calc(100% - 40px);
@@ -199,7 +200,6 @@ export const MessageBody = styled.div`
 			left:0;
 			}
 		img {
-			position: absolute;    
 			cursor : pointer;
             bottom: 13px;
             right: 76px;
@@ -210,7 +210,13 @@ export const MessageBody = styled.div`
    
 }
 	 .picture{
-        right:130px;
+        right:160px;
+		position: absolute;    
+        top:20px;
+    }
+		.send{
+        right:50px;
+		position: absolute;    
         top:20px;
     }
 	}
@@ -246,7 +252,7 @@ export const MessageBody = styled.div`
 		flex: none;
 	}
 			div{
-				max-width:500px;
+				max-width:300px;
 			border-radius:5px ;
 				min-height:10px;
 				padding:8px 12px;

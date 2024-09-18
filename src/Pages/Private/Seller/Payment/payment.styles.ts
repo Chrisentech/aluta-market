@@ -418,7 +418,7 @@ export const ErrorMessageWrapper = styled.div`
 	font-weight: 400;
 	letter-spacing: -0.2px;
 `;
-export const Input = styled(Field) <{ error: boolean; type: string }>`
+export const Input = styled(Field) <{ error?: boolean; type?: string }>`
 	width: ${(props) =>
 		props.type === "checkbox" ? "unset" : "calc(100% -  40px)"};
 	padding: 20px;

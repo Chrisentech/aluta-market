@@ -377,33 +377,41 @@ const Screen: React.FC = () => {
 						<p>
 							Furthermore, we have the authority to remove any content from the
 							website that we deem unsuitable, regardless of the source or
-							nature of the content.
+							nature regardless of the source or motive behind its posting.
 						</p>
 					</section>
 					<section id="removal-of-links">
 						<h3>Removal of Links from Our Website:</h3>
 						<p>
-							If you find any link on our website that you consider offensive,
-							please feel free to contact us at any time. We will review
-							requests for link removal but are not obligated to take action or
-							respond directly.
-						</p>
-						<p>
-							While we strive to ensure the accuracy and completeness of the
-							information on our website, we do not guarantee its accuracy or
-							that the website will remain available or that the material on the
-							website will be kept up to date.
+							If you come across any offensive links on our website, please feel
+							free to contact us to inform us. While we will consider requests
+							to remove links, we are not obligated to do so or to provide a
+							direct response.
 						</p>
 					</section>
 					<section id="disclaimer">
 						<h3>Disclaimer:</h3>
 						<p>
-							To the maximum extent permitted by applicable law, we exclude all
-							representations, warranties, and conditions related to our website
-							and its use. Nothing in this disclaimer will:
+							We want to make sure you understand some important points about
+							using our website. We try our best to provide accurate and
+							up-to-date information, but we can't guarantee that everything
+							will always be perfect. Our website is provided "as is," which
+							means we don't make any promises about its accuracy, completeness,
+							or availability.
 						</p>
-						<p></p>
-						<p></p>
+						<p>
+							It's also important to note that we're not responsible for any
+							transactions you make outside of our platform. If you choose to
+							buy or sell something directly with another user, we can't be held
+							liable for any issues that may arise. This includes situations
+							like fraud or other irregularities
+						</p>
+						<p>
+							Please keep in mind that some things, like liability for death or
+							personal injury, fraud, or fraudulent misrepresentation, can't be
+							excluded under the law. But apart from those exceptions, we're not
+							liable for any problems that may occur while using our website.
+						</p>
 					</section>
 				</MainBlock>
 			</Wrapper>

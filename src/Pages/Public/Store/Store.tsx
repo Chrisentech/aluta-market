@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	BackgroundPhoto,
 	Container,
@@ -15,7 +15,10 @@ import { BsSearch } from "react-icons/bs";
 import { Button, View } from "../../../Shared/Components";
 import { useNavigate, useParams } from "react-router-dom";
 import useStore from "../../../Features/store/storeAction";
-import { getCapitalizedFirstLetter } from "../../../Shared/Utils/helperFunctions";
+import {
+	generateUniqueId,
+	getCapitalizedFirstLetter,
+} from "../../../Shared/Utils/helperFunctions";
 import { categories } from "../../../test-data";
 import useProducts from "../../../Features/products/productActions";
 import { ROUTE } from "../../../Shared/Constants";
@@ -27,13 +30,46 @@ import {
 	selectActiveModal,
 	showModal,
 } from "../../../Features/modal/modalSlice";
+import useUsers from "../../../Features/user/userActions";
+import { fetchMe } from "../../../Features/user/userSlice";
 
 const Screen: React.FC = () => {
 	const { id } = useParams();
 	const { getStoreByName, sellerStore } = useStore();
 	const { getProducts, myproducts } = useProducts();
+	const { createChat, updateUser } = useUsers();
+	const me = useSelector(fetchMe);
 	const nav = useNavigate();
+	const [loading, setLoading] = useState("");
 	const dispatch = useDispatch();
+	const userID = me?.uuid ?? localStorage.getItem("uuid");
+
+	const handleMessage = async () => {
+		setLoading("message");
+		try {
+			//create a chat
+			const users = [
+				{
+					id: me?.id,
+					name: me?.fullname,
+					avatar: me?.avatar,
+				},
+				{
+					id: sellerStore?.user,
+					name: sellerStore?.name,
+					avatar: sellerStore?.thumbnail,
+				},
+			];
+			await createChat({ users });
+
+			//then go to messaging view
+			nav(ROUTE.MESSAGING + "/" + me?.id);
+		} catch (error: any) {
+			console.log(error.message);
+		} finally {
+			setLoading("");
+		}
+	};
 
 	useEffect(() => {
 		const fetchStore = async () => {
@@ -49,6 +85,21 @@ const Screen: React.FC = () => {
 			dispatch(closeModal("storeModal"));
 		};
 	}, [id]);
+
+	useEffect(() => {
+		let id = "";
+		const updatedUser = async (id: any) => {
+			if (me) {
+				await updateUser({ id: me.id.toString(), uuid: id });
+			}
+		};
+		if (!userID) {
+			id = generateUniqueId();
+			localStorage.setItem("uuid", id);
+			updatedUser(id);
+		}
+	}, []);
+
 	useEffect(() => {
 		const fetchProducts = async () => {
 			await getProducts({ store: sellerStore?.name, limit: 1000, offset: 0 });
@@ -88,8 +139,14 @@ const Screen: React.FC = () => {
 								width={117}
 								border="1px solid #FA3434 "
 								color="#FA3434"
+								disabled={loading === "message"}
+								loading={loading === "message"}
+								onClick={handleMessage}
 							>
-								<img src={message} />
+								<img
+									src={message}
+									style={{ display: loading === "message" ? "none" : "" }}
+								/>
 								Message
 							</Button>
 							<Button

@@ -4,10 +4,12 @@ import { MoneyIcon } from "../../../../../assets";
 import { Heading } from "../payment.styles";
 import { MdDeleteOutline } from "react-icons/md";
 import { IoAdd } from "react-icons/io5";
+import { useSelector } from "react-redux";
+import { selectStore } from "../../../../../Features/store/storeSlice";
 
 const WithdrawAccountTab: React.FC = () => {
 	const [banks, setBanks] = useState<any>(null); // Type for banks array
-
+	const store = useSelector(selectStore);
 	const fetchBank = async () => {
 		try {
 			const response = await fetch("https://nigerianbanks.xyz/");
@@ -51,25 +53,23 @@ const WithdrawAccountTab: React.FC = () => {
 					account must be in your name
 				</div>
 
-				{Array(3)
-					.fill("*")
-					.map((_, i: number) => {
-						return (
-							<div className="account" key={i}>
-								<img src={myBank("Wema Bdank")?.logo} alt="" width={30} />
+				{store?.accounts?.map((account: any, i: number) => {
+					return (
+						<div className="account" key={i}>
+							<img src={myBank("Wema Bank")?.logo} alt="" width={30} />
 
-								<div className="descr">
-									<p>{myBank("Wema Bank")?.name}</p>
-									<h2>227722112</h2>
-									<p>Arike Lauren</p>
-								</div>
-
-								<MdDeleteOutline className="svg" size="21px" color="red" />
+							<div className="descr">
+								<p>{myBank("Wema Bank")?.name}</p>
+								<h2>227722112</h2>
+								<p>Arike Lauren</p>
 							</div>
-						);
-					})}
 
-				<button disabled className="button">
+							<MdDeleteOutline className="svg" size="21px" color="red" />
+						</div>
+					);
+				})}
+
+				<button disabled={store?.accounts?.length < 3} className="button">
 					<IoAdd />
 					<span>Add Account</span>
 				</button>

@@ -12,7 +12,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { caution } from "../../../../../assets";
 import { InputField } from "../Profile.style";
 
-const DeleteAccountModal: React.FC<{ active: string }> = ({ active }) => {
+const DeleteAccountModal: React.FC<any> = () => {
 	const [deleteAccount, setDeleteAccount] = useState(false);
 	const dispatch = useDispatch();
 	const [otherReason, setOtherReason] = useState("");
@@ -32,7 +32,7 @@ const DeleteAccountModal: React.FC<{ active: string }> = ({ active }) => {
 			<FormImage>
 				<img src={caution} />
 			</FormImage>
-			<CloseButton onClick={() => dispatch(closeModal(active))}>
+			<CloseButton onClick={() => dispatch(closeModal("deleteAccount"))}>
 				<AiOutlineCloseCircle size={34} color="#292D32" />
 			</CloseButton>
 			{deleteAccount ? (
@@ -109,7 +109,7 @@ const DeleteAccountModal: React.FC<{ active: string }> = ({ active }) => {
 				borderRadius={10}
 				onClick={handleDeleteAccount}
 			>
-				Delete Account
+				Proceed
 			</Button>
 		</FormContainer>
 	);

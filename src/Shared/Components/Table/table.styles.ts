@@ -63,6 +63,8 @@ line-height: normal;
 export const TableCell = styled.td`
 	padding: 20px 10px;
 	border-bottom: 1px solid #dee2e7;
+	max-width:250px;
+	// text-align:center;
 	&:last-child {
 		text-align: center;
 	}

@@ -1,10 +1,13 @@
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import { getCookie } from "../../Shared/Utils/helperFunctions";
-const token = getCookie("access_token") ?? null;
+export const token = getCookie("access_token") ?? null;
+let BE_URI = " https://aluta-market-api.onrender.com"
+export const ws = new WebSocket("ws://localhost:8082/ws?token=" + token);
+
 
 const httpLink = new HttpLink({
 	//uri: "https://api.thealutamarket.com/graphql", //Production
-	uri: "https://aluta-market-api.onrender.com/graphql", //Production
+	uri: BE_URI + "/graphql", //Production
 	// uri: "http://localhost:8082/graphql", //Development
 	headers: {
 		Authorization: token ? `Bearer ${token}` : "",

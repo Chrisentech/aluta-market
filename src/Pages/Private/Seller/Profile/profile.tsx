@@ -22,6 +22,7 @@ import {
 	alertError,
 	alertSuccess,
 } from "../../../../Features/alert/alertSlice";
+import DeleteAccountModal from "./modals/DeleteAccountModal";
 
 const Screen: React.FC = () => {
 	const dispatch = useDispatch();
@@ -153,6 +154,7 @@ const Screen: React.FC = () => {
 								<InputField
 									type="text"
 									value={fullname}
+									readOnly
 									onChange={(e: any) => setFullname(e.target.value)}
 								/>
 							</label>
@@ -164,6 +166,7 @@ const Screen: React.FC = () => {
 								Phone Number
 								<InputField
 									type="text"
+									readOnly
 									value={phone}
 									onChange={(e: any) => setPhone(e.target.value)}
 								/>
@@ -269,7 +272,7 @@ const Screen: React.FC = () => {
 									className="deactivate-button"
 									onClick={() => dispatch(showModal("deleteAccount"))}
 								>
-									Deactivate
+									Delete
 								</Button>
 							</div>
 							<p>
@@ -318,7 +321,13 @@ const Profile = () => {
 			isLoading={!me}
 			showModal={activeModal}
 			navMode="noSearch"
-			popUpContent={<LogoutModal />}
+			popUpContent={
+				activeModal === "deleteAccount" ? (
+					<DeleteAccountModal />
+				) : (
+					<LogoutModal />
+				)
+			}
 			modalWidth={500}
 		/>
 	);

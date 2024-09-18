@@ -1,4 +1,5 @@
 import { jwtDecode } from "jwt-decode";
+import moment from "moment";
 import * as pdfjs from "pdfjs-dist";
 import "pdfjs-dist/build/pdf.worker.min.mjs"; // Ensure this imports the correct worker for the installed version
 
@@ -387,5 +388,19 @@ export const generatePdfThumbnail = async (arrayBuffer: ArrayBuffer) => {
 		return thumbnailUrl;
 	} catch (error) {
 		console.error("Error rendering PDF page:", error);
+	}
+};
+
+
+export const formatMessageDate = (date: string | Date) => {
+	const messageDate = moment(date); // Parse the given date
+	const today = moment(); // Get today's date
+
+	if (messageDate.isSame(today, 'day')) {
+		return 'Today';
+	} else if (messageDate.isSame(today.subtract(1, 'day'), 'day')) {
+		return 'Yesterday';
+	} else {
+		return messageDate.fromNow(); // Returns something like '2 days ago'
 	}
 };

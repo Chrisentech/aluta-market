@@ -320,7 +320,9 @@ const DesktopNavbar: React.FC<{ scrolled: boolean; mode?: string }> = ({
 										<img src={profileIcon} alt="..." />
 										<label>Profile</label>
 									</IconWrapper>
-									<IconWrapper onClick={() => nav(ROUTE.MESSAGING + "/1")}>
+									<IconWrapper
+										onClick={() => nav(ROUTE.MESSAGING + "/" + me?.id)}
+									>
 										{message > 0 && (
 											<Badge
 												count={

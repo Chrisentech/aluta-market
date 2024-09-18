@@ -16,6 +16,7 @@ import {
 	UPDATE_MY_STORE,
 	UPDATE_ORDER,
 	UPDATE_STORE_FOLLOWERSHIP,
+	WITHDRAW_FUND
 } from "../../Services/graphql/store";
 import { alertError, alertSuccess } from "../alert/alertSlice";
 import { setLoading, setNotLoading } from "../loading/loadingSlice";
@@ -26,9 +27,7 @@ export default function useStore() {
 	const mystore = useSelector(selectStore);
 	const sellerStore = useSelector(selectSellerStore)
 
-	const setMaintenanceMode = (mode: boolean) => {
-		dispatch(actions.setMaintenanceMode(mode));
-	};
+
 	const getMyStores = async (filter?: any) => {
 		dispatch(setLoading());
 		try {
@@ -87,6 +86,10 @@ export default function useStore() {
 		}
 
 	};
+	const setMaintenanceMode = async (mode: boolean) => {
+		await updateStore({ status: mode })
+		dispatch(actions.setMaintenanceMode(mode));
+	};
 
 	const updateStoreFollowership = async (input: any) => {
 		try {
@@ -110,6 +113,18 @@ export default function useStore() {
 			throw new Error(error?.message);
 		}
 	};
+	const widthdrawFund = async (input: any) => {
+		try {
+			const response = await apolloClient.mutate({
+				mutation: WITHDRAW_FUND,
+				variables: { input },
+			});
+			dispatch(alertSuccess(response));
+		} catch (error: any) {
+			console.log(error)
+			throw new Error(error?.message);
+		}
+	};
 	return {
 		maintenanceMode,
 		setMaintenanceMode,
@@ -123,5 +138,6 @@ export default function useStore() {
 		updateStore,
 		updateOrders,
 		updateStoreFollowership,
+		widthdrawFund
 	};
 }

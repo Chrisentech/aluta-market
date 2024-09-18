@@ -1,13 +1,14 @@
 import styled from "styled-components";
 
 export const FormContainer = styled.div<{ deleteAccount?: boolean }>`
-	width: 100%;
-	height: ${({ deleteAccount }) => (deleteAccount ? "618px" : "468px")};
+	    width: calc(100% - 20px);
+	min-height: ${({ deleteAccount }) => (deleteAccount ? "618px" : "320px")};
 	display: flex;
 	flex-direction: column;
 	// align-items: center;
 	justify-content: center;
 	gap: 15px;
+	padding:10px;
 
 	h2 {
 		color: #000;
@@ -49,7 +50,7 @@ export const FormContainer = styled.div<{ deleteAccount?: boolean }>`
 export const CloseButton = styled.button`
 	position: absolute;
 	top: 30px;
-	right: 48px;
+	right: 20px;
 	background: transparent;
 	border: none;
 	font-size: 18px;

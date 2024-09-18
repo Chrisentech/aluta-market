@@ -29,6 +29,7 @@ const App: React.FC = () => {
 		window.addEventListener("offline", handleOfflineStatus);
 		if (isAuthenticated) {
 			getMe(parseInt(getCookie("user_id") || "0"));
+
 			dispatch(actions.setToken(getCookie("access_token")));
 		}
 		return () => {
@@ -43,7 +44,7 @@ const App: React.FC = () => {
 				clientId={import.meta.env.REACT_APP_GOOGLE_API_TOKEN as string}
 			>
 				<GlobalStyle />
-				{isOnline ? <Router /> : <Games />}
+				{true ? <Router /> : <Games />}
 			</GoogleOAuthProvider>
 		</>
 	);
