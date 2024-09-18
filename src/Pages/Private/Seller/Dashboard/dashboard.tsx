@@ -113,7 +113,7 @@ const Screen: React.FC = () => {
 			</div>
 			<div className="info">
 				<h3>Account Balance</h3>
-				<p>{store?.wallet >= 0 ? "N " + store?.wallet.toFixed(2) : "N0.00"}</p>
+				<p>{store?.wallet >= 0 ? "N " + store?.wallet?.toFixed(2) : "N0.00"}</p>
 			</div>
 		</GridItem>,
 		<GridItem background="#FF9017">
@@ -208,7 +208,7 @@ const Screen: React.FC = () => {
 								<BsCalendar />
 								<span>This year</span>
 							</Tracker>
-							<PriceTag>N {store?.wallet.toFixed(2)}</PriceTag>
+							<PriceTag>N {store?.wallet?.toFixed(2)}</PriceTag>
 							<Income>
 								<p>
 									Total Income <BsCaretUpFill />

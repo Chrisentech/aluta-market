@@ -77,12 +77,30 @@ export default function useStore() {
 		dispatch(actions.setStore(response.data.createStore));
 	};
 	const updateStore = async (input: any) => {
-		const response = await apolloClient.mutate({
-			mutation: UPDATE_MY_STORE,
-			variables: { input },
-		});
-		if (response.data.updateStore) {
-			dispatch(actions.setStore(response.data.updateStore));
+
+		try {
+			const response = await apolloClient.mutate({
+				mutation: UPDATE_MY_STORE,
+				variables: { input },
+			});
+
+			if (response.data.updateStore) {
+				// Or however you access your state
+
+				// Spread current state, then spread input to override any matching fields
+				const updatedStore = {
+					...mystore,
+					...input
+				};
+
+
+				// Dispatch the updated store
+				dispatch(actions.setStore(updatedStore));
+			}
+		} catch (e: any) {
+			console.log(e)
+
+			throw new Error(e)
 		}
 
 	};
