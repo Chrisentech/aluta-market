@@ -106,7 +106,6 @@ const Table: React.FC<ResponsiveTableProps> = ({
 		}
 		return row[accessor];
 	};
-
 	return (
 		<TableContainer className={className}>
 			<TableWrapper>
@@ -251,12 +250,15 @@ const Table: React.FC<ResponsiveTableProps> = ({
 																			: "rgb(255 21 18 / 91%)"
 																	}
 																	style={{
-																		cursor: item?.always_available
-																			? "not-allowed"
-																			: "pointer",
+																		cursor:
+																			item?.always_available ||
+																			item.quantity === 0
+																				? "not-allowed"
+																				: "pointer",
 																	}}
 																	onClick={() =>
-																		item?.always_available
+																		item?.always_available ||
+																		item.quantity === 0
 																			? null
 																			: handleToggleStatus(index)
 																	}
@@ -265,7 +267,17 @@ const Table: React.FC<ResponsiveTableProps> = ({
 																<MdToggleOff
 																	size="55px"
 																	color="#8b96a5"
-																	onClick={() => handleToggleStatus(index)}
+																	style={{
+																		cursor:
+																			item.quantity === 0
+																				? "not-allowed"
+																				: "pointer",
+																	}}
+																	onClick={() =>
+																		item.quantity === 0
+																			? null
+																			: handleToggleStatus(index)
+																	}
 																/>
 															)}
 														</>
