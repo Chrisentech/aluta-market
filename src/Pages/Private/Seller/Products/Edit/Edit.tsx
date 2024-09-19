@@ -22,7 +22,7 @@ import {
 	ColorVariantCard,
 	SubmitButton,
 	// ConditionVariantCard,
-} from "./createnew.styles";
+} from "./edit.styles";
 import {
 	AddProductImage,
 	Card,
@@ -36,7 +36,7 @@ import {
 	MdOutlineAddHomeWork,
 	MdOutlineCancel,
 } from "react-icons/md";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Formik, Form, useFormikContext, useField } from "formik";
 import * as yup from "yup";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -107,34 +107,41 @@ const variationValidationSchema = yup.object().shape({
 });
 
 const Screen: React.FC = () => {
+	const { id } = useParams();
+
 	const location = useLocation();
 	const dispatch = useDispatch();
 	const { getProducts } = useProducts();
+	const { state } = useLocation();
+	console.log(state);
 	const [files, setFiles] = useState<any | string[]>(
 		location.state?.fileData ?? []
 	); // Changed the type to string[] to hold Blob URLs
-	const [imageUrls, setImageUrls] = useState<string[]>([]);
+	const [imageUrls, setImageUrls] = useState<string[]>(state.image);
 	const [loading, setLoading] = useState(false);
 	const nav = useNavigate();
-	const [description, setDescription] = useState("");
-	const [productName, setProductName] = useState("");
-	const [productPrice, setProductPrice] = useState<number>(0);
-	const [discountedPrice, setDiscountedPrice] = useState(0);
-	const [quantity, setQuantity] = useState<number>(1);
+	const [description, setDescription] = useState(state.description);
+	const [productName, setProductName] = useState(state.name);
+	const [productPrice, setProductPrice] = useState<number>(state.price);
+	const [discountedPrice, setDiscountedPrice] = useState(state.discount);
+	const [quantity, setQuantity] = useState<number>(state.price);
 	const hiddenInputRef = useRef<HTMLInputElement | null>(null);
-	const { state } = useLocation();
 	const store = useSelector(selectStore);
 	const catalogue = useSelector(selectCatlogue);
-	const reduxCategory = useSelector(selectCategory);
 	const reduxCategories = useSelector(selectCategories);
 	const [imgLoading, setImgLoading] = useState(false);
 	const [thumbnail, setthumbnail] = useState<string | undefined>(
-		imageUrls[0] || catalogue?.thumbnail
+		state.thumbnail
+	);
+	const reduxCategory = reduxCategories?.find(
+		(category: any) => category.name === state.category
 	);
 
 	const [subCategory, setSubcategory] = useState(0);
 	const { createProduct, getCategories, getCategory } = useProducts();
-	const [alwaysAvailable, setAlwaysavailable] = useState(false);
+	const [alwaysAvailable, setAlwaysavailable] = useState(
+		state.always_available
+	);
 
 	const handleSelectCategory = async (name: string) => {
 		const cat = reduxCategories.find((el: any) => el.name === name);
@@ -223,7 +230,7 @@ const Screen: React.FC = () => {
 			thumbnail,
 			file: catalogue?.file ?? "",
 			quantity: alwaysAvailable ? 1 : quantity,
-			type: state?.type, //digital,physical or service
+			// type: state?.type, //digital,physical or service
 			always_available: alwaysAvailable,
 			store: store?.name,
 		};
@@ -375,7 +382,7 @@ const Screen: React.FC = () => {
 				<div className="badge">
 					<MdOutlineAddHomeWork size={30} />
 				</div>
-				<h3>Add {state?.type != "service" ? "Product" : "Service"}</h3>
+				<h3>Edit {state?.type != "service" ? "Product" : "Service"}</h3>
 				<Container>
 					<ImageWrapper>
 						{!!imageUrls.length &&
@@ -494,6 +501,7 @@ const Screen: React.FC = () => {
 										as="select"
 										id="selectedCategory"
 										name="category"
+										value={reduxCategory}
 										onChange={(e: any) => handleSelectCategory(e.target.value)}
 									>
 										<option value="" label="Select a category" />
@@ -553,6 +561,7 @@ const Screen: React.FC = () => {
 										theme="snow"
 										modules={modules}
 										formats={formats}
+										value={description}
 										placeholder={`Describe your ${
 											state?.type != "service" ? "product" : "service"
 										} to your customer`}
@@ -590,6 +599,7 @@ const Screen: React.FC = () => {
 										<CustomField
 											name="checkbox"
 											type="checkbox"
+											checked={alwaysAvailable}
 											onChange={() => setAlwaysavailable(!alwaysAvailable)}
 										/>
 										<span style={{ marginLeft: 5 }}>Always available</span>
@@ -686,7 +696,7 @@ const Screen: React.FC = () => {
 								{loading ? (
 									<Puff stroke={AppColors.brandOrange} strokeOpacity={0.125} />
 								) : (
-									`Publish ${state?.type != "service" ? "Product" : "Service"}`
+									`Edit ${state?.type != "service" ? "Product" : "Service"}`
 								)}
 							</SubmitButton>
 						</Form>

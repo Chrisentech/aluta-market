@@ -8,7 +8,7 @@ const PRODUCT_FIELDS = gql`
 		description
 		discount
 		image
-		# type
+		type
 		slug
 		quantity
 		status

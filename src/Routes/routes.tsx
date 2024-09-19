@@ -40,6 +40,7 @@ import {
 	BuyerReviewInner,
 	SellerProductReviews,
 	CreateInvoicePage,
+	EditProduct,
 } from "../Pages/Private";
 import useAuthentication from "../Shared/Hooks/useAuth";
 import { setRedirectPath } from "../Shared/Utils/helperFunctions";
@@ -219,6 +220,16 @@ const Router: React.FC = () => {
 							component={NewSellerProduct}
 							authRoute
 							route={ROUTE.SELLER_NEWPRODUCT}
+						/>
+					}
+				/>
+				<Route
+					path={ROUTE.SELLER_EDITPRODUCT + "/:id"}
+					element={
+						<PrivateRoute
+							component={EditProduct}
+							authRoute
+							route={ROUTE.SELLER_EDITPRODUCT + "/:id"}
 						/>
 					}
 				/>

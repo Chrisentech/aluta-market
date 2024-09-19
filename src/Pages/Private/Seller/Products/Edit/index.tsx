@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import Layout from "../../../../../Layouts";
-import { Wrapper } from "./createnew.styles";
+import { Wrapper } from "./edit.styles";
 import { Card } from "../../../../../Shared/Components";
 import { MdUpload, MdOutlineAddHomeWork } from "react-icons/md";
 import { useNavigate } from "react-router-dom";

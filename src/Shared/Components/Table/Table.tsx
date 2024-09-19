@@ -13,11 +13,12 @@ import { numberWithCommas } from "../../Utils/helperFunctions";
 import { useDispatch, useSelector } from "react-redux";
 import { showModal } from "../../../Features/modal/modalSlice";
 import useProducts from "../../../Features/products/productActions";
-import { AppColors } from "../../Constants";
+import { AppColors, ROUTE } from "../../Constants";
 import { alertError, alertSuccess } from "../../../Features/alert/alertSlice";
 import useStore from "../../../Features/store/storeAction";
 import { fetchMe } from "../../../Features/user/userSlice";
 import { FaRegSadCry } from "react-icons/fa"; // Import an icon for "No Data"
+import { useNavigate } from "react-router-dom";
 
 interface TableColumn {
 	header: string;
@@ -41,6 +42,7 @@ const Table: React.FC<ResponsiveTableProps> = ({
 	const { getMyStores, mystore } = useStore();
 	const me = useSelector(fetchMe);
 	const [copied, setCopied] = useState<boolean>(false);
+	const nav = useNavigate();
 
 	const handleCopy = async (text: string) => {
 		try {
@@ -222,7 +224,15 @@ const Table: React.FC<ResponsiveTableProps> = ({
 																	)
 																}
 															/>
-															<IoPencil size="21px" />
+															<IoPencil
+																size="21px"
+																onClick={() =>
+																	nav(
+																		ROUTE.SELLER_EDITPRODUCT + `/${item?.id}`,
+																		{ state: item }
+																	)
+																}
+															/>
 															<MdDeleteOutline
 																size="21px"
 																onClick={() => {

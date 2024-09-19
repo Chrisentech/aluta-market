@@ -85,6 +85,7 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 			currentPath === ROUTE.SELLER_PRODUCTS ||
 			currentPath === ROUTE.SELLER_ADDPRODUCT ||
 			currentPath === ROUTE.SELLER_NEWPRODUCT ||
+			currentPath.includes(ROUTE.SELLER_EDITPRODUCT) ||
 			currentPath === ROUTE.SELLER_PRODUCTTYPE
 		) {
 			setActive("catalog");

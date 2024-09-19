@@ -32,6 +32,7 @@ export const ROUTE = {
 	//Seller Routes
 	SELLER_NEWPRODUCT: "/seller/product/new",
 	SELLER_ADDPRODUCT: "/seller/product/add",
+	SELLER_EDITPRODUCT: "/seller/product/edit",
 	SELLER_DASHBOARD: "/seller/dashboard",
 	SELLER_CREATESTORE: "/seller/dashboard/create-store",
 	SELLER_PRODUCTS: "/seller/products/",

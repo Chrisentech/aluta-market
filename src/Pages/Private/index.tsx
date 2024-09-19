@@ -4,6 +4,7 @@ export { default as SellerDashboard } from "./Seller/Dashboard/dashboard";
 export { default as SellerProducts } from "./Seller/Products/Products";
 export { default as NewSellerProduct } from "./Seller/Products/New";
 export { default as AddNewProducts } from "./Seller/Products/New/CreateNew";
+export { default as EditProduct } from "./Seller/Products/Edit/Edit";
 export { default as SellerPayment } from "./Seller/Payment/Payment";
 export { default as ProductType } from "./Seller/Products/Selection";
 export { default as Cart } from "../Public/Cart/Cart";
