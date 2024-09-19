@@ -39,13 +39,13 @@ import DeleteAccountModal from "../Profile/modals/DeleteAccountModal";
 const Screen: React.FC = () => {
 	const dispatch = useDispatch();
 	const [activeTab, setActiveTab] = useState<1 | 2 | 3>(1);
-	const { maintenanceMode, setMaintenanceMode, updateStore } = useStore();
+	const { maintenanceMode, updateStore } = useStore();
 	const store = useSelector(selectStore);
 	// alert(JSON.stringify(store));
 	const thumbnailInputRef = useRef<HTMLInputElement>(null);
 	const profileImgInputRef = useRef<HTMLInputElement>(null);
 
-	const [isActive, setActive] = useState(store?.status ?? false);
+	const [_, setActive] = useState(store?.status ?? false);
 	const [thumbnail, setThumbnail] = useState<string | ArrayBuffer | null>(
 		store?.background || null
 	);

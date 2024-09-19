@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, View, Dropdown } from "../../../../../Shared/Components";
+import { Card, View } from "../../../../../Shared/Components";
 import { IoWalletOutline } from "react-icons/io5";
 import {
 	ErrorMessageWrapper,

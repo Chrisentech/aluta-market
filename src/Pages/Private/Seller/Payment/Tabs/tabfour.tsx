@@ -53,7 +53,7 @@ const WithdrawAccountTab: React.FC = () => {
 					account must be in your name
 				</div>
 
-				{store?.accounts?.map((account: any, i: number) => {
+				{store?.accounts?.map((_: any, i: number) => {
 					return (
 						<div className="account" key={i}>
 							<img src={myBank("Wema Bank")?.logo} alt="" width={30} />

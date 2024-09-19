@@ -18,7 +18,7 @@ import {
 	selectMyChats,
 } from "../../../../Features/user/userSlice";
 import { truncate } from "lodash";
-import { Puff } from "react-loading-icons";
+// import { Puff } from "react-loading-icons";
 import moment from "moment";
 import { formatMessageDate } from "../../../../Shared/Utils/helperFunctions";
 import { token } from "../../../../Services/graphql/apolloClient";
