@@ -42,7 +42,6 @@ export default function useProducts() {
 			},
 		});
 		const { __typename, ...rest } = response.data.Products;
-		console.log({ rest })
 		filter.store && !filter.type
 			? dispatch(actions.setMyProducts(rest))
 			: dispatch(actions.setProducts(response.data.Products.data));
