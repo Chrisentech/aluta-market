@@ -173,7 +173,8 @@ export default function useProducts() {
 	};
 
 	const updateProduct = async (input: any) => {
-		const { store, ...rest } = input;
+		const { store, ...rest } = input;  // Destructure input to separate the store, id, and other fields
+
 		try {
 			// Execute the mutation and wait for it to complete
 			await apolloClient.mutate({
@@ -181,8 +182,20 @@ export default function useProducts() {
 				variables: { input: rest },
 			});
 
-			// Now that the mutation has completed, call getProducts
-			await getProducts({ store: input.store, limit: 1000, offset: 0 });
+
+			// Find the product with the matching ID and update its fields
+			const updatedProducts = myproducts.map((product: any) => {
+				if (product.id === rest.id) {
+					// Spread the existing product and override the matching fields with `rest`
+					return { ...product, ...rest };
+				}
+				return product; // Return product unchanged if id doesn't match
+			});
+
+			// Optionally, you could update your store with the new array of products
+			dispatch(actions.setMyProducts(updatedProducts));
+
+			console.log("Product updated successfully and products list updated.");
 		} catch (error) {
 			console.error("Error updating product:", error);
 		}
