@@ -44,6 +44,7 @@ export const productSlice = createSlice({
 			state.products = action.payload;
 		},
 		setMyProducts: (state, action: PayloadAction<any>) => {
+
 			state.myproducts = action.payload;
 		},
 		setGadgetsProducts: (state, action: PayloadAction<any>) => {

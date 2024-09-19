@@ -94,7 +94,7 @@ const Table: React.FC<ResponsiveTableProps> = ({
 		} finally {
 			setToggling((prevState) => prevState.filter((el) => el !== id + 1));
 			setToggle((prevState) => prevState.filter((el) => el !== id));
-			// getMyStores({ user: me?.id, limit: 100, offset: 0 });
+			getMyStores({ user: me?.id, limit: 100, offset: 0 });
 		}
 	};
 

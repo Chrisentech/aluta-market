@@ -42,6 +42,7 @@ export default function useProducts() {
 			},
 		});
 		const { __typename, ...rest } = response.data.Products;
+		console.log({ rest })
 		filter.store && !filter.type
 			? dispatch(actions.setMyProducts(rest))
 			: dispatch(actions.setProducts(response.data.Products.data));
@@ -193,7 +194,7 @@ export default function useProducts() {
 			});
 
 			// Optionally, you could update your store with the new array of products
-			dispatch(actions.setMyProducts(updatedProducts));
+			dispatch(actions.setMyProducts({ data: updatedProducts }));
 
 			console.log("Product updated successfully and products list updated.");
 		} catch (error) {

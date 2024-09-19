@@ -147,7 +147,7 @@ const Screen: React.FC = () => {
 						/>
 					</div>
 				</div>
-				{data?.length > 0 ? (
+				{myproducts?.length > 0 ? (
 					<>
 						<Table data={data} columns={columns} />
 						{data?.length > 9 && (
@@ -178,10 +178,7 @@ const Screen: React.FC = () => {
 const Products = () => {
 	const activeModal = useSelector(selectActiveModal);
 	const { myproducts } = useProducts();
-	useEffect(() => {
-		// alert("hi");
-		console.log(navigator);
-	}, [myproducts]);
+
 	return (
 		<Layout
 			layout={"dashboard"}
