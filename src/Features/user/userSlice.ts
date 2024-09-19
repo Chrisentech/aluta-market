@@ -67,8 +67,8 @@ export const userSlice = createSlice({
 		setChats: (state, { payload }) => {
 			state.chats = { ...state.chats, payload };
 		},
-		logout: (state) => {
-			// state = null
+		logout: () => {
+			// state = nul
 		},
 	},
 });

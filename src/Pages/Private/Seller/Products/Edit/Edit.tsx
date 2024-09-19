@@ -52,7 +52,6 @@ import useProducts from "../../../../../Features/products/productActions";
 import {
 	// actions,
 	selectCategories,
-	selectCategory,
 	selectCatlogue,
 } from "../../../../../Features/products/productSlice";
 import Dropdown2 from "../../../../../Shared/Components/Dropdown/Dropdown2";
@@ -210,7 +209,7 @@ const Screen: React.FC = () => {
 
 	const handleSubmit = async () => {
 		setLoading(true);
-
+		console.log(id);
 		if (state?.type === "digital" && !catalogue?.file) {
 			dispatch(alertError("Please upload a file for digital products"));
 			setLoading(false);
