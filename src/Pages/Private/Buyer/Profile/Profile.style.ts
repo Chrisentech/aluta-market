@@ -95,7 +95,7 @@ display: inline-block;
                         input[type="date"] {
                             font-family: inter;
                             font-size: 12px;
-                            color: #BDC4CD;
+                            // color: #BDC4CD;
 
                             &::-webkit-calendar-picker-indicator {
                                 width: 24px;

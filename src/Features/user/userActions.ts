@@ -53,6 +53,7 @@ export default function useUsers() {
 	};
 
 	const updateUser = async (input: UpdateUserFormValues) => {
+
 		const response = await apolloClient.mutate({
 			mutation: UPDATE_MY_PROFILE,
 			variables: { input },

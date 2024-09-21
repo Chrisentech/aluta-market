@@ -32,7 +32,7 @@ const Screen: React.FC = () => {
 	const [fullname, setFullname] = useState(me?.fullname);
 	const [email, setEmail] = useState(me?.email);
 	const parsedPhone = me?.phone ? parseInt(me.phone) : 0;
-	const [phone, setPhone] = useState(filterNum(parsedPhone));
+	const [phone, setPhone] = useState<any>(filterNum(parsedPhone));
 	const [gender, setGender] = useState(me?.gender);
 	const [dob, setDob] = useState(me?.dob);
 	const [password, setPassword] = useState("");
@@ -96,14 +96,18 @@ const Screen: React.FC = () => {
 		e.preventDefault();
 		setLoading(true);
 		const payload = {
+			...me,
 			id: me?.id,
-			fullname: fullname?.trim() === me?.fullname?.trim() ? "" : fullname,
-			phone: phone === me?.phone?.trim() ? "" : phone,
-			gender: gender?.trim() === me?.gender?.trim() ? "" : gender,
-			dob: dob?.trim() === me?.dob?.trim() ? "" : dob,
-			password: password?.trim() === me?.password?.trim() ? "" : password,
-			avatar: profileImg === me?.avatar ? "" : profileImg,
+			fullname:
+				fullname?.trim() == me?.fullname?.trim() ? me?.fullname : fullname, // Return unchanged field or new value
+			phone: phone?.trim() == me?.phone?.trim() ? me?.phone : phone,
+			gender: gender?.trim() == me?.gender?.trim() ? me?.gender : gender,
+			dob: dob?.trim() == me?.dob?.trim() ? me?.dob : dob,
+			password:
+				password?.trim() == me?.password?.trim() ? me?.password : password,
+			avatar: profileImg == me?.avatar ? me?.avatar : profileImg,
 		};
+
 		try {
 			await updateUser(payload);
 			dispatch(alertSuccess("Update successful."));
@@ -236,7 +240,7 @@ const Screen: React.FC = () => {
 						<ProfileImage>
 							<input
 								type="file"
-								accept="image/png, image/jpg"
+								accept="image/png, image/jpg,image/jpeg"
 								ref={profileImgInputRef}
 								style={{ display: "none" }}
 								onChange={handleProfileImgChange}
@@ -285,7 +289,7 @@ const Screen: React.FC = () => {
 				<div className="foot">
 					<div className="buttons">
 						<Button
-							disabled={btnDisabeled || imgLoading}
+							disabled={btnDisabeled || imgLoading || loading}
 							background="#0D6EFD"
 							color="#fff"
 							loading={loading}
