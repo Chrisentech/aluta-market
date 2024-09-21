@@ -12,9 +12,13 @@ import {
 import { useSelector } from "react-redux";
 import { selectActiveModal } from "../../../../Features/modal/modalSlice";
 import { TabContent, TabOption, Tabs, Wrapper } from "./orders.styles";
-import { fetchMe } from "../../../../Features/user/userSlice";
+import { fetchMe, selectMode } from "../../../../Features/user/userSlice";
+import { selectLoadingState } from "../../../../Features/loading/loadingSlice";
 import useProducts from "../../../../Features/products/productActions";
 import { useNavigate } from "react-router-dom";
+import { MdToggleOff, MdToggleOn } from "react-icons/md";
+import { ROUTE } from "../../../../Shared/Constants";
+import useUsers from "../../../../Features/user/userActions";
 const Screen: React.FC = () => {
 	const [activeTab, setActiveTab] = useState<string>("open");
 	const me = useSelector(fetchMe);
@@ -23,6 +27,9 @@ const Screen: React.FC = () => {
 	isMobile = isMobile === "true" ? true : false;
 	const { getPurchasedData, purchasedOrders } = useProducts();
 	// console.log(purchasedOrders);
+	const { setMode } = useUsers();
+
+	const mode = useSelector(selectMode);
 
 	const getGridItems = (option: string) => {
 		let currentArray: any[] = [];
@@ -67,11 +74,44 @@ const Screen: React.FC = () => {
 	const isArrayEmpty = () => {
 		return getGridItems(activeTab).length === 0;
 	};
+	const handleToggleStatus = () => {
+		if (mode === "seller") {
+			setMode("buyer");
+			navigate(ROUTE.BUYER_ORDER);
+		} else {
+			setMode("seller");
+			navigate(ROUTE.SELLER_DASHBOARD);
+		}
+	};
 
 	return (
 		<Wrapper>
 			<div className="flex">
 				<h2>Purchased Orders</h2>
+				{me?.usertype === "seller" && (
+					<>
+						{mode === "buyer" ? (
+							<MdToggleOn
+								size="55px"
+								color={"rgb(255 21 18 / 91%)"}
+								title="switch to buyer dashboard"
+								style={{
+									cursor: "pointer",
+								}}
+								onClick={handleToggleStatus}
+							/>
+						) : (
+							<MdToggleOff
+								size="55px"
+								color={"rgb(255 21 18 / 91%)"}
+								style={{
+									cursor: "pointer",
+								}}
+								onClick={handleToggleStatus}
+							/>
+						)}
+					</>
+				)}
 			</div>
 			<Card className="main" width="100%">
 				<Tabs>
@@ -132,12 +172,14 @@ const Screen: React.FC = () => {
 
 const Orders = () => {
 	const activeModal = useSelector(selectActiveModal);
+	const { purchasedOrders } = useProducts();
+	const isLoading = useSelector(selectLoadingState);
 
 	return (
 		<Layout
 			layout={"dashboard"}
 			component={Screen}
-			isLoading={false}
+			isLoading={!purchasedOrders || isLoading}
 			showModal={activeModal}
 			popUpContent={
 				activeModal === "skynet" ? <SkynetModal /> : <LogoutModal />

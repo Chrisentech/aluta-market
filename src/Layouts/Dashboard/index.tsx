@@ -43,8 +43,9 @@ import {
 } from "../../assets";
 import useStore from "../../Features/store/storeAction";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMe } from "../../Features/user/userSlice";
+import { fetchMe, selectMode } from "../../Features/user/userSlice";
 import { showModal } from "../../Features/modal/modalSlice";
+import useUsers from "../../Features/user/userActions";
 // import useStore from "../../Features/store/storeAction";
 // import { useSelector } from "react-redux";
 interface IScreenProps {
@@ -57,14 +58,21 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 	const navigate = useNavigate();
 	const currentPath = location.pathname;
 	const me: any = useSelector(fetchMe);
+	const { setMode } = useUsers();
+	const mode = useSelector(selectMode);
+
 	const { getMyStores } = useStore();
 	const options = ["+ Create a new Store"];
 	const [active, setActive] = useState("");
 	const [selectedOption, setSelectedOption] = useState("null");
 	useEffect(() => {
-		me?.usertype === "seller" &&
-			getMyStores({ user: me?.id, limit: 100, offset: 0 });
+		if (!mode) {
+			setMode(me?.usertype);
+		}
 	}, [me]);
+	useEffect(() => {
+		mode == "seller" && getMyStores({ user: me?.id, limit: 100, offset: 0 });
+	}, [mode]);
 
 	const handleOptionClick = (option: string) => {
 		if (option === "+ Create a new Store") {
@@ -147,7 +155,7 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 	}, [currentPath]);
 	return (
 		<Wrapper>
-			{me?.usertype === "seller" ? (
+			{mode == "seller" ? (
 				<Sidebar>
 					<Dropdown
 						background="#eff2f4"

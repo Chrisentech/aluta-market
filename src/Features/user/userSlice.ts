@@ -4,6 +4,7 @@ import { ICartProps, IUserProps, IHandledProductProps } from "../../Interfaces";
 
 export interface UserState {
 	me: any;
+	mode: string; // to toggle usertype state
 	cart: ICartProps | null;
 	token: string | null;
 	skynet: any;
@@ -20,6 +21,7 @@ const initialState: UserState = {
 	me: null,
 	cart: null,
 	token: null,
+	mode: "",
 	messages: null,
 	chats: null,
 	wishlists: null,
@@ -70,6 +72,9 @@ export const userSlice = createSlice({
 		setMyDownloads: (state, { payload }) => {
 			state.me = { ...state.me, downloads: payload };
 		},
+		setMode: (state, { payload }) => {
+			state.mode = payload;
+		},
 		logout: () => {
 			// state = nul
 		},
@@ -106,6 +111,7 @@ export const selectPickupStation = (state: RootState) =>
 	state.user.pickUpStation;
 export const selectHomeDelivery = (state: RootState) => state.user.homeDelivery;
 export const selectMyChats = (state: RootState) => state.user.chats;
+export const selectMode = (state: RootState) => state.user.mode;
 
 // Export user reducer
 export default userSlice.reducer;

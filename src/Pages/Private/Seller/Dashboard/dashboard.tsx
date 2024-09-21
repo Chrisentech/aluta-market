@@ -29,6 +29,8 @@ import { IoIosCheckmarkCircle } from "react-icons/io";
 import { documentCopy, noOrder, noProduct } from "../../../../assets";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { selectLoadingState } from "../../../../Features/loading/loadingSlice";
+
 import { selectActiveModal } from "../../../../Features/modal/modalSlice";
 import {
 	selectStore,
@@ -38,7 +40,7 @@ import { ROUTE } from "../../../../Shared/Constants";
 import { OrderCard } from "../Orders/orders.styles";
 import { selectMyProducts } from "../../../../Features/products/productSlice";
 import useProducts from "../../../../Features/products/productActions";
-import { fetchMe } from "../../../../Features/user/userSlice";
+import { fetchMe, selectMode } from "../../../../Features/user/userSlice";
 import useUsers from "../../../../Features/user/userActions";
 import { alertSuccess } from "../../../../Features/alert/alertSlice";
 import { FaCheck } from "react-icons/fa";
@@ -47,6 +49,7 @@ import {
 	formatCurrency,
 	truncateText,
 } from "../../../../Shared/Utils/helperFunctions";
+import { MdToggleOff, MdToggleOn } from "react-icons/md";
 const { Charts, Pie } = Visuals;
 
 const Screen: React.FC = () => {
@@ -55,9 +58,19 @@ const Screen: React.FC = () => {
 	const nav = useNavigate();
 	const products = useSelector(selectMyProducts);
 	const { getProducts } = useProducts();
-	const { getDva } = useUsers();
+	const { getDva, setMode } = useUsers();
 	let isMobile: any = localStorage.getItem("isMobile") ?? "";
 	const [copied, setCopied] = useState<boolean>(false);
+	const mode = useSelector(selectMode);
+	const handleToggleStatus = () => {
+		if (mode === "seller") {
+			setMode("buyer");
+			nav(ROUTE.BUYER_ORDER);
+		} else {
+			setMode("seller");
+			nav(ROUTE.SELLER_DASHBOARD);
+		}
+	};
 
 	const dispatch = useDispatch();
 	const handleCopy = async (text: string) => {
@@ -180,7 +193,40 @@ const Screen: React.FC = () => {
 	];
 	return (
 		<Wrapper>
-			<h2>Seller Dashboard</h2>
+			<div
+				style={{
+					display: "flex",
+					width: "100%",
+					justifyContent: "space-between",
+					alignItems: "center",
+				}}
+			>
+				<h2>Seller Dashboard</h2>
+				{me?.usertype === "seller" && (
+					<>
+						{mode === "buyer" ? (
+							<MdToggleOn
+								size="55px"
+								color={"rgb(255 21 18 / 91%)"}
+								title="switch to buyer dashboard"
+								style={{
+									cursor: "pointer",
+								}}
+								onClick={handleToggleStatus}
+							/>
+						) : (
+							<MdToggleOff
+								size="55px"
+								color={"rgb(255 21 18 / 91%)"}
+								style={{
+									cursor: "pointer",
+								}}
+								onClick={handleToggleStatus}
+							/>
+						)}
+					</>
+				)}
+			</div>
 			<View
 				mode="grid"
 				gridItems={gridItem}
@@ -347,12 +393,12 @@ const Screen: React.FC = () => {
 const Dashboard = () => {
 	const stores = useSelector(selectStores);
 	const activeModal = useSelector(selectActiveModal);
-
+	const isLoading = useSelector(selectLoadingState);
 	return (
 		<Layout
 			layout="dashboard"
 			component={Screen}
-			isLoading={stores.length === 0}
+			isLoading={stores.length === 0 || isLoading}
 			showModal={activeModal}
 			popUpContent={<LogoutModal />}
 			navMode="noSearch"

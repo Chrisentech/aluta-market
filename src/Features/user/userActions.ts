@@ -29,6 +29,7 @@ import {
 import { actions, fetchMe, fetchWishlists } from "./userSlice";
 import { setCookie } from "../../Shared/Utils/helperFunctions";
 import { CREATE_CHATLIST, MY_CHATS, SEND_MESSAGE } from "../../Services/graphql/messages";
+import { setLoading, setNotLoading } from "../loading/loadingSlice";
 
 export default function useUsers() {
 	const dispatch = useDispatch();
@@ -279,6 +280,17 @@ export default function useUsers() {
 			throw e.message
 		}
 	}
+	const setMode = async (mode: string) => {
+		try {
+			dispatch(setLoading())
+			dispatch(actions.setMode(mode))
+		} catch (error) {
+
+		} finally {
+			dispatch(setNotLoading())
+
+		}
+	}
 
 	const getMyDownloads = async (id: any) => {
 		try {
@@ -309,7 +321,7 @@ export default function useUsers() {
 		getDva,
 		getChats,
 		wishlists,
-		createChat,
+		createChat, setMode,
 		checkStoreName,
 		sendResetPasswordLink,
 		verifyResetPasswordLink,
