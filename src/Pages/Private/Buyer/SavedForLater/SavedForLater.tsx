@@ -21,12 +21,14 @@ import {
 import Modal from "./modal";
 import useCart from "../../../../Features/cart/cartAction";
 import { alertSuccess } from "../../../../Features/alert/alertSlice";
+import { useNavigate } from "react-router-dom";
 
 const Screen: React.FC = () => {
 	const { getWishlist, wishlists, removeFromWishlist } = useUsers();
 	const { modifyCart } = useCart();
 	const me: any = useSelector(fetchMe);
 	const dispatch = useDispatch();
+	const nav = useNavigate();
 
 	// const itemNames = cart?.items
 	// 	? new Set(cart?.items.map((item) => item.product?.name))
@@ -134,7 +136,7 @@ const Screen: React.FC = () => {
 					>
 						<img src={noProduct} alt="no_product" width={100} />
 						<p style={{ marginBottom: 10 }}>You haven't saved any items yet.</p>
-						<Button color="#fff" background="#FF9017">
+						<Button color="#fff" background="#FF9017" onClick={() => nav("/")}>
 							<span>Start Shopping</span>
 						</Button>
 					</div>

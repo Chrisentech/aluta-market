@@ -28,7 +28,7 @@ const Screen: React.FC = () => {
 	const dispatch = useDispatch();
 
 	const me: any = useSelector(fetchMe);
-	const { updateUser } = useUsers();
+	const { updateUser, confirmPassword } = useUsers();
 	const [fullname, setFullname] = useState(me?.fullname);
 	const [email, setEmail] = useState(me?.email);
 	const parsedPhone = me?.phone ? parseInt(me.phone) : 0;
@@ -36,6 +36,7 @@ const Screen: React.FC = () => {
 	const [gender, setGender] = useState(me?.gender);
 	const [dob, setDob] = useState(me?.dob);
 	const [password, setPassword] = useState("");
+	const [password2, setPassword2] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [showPasswordField, setShowPasswordField] = useState(false);
 	const [imgLoading, setImgLoading] = useState(false);
@@ -44,13 +45,14 @@ const Screen: React.FC = () => {
 		me?.avatar || null
 	);
 	const profileImgInputRef = useRef<HTMLInputElement>(null);
-
+	// console.log(me);
 	useEffect(() => {
 		setFullname(me?.fullname);
 		setEmail(me?.email);
 		setPhone(filterNum(parsedPhone));
 		setGender(me?.gender);
 		setDob(me?.dob);
+		setProfileImg(me?.avatar);
 	}, [me?.fullname]);
 	// Changes to make button disabled
 	useEffect(() => {
@@ -59,13 +61,14 @@ const Screen: React.FC = () => {
 			phone === filterNum(me?.phone?.trim()) &&
 			gender?.trim() === me?.gender?.trim() &&
 			dob?.trim() === me?.dob?.trim() &&
-			profileImg === me?.avatar
+			profileImg === me?.avatar &&
+			password === ""
 		) {
 			setBtnDisabled(true);
 		} else {
 			setBtnDisabled(false);
 		}
-	}, [fullname, phone, gender, dob, profileImg, me]);
+	}, [fullname, phone, gender, password, dob, profileImg, me]);
 	const handleProfileImgChange = async (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
@@ -94,13 +97,12 @@ const Screen: React.FC = () => {
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
 		setLoading(true);
-		// console.log(fullname?.trim(), me?.fullname?.trim());
-		console.log(profileImg);
+
 		const payload = {
 			...me,
 			id: me?.id,
 			fullname:
-				fullname?.trim() == me?.fullname?.trim() ? me?.fullname : fullname, // Return unchanged field or new value
+				fullname?.trim() == me?.fullname?.trim() ? me?.fullname : fullname,
 			phone: phone?.trim() == me?.phone?.trim() ? me?.phone : phone,
 			gender: gender?.trim() == me?.gender?.trim() ? me?.gender : gender,
 			dob: dob?.trim() == me?.dob?.trim() ? me?.dob : dob,
@@ -109,43 +111,38 @@ const Screen: React.FC = () => {
 			avatar: profileImg === me?.avatar ? me?.avatar : profileImg,
 		};
 
-		try {
-			await updateUser(payload);
-			dispatch(alertSuccess("Update successful."));
-			setBtnDisabled(true);
+		if (password === password2) {
+			try {
+				if (password) {
+					await confirmPassword({ userId: me?.id, password });
+				}
+				await updateUser(payload); // Uncomment this if you need to update the user
+				dispatch(alertSuccess("Update successful."));
+				setBtnDisabled(true);
+			} catch (error: any) {
+				setLoading(false);
+				const err = JSON.parse(error ?? '{message:"internal error"}');
+				console.error(error); // Log the full error for debugging
+
+				// Handle GraphQL Errors, Network Errors, etc.
+				if (error.graphQLErrors) {
+					dispatch(alertError("GraphQL error occurred."));
+				} else if (error.networkError) {
+					dispatch(alertError("Network error occurred."));
+				} else {
+					dispatch(alertError(`An unexpected error occurred.-${err?.message}`));
+				}
+			} finally {
+				setLoading(false); // Ensure loading is turned off after the try-catch
+			}
+		} else {
+			dispatch(alertError("Passwords do not match."));
+			setPassword("");
+			setPassword2("");
 			setLoading(false);
-		} catch (error: any) {
-			setLoading(false);
-			if (error.graphQLErrors && error.graphQLErrors.length > 0) {
-				for (let index = 0; index < error.graphQLErrors.length; index++) {
-					dispatch(
-						alertError(JSON.parse(error.graphQLErrors[index].message).message)
-					);
-				}
-			}
-			if (error.protocolErrors && error.protocolErrors.length > 0) {
-				for (let index = 0; index < error.protocolErrors.length; index++) {
-					dispatch(
-						alertError(JSON.parse(error.protocolErrors[index].message).message)
-					);
-				}
-			}
-			if (error.clientErrors && error.clientErrors.length > 0) {
-				for (let index = 0; index < error.clientErrors.length; index++) {
-					dispatch(
-						alertError(JSON.parse(error.clientErrors[index].message).message)
-					);
-				}
-			}
-			if (error.networkErrors && error.networkErrors.length > 0) {
-				for (let index = 0; index < error.networkErrors.length; index++) {
-					dispatch(
-						alertError(JSON.parse(error.networkErrors[index].message).message)
-					);
-				}
-			}
 		}
 	};
+
 	return (
 		<Wrapper>
 			<h1>My Profile</h1>
@@ -228,8 +225,8 @@ const Screen: React.FC = () => {
 										<div>
 											<InputField
 												type="password"
-												value={password}
-												onChange={(e) => setPassword(e.target.value)}
+												value={password2}
+												onChange={(e) => setPassword2(e.target.value)}
 											/>
 										</div>
 									</label>
@@ -324,12 +321,12 @@ const Screen: React.FC = () => {
 
 const Profile = () => {
 	const activeModal = useSelector(selectActiveModal);
-
+	const me = useSelector(fetchMe);
 	return (
 		<Layout
 			layout={"dashboard"}
 			component={Screen}
-			isLoading={false}
+			isLoading={!me}
 			showModal={activeModal}
 			navMode="noSearch"
 			popUpContent={

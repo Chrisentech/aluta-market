@@ -28,7 +28,7 @@ const Screen: React.FC = () => {
 	const dispatch = useDispatch();
 
 	const me: any = useSelector(fetchMe);
-	const { updateUser } = useUsers();
+	const { updateUser, confirmPassword } = useUsers();
 	const [fullname, setFullname] = useState(me?.fullname);
 	const [email, setEmail] = useState(me?.email);
 	const parsedPhone = me?.phone ? parseInt(me.phone) : 0;
@@ -36,6 +36,7 @@ const Screen: React.FC = () => {
 	const [gender, setGender] = useState(me?.gender);
 	const [dob, setDob] = useState(me?.dob);
 	const [password, setPassword] = useState("");
+	const [password2, setPassword2] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [showPasswordField, setShowPasswordField] = useState(false);
 	const [imgLoading, setImgLoading] = useState(false);
@@ -108,41 +109,35 @@ const Screen: React.FC = () => {
 			avatar: profileImg == me?.avatar ? me?.avatar : profileImg,
 		};
 
-		try {
-			await updateUser(payload);
-			dispatch(alertSuccess("Update successful."));
-			setBtnDisabled(true);
+		if (password === password2) {
+			try {
+				if (password) {
+					await confirmPassword({ userId: me?.id, password });
+				}
+				await updateUser(payload); // Uncomment this if you need to update the user
+				dispatch(alertSuccess("Update successful."));
+				setBtnDisabled(true);
+			} catch (error: any) {
+				setLoading(false);
+				const err = JSON.parse(error ?? '{message:"internal error"}');
+				console.error(error); // Log the full error for debugging
+
+				// Handle GraphQL Errors, Network Errors, etc.
+				if (error.graphQLErrors) {
+					dispatch(alertError("GraphQL error occurred."));
+				} else if (error.networkError) {
+					dispatch(alertError("Network error occurred."));
+				} else {
+					dispatch(alertError(`An unexpected error occurred.-${err?.message}`));
+				}
+			} finally {
+				setLoading(false); // Ensure loading is turned off after the try-catch
+			}
+		} else {
+			dispatch(alertError("Passwords do not match."));
+			setPassword("");
+			setPassword2("");
 			setLoading(false);
-		} catch (error: any) {
-			setLoading(false);
-			if (error.graphQLErrors && error.graphQLErrors.length > 0) {
-				for (let index = 0; index < error.graphQLErrors.length; index++) {
-					dispatch(
-						alertError(JSON.parse(error.graphQLErrors[index].message).message)
-					);
-				}
-			}
-			if (error.protocolErrors && error.protocolErrors.length > 0) {
-				for (let index = 0; index < error.protocolErrors.length; index++) {
-					dispatch(
-						alertError(JSON.parse(error.protocolErrors[index].message).message)
-					);
-				}
-			}
-			if (error.clientErrors && error.clientErrors.length > 0) {
-				for (let index = 0; index < error.clientErrors.length; index++) {
-					dispatch(
-						alertError(JSON.parse(error.clientErrors[index].message).message)
-					);
-				}
-			}
-			if (error.networkErrors && error.networkErrors.length > 0) {
-				for (let index = 0; index < error.networkErrors.length; index++) {
-					dispatch(
-						alertError(JSON.parse(error.networkErrors[index].message).message)
-					);
-				}
-			}
 		}
 	};
 	return (
@@ -220,7 +215,7 @@ const Screen: React.FC = () => {
 										<div>
 											<InputField
 												type="password"
-												value={password}
+												value={password2}
 												onChange={(e) => setPassword(e.target.value)}
 											/>
 										</div>

@@ -9,6 +9,7 @@ const USER_FIELDS = gql`
 		password
 		avatar
 		password
+		dob
 		phone
 		UUID
 		usertype

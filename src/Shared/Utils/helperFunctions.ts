@@ -259,7 +259,7 @@ export const getCapitalizedFirstLetter = (str: string): string => {
 };
 export const filterNum = (number: number | string): number | string => {
 	const numberStr = number?.toString();
-	console.log(numberStr);
+	// console.log(numberStr);
 	if (!numberStr) {
 		// If the number is empty, return it as is
 		return number;

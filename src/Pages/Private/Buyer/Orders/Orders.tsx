@@ -14,10 +14,11 @@ import { selectActiveModal } from "../../../../Features/modal/modalSlice";
 import { TabContent, TabOption, Tabs, Wrapper } from "./orders.styles";
 import { fetchMe } from "../../../../Features/user/userSlice";
 import useProducts from "../../../../Features/products/productActions";
+import { useNavigate } from "react-router-dom";
 const Screen: React.FC = () => {
 	const [activeTab, setActiveTab] = useState<string>("open");
 	const me = useSelector(fetchMe);
-
+	const navigate = useNavigate();
 	let isMobile: any = localStorage.getItem("isMobile") ?? "";
 	isMobile = isMobile === "true" ? true : false;
 	const { getPurchasedData, purchasedOrders } = useProducts();
@@ -103,7 +104,11 @@ const Screen: React.FC = () => {
 							<div className="text">
 								<p className="header">Empty Orders</p>
 								<p className="info">You have no {activeTab} orders</p>
-								<Button background="#FA3434" color="#fff">
+								<Button
+									background="#FA3434"
+									color="#fff"
+									onClick={() => navigate("/")}
+								>
 									Go to Market
 								</Button>
 							</div>
