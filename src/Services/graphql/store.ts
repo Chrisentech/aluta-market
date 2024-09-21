@@ -236,10 +236,10 @@ export const UPDATE_ORDER = gql`
 `;
 
 export const UPDATE_STORE_FOLLOWERSHIP = gql`
+${STORE_FIELDS}
 	mutation updateStoreFollower($input: StoreFollowerInput!) {
 		updateStoreFollower(input: $input) {
-			status
-			name
+			...StoreFields
 		}
 	}
 `;

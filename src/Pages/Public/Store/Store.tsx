@@ -32,14 +32,16 @@ import {
 } from "../../../Features/modal/modalSlice";
 import useUsers from "../../../Features/user/userActions";
 import { fetchMe } from "../../../Features/user/userSlice";
+import { alertError, alertSuccess } from "../../../Features/alert/alertSlice";
 // import { alertError } from "../../../Features/alert/alertSlice";
 
 const Screen: React.FC = () => {
 	const { id } = useParams();
-	const { getStoreByName, sellerStore, updateStore } = useStore();
+	const { getStoreByName, sellerStore, updateStore, updateStoreFollowership } =
+		useStore();
 	const { getProducts, myproducts } = useProducts();
 	const { createChat, updateUser } = useUsers();
-	// const [action, setAction] = useState("follow");
+	const [act, setAction] = useState("follow");
 	const me = useSelector(fetchMe);
 	const nav = useNavigate();
 	const [loading, setLoading] = useState("");
@@ -72,27 +74,32 @@ const Screen: React.FC = () => {
 			setLoading("");
 		}
 	};
-	console.log;
-	// const handleFollowStore = async () => {
-	// 	const payload = {
-	// 		follower_id: me?.id,
-	// 		follower_name: me?.fullname,
-	// 		follower_image: me?.avatar,
-	// 		store_id: sellerStore?.id,
-	// 		action,
-	// 	};
-	// 	if (!me?.id) {
-	// 		dispatch(alertError("Please Login First!!"));
-	// 		nav(ROUTE.LOGIN);
-	// 	} else {
-	// 		try {
-	// 			await updateStoreFollowership(payload);
-	// 		} catch (e: any) {
-	// 			console.log(e.message);
-	// 		} finally {
-	// 		}
-	// 	}
-	// };
+
+	const handleFollowStore: any = async (action: string) => {
+		setLoading("follow");
+
+		const payload = {
+			follower_id: me?.id,
+			follower_name: me?.fullname,
+			follower_image: me?.avatar,
+			store_id: sellerStore?.id,
+			action,
+		};
+		if (!me?.id) {
+			dispatch(alertError("Please Login First!!"));
+			nav(ROUTE.LOGIN);
+		} else {
+			try {
+				await updateStoreFollowership(payload);
+				dispatch(alertSuccess("Updated successfully"));
+				setAction(action);
+			} catch (e: any) {
+				console.log(e.message);
+			} finally {
+				setLoading("");
+			}
+		}
+	};
 
 	useEffect(() => {
 		const fetchStore = async () => {
@@ -107,7 +114,7 @@ const Screen: React.FC = () => {
 		return () => {
 			dispatch(closeModal("storeModal"));
 		};
-	}, [id]);
+	}, [id, act]);
 
 	useEffect(() => {
 		const checkAndSetUUID = async () => {
@@ -134,7 +141,6 @@ const Screen: React.FC = () => {
 				await updateStore({ id: sellerStore?.id, visitor: userID });
 			}
 		};
-		console.log(sellerStore?.visitors);
 		if (!sellerStore?.visitors.includes(userID)) {
 			updateStoreReq();
 		}
@@ -165,15 +171,43 @@ const Screen: React.FC = () => {
 						<h1>{sellerStore?.name?.toUpperCase()}</h1>
 						<p>{sellerStore?.description}</p>
 						<div className="buttons">
-							<Button
-								className="button"
-								width={117}
-								border="1px solid #FA3434 "
-								color="#FA3434"
-							>
-								<img src={profileAdd} />
-								Follow
-							</Button>
+							{!sellerStore?.followers?.some(
+								(follower: any) =>
+									follower.follower_id == me?.id ||
+									follower.follower_name == me?.fullname
+							) ? (
+								<Button
+									className="button"
+									width={117}
+									border="1px solid #FA3434 "
+									color="#FA3434"
+									disabled={loading === "follow"}
+									loading={loading === "follow"}
+									onClick={() => handleFollowStore("follow")}
+								>
+									<img
+										src={profileAdd}
+										style={{ display: loading === "follow" ? "none" : "" }}
+									/>
+									Follow
+								</Button>
+							) : (
+								<Button
+									className="button"
+									width={117}
+									border="1px solid #FA3434 "
+									color="#FA3434"
+									disabled={loading === "follow"}
+									loading={loading === "follow"}
+									onClick={() => handleFollowStore("unfollow")}
+								>
+									<img
+										src={profileAdd}
+										style={{ display: loading === "follow" ? "none" : "" }}
+									/>
+									Unfollow
+								</Button>
+							)}
 							<Button
 								className="button"
 								width={117}

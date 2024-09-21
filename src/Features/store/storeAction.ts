@@ -115,11 +115,39 @@ export default function useStore() {
 				mutation: UPDATE_STORE_FOLLOWERSHIP,
 				variables: { input },
 			});
-			dispatch(alertSuccess(response));
+
+			if (response.data.updateStoreFollower) {
+				let updatedStore;
+
+				// Ensure followers is an array, or default it to an empty array if null/undefined
+				const currentFollowers = sellerStore.followers ?? [];
+
+				if (input.action === 'follow') {
+					// Add new follower to the followers array
+					updatedStore = {
+						...sellerStore,
+						followers: [...currentFollowers, input], // Add new follower
+					};
+				} else if (input.action === 'unfollow') {
+					// Remove all followers with the same follower_name
+					updatedStore = {
+						...sellerStore,
+						followers: currentFollowers.filter(
+							(follower: any) => follower.follower_name !== input.follower_name
+						),
+					};
+				}
+
+				// Dispatch the updated store
+				dispatch(actions.setSellerStore(updatedStore));
+			}
 		} catch (error: any) {
 			throw new Error(error?.message);
 		}
 	};
+
+
+
 	const updateOrders = async (input: any) => {
 		try {
 			const response = await apolloClient.mutate({
