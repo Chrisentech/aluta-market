@@ -32,15 +32,14 @@ import {
 } from "../../../Features/modal/modalSlice";
 import useUsers from "../../../Features/user/userActions";
 import { fetchMe } from "../../../Features/user/userSlice";
-import { alertError } from "../../../Features/alert/alertSlice";
+// import { alertError } from "../../../Features/alert/alertSlice";
 
 const Screen: React.FC = () => {
 	const { id } = useParams();
-	const { getStoreByName, sellerStore, updateStoreFollowership, updateStore } =
-		useStore();
+	const { getStoreByName, sellerStore, updateStore } = useStore();
 	const { getProducts, myproducts } = useProducts();
 	const { createChat, updateUser } = useUsers();
-	const [action, setAction] = useState("follow");
+	// const [action, setAction] = useState("follow");
 	const me = useSelector(fetchMe);
 	const nav = useNavigate();
 	const [loading, setLoading] = useState("");
@@ -73,27 +72,27 @@ const Screen: React.FC = () => {
 			setLoading("");
 		}
 	};
-
-	const handleFollowStore = async () => {
-		const payload = {
-			follower_id: me?.id,
-			follower_name: me?.fullname,
-			follower_image: me?.avatar,
-			store_id: sellerStore?.id,
-			action,
-		};
-		if (!me?.id) {
-			dispatch(alertError("Please Login First!!"));
-			nav(ROUTE.LOGIN);
-		} else {
-			try {
-				await updateStoreFollowership(payload);
-			} catch (e: any) {
-				console.log(e.message);
-			} finally {
-			}
-		}
-	};
+	console.log;
+	// const handleFollowStore = async () => {
+	// 	const payload = {
+	// 		follower_id: me?.id,
+	// 		follower_name: me?.fullname,
+	// 		follower_image: me?.avatar,
+	// 		store_id: sellerStore?.id,
+	// 		action,
+	// 	};
+	// 	if (!me?.id) {
+	// 		dispatch(alertError("Please Login First!!"));
+	// 		nav(ROUTE.LOGIN);
+	// 	} else {
+	// 		try {
+	// 			await updateStoreFollowership(payload);
+	// 		} catch (e: any) {
+	// 			console.log(e.message);
+	// 		} finally {
+	// 		}
+	// 	}
+	// };
 
 	useEffect(() => {
 		const fetchStore = async () => {
@@ -111,18 +110,23 @@ const Screen: React.FC = () => {
 	}, [id]);
 
 	useEffect(() => {
-		let id = "";
-		const updatedUser = async (id: any) => {
+		const checkAndSetUUID = async () => {
+			let id = localStorage.getItem("uuid"); // Check localStorage first
+
+			// If UUID does not exist in localStorage, generate a new one
+			if (!id) {
+				id = generateUniqueId();
+				localStorage.setItem("uuid", id);
+			}
+
+			// If the user doesn't have a UUID in the store, update the user with the newly created or existing UUID
 			if (me && !me?.UUID) {
 				await updateUser({ id: me.id.toString(), UUID: id });
 			}
 		};
-		if (!userID) {
-			id = generateUniqueId();
-			localStorage.setItem("uuid", id);
-		}
-		updatedUser(userID);
-	}, []);
+
+		checkAndSetUUID(); // Call the function to handle the logic
+	}, [me]); // Only re-run when `me` changes
 
 	useEffect(() => {
 		const updateStoreReq = async () => {
@@ -130,7 +134,7 @@ const Screen: React.FC = () => {
 				await updateStore({ id: sellerStore?.id, visitor: userID });
 			}
 		};
-		// console.log(sellerStore?.visitors);
+		console.log(sellerStore?.visitors);
 		if (!sellerStore?.visitors.includes(userID)) {
 			updateStoreReq();
 		}
