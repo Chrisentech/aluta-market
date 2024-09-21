@@ -106,7 +106,10 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 			currentPath.includes(ROUTE.SELLER_ORDERS)
 		) {
 			setActive("orders");
-		} else if (currentPath === ROUTE.SELLER_STORESETTINGS) {
+		} else if (
+			currentPath === ROUTE.SELLER_STORESETTINGS ||
+			currentPath.includes(ROUTE.SELLER_CREATESTORE)
+		) {
 			setActive("settings");
 		} else if (
 			currentPath === ROUTE.SELLER_PROFILE ||
@@ -361,7 +364,7 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 								onClick={() => setActive("download")}
 								color="#0D6EFD"
 							>
-								<Link to="#">
+								<Link to={ROUTE.BUYER_DOWNLOAD}>
 									{active === "download" ? (
 										<img src={Download_Filled} />
 									) : (

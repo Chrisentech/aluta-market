@@ -67,6 +67,9 @@ export const userSlice = createSlice({
 		setChats: (state, { payload }) => {
 			state.chats = { ...state.chats, payload };
 		},
+		setMyDownloads: (state, { payload }) => {
+			state.me = { ...state.me, downloads: payload };
+		},
 		logout: () => {
 			// state = nul
 		},

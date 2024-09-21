@@ -22,4 +22,5 @@ export { default as SavedForLater } from "./Buyer/SavedForLater/SavedForLater";
 export { default as FollowedStores } from "./Buyer/FollowedStores/FollowedStores";
 export { default as BuyerReview } from "./Buyer/Review/Review";
 export { default as BuyerReviewInner } from "./Buyer/Review/page";
+export { default as DownloadPage } from "./Buyer/Downloads/Download";
 export { default as CreateInvoicePage } from "./Seller/Payment/createInvoice";

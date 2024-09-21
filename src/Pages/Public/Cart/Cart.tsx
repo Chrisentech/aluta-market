@@ -169,7 +169,7 @@ const Screen: React.FC = () => {
 																Variation: Sizes: M, Color: blue
 															</p>
 														)}
-														<p className="store-name" style={{ fontSize: 12 }}>
+														<p className="store-name" style={{ fontSize: 15 }}>
 															{lodash.capitalize(item?.product?.store)}
 														</p>
 													</div>
@@ -255,7 +255,6 @@ const Screen: React.FC = () => {
 									width="275px"
 									padding={9}
 									color="#FFF"
-									onClick={() => navigate("/")}
 								>
 									Go to Market
 								</Button>

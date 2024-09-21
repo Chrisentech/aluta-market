@@ -41,6 +41,7 @@ import {
 	SellerProductReviews,
 	CreateInvoicePage,
 	EditProduct,
+	DownloadPage,
 } from "../Pages/Private";
 import useAuthentication from "../Shared/Hooks/useAuth";
 import { setRedirectPath } from "../Shared/Utils/helperFunctions";
@@ -94,6 +95,16 @@ const Router: React.FC = () => {
 							component={BuyerProfile}
 							authRoute
 							route={ROUTE.BUYER_PROFILE}
+						/>
+					}
+				/>
+				<Route
+					path={ROUTE.BUYER_DOWNLOAD}
+					element={
+						<PrivateRoute
+							component={DownloadPage}
+							authRoute
+							route={ROUTE.BUYER_DOWNLOAD}
 						/>
 					}
 				/>

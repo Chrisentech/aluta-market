@@ -58,6 +58,7 @@ export interface IUserProps {
 	gender?: string;
 	dob?: string;
 	dva?: any;
+	downloads?: any;
 	online?: boolean;
 	paymnetDetails?: any;
 	active?: boolean;

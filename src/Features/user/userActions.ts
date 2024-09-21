@@ -24,6 +24,7 @@ import {
 	SEND_RESET_PASSWORD_LINK,
 	VERIFY_RESET_PASSWORD_LINK, CONFIRM_PASSWORD,
 	UPDATE_PASSWORD,
+	GET_MY_DOWNLOADS,
 } from "../../Services/graphql/users";
 import { actions, fetchMe, fetchWishlists } from "./userSlice";
 import { setCookie } from "../../Shared/Utils/helperFunctions";
@@ -279,6 +280,19 @@ export default function useUsers() {
 		}
 	}
 
+	const getMyDownloads = async (id: any) => {
+		try {
+			const res = await apolloClient.mutate({
+				mutation: GET_MY_DOWNLOADS,
+				variables: { id },
+			});
+			dispatch(actions.setMyDownloads(res.data.MyDownloads))
+		} catch (e: any) {
+			console.log(e)
+			throw e.message
+		}
+	}
+
 	return {
 		createUser,
 		loginUser,
@@ -301,6 +315,8 @@ export default function useUsers() {
 		verifyResetPasswordLink,
 		updateMyPassword,
 		sendMessage,
-		confirmPassword
+		confirmPassword,
+		getMyDownloads,
+		me
 	};
 }

@@ -26,7 +26,7 @@ export const ROUTE = {
 	BUYER_SAVED_ORDER: "/buyer/saved-order/",
 	BUYER_STORES_FOLLOWED: "/buyer/stores-followed/",
 	BUYER_PRODUCT_REVIEW: "/buyer/product-review/",
-	BUYER_DOWNLOAD: "/buyer/products-download/",
+	BUYER_DOWNLOAD: "/buyer/my-downloads/",
 	BUYER_PROFILE: "/buyer/profile/",
 
 	//Seller Routes

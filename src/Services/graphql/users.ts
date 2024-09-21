@@ -34,6 +34,20 @@ const USER_FIELDS = gql`
 	}
 `;
 
+const DOWNLOADS_FIELDS = gql`
+	fragment DownloadFields on Downloads {
+		id
+		thumbnail
+		price
+		name
+		discount
+		UUID
+		file
+		users
+		created_at
+	}
+`;
+
 const DVA_FIELDS = gql`
 	fragment DvaFields on Account {
 		customer {
@@ -267,5 +281,14 @@ export const UPDATE_PASSWORD = gql`
 export const CONFIRM_PASSWORD = gql`
 	mutation confirmPassword($input: confirmPasswordInput!) {
 		confirmPassword(input: $input)
+	}
+`;
+
+export const GET_MY_DOWNLOADS = gql`
+${DOWNLOADS_FIELDS}
+	query MyDownloads($id: String!) {
+		MyDownloads(id: $id){
+			...DownloadFields
+		}
 	}
 `;

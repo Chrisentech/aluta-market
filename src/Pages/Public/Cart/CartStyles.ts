@@ -361,7 +361,7 @@ export const ProductDescr = styled.div`
 		}
 	}
 	.store-name {
-		font-style: italic;
+		// font-style: italic;
 		@media (max-width: 890px) {
 			font-size: 12px;
 		}
