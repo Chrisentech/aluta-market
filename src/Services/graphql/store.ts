@@ -14,6 +14,7 @@ const STORE_FIELDS = gql`
 		status
 		has_physical_address
 		wallet
+		visitors
 		followers {
 			follower_id
 			follower_image
@@ -116,6 +117,7 @@ const PAGINATION_DATA = gql`
 			status
 			has_physical_address
 			wallet
+			visitors
 			followers {
 				follower_id
 				follower_image

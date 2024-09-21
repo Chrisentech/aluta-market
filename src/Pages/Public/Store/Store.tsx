@@ -32,12 +32,15 @@ import {
 } from "../../../Features/modal/modalSlice";
 import useUsers from "../../../Features/user/userActions";
 import { fetchMe } from "../../../Features/user/userSlice";
+import { alertError } from "../../../Features/alert/alertSlice";
 
 const Screen: React.FC = () => {
 	const { id } = useParams();
-	const { getStoreByName, sellerStore } = useStore();
+	const { getStoreByName, sellerStore, updateStoreFollowership, updateStore } =
+		useStore();
 	const { getProducts, myproducts } = useProducts();
 	const { createChat, updateUser } = useUsers();
+	const [action, setAction] = useState("follow");
 	const me = useSelector(fetchMe);
 	const nav = useNavigate();
 	const [loading, setLoading] = useState("");
@@ -71,6 +74,27 @@ const Screen: React.FC = () => {
 		}
 	};
 
+	const handleFollowStore = async () => {
+		const payload = {
+			follower_id: me?.id,
+			follower_name: me?.fullname,
+			follower_image: me?.avatar,
+			store_id: sellerStore?.id,
+			action,
+		};
+		if (!me?.id) {
+			dispatch(alertError("Please Login First!!"));
+			nav(ROUTE.LOGIN);
+		} else {
+			try {
+				await updateStoreFollowership(payload);
+			} catch (e: any) {
+				console.log(e.message);
+			} finally {
+			}
+		}
+	};
+
 	useEffect(() => {
 		const fetchStore = async () => {
 			try {
@@ -99,6 +123,18 @@ const Screen: React.FC = () => {
 		}
 		updatedUser(userID);
 	}, []);
+
+	useEffect(() => {
+		const updateStoreReq = async () => {
+			if (sellerStore?.id) {
+				await updateStore({ id: sellerStore?.id, visitor: userID });
+			}
+		};
+		// console.log(sellerStore?.visitors);
+		if (!sellerStore?.visitors.includes(userID)) {
+			updateStoreReq();
+		}
+	}, [userID]);
 
 	useEffect(() => {
 		const fetchProducts = async () => {
