@@ -4,12 +4,14 @@ import { MoneyIcon } from "../../../../../assets";
 import { Heading } from "../payment.styles";
 import { MdDeleteOutline } from "react-icons/md";
 import { IoAdd } from "react-icons/io5";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectStore } from "../../../../../Features/store/storeSlice";
+import { showModal } from "../../../../../Features/modal/modalSlice";
 
 const WithdrawAccountTab: React.FC = () => {
 	const [banks, setBanks] = useState<any>(null); // Type for banks array
 	const store = useSelector(selectStore);
+	const dispatch = useDispatch();
 	const fetchBank = async () => {
 		try {
 			const response = await fetch("https://nigerianbanks.xyz/");
@@ -69,7 +71,12 @@ const WithdrawAccountTab: React.FC = () => {
 					);
 				})}
 
-				<button disabled={store?.accounts?.length < 3} className="button">
+				<button
+					disabled={store?.accounts?.length < 3}
+					className="button"
+					type="button"
+					onClick={() => dispatch(showModal("create-account"))}
+				>
 					<IoAdd />
 					<span>Add Account</span>
 				</button>

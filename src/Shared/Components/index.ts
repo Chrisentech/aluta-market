@@ -33,6 +33,7 @@ import SkeletonLoader from "./SkeletonLoader/SkeletonLoader";
 import AddProductImage from "./AddProductImage/AddProductImage";
 import UploadModal from "./UploadModal/uploadModal";
 import PickupModal from "./PickupModal/Pickup";
+import AccountModal from "./AccountModal/accountmodal"
 export {
 	Loader,
 	Navbar,
@@ -70,4 +71,5 @@ export {
 	SkynetModal,
 	UploadModal,
 	PickupModal,
+	AccountModal
 };

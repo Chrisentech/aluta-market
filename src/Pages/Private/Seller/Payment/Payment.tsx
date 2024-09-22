@@ -4,7 +4,7 @@ import { Wrapper } from "./payment.styles";
 import AccountTab from "./Tabs/tabone";
 import TransactionTab from "./Tabs/tabtwo";
 import InvoiceTab from "./Tabs/tabthree";
-import { LogoutModal } from "../../../../Shared/Components";
+import { AccountModal, LogoutModal } from "../../../../Shared/Components";
 import { useSelector } from "react-redux";
 import { selectActiveModal } from "../../../../Features/modal/modalSlice";
 import { selectStores } from "../../../../Features/store/storeSlice";
@@ -73,7 +73,6 @@ const Screen: React.FC = () => {
 
 const Payment = () => {
 	const activeModal = useSelector(selectActiveModal);
-
 	const stores = useSelector(selectStores);
 
 	return (
@@ -82,7 +81,9 @@ const Payment = () => {
 			component={Screen}
 			isLoading={stores.length === 0}
 			showModal={activeModal}
-			popUpContent={<LogoutModal />}
+			popUpContent={
+				activeModal === "create-account" ? <AccountModal /> : <LogoutModal />
+			}
 			navMode="noSearch"
 		/>
 	);
