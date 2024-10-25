@@ -285,61 +285,73 @@ export const Suggestion = styled.div`
 `;
 
 export const HomeNavbar = styled.div<{ show: boolean }>`
+header{
+	width:calc(100vw - 20px);
+	top:0;
+	padding:10px ;
+	margin-bottom:10px;
+	position: fixed;
+	display:flex;
+	align-items: center;
+	justify-content: space-between;
+	background:white;
+	border-bottom: 1px solid #ccc;
+	left:0
+}
 	position: fixed;
 	top: 0;
 	left: 0;
-	width: calc(100% - 40px);
-	height: 80%;
+	width: calc(80% - 40px);
+	height: 100%;
 	z-index: 10000;
-	padding: 20px;
+	padding: 10px;
 	background-color: #ffffff;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	transition: transform 0.6s ease-in-out;
 	transform: ${(props: any) =>
-		props.show ? "translateY(0px)" : "translateY(-200vw)"};
+		props.show ? "translateX(0px)" : "translateX(-200vw)"};
 	svg,
 	img {
 		cursor: pointer;
 	}
 	.container {
-		display: flex;
+		// display: flex;
 		justify-content: center;
-		align-items: center;
-		min-height: 50%;
-		input {
-			outline: none;
-			padding: 12px;
-			width: 90%;
-			border-radius: 6px;
-			font-family: Inter;
-			font-size: 12px;
-			font-style: normal;
-			font-weight: 400;
-			line-height: normal;
-			color: ${AppColors.brandGray} !important;
-			&::placeholder {
-				color: var(--gray-500, #8b96a5);
-				font-family: Inter;
-				font-size: 16px;
-				font-style: normal;
-				font-weight: 400;
-				line-height: normal;
-			}
-		}
+		// align-items: center;
+		margin-top:50px;
+		// min-height: 50%;
+		
 		ul {
 			width: 100%;
+	        border-bottom: 1px solid #ccc;
+
 			li {
 				display: flex;
 				gap: 10px;
+				font-size:12px;
 				align-items: center;
-				justify-content: center;
 				cursor: pointer;
-				margin: 20px 0;
-				padding: 10px;
+				margin: 10px 0;
 				&:hover {
 					background: #ff000096;
 					color: #fff;
 				}
+			}
+		}
+
+		.dropdown-two{
+			margin:unset!important;
+			width: 100% !important;svg{
+				top:12px !important;
+			}
+			img{
+				width:20px !important;
+				height:20px !important;
+			}
+			li{
+				align-items:unset !important;
+				margin: unset !important;
+				padding:0 10px !important
 			}
 		}
 	}
