@@ -41,7 +41,7 @@ import {
 	userTag,
 	userTagUnfilled,
 } from "../../assets";
-import useStore from "../../Features/store/storeAction";
+// import useStore from "../../Features/store/storeAction";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMe, selectMode } from "../../Features/user/userSlice";
 import { showModal } from "../../Features/modal/modalSlice";
@@ -61,7 +61,7 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 	const { setMode } = useUsers();
 	const mode = useSelector(selectMode);
 
-	const { getMyStores } = useStore();
+	// const { getMyStores } = useStore();
 	const options = ["+ Create a new Store"];
 	const [active, setActive] = useState("");
 	const [selectedOption, setSelectedOption] = useState("null");
@@ -70,9 +70,9 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 			setMode(me?.usertype);
 		}
 	}, [me]);
-	useEffect(() => {
-		mode == "seller" && getMyStores({ user: me?.id, limit: 100, offset: 0 });
-	}, [mode]);
+	// useEffect(() => {
+	// // 	mode == "seller" && getMyStores({ user: me?.id, limit: 100, offset: 0 });
+	// // }, [mode]);
 
 	const handleOptionClick = (option: string) => {
 		if (option === "+ Create a new Store") {

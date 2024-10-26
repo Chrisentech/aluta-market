@@ -126,11 +126,11 @@ const SideBar: React.FC<{
 					{/* Seller Menu */}
 					{me?.usertype === "seller" && (
 						<ul>
-							<li>
+							<li onClick={() => navigate(ROUTE.SELLER_DASHBOARD)}>
 								<img src={dashboard} width={20} />
 								<span>Dashboard</span>
 							</li>
-							<li>
+							<li onClick={() => navigate(ROUTE.SELLER_PRODUCTS)}>
 								<svg
 									width="24"
 									height="25"
@@ -205,7 +205,7 @@ const SideBar: React.FC<{
 
 								<span>Catalog</span>
 							</li>
-							<li>
+							<li onClick={() => navigate(ROUTE.SELLER_ORDERS)}>
 								<svg
 									width="24"
 									height="25"
@@ -239,7 +239,7 @@ const SideBar: React.FC<{
 								</svg>
 								<span>Orders</span>
 							</li>
-							<li>
+							<li onClick={() => navigate(ROUTE.SELLER_PAYMENT)}>
 								<svg
 									width="24"
 									height="25"
@@ -272,7 +272,7 @@ const SideBar: React.FC<{
 
 								<span>Payments</span>
 							</li>
-							<li>
+							<li onClick={() => navigate(ROUTE.SELLER_REVIEWS)}>
 								<svg
 									width="24"
 									height="25"
@@ -300,7 +300,7 @@ const SideBar: React.FC<{
 								</svg>
 								<span>Reviews</span>
 							</li>
-							<li>
+							<li onClick={() => navigate(ROUTE.SELLER_STORESETTINGS)}>
 								<svg
 									width="21"
 									height="20"
@@ -335,7 +335,7 @@ const SideBar: React.FC<{
 
 					{me?.usertype === "buyer" && (
 						<ul>
-							<li>
+							<li onClick={() => navigate(ROUTE.BUYER_ORDER)}>
 								<svg
 									width="24"
 									height="24"
@@ -380,7 +380,7 @@ const SideBar: React.FC<{
 								</svg>
 								<span>My Orders</span>
 							</li>
-							<li>
+							<li onClick={() => navigate(ROUTE.BUYER_SAVED_ORDER)}>
 								<svg
 									width="24"
 									height="25"
@@ -400,7 +400,7 @@ const SideBar: React.FC<{
 								</svg>
 								<span>Saved For Later</span>
 							</li>
-							<li>
+							<li onClick={() => navigate(ROUTE.BUYER_STORES_FOLLOWED)}>
 								<svg
 									width="24"
 									height="25"
@@ -429,7 +429,7 @@ const SideBar: React.FC<{
 								</svg>
 								<span>Followed Stores</span>
 							</li>
-							<li>
+							<li onClick={() => navigate(ROUTE.BUYER_PRODUCT_REVIEW)}>
 								<svg
 									width="24"
 									height="25"
@@ -458,7 +458,7 @@ const SideBar: React.FC<{
 
 								<span>Rate and Review</span>
 							</li>
-							<li>
+							<li onClick={() => navigate(ROUTE.SELLER_CREATESTORE)}>
 								<svg
 									width="25"
 									height="25"
@@ -569,7 +569,7 @@ const SideBar: React.FC<{
 								</svg>
 								<span>Become a seller</span>
 							</li>
-							<li>
+							<li onClick={() => navigate(ROUTE.BUYER_DOWNLOAD)}>
 								<svg
 									width="24"
 									height="25"

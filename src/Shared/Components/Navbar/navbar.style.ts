@@ -328,13 +328,14 @@ header{
 			li {
 				display: flex;
 				gap: 10px;
-				font-size:12px;
+				font-size:14px;
 				align-items: center;
 				cursor: pointer;
 				margin: 10px 0;
+				padding:10;
 				&:hover {
-					background: #ff000096;
-					color: #fff;
+					background: #ccc;
+					color: #f00;
 				}
 			}
 		}
