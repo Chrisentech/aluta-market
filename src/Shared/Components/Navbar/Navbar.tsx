@@ -106,7 +106,7 @@ const SideBar: React.FC<{
 				</header>
 
 				<div className="container">
-					{me.usertype === "seller" && (
+					{me?.usertype === "seller" && (
 						<Dropdown
 							background="#eff2f4"
 							options={options}
