@@ -124,7 +124,7 @@ const SideBar: React.FC<{
 						<li>Help</li>
 					</ul>
 					{/* Seller Menu */}
-					{me.usertype === "seller" && (
+					{me?.usertype === "seller" && (
 						<ul>
 							<li>
 								<img src={dashboard} width={20} />
