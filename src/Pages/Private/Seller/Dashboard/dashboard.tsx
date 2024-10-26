@@ -197,6 +197,7 @@ const Screen: React.FC = () => {
 				style={{
 					display: "flex",
 					width: "100%",
+					marginTop: 10,
 					justifyContent: "space-between",
 					alignItems: "center",
 				}}

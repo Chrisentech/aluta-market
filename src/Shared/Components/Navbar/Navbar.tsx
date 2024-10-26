@@ -671,7 +671,7 @@ const MobileNavbar: React.FC<{ scrolled: boolean }> = ({ scrolled }) => {
 						{/* Hamburger menu to toggle the Sidebar */}
 						<GiHamburgerMenu size={20} onClick={handleToggleSidebar} />
 						<div className="logo">
-							<img width={"150"} src={logo} alt="logo" />
+							<img width={"100"} src={logo} alt="logo" />
 						</div>
 					</Flex>
 					<Flex>

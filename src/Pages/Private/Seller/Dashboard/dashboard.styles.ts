@@ -7,6 +7,7 @@ export const Wrapper = styled.div`
 	padding: 20px;
 	overflow-x: hidden;
 	@media (max-width: 780px) {
+		padding:5px;
 		.dash_grid {
 			grid-template-columns: unset !important;
 		}
