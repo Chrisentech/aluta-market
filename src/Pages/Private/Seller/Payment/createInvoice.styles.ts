@@ -10,6 +10,11 @@ export const Wrapper = styled.div`
 	// justify-content: center;
 	margin-top: 40px;
 	align-items: center;
+	padding-bottom:60px;
+	.buttbton{
+		margin-left:auto;
+		margin-top:10px
+	}
 	.tab_selectors{
 		    display: flex;
 			column-gap:40px;
@@ -64,7 +69,7 @@ export const FormControl = styled.div`
 	.delte {
 		position: absolute;
 		right: 20px;
-		top: 44px;
+		// top: 44px;
 		cursor: pointer;
 		transition: 0.5s ease;
 	}
@@ -93,7 +98,7 @@ export const Label = styled.label<{ checkbox?: boolean; small?: boolean }>`
 	}
 `;
 
-export const Input = styled(Field)<{ error?: boolean; type: string }>`
+export const Input = styled(Field) <{ error?: boolean; type: string }>`
 	width: ${(props) =>
 		props.type === "checkbox" ? "unset" : "calc(100% -  40px)"};
 	padding: 20px;
