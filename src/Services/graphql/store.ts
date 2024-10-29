@@ -147,6 +147,13 @@ const PAGINATION_DATA = gql`
 					product_id
 				}
 			}
+			accounts{
+				bank_code
+				bank_name
+				bank_image
+				account_number
+				account_name
+			}
 			orders {
 				store_id
 

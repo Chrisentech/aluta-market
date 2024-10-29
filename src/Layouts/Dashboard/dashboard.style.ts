@@ -74,7 +74,7 @@ export const SidebarMenuLinks = styled.li<{
 	width: 255px;
 	border-radius: ${({ hover }) => (hover ? `0` : "6px")};
 	padding: 10px 20px;
-	margin: 15px 5px 20px 20px;
+	margin: 5px 5px 5px 20px;
 	position: relative;
 	cursor: pointer;
 	font-family: inter;
@@ -101,7 +101,7 @@ export const SidebarMenuLinks = styled.li<{
 		font-size: 16px !important;
 		font-style: normal;
 		color: ${(props) =>
-			props.active ? "#505050 !important" : "#8b96a5 !important"};
+		props.active ? "#505050 !important" : "#8b96a5 !important"};
 		ul {
 			text-align: initial;
 			border: none;
@@ -113,7 +113,7 @@ export const SidebarMenuLinks = styled.li<{
 		transition: 0.5s ease;
 		font-size: 20px;
 		color: ${(props) =>
-			props.active ? "#505050 !important" : "#8b96a5 !important"};
+		props.active ? "#505050 !important" : "#8b96a5 !important"};
 	}
 	&:hover {
 		// border-right: ${({ color }) => (color ? "5px solid " + color : "unset")};
@@ -158,43 +158,43 @@ export const Select = styled.select`
 `;
 
 export const MenuTop = styled.div`
-	box-sizing: border-box;
-	position: relative;
-	width: 295px;
-	overflow-y: auto;
+  box-sizing: border-box;
+  position: relative;
+  width: 295px;
+  height: 100%; /* Fill the height of the parent */
+  overflow-y: auto;
 
-	&::-webkit-scrollbar {
-		display: none;
-		width: 7px;
-	}
+  &::-webkit-scrollbar {
+    display: none;
+    width: 7px;
+  }
 
-	&::-webkit-scrollbar-thumb {
-		background-color: #eff2f4;
-		border-radius: 6px;
-		transition: ease 0.4s;
-		&:hover {
-			background: #bdc4cd;
-		}
-	}
+  &::-webkit-scrollbar-thumb {
+    background-color: #eff2f4;
+    border-radius: 6px;
+    transition: ease 0.4s;
+    &:hover {
+      background: #bdc4cd;
+    }
+  }
 
-	&::-webkit-scrollbar-track {
-		background-color: #fff;
-	}
+  &::-webkit-scrollbar-track {
+    background-color: #fff;
+  }
 
-	&:hover {
-		&::-webkit-scrollbar {
-			display: block;
-		}
-	}
-
-	height: calc(100vh - 435px);
+  &:hover {
+    &::-webkit-scrollbar {
+      display: block;
+    }
+  }
 `;
+
 
 export const CustomLink = styled.div`
 	position: absolute;
 	background: #fff;
-	bottom: 0px;
-	padding-bottom: 130px;
+	bottom: 20px;
+	padding-bottom: 10px;
 	width: 100%;
 	// border-top: 1px solid #bdc4cd;
 	// margin: 0 30px;

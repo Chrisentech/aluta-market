@@ -40,11 +40,12 @@ export const Wrapper = styled.div`
 	.form{
 		width:400px;
 		margin:auto;
-		input{
+		input,select{
 		background:#F7FAFC}
 		@media(max-width:500px){
 			width:90%
 		}
+		select{width:100%}
 	}
 		.card4 .container{
 		width:400px;

@@ -16,13 +16,9 @@ const USER_FIELDS = gql`
 		stores {
 			link
 			name
-			user
+			thumbnail
+			background
 			description
-			address
-			has_physical_address
-			wallet
-			phone
-			status
 		}
 		online
 		paymnetDetails {

@@ -9,89 +9,47 @@ import {
 	SkynetModal,
 } from "../../../../Shared/Components";
 import { GridWrapper, ImgWrapper, Wrapper } from "./FollowedStores.styles";
+import { fetchMe } from "../../../../Features/user/userSlice";
+import { truncate } from "lodash";
+import { useNavigate } from "react-router-dom";
 
-interface IFollowedStoresProps {
-	hasStores: boolean;
-}
-const Screen: React.FC<IFollowedStoresProps> = ({ hasStores }) => {
+const Screen = () => {
+	const me = useSelector(fetchMe);
+	const nav = useNavigate();
+
 	return (
 		<Wrapper>
 			<h2>Followed Stores</h2>
 			<Card className="main" width="100%" height={600}>
-				{hasStores ? (
+				{me?.stores?.length > 0 ? (
 					<GridWrapper>
-						<div className="container">
-							<ImgWrapper>
-								<div className="avatar">
-									<div className="img"></div>
-								</div>
-							</ImgWrapper>
-							<h2>Arike Collections</h2>
-							<p>Sales of clothing materials for lorem...</p>
-							<Button background="#00B517" color="#fff">
-								View Store
-							</Button>
-						</div>
-						<div className="container">
-							<ImgWrapper>
-								<div className="avatar">
-									<div className="img"></div>
-								</div>
-							</ImgWrapper>
-							<h2>Arike Collections</h2>
-							<p>Sales of clothing materials for lorem...</p>
-							<Button background="#00B517" color="#fff">
-								View Store
-							</Button>
-						</div>
-						<div className="container">
-							<ImgWrapper>
-								<div className="avatar">
-									<div className="img"></div>
-								</div>
-							</ImgWrapper>
-							<h2>Arike Collections</h2>
-							<p>Sales of clothing materials for lorem...</p>
-							<Button background="#00B517" color="#fff">
-								View Store
-							</Button>
-						</div>
-						<div className="container">
-							<ImgWrapper>
-								<div className="avatar">
-									<div className="img"></div>
-								</div>
-							</ImgWrapper>
-							<h2>Arike Collections</h2>
-							<p>Sales of clothing materials for lorem...</p>
-							<Button background="#00B517" color="#fff">
-								View Store
-							</Button>
-						</div>
-						<div className="container">
-							<ImgWrapper>
-								<div className="avatar">
-									<div className="img"></div>
-								</div>
-							</ImgWrapper>
-							<h2>Arike Collections</h2>
-							<p>Sales of clothing materials for lorem...</p>
-							<Button background="#00B517" color="#fff">
-								View Store
-							</Button>
-						</div>
+						{me?.stores.map((store: any) => (
+							<div key={store.link} className="container">
+								<ImgWrapper img={store?.background} avatar={store?.thumbnail}>
+									<div className="avatar">
+										<div className="img"></div>
+									</div>
+								</ImgWrapper>
+								<h2>{store.name}</h2>
+								<p>{truncate(store.description || "", { length: 100 })}</p>
+								<Button
+									background="#00B517"
+									color="#fff"
+									onClick={() => nav(`/${store.link}`)}
+								>
+									View Store
+								</Button>
+							</div>
+						))}
 					</GridWrapper>
 				) : (
 					<div className="no_follow">
-						<img src={NoFollow} alt="" />
+						<img src={NoFollow} alt="No followed stores" />
 					</div>
 				)}
 			</Card>
 		</Wrapper>
 	);
-};
-Screen.defaultProps = {
-	hasStores: true,
 };
 
 const FollowedStores = () => {

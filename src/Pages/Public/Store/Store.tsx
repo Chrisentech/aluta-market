@@ -10,7 +10,7 @@ import {
 	Top,
 } from "./Store.styles";
 import Layout from "../../../Layouts";
-import { message, noCatalog2, profileAdd, ReportIcon } from "../../../assets";
+import { message, noCatalog2, ReportIcon } from "../../../assets";
 import { BsSearch } from "react-icons/bs";
 import { Button, View } from "../../../Shared/Components";
 import { useNavigate, useParams } from "react-router-dom";
@@ -25,6 +25,8 @@ import { ROUTE } from "../../../Shared/Constants";
 import { actions } from "../../../Features/store/storeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "../Login/login.styles";
+import { motion } from "framer-motion";
+
 import {
 	closeModal,
 	selectActiveModal,
@@ -33,7 +35,27 @@ import {
 import useUsers from "../../../Features/user/userActions";
 import { fetchMe } from "../../../Features/user/userSlice";
 import { alertError, alertSuccess } from "../../../Features/alert/alertSlice";
-// import { alertError } from "../../../Features/alert/alertSlice";
+import styled from "styled-components";
+
+const MaintenanceMessage = styled(motion.div)`
+	text-align: center;
+	padding: 20px;
+	background-color: #f8d7da;
+	color: #721c24;
+	border: 1px solid #f5c6cb;
+	border-radius: 5px;
+	margin: 20px auto;
+	width: 80%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	svg {
+		width: 100px;
+		height: 100px;
+		margin-bottom: 20px;
+	}
+`;
 
 const Screen: React.FC = () => {
 	const { id } = useParams();
@@ -41,65 +63,11 @@ const Screen: React.FC = () => {
 		useStore();
 	const { getProducts, myproducts } = useProducts();
 	const { createChat, updateUser } = useUsers();
-	const [act, setAction] = useState("follow");
 	const me = useSelector(fetchMe);
 	const nav = useNavigate();
-	const [loading, setLoading] = useState("");
 	const dispatch = useDispatch();
-	const userID = me?.UUID != "" ? me?.UUID : localStorage.getItem("uuid");
-
-	const handleMessage = async () => {
-		setLoading("message");
-		try {
-			//create a chat
-			const users = [
-				{
-					id: me?.id,
-					name: me?.fullname,
-					avatar: me?.avatar,
-				},
-				{
-					id: sellerStore?.user,
-					name: sellerStore?.name,
-					avatar: sellerStore?.thumbnail,
-				},
-			];
-			await createChat({ users });
-
-			//then go to messaging view
-			nav(ROUTE.MESSAGING + "/" + me?.id);
-		} catch (error: any) {
-			console.log(error.message);
-		} finally {
-			setLoading("");
-		}
-	};
-
-	const handleFollowStore: any = async (action: string) => {
-		setLoading("follow");
-
-		const payload = {
-			follower_id: me?.id,
-			follower_name: me?.fullname,
-			follower_image: me?.avatar,
-			store_id: sellerStore?.id,
-			action,
-		};
-		if (!me?.id) {
-			dispatch(alertError("Please Login First!!"));
-			nav(ROUTE.LOGIN);
-		} else {
-			try {
-				await updateStoreFollowership(payload);
-				dispatch(alertSuccess("Updated successfully"));
-				setAction(action);
-			} catch (e: any) {
-				console.log(e.message);
-			} finally {
-				setLoading("");
-			}
-		}
-	};
+	const [loading, setLoading] = useState("");
+	const userID = me?.UUID || localStorage.getItem("uuid");
 
 	useEffect(() => {
 		const fetchStore = async () => {
@@ -114,37 +82,30 @@ const Screen: React.FC = () => {
 		return () => {
 			dispatch(closeModal("storeModal"));
 		};
-	}, [id, act]);
+	}, [id]);
 
 	useEffect(() => {
 		const checkAndSetUUID = async () => {
-			let id = localStorage.getItem("uuid"); // Check localStorage first
-
-			// If UUID does not exist in localStorage, generate a new one
-			if (!id) {
-				id = generateUniqueId();
-				localStorage.setItem("uuid", id);
+			let uuid = localStorage.getItem("uuid");
+			if (!uuid) {
+				uuid = generateUniqueId();
+				localStorage.setItem("uuid", uuid);
 			}
-
-			// If the user doesn't have a UUID in the store, update the user with the newly created or existing UUID
 			if (me && !me?.UUID) {
-				await updateUser({ id: me.id.toString(), UUID: id });
+				await updateUser({ id: me.id.toString(), UUID: uuid });
 			}
 		};
-
-		checkAndSetUUID(); // Call the function to handle the logic
-	}, [me]); // Only re-run when `me` changes
+		checkAndSetUUID();
+	}, [me]);
 
 	useEffect(() => {
 		const updateStoreReq = async () => {
-			if (sellerStore?.id) {
+			if (sellerStore?.id && !sellerStore.visitors.includes(userID)) {
 				await updateStore({ id: sellerStore?.id, visitor: userID });
 			}
 		};
-		if (!sellerStore?.visitors.includes(userID)) {
-			updateStoreReq();
-		}
-	}, [userID]);
+		updateStoreReq();
+	}, [userID, sellerStore]);
 
 	useEffect(() => {
 		const fetchProducts = async () => {
@@ -152,14 +113,164 @@ const Screen: React.FC = () => {
 		};
 		fetchProducts();
 	}, [sellerStore]);
-	// alert(JSON.stringify(products));
+
+	const handleMessage = async () => {
+		setLoading("message");
+		try {
+			const users = [
+				{ id: me?.id, name: me?.fullname, avatar: me?.avatar },
+				{
+					id: sellerStore?.user,
+					name: sellerStore?.name,
+					avatar: sellerStore?.thumbnail,
+				},
+			];
+			await createChat({ users });
+			nav(ROUTE.MESSAGING + "/" + me?.id);
+		} catch (error: any) {
+			console.log(error.message);
+		} finally {
+			setLoading("");
+		}
+	};
+
+	const handleFollowStore = async (action: string) => {
+		setLoading("follow");
+		if (!me?.id) {
+			dispatch(alertError("Please Login First!!"));
+			nav(ROUTE.LOGIN);
+			return;
+		}
+		const payload = {
+			follower_id: me?.id,
+			follower_name: me?.fullname,
+			follower_image: me?.avatar,
+			store_id: sellerStore?.id,
+			action,
+		};
+		try {
+			await updateStoreFollowership(payload);
+			dispatch(alertSuccess("Updated successfully"));
+		} catch (error: any) {
+			console.log(error.message);
+		} finally {
+			setLoading("");
+		}
+	};
+
+	if (!sellerStore?.status)
+		return (
+			<Page>
+				<BackgroundPhoto
+					background={
+						sellerStore?.background ||
+						"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQLbvWGTFQh6OGWPfkLx2xBS_OP3oZJzQubA&s"
+					}
+				/>
+				<Container>
+					<div className="profile-image">
+						{getCapitalizedFirstLetter(sellerStore?.name) || "A"}
+					</div>
+					<ShopInfo>
+						<div className="title">
+							<h1>{sellerStore?.name?.toUpperCase()}</h1>
+							<p>{sellerStore?.description}</p>
+							<div className="buttons">
+								<Button
+									className="button"
+									width={117}
+									border="1px solid #FA3434 "
+									color="#FA3434"
+									disabled={loading === "follow"}
+									loading={loading === "follow"}
+									onClick={() =>
+										handleFollowStore(
+											sellerStore?.followers?.some(
+												(f: any) => f.follower_id == me?.id
+											)
+												? "unfollow"
+												: "follow"
+										)
+									}
+								>
+									{loading === "follow" ? (
+										<span>Loading...</span>
+									) : sellerStore?.followers?.some(
+											(f: any) => f.follower_id == me?.id
+									  ) ? (
+										"Unfollow"
+									) : (
+										"Follow"
+									)}
+								</Button>
+								<Button
+									className="button"
+									width={117}
+									disabled={loading === "message"}
+									loading={loading === "message"}
+									onClick={handleMessage}
+								>
+									{loading === "message" ? (
+										<span>Loading...</span>
+									) : (
+										<img src={message} />
+									)}
+									Message
+								</Button>
+								<Button
+									className="button"
+									width={117}
+									background="linear-gradient(180deg, #FF7612 0%, #FF001F 100%)"
+									color="#FFFFFF"
+								>
+									<ReportIcon />
+									Report
+								</Button>
+							</div>
+						</div>
+						<div className="contact-info">
+							<div className="contact">
+								<h2>Contact</h2>
+								<p>{sellerStore?.phone}</p>
+								<p>{sellerStore?.email}</p>
+							</div>
+							<div className="address">
+								<h2>Address</h2>
+								<p>{sellerStore?.address}</p>
+							</div>
+						</div>
+					</ShopInfo>
+					<MaintenanceMessage
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						transition={{ duration: 0.5 }}
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							strokeWidth={1.5}
+							stroke="currentColor"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="M12 4.5V3m0 0a9 9 0 11-9 9h1.5a7.5 7.5 0 107.5-7.5zm0 0a9 9 0 119 9h-1.5a7.5 7.5 0 00-7.5-7.5z"
+							/>
+						</svg>
+						<h2>Store is Currently in Maintenance Mode</h2>
+						<p>Please check back later.</p>
+					</MaintenanceMessage>
+				</Container>
+			</Page>
+		);
+
 	return (
 		<Page>
 			<BackgroundPhoto
 				background={
-					sellerStore?.background
-						? sellerStore?.background
-						: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQLbvWGTFQh6OGWPfkLx2xBS_OP3oZJzQubA&s"
+					sellerStore?.background ||
+					"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQLbvWGTFQh6OGWPfkLx2xBS_OP3oZJzQubA&s"
 				}
 			/>
 			<Container>
@@ -171,56 +282,45 @@ const Screen: React.FC = () => {
 						<h1>{sellerStore?.name?.toUpperCase()}</h1>
 						<p>{sellerStore?.description}</p>
 						<div className="buttons">
-							{!sellerStore?.followers?.some(
-								(follower: any) =>
-									follower.follower_id == me?.id ||
-									follower.follower_name == me?.fullname
-							) ? (
-								<Button
-									className="button"
-									width={117}
-									border="1px solid #FA3434 "
-									color="#FA3434"
-									disabled={loading === "follow"}
-									loading={loading === "follow"}
-									onClick={() => handleFollowStore("follow")}
-								>
-									<img
-										src={profileAdd}
-										style={{ display: loading === "follow" ? "none" : "" }}
-									/>
-									Follow
-								</Button>
-							) : (
-								<Button
-									className="button"
-									width={117}
-									border="1px solid #FA3434 "
-									color="#FA3434"
-									disabled={loading === "follow"}
-									loading={loading === "follow"}
-									onClick={() => handleFollowStore("unfollow")}
-								>
-									<img
-										src={profileAdd}
-										style={{ display: loading === "follow" ? "none" : "" }}
-									/>
-									Unfollow
-								</Button>
-							)}
 							<Button
 								className="button"
 								width={117}
 								border="1px solid #FA3434 "
 								color="#FA3434"
+								disabled={loading === "follow"}
+								loading={loading === "follow"}
+								onClick={() =>
+									handleFollowStore(
+										sellerStore?.followers?.some(
+											(f: any) => f.follower_id === me?.id
+										)
+											? "unfollow"
+											: "follow"
+									)
+								}
+							>
+								{loading === "follow" ? (
+									<span>Loading...</span>
+								) : sellerStore?.followers?.some(
+										(f: any) => f.follower_id === me?.id
+								  ) ? (
+									"Unfollow"
+								) : (
+									"Follow"
+								)}
+							</Button>
+							<Button
+								className="button"
+								width={117}
 								disabled={loading === "message"}
 								loading={loading === "message"}
 								onClick={handleMessage}
 							>
-								<img
-									src={message}
-									style={{ display: loading === "message" ? "none" : "" }}
-								/>
+								{loading === "message" ? (
+									<span>Loading...</span>
+								) : (
+									<img src={message} />
+								)}
 								Message
 							</Button>
 							<Button
@@ -249,7 +349,7 @@ const Screen: React.FC = () => {
 				<MainSection>
 					<Top>
 						<SearchTab>
-							<BsSearch className="icon">search</BsSearch>
+							<BsSearch className="icon" />
 							<input
 								type="text"
 								className="search-input"
@@ -261,9 +361,9 @@ const Screen: React.FC = () => {
 								<option value="" disabled selected hidden>
 									Category
 								</option>
-								{categories.map((category, i) => {
-									return <option key={i}>{category.title}</option>;
-								})}
+								{categories.map((category, i) => (
+									<option key={i}>{category.title}</option>
+								))}
 							</select>
 							<select name="sort">
 								<option value="" disabled selected hidden>

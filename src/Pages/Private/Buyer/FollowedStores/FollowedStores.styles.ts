@@ -75,14 +75,17 @@ export const GridWrapper = styled.div`
 	}
 `;
 
-export const ImgWrapper = styled.div`
+
+
+export const ImgWrapper = styled.div<{ avatar: string; img: string }>`
 	position: relative;
-	background: url(https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg)
-		no-repeat scroll 0 0;
+	background: url(${(props) => props.img}) no-repeat scroll 0 0;
 	background-size: cover;
 	width: 100%;
 	height: 150px;
 	margin-bottom: 27px;
+	border-radius:4px;
+
 	.avatar {
 		position: absolute;
 		width: 60px;
@@ -91,13 +94,15 @@ export const ImgWrapper = styled.div`
 		padding: 2px;
 		background: #fff;
 		top: 73%;
-		left: 40%;
+		left: 38%;
+
 		.img {
-			background: url(https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg)
-				no-repeat scroll 0 0;
+			background: url(${(props) => props.avatar}) no-repeat scroll 0 0;
 			height: 100%;
 			border-radius: 50%;
 			width: 100%;
+			background-size: cover; // Ensure the image covers the area
 		}
 	}
 `;
+

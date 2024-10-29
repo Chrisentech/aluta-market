@@ -6,7 +6,7 @@ import GlobalStyle from "./Shared/Globalstyles";
 import { Games } from "./Shared/Games";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import useUsers from "./Features/user/userActions";
-import { getCookie } from "./Shared/Utils/helperFunctions";
+import { generateUniqueId, getCookie } from "./Shared/Utils/helperFunctions";
 import { useDispatch, useSelector } from "react-redux";
 import { actions, fetchMe } from "./Features/user/userSlice";
 import useAuthentication from "./Shared/Hooks/useAuth";
@@ -16,7 +16,7 @@ const App: React.FC = () => {
 	const [isOnline, setIsOnline] = useState(true);
 	const { isAuthenticated } = useAuthentication();
 	const { getMyStores } = useStore();
-	const { getMe } = useUsers();
+	const { getMe, updateUser } = useUsers();
 	const me: any = useSelector(fetchMe);
 
 	const dispatch = useDispatch();
@@ -24,7 +24,19 @@ const App: React.FC = () => {
 	useEffect(() => {
 		me?.usertype == "seller" &&
 			getMyStores({ user: me?.id, limit: 100, offset: 0 });
+		const checkAndSetUUID = async () => {
+			let uuid = localStorage.getItem("uuid");
+			if (!uuid) {
+				uuid = generateUniqueId();
+				localStorage.setItem("uuid", uuid);
+			}
+			if (me && !me?.UUID) {
+				await updateUser({ id: me.id.toString(), UUID: uuid });
+			}
+		};
+		checkAndSetUUID();
 	}, [me]);
+
 	useEffect(() => {
 		const handleOnlineStatus = () => {
 			setIsOnline(true);

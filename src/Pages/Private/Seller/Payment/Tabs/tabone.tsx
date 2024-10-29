@@ -16,10 +16,15 @@ import * as yup from "yup";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Puff } from "react-loading-icons";
 import { AppColors } from "../../../../../Shared/Constants";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectStore } from "../../../../../Features/store/storeSlice";
 import { fetchMe } from "../../../../../Features/user/userSlice";
 import useUsers from "../../../../../Features/user/userActions";
+import {
+	alertError,
+	alertSuccess,
+} from "../../../../../Features/alert/alertSlice";
+import useStore from "../../../../../Features/store/storeAction";
 
 const initialValues: any = {
 	amount: "",
@@ -42,7 +47,9 @@ const AccountTab: React.FC = () => {
 	const [showPwd, setShowPwd] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const store = useSelector(selectStore);
-	const { getDva } = useUsers();
+	const { getDva, confirmPassword } = useUsers();
+	const { widthdrawFund } = useStore();
+	const dispatch = useDispatch();
 	const me: any = useSelector(fetchMe);
 	useEffect(() => {
 		const fetchDVA = async () => {
@@ -55,26 +62,38 @@ const AccountTab: React.FC = () => {
 	}, [me]);
 
 	const handleSubmit = async (values: any) => {
-		// Handle form submission here
+		setLoading(true); // Set loading state
+
 		let payload = {
 			...values,
-			store_id: store?.id,
-			user_id: me?.id,
+			store_id: parseInt(store?.id),
+			user_id: parseInt(me?.id),
 			email: me?.email,
-			// account_number
-			// bank_code:
+			account_number: values.account,
+			bank_code: store?.accounts?.find(
+				(el: any) => el.account_number === values.account
+			)?.bank_code,
 		};
-
-		console.log(payload);
+		const { account, password, ...rest } = payload;
 		try {
-			// Simulate API call
-			await new Promise((resolve) => setTimeout(resolve, 2000));
-			setLoading(false);
-			// Navigate to payment screen
-			// window.location.href = "/payment";
-		} catch (error) {
-			setLoading(false);
+			// Confirm Password first
+			await confirmPassword({
+				password: payload.password,
+				userId: payload.user_id,
+			});
+
+			// Proceed to hit withdraw fund API if password is confirmed
+			// Example of calling the withdraw API
+			await widthdrawFund(rest);
+			dispatch(alertSuccess("Withdrawal successful"));
+		} catch (error: any) {
+			// Set a general error message
+			dispatch(
+				alertError(JSON.parse(error.message).message || "An error occurred")
+			);
 			console.error("Error:", error);
+		} finally {
+			setLoading(false); // Reset loading state
 		}
 	};
 
@@ -110,6 +129,29 @@ const AccountTab: React.FC = () => {
 			)}
 		</GridItem>,
 	];
+	const CustomSelect: React.FC<{ name: string }> = ({ name }) => {
+		const [field, meta] = useField(name);
+		const inputHasError = meta.touched && Boolean(meta.error);
+
+		return (
+			<>
+				<Input as="select" {...field}>
+					<option label="Select withdrawal account" value="" disabled></option>
+					{store?.accounts?.map((account: any, i: number) => (
+						<option key={i} value={account.account_number}>
+							{account.account_number + " - " + account.bank_name}
+						</option>
+					))}
+				</Input>
+				{inputHasError && (
+					<div style={{ display: "flex", gap: 2, alignItems: "center" }}>
+						<ErrorIcon />
+						<ErrorMessageWrapper>{meta.error}</ErrorMessageWrapper>
+					</div>
+				)}
+			</>
+		);
+	};
 	return (
 		<div>
 			<div className="view_container">
@@ -136,33 +178,16 @@ const AccountTab: React.FC = () => {
 				<Formik
 					initialValues={initialValues}
 					onSubmit={handleSubmit}
-					validationSchema={validationSchema} // Specify the validation schema
+					validationSchema={validationSchema}
 				>
 					<Form className="form">
 						<FormControl>
 							<Label>Amount</Label>
-							<CustomField name="amount" type="select" />
+							<CustomField name="amount" type="number" />
 						</FormControl>
 						<FormControl>
 							<Label>Withdraw to</Label>
-							<Input
-								as="select"
-								name="account"
-								style={{ background: "#F7FAFC", width: "100%" }}
-								// onChange={(e: any) => handleSelectCategory(e.target.value)}
-							>
-								<option
-									label="Select withdrawal account"
-									disabled
-									selected
-								></option>
-								<option value="">
-									<p>2092138348 - UBA</p>
-								</option>
-								<option value="">
-									<p>9126669941 - OPAY</p>
-								</option>
-							</Input>
+							<CustomSelect name="account" />
 						</FormControl>
 						<FormControl>
 							<Label>Input Password</Label>
@@ -221,4 +246,5 @@ const CustomField: React.FC<{
 		</>
 	);
 };
+
 export default AccountTab;

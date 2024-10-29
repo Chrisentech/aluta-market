@@ -98,6 +98,7 @@ const Screen: React.FC = () => {
 							{category.title}
 						</div>
 					))}
+
 					<div className="category">All Categories</div>
 				</div>
 				<Card className="banner" width={"62%"} height={333} onHover={false}>

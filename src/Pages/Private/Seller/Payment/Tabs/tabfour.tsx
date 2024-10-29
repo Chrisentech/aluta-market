@@ -55,15 +55,23 @@ const WithdrawAccountTab: React.FC = () => {
 					account must be in your name
 				</div>
 
-				{store?.accounts?.map((_: any, i: number) => {
+				{store?.accounts?.map((account: any, i: number) => {
+					console.log(account);
 					return (
 						<div className="account" key={i}>
-							<img src={myBank("Wema Bank")?.logo} alt="" width={30} />
+							<img
+								src={
+									myBank(account?.bank_name)?.logo ||
+									"https://nigerianbanks.xyz/logo/default-image.png"
+								}
+								alt=""
+								width={30}
+							/>
 
 							<div className="descr">
-								<p>{myBank("Wema Bank")?.name}</p>
-								<h2>227722112</h2>
-								<p>Arike Lauren</p>
+								<p>{account?.bank_name}</p>
+								<h2>{account?.account_number}</h2>
+								<p>{account?.account_name}</p>
 							</div>
 
 							<MdDeleteOutline className="svg" size="21px" color="red" />
@@ -72,7 +80,7 @@ const WithdrawAccountTab: React.FC = () => {
 				})}
 
 				<button
-					disabled={store?.accounts?.length < 3}
+					disabled={store?.accounts?.length === 3}
 					className="button"
 					type="button"
 					onClick={() => dispatch(showModal("create-account"))}

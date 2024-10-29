@@ -270,14 +270,14 @@ export default function useUsers() {
 
 	const confirmPassword = async (input: any) => {
 		try {
-			const res = await apolloClient.mutate({
+			await apolloClient.mutate({
 				mutation: CONFIRM_PASSWORD,
 				variables: { input },
 			});
-			console.log(res.data)
+
 		} catch (e: any) {
 			console.log(e)
-			throw e.message
+			throw e
 		}
 	}
 	const setMode = async (mode: string) => {
