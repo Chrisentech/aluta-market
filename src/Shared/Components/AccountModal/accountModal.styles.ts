@@ -9,7 +9,7 @@ export const Container = styled.div`
 	align-items: center;
 	// justify-content: center;
 	gap: 10px;
-	padding: 20px 0;
+	padding: 12px 0;
 	overflow: auto;
     h2{
     color: #000;
@@ -36,7 +36,7 @@ export const Container = styled.div`
 	}
 	.header {
 		display: flex;
-		padding: 15px 20px;
+		padding: 15px 12px;
 		// background: #f7fafc;
 		width: 100%;
 		width: calc(100% - 40px);
@@ -57,11 +57,11 @@ export const Container = styled.div`
 
 	form {
 		width: 80%;
-		margin: 20px auto;
+		margin: 12px auto;
 		input,
 		select {
 			width: calc(100% - 40px);
-			padding: 15px 20px;
+			padding: 15px 12px;
 			border-radius: 10px;
 			outline: 0;
 			margin: 10px 0;
@@ -84,7 +84,7 @@ export const Container = styled.div`
 		}
 	}
 		.gateway{
-		padding:20px;
+		padding:12px;
 		background:#F7FAFC;
 		display:flex;
 		align-items:center;
@@ -134,11 +134,11 @@ export const Info = styled.p`
 export const SubmitButton = styled.button<{ loading?: boolean }>`
 	background: #0D6EFD;
 	color: #fff;
-	padding: ${(props) => (props.loading ? "7px" : "20px")};
+	padding: ${(props) => (props.loading ? "7px" : "12px")};
 	border: none;
 	cursor: pointer;
 	width: 100%;
-	margin: 20px 0;
+	margin: 12px 0;
 	border-radius: 10px;
 	color: var(--white, #fff);
 	text-align: center;
@@ -161,13 +161,13 @@ export const FormControl = styled.div`
 
 export const Input = styled.input <{ error?: boolean; type: string }>`
 	width: ${(props) =>
-        props.type === "checkbox" ? "unset" : "calc(100% -  40px)"};
-	padding: 20px;
+		props.type === "checkbox" ? "unset" : "calc(100% -  40px)"};
+	padding: 12px;
 	border-radius: 10px;
 	background: #f7fafc;
 	border: ${(props) => (props.error ? "1px solid red" : "0")};
 	outline: 0;
-	margin: 5px 0px 20px 0;
+	margin: 5px 0px 12px 0;
 	font-family: Inter;
 	font-size: 16px;
 	font-style: normal;
@@ -185,12 +185,12 @@ export const Input = styled.input <{ error?: boolean; type: string }>`
 
 export const Select = styled.select <{ error?: boolean; type: string }>`
 	width: 100%;
-	padding: 20px;
+	padding: 12px;
 	border-radius: 10px;
 	background: #f7fafc;
 	border: ${(props) => (props.error ? "1px solid red" : "0")};
 	outline: 0;
-	margin: 5px 0px 20px 0;
+	margin: 5px 0px 12px 0;
 	font-family: Inter;
 	font-size: 16px;
 	font-style: normal;

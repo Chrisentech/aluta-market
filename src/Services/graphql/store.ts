@@ -102,6 +102,28 @@ const PURCHASED_ORDER_DATA = gql`
 		}
 	}
 `;
+
+const INVOICE_DATA = gql`
+	fragment invoice on Invoice {
+		customer{
+			email
+			name
+			number
+		}
+		due_date
+		items{
+			quantity
+			name
+			price
+		}
+		delivery_detail{
+			option
+			address
+			price
+		}
+		store_id
+	}
+`;
 const PAGINATION_DATA = gql`
 	fragment paginationProps on StorePaginationData {
 		data {
@@ -266,6 +288,22 @@ mutation withdrawFund($input: fundInput!) {
 }
 `
 
+export const CREATE_INVOICE = gql`
+	${INVOICE_DATA}
+	mutation createInvoice($input: InvoiceInput!) {
+		createInvoice(input: $input) {
+			...invoice
+		}
+	}
+`;
+export const MY_INVOICES = gql`
+	${INVOICE_DATA}
+	query MyInvoices($storeID: String!) {
+		MyInvoices(storeID: $storeID) {
+			...invoice
+		}
+	}
+`;
 // export const CONFIGURE_MY_STORE = gql``; //This would be used to either disable/delete store
 
 // export const GET_REVIEWS = gql`` //might be removed

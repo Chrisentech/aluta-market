@@ -34,12 +34,13 @@ import AddProductImage from "./AddProductImage/AddProductImage";
 import UploadModal from "./UploadModal/uploadModal";
 import PickupModal from "./PickupModal/Pickup";
 import AccountModal from "./AccountModal/accountmodal"
+import { Invoice } from "./InvoicePDF/invoice";
 // import Invoice from "./Pdfs/invoice";
 export {
 	Loader,
 	Navbar,
 	SideBar,
-	// Invoice,
+	Invoice,
 	Dropdown,
 	Footer,
 	Card,

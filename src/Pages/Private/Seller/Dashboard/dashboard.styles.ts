@@ -4,7 +4,7 @@ export const Wrapper = styled.div`
 	box-sizing: border-box;
 	//   height: 200px;
 	width: 100%;
-	padding: 20px;
+	padding: 12px;
 	overflow-x: hidden;
 	@media (max-width: 780px) {
 		padding:5px;
@@ -25,7 +25,7 @@ export const Wrapper = styled.div`
 		letter-spacing: -0.2px;
 		margin: 10px 0;
 		@media (max-width: 1530px) {
-			font-size: 20px;
+			font-size: 12px;
 			@media (max-width: 1426px) {
 				font-size: 18px;
 				@media (max-width: 1082px) {
@@ -38,7 +38,7 @@ export const Wrapper = styled.div`
 
 export const GridItem = styled.div<{ background?: string }>`
 	display: flex;
-	gap: 20px;
+	gap: 12px;
 	align-items: center;
 	height: 100%;
 	position: relative;
@@ -117,7 +117,7 @@ export const GridItem = styled.div<{ background?: string }>`
 			letter-spacing: -0.2px;
 			margin-top: 3px;
 			@media (max-width: 1530px) {
-				font-size: 20px;
+				font-size: 12px;
 				@media (max-width: 1426px) {
 					font-size: 18px;
 					@media (max-width: 1082px) {
@@ -131,7 +131,7 @@ export const GridItem = styled.div<{ background?: string }>`
 
 export const Main = styled.div`
 	display: flex;
-	gap: 20px;
+	gap: 12px;
 	//   width: calc(100% - 60px);
 	margin: 30px 0;
 	@media (max-width: 1082px) {
@@ -219,7 +219,7 @@ export const Main = styled.div`
 					font-size: 12px;
 					font-style: normal;
 					font-weight: 500;
-					line-height: 20px; /* 166.667% */
+					line-height: 12px; /* 166.667% */
 					letter-spacing: -0.24px;
 				}
 			}
@@ -242,7 +242,7 @@ export const Tracker = styled.div`
 	justify-content: center;
 	align-items: center;
 	background: #eff2f4;
-	margin: 20px 0;
+	margin: 12px 0;
 	span {
 		margin: 0 10px;
 	}
@@ -269,7 +269,7 @@ export const Income = styled.div`
 		font-size: 12px;
 		font-style: normal;
 		font-weight: 700;
-		line-height: 20px; /* 166.667% */
+		line-height: 12px; /* 166.667% */
 		letter-spacing: -0.24px;
 		svg {
 			color: #00b517;

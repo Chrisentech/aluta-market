@@ -10,7 +10,7 @@ export const Card = styled.div<{
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: ${({ padding }) => (padding === padding ? padding : "20px")};
+  padding: ${({ padding }) => (padding === padding ? padding : "12px")};
   width: ${({ width }) => (width ? width : "")};
   height${({ height }) => (height ? height : "200px")};
   //   padding-bottom: ${({ view }) => (view === "grid" ? "30px" : "")};

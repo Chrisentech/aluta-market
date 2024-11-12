@@ -21,6 +21,7 @@ export const storeSlice = createSlice({
 		sellerStore: null,
 		invoice: {
 			customer: { name: "" }
+
 		},
 
 	} as StoreState, // Set the initial state using the ProductState type
@@ -38,7 +39,6 @@ export const storeSlice = createSlice({
 			state.sellerStore = action.payload;
 		},
 		setInvoice: (state, action: PayloadAction<any>) => {
-
 			state.invoice = action.payload;
 		},
 	},

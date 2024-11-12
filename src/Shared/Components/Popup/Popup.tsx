@@ -25,7 +25,7 @@ const Popup: React.FC<IPopupProps> = ({
 			<Card
 				width={width ?? "auto"}
 				height={height}
-				borderRadius={"20px"}
+				borderRadius={"12px"}
 				padding={padding}
 				className="card"
 			>

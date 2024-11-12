@@ -4,18 +4,18 @@ import { AppColors, BreakPoints } from "../../../Shared/Constants";
 
 export const Container = styled.div`
 	width: 100%;
-	height: calc(100vh - 120px);
+	height: calc(100vh - 112px);
 	display: flex;
 	flex-direction: column;
 	// justify-content: center;
 	margin-top: 40px;
 	align-items: center;
 	position: absolute;
-	// top: 20px;
+	// top: 12px;
 	.option {
 		align-items: center;
 		display: flex;
-		gap: 20px;
+		gap: 12px;
 		p {
 			color: var(--gray-500, #8b96a5);
 			text-align: center;
@@ -59,7 +59,7 @@ export const Container = styled.div`
 			cursor: pointer;
 			box-shadow: none !important;
 			width: 100%;
-			margin: 20px 0;
+			margin: 12px 0;
 			border-radius: 6px !important;
 			background: ${AppColors.brandPink} !important;
 			justify-content: center;
@@ -73,7 +73,7 @@ export const Container = styled.div`
 				font-style: normal;
 				font-weight: 500 !important;
 				text-align: center;
-				line-height: 20px; /* 142.857% */
+				line-height: 12px; /* 142.857% */
 				letter-spacing: -0.28px;
 			}
 		}
@@ -108,7 +108,7 @@ export const Heading = styled.div`
 		font-weight: 400;
 		line-height: normal;
 		letter-spacing: -0.2px;
-		margin: 0 0 20px 0;
+		margin: 0 0 12px 0;
 		@media (max-width: 600px) {
 			font-size: 14px !important;
 		}
@@ -127,7 +127,7 @@ export const FormControl = styled.div`
 	position: relative;
 	svg {
 		position: absolute;
-		right: 20px;
+		right: 12px;
 		top: 44px;
 		cursor: pointer;
 		transition: 0.5s ease;
@@ -160,12 +160,12 @@ export const Label = styled.label<{ checkbox?: boolean; small?: boolean }>`
 export const Input = styled(Field) <{ error: boolean; type: string }>`
 	width: ${(props) =>
 		props.type === "checkbox" ? "unset" : "calc(100% -  40px)"};
-	padding: 20px;
+	padding: 12px;
 	border-radius: 10px;
 	// background: #f7fafc;
 	border: ${(props) => (props.error ? "1px solid red !important" : "0")};
 	outline: 0;
-	margin: 5px 0px 20px 0;
+	margin: 5px 0px 12px 0;
 	font-family: Inter;
 	font-size: 16px;
 	font-style: normal;
@@ -187,11 +187,11 @@ export const ErrorMessageWrapper = styled.div`
 export const SubmitButton = styled.button<{ loading?: boolean }>`
 	background-color: #007bff;
 	color: #fff;
-	padding: ${(props) => (props.loading ? "7px" : "20px")};
+	padding: ${(props) => (props.loading ? "7px" : "12px")};
 	border: none;
 	cursor: pointer;
 	width: 100%;
-	margin: 20px 0;
+	margin: 12px 0;
 	border-radius: 10px;
 	background: var(
 		--primary-gradient,
@@ -238,8 +238,8 @@ export const CustomCheckbox = styled.input.attrs({ type: "checkbox" })`
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	cursor: pointer;
-	width: 20px;
-	height: 20px;
+	width: 12px;
+	height: 12px;
 	position: relative;
 	background-color: ${AppColors.brandOrange};
 	border: 2px solid ${AppColors.brandOrange};
@@ -274,7 +274,7 @@ export const Modal = styled.div`
 .label{
   display:flex;
   justify-content:space-between;
-  margin:20px 0;
+  margin:12px 0;
   position:relative;
   
 }
@@ -286,7 +286,7 @@ img{
 .gray{
   background:#EFF2F4;
   padding:18px;
-  border-radius:  20px 0 0 20px;
+  border-radius:  12px 0 0 12px;
 //   margin-top:-15px;
   position:absolute;
   top:6px
@@ -297,7 +297,7 @@ img{
   input{
   border: 1px solid #ccc;}
 .input{
-  border-radius:20px;
+  border-radius:12px;
   margin-left:-2px; border: 1px solid #ccc;
   padding-left:66px;  
     width: calc(100% - 85px);

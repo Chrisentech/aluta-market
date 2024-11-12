@@ -13,7 +13,7 @@ export const ImageWrapper = styled.div`
     justify-content: center;
     align-items: center;
     border-radius: 5px;
-    padding: 20px;
+    padding: 12px;
     border: 1px solid lightgray;
     position: relative;
     margin-bottom:15px;
@@ -48,7 +48,7 @@ export const ImageWrapper = styled.div`
     justify-content: center;
     align-items: center;
     border-radius: 5px;
-    padding: 20px;
+    padding: 12px;
     border: 1px dashed lightgray;
     background: #f7fafc;
     position: relative;

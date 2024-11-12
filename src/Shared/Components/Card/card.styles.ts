@@ -6,7 +6,7 @@ export const Container = styled.div<ICardInterface>`
 	min-height: ${({ height }) => (height ? height : "400px")};
 	background: ${({ background }) => (background ? background : "#fff")};
 	border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius : "6px")};
-	padding: ${({ padding }) => (padding ? padding : "20px")};
+	padding: ${({ padding }) => (padding ? padding : "12px")};
 	transition: 0.6s ease;
 	color: ${({ color }) => (color ? color + " !important" : "inherit")};
 	position: relative;

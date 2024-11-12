@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Layout from "../../../../Layouts";
 import {
 	Wrapper,
@@ -8,6 +8,19 @@ import {
 	ErrorMessageWrapper,
 	Modal,
 	SubmitButton,
+	PrintButton,
+	TableCell,
+	Footer,
+	TableHeader,
+	InvoiceItems,
+	CallToActionButton,
+	TotalRow,
+	Section,
+	InvoiceDetails,
+	CompanyInfo,
+	InvoiceHeader,
+	Reciever,
+	InvoiceContainer,
 } from "./createInvoice.styles";
 import { Puff } from "react-loading-icons";
 import { Button } from "../../../../Shared/Components";
@@ -26,12 +39,24 @@ import {
 import { Incrementor } from "../Products/New/createnew.styles";
 import {
 	actions,
+	selectStore,
 	selectStoreInvoice,
 } from "../../../../Features/store/storeSlice";
+import {
+	calculateTotalPrice,
+	generateOrderNumber,
+	numberWithCommas,
+} from "../../../../Shared/Utils/helperFunctions";
+import { alertError } from "../../../../Features/alert/alertSlice";
+import { useReactToPrint } from "react-to-print";
+import { capitalize } from "lodash";
 const Screen: React.FC = () => {
 	const dispatch = useDispatch();
 	const invoice = useSelector(selectStoreInvoice);
-
+	const contentRef = useRef<any>(null);
+	const reactToPrintFn = useReactToPrint({ contentRef });
+	const uuid = generateOrderNumber();
+	const store = useSelector(selectStore);
 	const [products, setProducts] = useState(invoice?.products || []);
 	const [customer, _] = useState(invoice?.customer || { name: "" });
 
@@ -42,15 +67,29 @@ const Screen: React.FC = () => {
 		delivery_details: "",
 	};
 	const handleSubmit = (values: any) => {
-		alert(JSON.stringify(values));
+		const payload = {
+			due_date: values.due_date,
+			customer: invoice.customer,
+			items: invoice.products,
+			uuid,
+		};
+		if (payload.customer && payload.due_date && payload.items.length > 0) {
+			reactToPrintFn();
+		} else {
+			dispatch(alertError("Please fill all important fields"));
+			return;
+		}
 	};
 	const handleDelete = (index: number) => {
 		const updatedProducts = products.filter((_: any, i: number) => i !== index);
 		setProducts(updatedProducts);
+		const updatedInvoice = {
+			...invoice,
+			products: updatedProducts,
+		};
 
-		dispatch(actions.setInvoice({ products: updatedProducts }));
+		dispatch(actions.setInvoice(updatedInvoice));
 	};
-
 	return (
 		<Wrapper>
 			<header>
@@ -77,7 +116,7 @@ const Screen: React.FC = () => {
 
 					<FormControl>
 						<Label>Due Date</Label>
-						<CustomField name="customer" type="date" />
+						<CustomField name={"due_date"} type="date" />
 					</FormControl>
 
 					<FormControl>
@@ -131,7 +170,7 @@ const Screen: React.FC = () => {
 												</span>
 												<div>
 													<p>{product?.name}</p>
-													<p>N{product?.number}</p>
+													<p>N{numberWithCommas(product?.price)}</p>
 												</div>
 											</div>
 
@@ -195,7 +234,7 @@ const Screen: React.FC = () => {
 						<div
 							style={{
 								display: "flex",
-								margin: "20px 0",
+								margin: "12px 0",
 								justifyContent: "space-between",
 								cursor: "pointer",
 								borderBottom: "1px solid #EFF2F4",
@@ -224,7 +263,7 @@ const Screen: React.FC = () => {
 
 						<Button
 							width={"100%"}
-							type="button"
+							type="submit"
 							padding={20}
 							background="#0d6efd"
 							color="#ffffff"
@@ -235,6 +274,137 @@ const Screen: React.FC = () => {
 					</FormControl>
 				</Form>
 			</Formik>
+
+			<div style={{ display: "none" }}>
+				<div ref={contentRef}>
+					<InvoiceContainer>
+						<InvoiceHeader>
+							<CompanyInfo>
+								<div
+									style={{
+										display: "flex",
+										gap: 10,
+										marginBottom: 30,
+										alignItems: "center",
+									}}
+								>
+									<img
+										src={store?.thumbnail}
+										alt="Logo"
+										style={{ width: 30 }}
+									/>
+									<h3>{capitalize(store?.name)}</h3>
+								</div>
+								<p>{window.location.origin + "/" + store?.link}</p>
+							</CompanyInfo>
+							<InvoiceDetails>
+								<h1>Invoice</h1>
+							</InvoiceDetails>
+						</InvoiceHeader>
+						<Reciever>
+							<p>Reciever:</p>
+							<h3>{invoice?.customer?.name}</h3>
+							<p>{invoice?.customer?.email}</p>
+							<p>{invoice?.customer?.number}</p>
+						</Reciever>
+						<Section>
+							<div>
+								<p>
+									<span>Invoice ID: </span>
+									<span>{uuid}</span>
+								</p>
+								<p>
+									<span>Due Date:</span>
+									<span>{}</span>
+								</p>
+								<h3>
+									<span>Amount:</span>
+									<span>
+										NGN{" "}
+										{numberWithCommas(calculateTotalPrice(invoice?.products))}
+									</span>
+								</h3>
+							</div>
+							<div
+								className="diff"
+								style={{
+									display: "flex",
+									flexDirection: "column",
+									alignItems: "end",
+								}}
+							>
+								<h3>Pay Options</h3>
+								<p>{store?.accounts[0]?.account_number}</p>
+								<p>{store?.accounts[0]?.bank_name}</p>
+								<p>{store?.accounts[0]?.account_name}</p>
+								<CallToActionButton
+									as="a"
+									href="https://yourpaymentgateway.com"
+									target="_blank"
+									onClick={() => alert("Thank you for your payment!")}
+								>
+									Pay Now
+								</CallToActionButton>
+							</div>
+						</Section>
+						{/* Invoice Items Section */}
+						<InvoiceItems>
+							<thead>
+								<tr>
+									<TableHeader>DESCRIPTION</TableHeader>
+									<TableHeader>UNIT PRICE</TableHeader>
+									<TableHeader>QTY</TableHeader>
+									<TableHeader>TOTAL</TableHeader>
+								</tr>
+							</thead>
+							<tbody>
+								{invoice?.products?.map((product: any, index: number) => (
+									<tr key={index}>
+										<TableCell>{product.name}</TableCell>
+										<TableCell>NGN {numberWithCommas(product.price)}</TableCell>
+										<TableCell>{product.quantity}</TableCell>
+										<TableCell>
+											NGN {numberWithCommas(product.price * product.quantity)}
+										</TableCell>
+									</tr>
+								))}
+							</tbody>
+						</InvoiceItems>
+
+						<div style={{ maxWidth: "300px", marginLeft: "auto" }}>
+							<tbody>
+								<TotalRow>
+									<TableCell>SUBTOTAL</TableCell>
+									<TableCell style={{ whiteSpace: "nowrap" }}>
+										NGN{" "}
+										{numberWithCommas(calculateTotalPrice(invoice?.products))}
+									</TableCell>
+								</TotalRow>
+							</tbody>
+
+							<PrintButton>
+								<tbody>
+									<TotalRow>
+										<TableCell>TOTAL</TableCell>
+										<TableCell style={{ whiteSpace: "nowrap" }}>
+											NGN{" "}
+											{numberWithCommas(calculateTotalPrice(invoice?.products))}
+										</TableCell>
+									</TotalRow>
+								</tbody>
+							</PrintButton>
+						</div>
+
+						<Footer>
+							e-invoice by{" "}
+							<a style={{ color: "#ff001f" }} href="#">
+								{" "}
+								Alutamarket.com
+							</a>
+						</Footer>
+					</InvoiceContainer>
+				</div>
+			</div>
 		</Wrapper>
 	);
 };
@@ -419,12 +589,12 @@ const CreateInvoice = () => {
 						/>
 					</div>
 					<div className="content">
-						<h2 style={{ margin: "20px 0", textAlign: "center" }}>
+						<h2 style={{ margin: "12px 0", textAlign: "center" }}>
 							Create Item
 						</h2>
 					</div>
 					<Formik
-						initialValues={{ name: "", number: "", quantity: "" }}
+						initialValues={{ name: "", price: "", quantity: "" }}
 						onSubmit={handleSubmit}
 					>
 						<Form>
@@ -434,7 +604,7 @@ const CreateInvoice = () => {
 							</FormControl>
 							<FormControl>
 								<Label>Amount (no comma)</Label>
-								<CustomField name="number" type="number" />
+								<CustomField name="price" type="number" />
 							</FormControl>
 							<FormControl>
 								<Label>Quantity</Label>
@@ -467,7 +637,12 @@ const CreateInvoice = () => {
 		}, [invoice]); // Update data whenever the invoice changes
 
 		const handleSubmit = (values: any) => {
-			dispatch(actions.setInvoice({ delivery: values }));
+			const updatedInvoice = {
+				...invoice,
+				delivery: values, // Update the delivery part
+			};
+
+			dispatch(actions.setInvoice(updatedInvoice));
 			dispatch(closeModal("details"));
 		};
 		return (
@@ -483,37 +658,73 @@ const CreateInvoice = () => {
 						/>
 					</div>
 					<div className="content">
-						<h2 style={{ margin: "20px 0", textAlign: "center" }}>
+						<h2 style={{ margin: "12px 0", textAlign: "center" }}>
 							Delivery Details
 						</h2>
 					</div>
-					<Formik initialValues={{}} onSubmit={handleSubmit}>
-						<Form>
-							<FormControl>
-								<Label>Delivery Option</Label>
-								<CustomField name="option" type="option" />
-							</FormControl>
-							<FormControl>
-								<Label>Home Address</Label>
-								<CustomField name="number" type="number" />
-							</FormControl>
-							<FormControl>
-								<Label>
-									<span style={{ fontWeight: 700, color: "black" }}>
-										Delivery Fee:{" "}
-									</span>{" "}
-									N1,500
-								</Label>
-							</FormControl>
-							<SubmitButton loading={loading} disabled={loading} type="submit">
-								{" "}
-								{loading ? (
-									<Puff stroke={AppColors.brandOrange} strokeOpacity={0.125} />
-								) : (
-									"Continue"
-								)}
-							</SubmitButton>
-						</Form>
+					<Formik
+						initialValues={{ option: "", fee: "", address: "" }}
+						enableReinitialize
+						onSubmit={handleSubmit}
+					>
+						{({ handleChange, values }) => (
+							<Form>
+								<FormControl>
+									<Label>Delivery Option</Label>
+									<CustomField
+										name="option"
+										type="text"
+										value={values?.option}
+										onChange={(e) => {
+											handleChange(e);
+											setdata((prev: any) => ({
+												...prev,
+												option: e.target.value,
+											}));
+										}}
+									/>
+								</FormControl>
+								<FormControl>
+									<Label>Home Address</Label>
+									<CustomField
+										name="address"
+										type="text"
+										value={values.address}
+										onChange={(e) => {
+											handleChange(e);
+											setdata((prev: any) => ({
+												...prev,
+												address: e.target.value,
+											}));
+										}}
+									/>
+								</FormControl>
+								<FormControl>
+									<Label>
+										<span style={{ fontWeight: 700, color: "black" }}>
+											Delivery Fee:{" "}
+										</span>{" "}
+										N1,500
+									</Label>
+									<CustomField name="fee" type="hidden" value="1500" />
+								</FormControl>
+								<SubmitButton
+									loading={loading}
+									disabled={loading}
+									type="submit"
+								>
+									{" "}
+									{loading ? (
+										<Puff
+											stroke={AppColors.brandOrange}
+											strokeOpacity={0.125}
+										/>
+									) : (
+										"Continue"
+									)}
+								</SubmitButton>
+							</Form>
+						)}
 					</Formik>
 				</>
 			</Modal>

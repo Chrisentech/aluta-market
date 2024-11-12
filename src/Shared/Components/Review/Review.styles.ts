@@ -16,11 +16,11 @@ export const Wrapper = styled.div<IWrapperProps>`
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
-		padding: 20px;
+		padding: 12px;
 		border-bottom: 1px solid #dee2e7;
 
 		h3 {
-			font-size: 20px;
+			font-size: 12px;
 			font-weight: 600;
 			line-height: 28px;
 			letter-spacing: -0.2px;
@@ -42,7 +42,7 @@ export const ReviewContainer = styled.div`
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-start;
-	padding: 20px;
+	padding: 12px;
 	gap: 50px;
 	max-height: 400px;
 	@media (max-width: 800px) {
@@ -73,7 +73,7 @@ export const CustomerReviews = styled.div`
 
 export const Ratings = styled.div`
 	.ratings-wrapper {
-		margin-top: 20px;
+		margin-top: 12px;
 		.ratings-box {
 			display: flex;
 			flex-direction: row;
@@ -101,7 +101,7 @@ export const ReviewCard = styled.div`
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: flex-start;
-	gap: 20px;
+	gap: 12px;
 	.comment {
 		width: 80%;
 		color: #505050;
@@ -117,7 +117,7 @@ export const SummaryBox = styled.div`
 	height: 145px;
 	border-radius: 6px;
 	background: #f7fafc;
-	margin-top: 20px;
+	margin-top: 12px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

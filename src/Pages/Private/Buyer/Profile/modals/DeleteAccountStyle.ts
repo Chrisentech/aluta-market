@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const FormContainer = styled.div<{ deleteAccount?: boolean }>`
-	width: calc(100% - 20px);
+	width: calc(100% - 12px);
 	height: ${({ deleteAccount }) => (deleteAccount ? "618px" : "468px")};
 	display: flex;
 	flex-direction: column;
@@ -36,7 +36,7 @@ padding:10px;
 		box-sizing: border-box;
 		width: 100%;
 		// height: 50px;
-		padding: 20px;
+		padding: 12px;
 		margin-top: 10px;
 		border: 1px solid #ccc;
 		border-radius: 10px;

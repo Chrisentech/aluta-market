@@ -363,7 +363,7 @@ const Screen: React.FC = () => {
 								type="submit"
 								loading={loading}
 								disabled={loading || !buyerFormIsValid}
-								style={{ padding: loading ? "7px" : "17px 20px" }}
+								style={{ padding: loading ? "7px" : "17px 12px" }}
 							>
 								{loading ? (
 									<Puff stroke={AppColors.brandOrange} strokeOpacity={0.125} />
@@ -516,7 +516,7 @@ const Screen: React.FC = () => {
 								type="submit"
 								disabled={loading || !sellerFormIsValid}
 								loading={loading}
-								style={{ padding: loading ? "7px" : "17px 20px" }}
+								style={{ padding: loading ? "7px" : "17px 12px" }}
 							>
 								{loading ? (
 									<Puff stroke={AppColors.brandOrange} strokeOpacity={0.125} />

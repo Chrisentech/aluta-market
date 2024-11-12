@@ -4,7 +4,7 @@ export const Page = styled.div`
 	min-height: 50vh;
 	width: 100%;
 
-	margin: 20px auto;
+	margin: 12px auto;
 	background: #f7fafc;
 `;
 
@@ -12,7 +12,7 @@ export const Container = styled.div`
 	width: 80%;
 	margin: auto;
 	position: relative;
-	@media (max-width: 1220px) {
+	@media (max-width: 1212px) {
 		width: 90%;
 	}
 	h1 {
@@ -34,16 +34,16 @@ export const Container = styled.div`
 		margin: 30px 0;
 		@media (max-width: 890px) {
 			width: 100%;
-			gap: 20px;
+			gap: 12px;
 			flex-direction: column;
 		}
 	}
 	.banner-wrapper {
-		margin: 20px 0 90px 0;
+		margin: 12px 0 90px 0;
 	}
 	.new {
 		display: flex;
-		gap: 20px;
+		gap: 12px;
 		@media (max-width: 890px) {
 			flex-direction: column;
 		}
@@ -56,7 +56,7 @@ export const Product = styled.div<{ empty: boolean }>`
 	border-radius: 6px;
 	border: 01px solid #dee2e7;
 	background: #ffffff;
-	padding: 20px;
+	padding: 12px;
 	.card {
 		border-bottom: 1px solid #dee2e7;
 		@media (max-width: 890px) {
@@ -69,7 +69,7 @@ export const Product = styled.div<{ empty: boolean }>`
 		justify-content: space-between;
 		font-family: inter;
 		font-weight: 500;
-		padding-top: 20px;
+		padding-top: 12px;
 	}
 `;
 
@@ -93,12 +93,12 @@ export const SectionCard = styled.div`
 	}
 	.title {
 		font-family: inter;
-		font-size: 20px;
+		font-size: 12px;
 		font-weight: 600;
 		line-height: 28px;
 		letter-spacing: -0.2px;
 		color: #1c1c1c;
-		margin-top: 20px;
+		margin-top: 12px;
 		align-self: flex-start;
 		margin-left: 25px;
 		@media (max-width: 680px) {
@@ -137,7 +137,7 @@ export const Empty = styled.div`
 			line-height: 32px;
 		}
 		.info {
-			font-size: 20px;
+			font-size: 12px;
 			line-height: 28px;
 		}
 	}
@@ -215,7 +215,7 @@ export const RightSection = styled.div`
 	.checkout {
 		box-sizing: border-box;
 		max-height: 329px;
-		padding: 20px;
+		padding: 12px;
 		background: #fff;
 		border-radius: 6px;
 		margin-top: 12px;
@@ -239,12 +239,12 @@ export const RightSection = styled.div`
 		.bottom {
 			border-top: 1px solid #e4e4e4;
 			margin-top: 10px;
-			padding: 20px 0;
+			padding: 12px 0;
 			.total {
 				span {
 					font-weight: 600;
 					&:last-child {
-						font-size: 20px;
+						font-size: 12px;
 					}
 				}
 			}
@@ -321,7 +321,7 @@ export const ProductCard = styled.div`
 			width: 100%;
 			flex-direction: row;
 			gap: 10px;
-			margin: 20px 0;
+			margin: 12px 0;
 			align-items: center;
 		}
 	}
@@ -407,10 +407,10 @@ export const GridProductCard = styled.div`
 
 	.image {
 		height: 200px;
-		// width: 220px;
+		// width: 212px;
 		background: #eee;
 		border-radius: 10px;
-		padding: 20px;
+		padding: 12px;
 		// flex-grow: 1;
 		display: flex;
 		align-items: center;

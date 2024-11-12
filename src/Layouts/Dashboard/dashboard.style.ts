@@ -73,8 +73,8 @@ export const SidebarMenuLinks = styled.li<{
 	box-sizing: border-box;
 	width: 255px;
 	border-radius: ${({ hover }) => (hover ? `0` : "6px")};
-	padding: 10px 20px;
-	margin: 5px 5px 5px 20px;
+	padding: 10px 12px;
+	margin: 5px 5px 5px 12px;
 	position: relative;
 	cursor: pointer;
 	font-family: inter;
@@ -111,7 +111,7 @@ export const SidebarMenuLinks = styled.li<{
 	}
 	svg {
 		transition: 0.5s ease;
-		font-size: 20px;
+		font-size: 12px;
 		color: ${(props) =>
 		props.active ? "#505050 !important" : "#8b96a5 !important"};
 	}
@@ -136,9 +136,9 @@ export const SidebarMenuLinks = styled.li<{
 `;
 
 export const Select = styled.select`
-	padding: 20px;
+	padding: 12px;
 	width: calc(100% - 40px);
-	margin: 20px 5px 20px 20px;
+	margin: 12px 5px 12px 12px;
 	border-radius: 6px;
 	outline: 0;
 	cursor: pointer;
@@ -193,7 +193,7 @@ export const MenuTop = styled.div`
 export const CustomLink = styled.div`
 	position: absolute;
 	background: #fff;
-	bottom: 20px;
+	bottom: 12px;
 	padding-bottom: 10px;
 	width: 100%;
 	// border-top: 1px solid #bdc4cd;

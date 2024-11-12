@@ -8,7 +8,7 @@ export const Container = styled.div`
 	align-items: center;
 	// justify-content: center;
 	gap: 30px;
-	padding: 20px 0;
+	padding: 12px 0;
 	overflow: auto;
 	.error {
 		color: red;
@@ -18,7 +18,7 @@ export const Container = styled.div`
 	}
 	.header {
 		display: flex;
-		padding: 15px 20px;
+		padding: 15px 12px;
 		background: #f7fafc;
 		width: 100%;
 		align-items: center;
@@ -37,11 +37,11 @@ export const Container = styled.div`
 
 	form {
 		width: 80%;
-		margin: 20px auto;
+		margin: 12px auto;
 		input,
 		select {
 			width: calc(100% - 40px);
-			padding: 15px 20px;
+			padding: 15px 12px;
 			border-radius: 10px;
 			outline: 0;
 			margin: 10px 0;
@@ -93,11 +93,11 @@ export const Info = styled.p`
 export const SubmitButton = styled.button<{ loading?: boolean }>`
 	background: #f7690c;
 	color: #fff;
-	padding: ${(props) => (props.loading ? "7px" : "20px")};
+	padding: ${(props) => (props.loading ? "7px" : "12px")};
 	border: none;
 	cursor: pointer;
 	width: 100%;
-	margin: 20px 0;
+	margin: 12px 0;
 	border-radius: 10px;
 	color: var(--white, #fff);
 	text-align: center;

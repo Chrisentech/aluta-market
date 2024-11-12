@@ -18,7 +18,7 @@ export const Container = styled.div<{ success: boolean }>`
     font-weight: 600;
     line-height: 32px; /* 133.333% */
     letter-spacing: -0.2px;
-    margin: 20px 0 0 0;
+    margin: 12px 0 0 0;
   }
   .label {
     display: flex;
@@ -72,11 +72,11 @@ export const FormControl = styled.div`
 	div {
 		display: flex;
 		gap: 6px;
-		margin: 30px 0 20px 0;
+		margin: 30px 0 12px 0;
 	}
 	svg {
 		position: absolute;
-		right: 20px;
+		right: 12px;
 		top: 56px;
 		cursor: pointer;
 		transition: 0.5s ease;

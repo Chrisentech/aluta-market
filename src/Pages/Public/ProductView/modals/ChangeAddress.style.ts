@@ -49,7 +49,7 @@ export const InputField = styled.input`
 	box-sizing: border-box;
 	width: 100%;
 	height: 50px;
-	padding: 20px;
+	padding: 12px;
 	margin-top: 4px;
 	margin-bottom: 12px;
 	border: 1px solid #ccc;

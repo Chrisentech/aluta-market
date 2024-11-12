@@ -123,7 +123,7 @@ const Screen: React.FC = () => {
 			<Card
 				width="100%"
 				height="600px"
-				borderRadius="20px"
+				borderRadius="12px"
 				onHover={false}
 				className="product"
 			>

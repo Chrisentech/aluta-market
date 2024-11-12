@@ -232,7 +232,7 @@ const Screen: React.FC = () => {
 					borderRadius: 10,
 					background: "#fff",
 					width: "90%",
-					margin: "20px auto",
+					margin: "12px auto",
 				}}
 			>
 				<Header1>Products Students in Your School are Buying</Header1>
@@ -376,7 +376,7 @@ const Screen: React.FC = () => {
 						borderRadius: 10,
 						background: "#fff",
 						width: "100%",
-						margin: "20px auto",
+						margin: "12px auto",
 					}}
 				>
 					<Header1>Recommended Items</Header1>
@@ -420,7 +420,7 @@ const Screen: React.FC = () => {
 						borderRadius: 10,
 						background: "#fff",
 						width: "100%",
-						margin: "20px auto",
+						margin: "12px auto",
 					}}
 				>
 					<Header1>Food and Beverages</Header1>
@@ -463,7 +463,7 @@ const Screen: React.FC = () => {
 						borderRadius: 10,
 						background: "#fff",
 						width: "100%",
-						margin: "20px auto",
+						margin: "12px auto",
 					}}
 				>
 					<Header1>Accomodation</Header1>
@@ -506,7 +506,7 @@ const Screen: React.FC = () => {
 						borderRadius: 10,
 						background: "#fff",
 						width: "100%",
-						margin: "20px auto",
+						margin: "12px auto",
 					}}
 				>
 					<Header1>Gadgets</Header1>
@@ -549,7 +549,7 @@ const Screen: React.FC = () => {
 						borderRadius: 10,
 						background: "#fff",
 						width: "100%",
-						margin: "20px auto",
+						margin: "12px auto",
 					}}
 				>
 					<Header1>Skin Care</Header1>
@@ -689,6 +689,7 @@ const Screen: React.FC = () => {
 				</div>
 			</Newsletter>
 		</Home>
+		// <Invoice/>
 	);
 };
 

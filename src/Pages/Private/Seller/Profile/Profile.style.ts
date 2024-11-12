@@ -59,7 +59,7 @@ export const Body = styled.section`
         gap: 100px;
         height: 506px;
 @media(max-width:1346px){
-gap:20px;
+gap:12px;
 @media(max-width:1346px){
 display: inline-block;
 }
@@ -70,7 +70,7 @@ display: inline-block;
             justify-content: space-between;
 
             .form {
-                margin: 20px 0;
+                margin: 12px 0;
                 display: flex;
                 flex-direction: column;
                 gap: 25px;
@@ -88,7 +88,7 @@ display: inline-block;
                     display: flex;
                     flex: 1;
                     flex-direction: column;
-                    margin: 20px 0;
+                    margin: 12px 0;
 
                     div {
                         width: 100%;
@@ -111,7 +111,7 @@ display: inline-block;
                         box-sizing: border-box;
                         width: 100%;
                         // height: 50px;
-                        padding: 20px;
+                        padding: 12px;
                         margin-top: 4px;
                         border: 1px solid #ccc;
                         border-radius: 10px;
@@ -182,7 +182,7 @@ export const InputField = styled.input`
 	box-sizing: border-box;
 	width: 100%;
 	height: 50px;
-	padding: 20px;
+	padding: 12px;
 	margin-top: 4px;
 	border: 1px solid #ccc;
 	border-radius: 10px;

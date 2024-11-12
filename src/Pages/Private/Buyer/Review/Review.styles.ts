@@ -24,9 +24,9 @@ export const Wrapper = styled.div`
 	}
 	.flex {
 		display: flex;
-		gap: 20px;
+		gap: 12px;
 		align-items: flex-start;
-		margin: 20px 0;
+		margin: 12px 0;
 		@media (max-widh: 480px) {
 			gap: 5px;
 		}
@@ -83,8 +83,8 @@ export const CustomCheckbox = styled.input.attrs({ type: "checkbox" })`
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	cursor: pointer;
-	width: 20px;
-	height: 20px;
+	width: 12px;
+	height: 12px;
 	position: relative;
 	background-color: ${AppColors.brandOrange};
 	border: 2px solid ${AppColors.brandOrange};
@@ -121,15 +121,15 @@ export const ErrorMessageWrapper = styled.div`
 	margin-bottom: 8px;
 `;
 
-export const Input = styled(Field)<{ error: boolean; type: string }>`
+export const Input = styled(Field) <{ error: boolean; type: string }>`
 	width: ${(props) =>
 		props.type === "checkbox" ? "unset" : "calc(100% -  40px)"};
-	padding: 20px;
+	padding: 12px;
 	border-radius: 10px;
 	background: #f7fafc;
 	border: ${(props) => (props.error ? "1px solid red" : "0")};
 	outline: 0;
-	margin: 5px 0px 20px 0;
+	margin: 5px 0px 12px 0;
 	font-family: Inter;
 	font-size: 16px;
 	font-style: normal;
@@ -150,12 +150,12 @@ export const TextArea = styled.textarea<{
 	col: number;
 }>`
 	width: calc(100% - 40px);
-	padding: 20px;
+	padding: 12px;
 	border-radius: 10px;
 	background: #f7fafc;
 	border: ${(props) => (props.error ? "1px solid red" : "0")};
 	outline: 0;
-	margin: 5px 0px 20px 0;
+	margin: 5px 0px 12px 0;
 	font-family: Inter;
 	font-size: 16px;
 	font-style: normal;

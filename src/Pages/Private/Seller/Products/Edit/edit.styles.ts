@@ -51,7 +51,7 @@ export const Wrapper = styled.div`
       background-clip: text;
       -webkit-background-clip: text;
       font-family: Inter;
-      font-size: 20px;
+      font-size: 12px;
       font-style: normal;
       font-weight: 700;
       line-height: 32px; /* 160% */
@@ -64,7 +64,7 @@ export const Wrapper = styled.div`
       font-size: 12px;
       font-style: normal;
       font-weight: 500;
-      line-height: 20px; /* 166.667% */
+      line-height: 12px; /* 166.667% */
       letter-spacing: -0.24px;
     }
   }
@@ -72,14 +72,14 @@ export const Wrapper = styled.div`
     display: flex;
     width: 291px;
     height: 42px;
-    padding: 0px 20px;
+    padding: 0px 12px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 10px;
     flex-shrink: 0;
     border-radius: 6px;
-    margin: 20px auto;
+    margin: 12px auto;
     color: #fff;
     border: 0;
     cursor: pointer;
@@ -96,21 +96,21 @@ export const Wrapper = styled.div`
   //   font-size: 12px;
   //   font-style: italic;
   //   font-weight: 500;
-  //   line-height: 20px; /* 166.667% */
+  //   line-height: 12px; /* 166.667% */
   //   letter-spacing: -0.24px;
-  //   // margin: 20px 0 0 0;
+  //   // margin: 12px 0 0 0;
   // }
   .options {
     border-radius: 6px;
     background: var(--gray-300, #dee2e7);
-    padding: 9px 20px;
+    padding: 9px 12px;
     width: 260px;
     color: var(--dark, #1c1c1c);
     font-feature-settings: "clig" off, "liga" off;
     font-family: Inter;
     font-size: 10px;
     font-style: normal;
-    margin: 5px 0 20px 0;
+    margin: 5px 0 12px 0;
     font-weight: 600;
     line-height: normal;
   }
@@ -119,8 +119,8 @@ export const Wrapper = styled.div`
   background:#F7FAFC;
   width:calc(100% - 40px);
   height:60px;
-  padding:20px;
-  margin-top:20px;
+  padding:12px;
+  margin-top:12px;
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -165,7 +165,7 @@ export const ImageWrapper = styled.div`
     justify-content: center;
     align-items: center;
     border-radius: 5px;
-    padding: 20px;
+    padding: 12px;
     border: 1px solid lightgray;
     position: relative;
     margin-bottom:15px;
@@ -199,7 +199,7 @@ export const ImageWrapper = styled.div`
     justify-content: center;
     align-items: center;
     border-radius: 5px;
-    padding: 20px;
+    padding: 12px;
     border: 1px dashed lightgray;
     background: #f7fafc;
     position: relative;
@@ -218,7 +218,7 @@ export const FormControl = styled.div`
 
 	// svg {
 	//   position: absolute;
-	//   right: 20px;
+	//   right: 12px;
 	//   top: 56px;
 	//   cursor: pointer;
 	//   transition: 0.5s ease;
@@ -252,19 +252,19 @@ export const Label = styled.label`
 	}
 `;
 
-export const Input = styled(Field)<{
-	error?: boolean;
-	type?: string;
-	readOnly?: boolean;
-	height?: string;
+export const Input = styled(Field) <{
+  error?: boolean;
+  type?: string;
+  readOnly?: boolean;
+  height?: string;
 }>`
 	width: ${(props: any) =>
-		props.type === "checkbox" ? "unset" : "calc(100% -  40px)"};
+    props.type === "checkbox" ? "unset" : "calc(100% -  40px)"};
 	height: ${(props: any) => (props.height ? props.height : "inherit")};
-	padding: 20px;
+	padding: 12px;
 	border-radius: 10px;
 	color: ${(props: any) =>
-		props.readOnly ? `${AppColors.brandColor}` : "inherit"};
+    props.readOnly ? `${AppColors.brandColor}` : "inherit"};
 	background: ${(props: any) => (props.readOnly ? "#bdc4cd" : "#f7fafc")};
 	border: ${(props: any) => (props.error ? "1px solid red" : "0")};
 	outline: 0;
@@ -273,24 +273,24 @@ export const Input = styled(Field)<{
 `;
 
 export const TextEditor = styled.div<{
-	error?: boolean;
-	type?: string;
-	readOnly?: boolean;
-	height?: string;
-	width?: string;
+  error?: boolean;
+  type?: string;
+  readOnly?: boolean;
+  height?: string;
+  width?: string;
 }>`
 	.ql-editor {
 		padding: unset;
 	}
 	.ql-container {
 		width: ${(props: any) =>
-			props.width ? props.width : "calc(100% -  40px)"};
+    props.width ? props.width : "calc(100% -  40px)"};
 		height: ${(props: any) => (props.height ? props.height : "inherit")};
 		overflow-y: ${(props: any) => (props.height ? "auto" : "inherit")};
-		padding: 20px;
+		padding: 12px;
 		border-radius: 10px;
 		color: ${(props: any) =>
-			props.readOnly ? `${AppColors.brandColor}` : "inherit"};
+    props.readOnly ? `${AppColors.brandColor}` : "inherit"};
 		background: ${(props: any) => (props.readOnly ? "#bdc4cd" : "#f7fafc")};
 		border: ${(props: any) => (props.error ? "1px solid red" : "0")};
 		outline: 0;
@@ -372,7 +372,7 @@ export const OptionButton = styled.button`
 	font-family: Inter;
 	width: 100%;
 	font-size: 16px;
-	// margin: 20px 0;
+	// margin: 12px 0;
 	font-style: normal;
 	font-weight: 600;
 	line-height: normal;
@@ -389,7 +389,7 @@ export const Modal = styled.div`
   .label {
     display: flex;
     justify-content: space-between; 
-    margin-left: 20px;
+    margin-left: 12px;
     margin-bottom: -5px;
   }
   .title {
@@ -404,7 +404,7 @@ export const Modal = styled.div`
     font-weight: 600;
     line-height: 32px; /* 133.333% */
     letter-spacing: -0.2px;
-    margin: 20px 0 0 0;
+    margin: 12px 0 0 0;
   }
   .info {
     padding: 10px;
@@ -437,7 +437,7 @@ export const Modal = styled.div`
     width: 100%;
     box-sizing: border-box;
     border-radius: 6px;
-    margin: 0px auto 20px auto;
+    margin: 0px auto 12px auto;
     &[readonly] {
       background: #f7fafc;
       cursor: not-allowed !important;
@@ -484,7 +484,7 @@ export const Modal = styled.div`
       letter-spacing: -0.32px;
     }
     .price {
-      padding: 15px 20px; 
+      padding: 15px 12px; 
     }
   }
   .drpDwn {
@@ -506,7 +506,7 @@ export const SizeVariantCard = styled.div`
   justify-content: space-between;
   height: 80px;
 
-  padding: 5px 20px;
+  padding: 5px 12px;
   background: #F7FAFC;
   border-radius: 10px;
 
@@ -546,7 +546,7 @@ export const Img = styled.div<{ background: string }>`
 	border-radius: 6px;
 	border: 1px solid #dee2e7;
 	background: ${({ background }) =>
-		background ? `url(${background})` : "#FFF"};
+    background ? `url(${background})` : "#FFF"};
 	background-size: contain;
 	background-repeat: no-repeat;
 `;
@@ -574,11 +574,11 @@ export const ConditionVariantCard = styled.div``;
 export const SubmitButton = styled.button<{ loading?: boolean }>`
 	background-color: #007bff;
 	color: #fff;
-	padding: ${(props) => (props.loading ? "7px" : "20px")};
+	padding: ${(props) => (props.loading ? "7px" : "12px")};
 	border: none;
 	cursor: pointer;
 	width: 100%;
-	margin: 20px 0;
+	margin: 12px 0;
 	border-radius: 10px;
 	background: var(
 		--primary-gradient,

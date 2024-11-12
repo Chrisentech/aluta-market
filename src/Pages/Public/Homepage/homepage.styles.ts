@@ -71,7 +71,7 @@ export const Home = styled.section`
 				justify-content: center;
 				align-items: center;
 
-				margin: 0 0 20px 0;
+				margin: 0 0 12px 0;
 			}
 			.detail {
 				font-family: inter;
@@ -122,7 +122,7 @@ export const Hero = styled.section`
 	background: #fff;
 	border: 1px solid var(--gray-300);
 	margin: 30px auto;
-	padding: 10px 20px;
+	padding: 10px 12px;
 	border-radius: 10px;
 	@media (max-width: 780px) {
 		display: block !important;
@@ -190,7 +190,7 @@ export const Hero = styled.section`
 				font-weight: 400;
 				line-height: 36.99px;
 				&.tt {
-					padding: 20px 40px;
+					padding: 12px 40px;
 				}
 				span {
 					font-weight: 700;
@@ -234,7 +234,7 @@ export const Hero = styled.section`
 			border-radius: 6px;
 			padding: 10px;
 			width: 250px;
-			min-height: 20px;
+			min-height: 12px;
 			background: #fff;
 			transition: 0.2s ease;
 			cursor: pointer !important;
@@ -254,7 +254,7 @@ export const Hero = styled.section`
 			flex-direction: column;
 			justify-content: center;
 			align-items: flex-start;
-			gap: 20px;
+			gap: 12px;
 
 			.top {
 				display: flex;
@@ -276,7 +276,7 @@ export const Hero = styled.section`
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-			gap: 20px;
+			gap: 12px;
 		}
 
 		display: flex;
@@ -301,7 +301,7 @@ export const Offers = styled.div`
 
   .info-card {
     width: 281px;
-    padding: 20px;
+    padding: 12px;
     display: flex
     flex-direction: column;
     align-items: flex-start;
@@ -310,7 +310,7 @@ export const Offers = styled.div`
     .top {
       p:first-child {
         color: #1c1c1c;
-        font-size: 20px;
+        font-size: 12px;
         font-weight: 600;
         line-height: 23px;
         letter-spacing -0.2px;
@@ -322,7 +322,7 @@ export const Offers = styled.div`
       }
     }
     .timer {
-      margin-top: 20px;
+      margin-top: 12px;
     }
   }
   .product-cards {
@@ -334,7 +334,7 @@ export const Offers = styled.div`
       // flex-direction: column;
       // align-items: center;
       // // justify-content: space-between;
-      // gap: 20px;
+      // gap: 12px;
       
       border: 1px solid #dee2e7;
       .bottom {
@@ -364,7 +364,7 @@ export const Offers = styled.div`
 
 export const GridContainer = styled.div`
 	box-sizing: border-box;
-	margin: 20px auto;
+	margin: 12px auto;
 	width: 90%;
 	margin: 25px auto;
 	height: 254px;
@@ -394,7 +394,7 @@ export const GridContainer = styled.div`
 			gap: 10px;
 			margin-top: 58px;
 			// width: 30%;
-			font-size: 20px;
+			font-size: 12px;
 			font-weight: 600;
 			line-height: 26px;
 			letter-spacing: -0.2px;
@@ -443,7 +443,7 @@ export const GridItem = styled.div<GridItemProps>`
 	h2 {
 		// justify-self: flex-start;
 		// align-self: flex-start;
-		font-size: 20px;
+		font-size: 12px;
 		font-weight: 600;
 		line-height: 26px;
 		width: 100%;
@@ -457,7 +457,7 @@ export const ProductRequestForm = styled.div`
 	width: 90%;
 	margin: 25px auto;
 	height: 446px;
-	margin: 20px auto;
+	margin: 12px auto;
 	transition: background-size 5s ease;
 	background: url("src/assets/image102.png");
 	background-size: cover;
@@ -473,7 +473,7 @@ export const ProductRequestForm = styled.div`
 		height: unset;
 	}
 	@media (max-width: 780px) {
-		padding: 20px;
+		padding: 12px;
 	}
 	&::before {
 		content: "";
@@ -498,7 +498,7 @@ export const ProductRequestForm = styled.div`
 		@media (max-width: 1280px) {
 			width: unset;
 			height: unset;
-			margin: 20px 0;
+			margin: 12px 0;
 		}
 		h2 {
 			font-size: 32px;
@@ -531,7 +531,7 @@ export const FormContainer = styled.form`
   flex-direction: column;
   justify-content: space-between;
   background-color: #fff;
-  padding: 20px;
+  padding: 12px;
   z-index: 2;
   border-radius: 6px;
   	@media(max-width: 1280px) {
@@ -549,7 +549,7 @@ export const FormContainer = styled.form`
 			}
 		}
   h2 {
-    font-size: 20px;
+    font-size: 12px;
     font-weight: 600;
     letter-spacing: -0.2px;
     line-height: 28px;
@@ -612,7 +612,7 @@ export const FormContainer = styled.form`
     width: 200px;
 		@media(max-width: 1280px) {
 			    width: 100%;
-				margin:20px 0
+				margin:12px 0
 		}
     &:hover {
       box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -678,7 +678,7 @@ export const Services = styled.form`
 			p {
 				position: relative;
 				top: -40px;
-				left: 20px;
+				left: 12px;
 				width: 60%;
 				color: #1c1c1c;
 				font-family: inter;
@@ -698,7 +698,7 @@ export const Divider = styled.div<{ color?: string }>`
 	font-size: 24px;
 	font-weight: 500;
 	z-index: 2;
-	top: 20px;
+	top: 12px;
 	height: 55px;
 	width: 55px;
 	border-radius: 50%;
@@ -716,7 +716,7 @@ export const Header1 = styled.h2`
 
 export const Newsletter = styled.div`
 	// width: 100%;
-	padding: 60px 20px;
+	padding: 60px 12px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -724,7 +724,7 @@ export const Newsletter = styled.div`
 	position: relative;
 	background: #eff2f4;
 	h2 {
-		font-size: 20px;
+		font-size: 12px;
 		font-weight: 600;
 		letter-spacing: -0.2px;
 	}

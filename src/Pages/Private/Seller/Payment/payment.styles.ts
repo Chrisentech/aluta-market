@@ -30,7 +30,7 @@ export const Wrapper = styled.div`
 		.tab_selectors{
 		    display: flex;
 			column-gap:40px;
-			margin:20px 0;
+			margin:12px 0;
 			h2{
 			cursor:pointer;
 			padding-bottom: 10px;
@@ -61,7 +61,7 @@ export const Wrapper = styled.div`
       outline: 0;
       border-radius: 6px;
 	  margin-left:auto;
-    margin-right: -20px;
+    margin-right: -12px;
       padding: 12px;
       cursor: pointer;
 	  font-size:14px;
@@ -74,8 +74,8 @@ export const Wrapper = styled.div`
 
     }
 		.account{
-		margin-bottom:20px;
-		padding:20px;
+		margin-bottom:12px;
+		padding:12px;
 		position:relative;
 		background:#F7FAFC;
 		width:400px;
@@ -101,16 +101,16 @@ export const Wrapper = styled.div`
 		}
 		svg{
 		position:absolute;
-		right:20px;
+		right:12px;
 		bottom:10px;
 
 		}
 		}
 		.info2{
 		background:#EFF2F4;
-		padding:20px;
+		padding:12px;
 		width:400px;
-		margin:20px 0;
+		margin:12px 0;
 		@media(max-width:500px){
 			width:90%
 		}
@@ -121,18 +121,18 @@ export const Wrapper = styled.div`
 		}
 	.card {
 		width: 250px !important;
-		margin: 20px 0;
+		margin: 12px 0;
 		@media (max-width: 1080px) {
-			margin: 20px auto;
+			margin: 12px auto;
 			padding: 30px;
 			width: calc(100% - 60px);
 		}
 	}
 		.	{
 		width: calc(100% - 160px) !important;
-		margin: 20px 0;
+		margin: 12px 0;
 		@media (max-width: 1080px) {
-			margin: 20px auto;
+			margin: 12px auto;
 			padding: 30px;
 			width: calc(100% - 60px);
 		}
@@ -173,7 +173,7 @@ export const Wrapper = styled.div`
 		margin-bottom: 15px;
 	}
 	.center {
-		margin: 20px 0;
+		margin: 12px 0;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -251,7 +251,7 @@ export const Wrapper = styled.div`
 			font-weight: 700;
 			line-height: normal;
 			svg {
-				margin: 0 0px 0 20px;
+				margin: 0 0px 0 12px;
 				font-size: 24px;
 			}
 		}
@@ -280,7 +280,7 @@ export const Wrapper = styled.div`
 		margin: 30px 0;
 		.classic {
 			width: 100%;
-			margin: 20px 0;
+			margin: 12px 0;
 			cursor: pointer;
 		}
 	}
@@ -308,7 +308,7 @@ export const Wrapper = styled.div`
 // 		font-feature-settings: "clig" off, "liga" off;
 // 		/* Title-H4 */
 // 		font-family: Inter;
-// 		font-size: 20px;
+// 		font-size: 12px;
 // 		font-style: normal;
 // 		font-weight: 600;
 // 		line-height: 28px; /* 140% */
@@ -324,13 +324,13 @@ export const Wrapper = styled.div`
 // 		font-weight: 400;
 // 		line-height: normal;
 // 		width: 80%;
-// 		margin: 20px auto;
+// 		margin: 12px auto;
 // 	}
 // `;
 
 export const GridItem = styled.div<{ background?: string }>`
 	display: flex;
-	gap: 20px;
+	gap: 12px;
 	align-items: center;
 	height: 100%;
 	position: relative;
@@ -375,7 +375,7 @@ export const GridItem = styled.div<{ background?: string }>`
 			letter-spacing: -0.2px;
 			margin-top: 3px;
 			@media (max-width: 1530px) {
-				font-size: 20px;
+				font-size: 12px;
 				@media (max-width: 1426px) {
 					font-size: 18px;
 					@media (max-width: 1082px) {
@@ -422,12 +422,12 @@ export const ErrorMessageWrapper = styled.div`
 export const Input = styled(Field) <{ error?: boolean; type?: string }>`
 	width: ${(props) =>
 		props.type === "checkbox" ? "unset" : "calc(100% -  40px)"};
-	padding: 20px;
+	padding: 12px;
 	border-radius: 10px;
 	// background: #f7fafc;
 	border: ${(props) => (props.error ? "1px solid red" : "0")};
 	outline: 0;
-	margin: 5px 0px 20px 0;
+	margin: 5px 0px 12px 0;
 	font-family: Inter;
 	font-size: 16px;
 	font-style: normal;
@@ -469,7 +469,7 @@ export const Heading = styled.div`
 		font-weight: 400;
 		line-height: normal;
 		letter-spacing: -0.2px;
-		margin: 0 0 20px 0;
+		margin: 0 0 12px 0;
 		@media (max-width: 600px) {
 			font-size: 14px !important;
 		}
@@ -488,7 +488,7 @@ export const FormControl = styled.div`
 	position: relative;
 	svg {
 		position: absolute;
-		right: 20px;
+		right: 12px;
 		top: 44px;
 		cursor: pointer;
 		transition: 0.5s ease;
@@ -498,11 +498,11 @@ export const FormControl = styled.div`
 export const SubmitButton = styled.button<{ loading?: boolean }>`
 	background-color: #0d6efd;
 	color: #fff;
-	padding: ${(props) => (props.loading ? "7px" : "20px 10px")};
+	padding: ${(props) => (props.loading ? "7px" : "12px 10px")};
 	border: none;
 	cursor: pointer;
 	width: 100%;
-	margin: 20px 0;
+	margin: 12px 0;
 	border-radius: 10px;
 
 	color: var(--white, #fff);

@@ -50,7 +50,7 @@ export const GridWrapper = styled.div`
 		border: 1px solid #ccc;
 		padding: 10px;
 		border-radius: 8px;
-		margin-bottom: 20px;
+		margin-bottom: 12px;
 		.img_container {
 		}
 	}

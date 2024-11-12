@@ -68,7 +68,7 @@ export const MainBlock = styled.section`
 	color: #000;
 	text-align: justify;
 
-	font-size: 20px;
+	font-size: 12px;
 	font-weight: 400;
 
 	h2 {
@@ -117,7 +117,7 @@ export const MainBlock = styled.section`
 
 	.link {
 		color: #0d6efd;
-		font-size: 20px;
+		font-size: 12px;
 		font-weight: 700;
 		text-decoration-line: underline;
 		transition: 0.4s ease;

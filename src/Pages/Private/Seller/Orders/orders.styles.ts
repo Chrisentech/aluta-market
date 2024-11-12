@@ -37,7 +37,7 @@ export const Wrapper = styled.div`
 		margin-top: 40px;
 		// width: 100%;
 		height: 600px;
-		border-radius: 20px;
+		border-radius: 12px;
 		background: #fff;
 		overflow: hidden;
 	}
@@ -45,7 +45,7 @@ export const Wrapper = styled.div`
 
 export const GridItem = styled.div<{ background?: string }>`
 	display: flex;
-	gap: 20px;
+	gap: 12px;
 	align-items: center;
 	height: 100%;
 	position: relative;
@@ -137,7 +137,7 @@ export const Main = styled.div`
 	margin-top: 40px;
 	width: 100%;
 	height: 800px;
-	border-radius: 20px;
+	border-radius: 12px;
 	background: #fff;
 	overflow: hidden;
 `;
@@ -150,7 +150,7 @@ export const Tabs = styled.div`
 `;
 
 export const TabOption = styled.div<{ active?: boolean; color?: string }>`
-	width: 120px;
+	width: 112px;
 	height: 48px;
 	padding: 13px 0;
 	border-bottom: ${({ active, color }) =>
@@ -171,7 +171,7 @@ export const TabOption = styled.div<{ active?: boolean; color?: string }>`
 	&:hover {
 		color: ${({ active, color }) => (active ? color : "#505050")};
 		border-bottom: ${({ active, color }) =>
-			active ? `${color} solid 2px` : "none"};
+		active ? `${color} solid 2px` : "none"};
 	}
 `;
 
@@ -182,7 +182,7 @@ export const TabContent = styled.div<{ empty: boolean }>`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	gap: 20px;
+	gap: 12px;
 	margin-top: ${({ empty }) => (empty ? "-100px" : "unset")};
 
 	.text {
@@ -197,7 +197,7 @@ export const TabContent = styled.div<{ empty: boolean }>`
 			line-height: 32px;
 		}
 		.info {
-			font-size: 20px;
+			font-size: 12px;
 			line-height: 28px;
 		}
 	}
@@ -229,7 +229,7 @@ export const OrderCard = styled.div`
 		flex-direction: row;
 		justify-content: space-between;
 		border-bottom: solid 1px #dee2e7;
-		padding-bottom: 20px;
+		padding-bottom: 12px;
 
 		.right {
 			display: flex;
@@ -283,8 +283,8 @@ export const OrderCard = styled.div`
 			}
 			.custom {
 				box-sizing: border-box;
-				height: 20px;
-				width: 20px;
+				height: 12px;
+				width: 12px;
 				background-color: #fff;
 				border: 1px solid #bdbdbd;
 				border-radius: 4px;

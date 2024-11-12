@@ -9,21 +9,21 @@ export const TableContainer = styled.div`
 	.Pending {
 		// background: #f37f004d;
 		// padding: 5px !important;
-		border-radius: 20px;
+		border-radius: 12px;
 		// width: 100px;
 		color: #f37f00;
 	}
 	.Delivered {
 		// background: #00B5174d;
 		// padding: 5px !important;
-		border-radius: 20px;
+		border-radius: 12px;
 		// width: 100px;
 		color: #00b517;
 	}
 	.Cancelled {
 		// background: #FA34344d;
 		// padding: 5px !important;
-		border-radius: 20px;
+		border-radius: 12px;
 		// width: 100px;
 		color: #fa3434;
 	}
@@ -61,7 +61,7 @@ line-height: normal;
 `;
 
 export const TableCell = styled.td`
-	padding: 20px 10px;
+	padding: 12px 10px;
 	border-bottom: 1px solid #dee2e7;
 	max-width:250px;
 	// text-align:center;

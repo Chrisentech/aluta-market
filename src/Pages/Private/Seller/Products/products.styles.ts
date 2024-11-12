@@ -15,7 +15,7 @@ margin:30px 0;
 			cursor: pointer;
 			flex: 0.8;
 			img{
-				width:220px;
+				width:212px;
 				   @media (max-width: 790px) {
        				width:67%;
 
@@ -109,20 +109,20 @@ export const Wrapper2 = styled.div`
 	
 	.card {
 		width: calc(100% - 160px);
-		margin: 20px 0;
+		margin: 12px 0;
 			display: flex;
 			flex-direction: column;
     .flex{
       display:flex;
       justify-content:space-between;
       align-items:center;
-      padding-bottom:20px;
+      padding-bottom:12px;
       margin-bottom:10px;
       border-bottom:2px solid #DEE2E7;
 	  
       .title{
         	font-family: Inter;
-		font-size: 20px;
+		font-size: 12px;
 		font-style: normal;
 		font-weight: 600;
 		line-height: 32px; /* 133.333% */
@@ -141,11 +141,11 @@ export const Wrapper2 = styled.div`
 	  }
     }
 		@media (max-width: 1080px) {
-			margin: 20px auto;
+			margin: 12px auto;
 			padding: 30px;
 			width: calc(100% - 60px);
 			@media(max-width:760px){
-				padding:30px 20px
+				padding:30px 12px
 			}
 		}
 	}
@@ -161,7 +161,7 @@ export const Wrapper2 = styled.div`
 		margin-bottom: 15px;
 	}
 	.center {
-		margin: 20px 0;
+		margin: 12px 0;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -239,7 +239,7 @@ export const Wrapper2 = styled.div`
 			font-weight: 700;
 			line-height: normal;
 			svg {
-				margin: 0 0px 0 20px;
+				margin: 0 0px 0 12px;
 				font-size: 24px;
 			}
 		}
@@ -268,7 +268,7 @@ export const Wrapper2 = styled.div`
 		margin: 30px 0;
 		.classic {
 			width: 100%;
-			margin: 20px 0;
+			margin: 12px 0;
 			cursor: pointer;
 		}
 	}
@@ -296,7 +296,7 @@ export const GridItem = styled.section<{ background: string }>`
 		font-feature-settings: "clig" off, "liga" off;
 		/* Title-H4 */
 		font-family: Inter;
-		font-size: 20px;
+		font-size: 12px;
 		font-style: normal;
 		font-weight: 600;
 		line-height: 28px; /* 140% */
@@ -312,6 +312,6 @@ export const GridItem = styled.section<{ background: string }>`
 		font-weight: 400;
 		line-height: normal;
 		width: 80%;
-		margin: 20px auto;
+		margin: 12px auto;
 	}
 `;

@@ -16,17 +16,20 @@ import {
 	alertError,
 	alertSuccess,
 } from "../../../../../Features/alert/alertSlice";
+import { fetchMe } from "../../../../../Features/user/userSlice";
 
 const MaintenanceMode: React.FC<{ active: any }> = () => {
 	const dispatch = useDispatch();
 	const { updateStore } = useStore();
 	const [loading, setLoading] = useState(false);
 	const store = useSelector(selectStore);
+	const me = useSelector(fetchMe);
 
 	const handleMaintenanceMode = async () => {
+		// alert("you");
 		try {
 			setLoading(true);
-			await updateStore({ id: store?.id, status: true });
+			await updateStore({ id: store?.id, status: false, user: me?.id });
 			dispatch(alertSuccess("Update successful."));
 			dispatch(closeModal("maintenanceMode"));
 		} catch (error: any) {

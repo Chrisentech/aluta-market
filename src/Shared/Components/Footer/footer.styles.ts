@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Wrapper = styled.footer`
 	// padding: 40px 80px;
 	background: #fff;
-	margin-top: 20px;
+	margin-top: 12px;
 	.logo_content {
 		color: #505050;
 		font-feature-settings: "clig" off, "liga" off;
@@ -13,7 +13,7 @@ export const Wrapper = styled.footer`
 		font-weight: 400;
 		line-height: 24px; /* 150% */
 		letter-spacing: -0.2px;
-		margin: 20px 0;
+		margin: 12px 0;
 	}
 `;
 
@@ -26,11 +26,11 @@ export const FooterTop = styled.footer`
 		display: block;
 	}
 	@media (max-width: 890px) {
-		padding: 20px;
+		padding: 12px;
 	}
 `;
 export const FooterItems = styled.div`
-	padding: 20px;
+	padding: 12px;
 	font-size: 16px;
 	h3 {
 		font-family: Inter;
@@ -58,7 +58,7 @@ export const FooterItems = styled.div`
 	}
 `;
 export const FooterBrand = styled.div`
-	padding: 20px;
+	padding: 12px;
 	font-family: Inter;
 	font-size: 16px;
 	font-style: normal;
@@ -76,20 +76,20 @@ export const FooterBrand = styled.div`
 	.flex {
 		display: flex;
 		gap: 10px;
-		margin: 20px 0;
+		margin: 12px 0;
 	}
 	.brand {
-		margin: 20px 0;
+		margin: 12px 0;
 	}
 `;
 export const FooterBottom = styled.div`
-	padding: 20px 80px;
+	padding: 12px 80px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	background: #eff2f4;
 	@media (max-width: 890px) {
-		padding: 20px;
+		padding: 12px;
 	}
 	select {
 		border: 0;
@@ -102,7 +102,7 @@ export const FooterBottom = styled.div`
 		letter-spacing: -0.2px;
 		cursor: pointer;
 		color: #8b96a5;
-		padding: 0 20px;
+		padding: 0 12px;
 		&:hover {
 			color: #ff001f;
 		}

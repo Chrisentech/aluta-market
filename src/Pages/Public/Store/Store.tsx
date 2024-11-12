@@ -39,12 +39,12 @@ import styled from "styled-components";
 
 const MaintenanceMessage = styled(motion.div)`
 	text-align: center;
-	padding: 20px;
+	padding: 12px;
 	background-color: #f8d7da;
 	color: #721c24;
 	border: 1px solid #f5c6cb;
 	border-radius: 5px;
-	margin: 20px auto;
+	margin: 12px auto;
 	width: 80%;
 	display: flex;
 	flex-direction: column;
@@ -53,7 +53,7 @@ const MaintenanceMessage = styled(motion.div)`
 	svg {
 		width: 100px;
 		height: 100px;
-		margin-bottom: 20px;
+		margin-bottom: 12px;
 	}
 `;
 
@@ -113,6 +113,8 @@ const Screen: React.FC = () => {
 		};
 		fetchProducts();
 	}, [sellerStore]);
+
+	console.log(sellerStore);
 
 	const handleMessage = async () => {
 		setLoading("message");
@@ -380,7 +382,7 @@ const Screen: React.FC = () => {
 								gridItems={myproducts}
 								itempergrid={7}
 								type="productGrid"
-								gap="20px"
+								gap="12px"
 								showPagination={false}
 							/>
 						</ProductSection>

@@ -223,9 +223,10 @@ const Screen: React.FC = () => {
 			thumbnail,
 			file: catalogue?.file ?? "",
 			quantity: alwaysAvailable ? 1 : quantity,
-			type: state?.type, //digital,physical or service
+			// type: state?.type, //digital,physical or service
 			always_available: alwaysAvailable,
 			store: store?.name,
+			status: true,
 		};
 		try {
 			await createProduct(payload);

@@ -25,7 +25,7 @@ export const Wrapper = styled.div`
 export const Main = styled.div`
 	width: 100%;
 	height: 800px;
-	border-radius: 20px;
+	border-radius: 12px;
 	background: #fff;
 	overflow: hidden;
 `;
@@ -185,7 +185,7 @@ export const Tabs = styled.div`
 `;
 
 export const TabOption = styled.div<{ active?: boolean }>`
-	width: 120px;
+	width: 112px;
 	height: 48px;
 	padding: 13px 0;
 	border-bottom: ${({ active }) =>
@@ -217,7 +217,7 @@ export const Cardbox = styled.div`
 	margin-top: 50px;
 	display: flex;
 	flex-direction: row;
-	gap: 20px;
+	gap: 12px;
 	margin-bottom: 200px;
 	@media (max-width: 690px) {
 		flex-direction: column;
@@ -297,7 +297,7 @@ export const ContactDetails = styled.div`
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
 		grid-column-gap: 60px;
-		grid-row-gap: 20px;
+		grid-row-gap: 12px;
 		margin-top: 45px;
 		margin-bottom: 200px;
 
@@ -323,7 +323,7 @@ export const InputField = styled.input`
 	box-sizing: border-box;
 	width: 100%;
 	height: 50px;
-	padding: 20px;
+	padding: 12px;
 	margin-top: 4px;
 	border: 1px solid #ccc;
 	border-radius: 10px;

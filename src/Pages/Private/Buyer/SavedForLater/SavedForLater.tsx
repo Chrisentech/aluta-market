@@ -129,7 +129,7 @@ const Screen: React.FC = () => {
 							justifyContent: "center",
 							height: "500px",
 							width: "100%",
-							padding: "20px",
+							padding: "12px",
 							textAlign: "center",
 							color: "#777",
 						}}

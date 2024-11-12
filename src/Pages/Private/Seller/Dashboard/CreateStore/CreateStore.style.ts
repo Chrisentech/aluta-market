@@ -14,10 +14,10 @@ margin:30px 0;
       align-items; center;
       justify-content: flex-end;
       flex-direction: row;
-      gap: 20px;
+      gap: 12px;
       font-family: inter;
       font-weight: 600;
-      font-size: 20px;
+      font-size: 12px;
       color: #505050;
     }
   }
@@ -35,7 +35,7 @@ margin:30px 0;
   }
   .card {
     width: calc(100% - 160px);
-    margin: 20px 0;
+    margin: 12px 0;
   }
   .badge {
     width: 70px;
@@ -49,7 +49,7 @@ margin:30px 0;
     margin-bottom: 15px;
   }
   .center {
-    margin: 20px 0;
+    margin: 12px 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -121,7 +121,7 @@ margin:30px 0;
       font-weight: 700;
       line-height: normal;
       img {
-        margin: 0 20px 0 0;
+        margin: 0 12px 0 0;
         height: 24px;
         width: 24px;
       }
@@ -142,7 +142,7 @@ margin:30px 0;
     margin: 30px 0;
     .classic {
       width: 100%;
-      margin: 20px 0;
+      margin: 12px 0;
       cursor: pointer;
     }
   }
@@ -170,7 +170,7 @@ export const GridItem = styled.div<{ background: string }>`
 		font-feature-settings: "clig" off, "liga" off;
 		/* Title-H4 */
 		font-family: Inter;
-		font-size: 20px;
+		font-size: 12px;
 		font-style: normal;
 		font-weight: 600;
 		line-height: 28px; /* 140% */
@@ -186,6 +186,6 @@ export const GridItem = styled.div<{ background: string }>`
 		font-weight: 400;
 		line-height: normal;
 		width: 80%;
-		margin: 20px auto;
+		margin: 12px auto;
 	}
 `;

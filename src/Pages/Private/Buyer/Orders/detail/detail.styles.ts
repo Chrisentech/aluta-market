@@ -29,9 +29,9 @@ export const Wrapper = styled.div`
 		box-sizing: border-box;
 		margin-top: 40px;
 		height: auto;
-		padding: 20px 45px;
+		padding: 12px 45px;
 		padding-bottom: 130px;
-		border-radius: 20px;
+		border-radius: 12px;
 		background: #fff;
 		overflow: hidden;
 		cursor: auto !important;
@@ -41,11 +41,11 @@ export const Wrapper = styled.div`
 		h3 {
 			color: #1c1c1c;
 			font-family: Inter;
-			font-size: 20px;
+			font-size: 12px;
 			font-weight: 600;
 			line-height: 28px;
 			letter-spacing: -0.2px;
-			padding: 20px 0;
+			padding: 12px 0;
 			border-bottom: 2px solid #dee2e7;
 			@media (max-width: 900px) {
 				font-size: 16px;
@@ -62,10 +62,10 @@ export const Wrapper = styled.div`
 				justify-content: flex-end;
 				align-items: center;
 				gap: 75px;
-				padding: 20px 70px;
+				padding: 12px 70px;
 				height: 75px;
 
-				font-size: 20px;
+				font-size: 12px;
 				font-family: Inter;
 				letter-spacing: -0.2px;
 
@@ -87,8 +87,8 @@ export const Wrapper = styled.div`
 
 export const OrderStatus = styled.div<{ status?: string }>`
 	border-bottom: 1px solid #dee2e7;
-	margin-bottom: 20px;
-	padding: 20px 0;
+	margin-bottom: 12px;
+	padding: 12px 0;
 
 	.info {
 		display: flex;
@@ -119,17 +119,17 @@ export const OrderStatus = styled.div<{ status?: string }>`
 		}
 		.status {
 			background: ${({ status }) =>
-				status === "pending"
-					? "#ff76121a"
-					: status === "processing"
-					? "#FF001F1A"
-					: "#00B5171A"};
+		status === "pending"
+			? "#ff76121a"
+			: status === "processing"
+				? "#FF001F1A"
+				: "#00B5171A"};
 			color: ${({ status }) =>
-				status === "pending"
-					? "#ff7612"
-					: status === "processing"
-					? "#FF001F"
-					: "#00B517"};
+		status === "pending"
+			? "#ff7612"
+			: status === "processing"
+				? "#FF001F"
+				: "#00B517"};
 			font-weight: 500;
 			padding: 4px 13px;
 			border-radius: 29px;
@@ -150,7 +150,7 @@ export const DeliveryDetails = styled.div`
 		flex: 1;
 	}
 	.bottom {
-		padding: 20px 0;
+		padding: 12px 0;
 		display: flex;
 		flex-direction: column;
 		// align-items: center;
@@ -180,7 +180,7 @@ export const DeliveryDetails = styled.div`
 			.name {
 				font-size: 18px;
 				font-weight: 600;
-				line-height: 20px;
+				line-height: 12px;
 				@media (max-width: 900px) {
 					font-size: 16px;
 				}

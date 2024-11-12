@@ -9,7 +9,7 @@ export const FilterContainer = styled.div`
 export const DropdownContainer = styled.div`
 	border-top: 1px solid #dee2e7;
 	font-family: inter;
-	padding: 10px 0 20px 0;
+	padding: 10px 0 12px 0;
 	.heading {
 		display: flex;
 		flex-direction: row;
@@ -39,8 +39,8 @@ export const OptionsContainer = styled.div<{ isOpen: boolean }>`
       }
       .custom {
         box-sizing: border-box;
-        height: 20px;
-        width: 20px;
+        height: 12px;
+        width: 12px;
         background-color: #fff;
         border: 3px solid #BDBDBD;
         border-radius: 4px;

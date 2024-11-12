@@ -239,8 +239,8 @@ const Screen: React.FC = () => {
 					<Card
 						width="inherit"
 						height={300}
-						borderRadius="20px"
-						padding={"20px 30px "}
+						borderRadius="12px"
+						padding={"12px 30px "}
 					>
 						<>
 							<div className="flex">
@@ -271,7 +271,7 @@ const Screen: React.FC = () => {
 					</Card>
 				</div>
 				<div className="second-section">
-					<Card width="inherit" borderRadius="20px" padding={"20px 30px "}>
+					<Card width="inherit" borderRadius="12px" padding={"12px 30px "}>
 						<div className="flex">
 							<h2>Visitors</h2>
 						</div>
@@ -322,8 +322,8 @@ const Screen: React.FC = () => {
 					<Card
 						width="inherit"
 						height="400px"
-						borderRadius="20px"
-						padding={"20px 30px "}
+						borderRadius="12px"
+						padding={"12px 30px "}
 						className="card"
 					>
 						<div className="flex">

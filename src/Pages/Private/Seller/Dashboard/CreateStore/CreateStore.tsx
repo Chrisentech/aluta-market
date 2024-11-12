@@ -50,7 +50,7 @@ const Screen: React.FC = () => {
 				width="100%"
 				padding="40px 80px"
 				height="500px"
-				borderRadius="20px"
+				borderRadius="12px"
 				onHover={false}
 				className="card"
 			>

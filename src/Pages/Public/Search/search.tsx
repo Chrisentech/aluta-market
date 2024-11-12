@@ -127,7 +127,7 @@ const Screen: React.FC = () => {
 										<FilterTag>
 											{filter}
 											<HiXMark
-												size="20px"
+												size="12px"
 												onClick={() => handleOptionChange(key, filter)}
 											>
 												x
@@ -148,7 +148,7 @@ const Screen: React.FC = () => {
 							listItems={products || []}
 							itempergrid={3}
 							type="productGrid"
-							gap="20px"
+							gap="12px"
 						/>
 					</MainView>
 				</Wrapper>

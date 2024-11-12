@@ -8,7 +8,7 @@ export const Container = styled.div`
 	// align-items: center;
 	// justify-content: center;
 	gap: 10px;
-	padding: 20px 0;
+	padding: 12px 0;
 	overflow: auto;
 	.error {
 		color: red;
@@ -18,7 +18,7 @@ export const Container = styled.div`
 	}
 	.header {
 		display: flex;
-		padding: 15px 20px;
+		padding: 15px 12px;
 		background: #f7fafc;
 		width: 100%;
 		align-items: center;
@@ -37,7 +37,7 @@ export const Container = styled.div`
 	.flex {
 		display: flex;
 		align-items: start;
-		gap: 20px;
+		gap: 12px;
 	}
 	.content {
 		padding: 10px 15px;
@@ -64,8 +64,8 @@ export const Container = styled.div`
 		/* Create a custom radio button */
 		.checkmark {
 			position: relative;
-			height: 20px;
-			width: 20px;
+			height: 12px;
+			width: 12px;
 			cursor: pointer;
 			background-color: #eee;
 			border: 1px #eee;
@@ -131,11 +131,11 @@ export const Info = styled.p`
 export const SubmitButton = styled.button<{ loading?: boolean }>`
 	background: #f7690c;
 	color: #fff;
-	padding: ${(props) => (props.loading ? "7px" : "20px")};
+	padding: ${(props) => (props.loading ? "7px" : "12px")};
 	border: none;
 	cursor: pointer;
 	width: 100%;
-	margin: 20px 0;
+	margin: 12px 0;
 	border-radius: 10px;
 	color: var(--white, #fff);
 	text-align: center;

@@ -31,14 +31,14 @@ export const Container = styled.button<IButtonInterface>`
 	color: ${({ color }) => (color ? color : "#808080")};
 	background: ${({ background }) => (background ? background : "#fff")};
 	border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius : "6px")};
-	padding: 0 ${({ padding }) => (padding ? padding : "20px")};
+	padding: 0 ${({ padding }) => (padding ? padding : "12px")};
 	transition: 0.6s ease;
 	position: relative;
 	cursor: pointer !important;
-	padding: ${(props) => (props.loading ? "7px" : "20px")};
+	padding: ${(props) => (props.loading ? "7px" : "12px")};
 	&:hover {
 		box-shadow: ${({ onHover, hasBoxShadow }) =>
-			onHover && hasBoxShadow ? "rgba(0, 0, 0, 0.35) 0px 5px 15px" : ""};
+		onHover && hasBoxShadow ? "rgba(0, 0, 0, 0.35) 0px 5px 15px" : ""};
 		transform: translateY(-1px);
 	}
 	&:disabled {

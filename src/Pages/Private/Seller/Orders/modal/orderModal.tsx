@@ -33,7 +33,7 @@ const OrderModal: React.FC<{
 						display: "flex",
 						justifyContent: "end",
 						background: "#F7FAFC",
-						padding: "20px",
+						padding: "12px",
 					}}
 				>
 					<CircleDismissIcon onClick={handleCancel} />
@@ -97,7 +97,7 @@ const OrderModal: React.FC<{
 					display: "flex",
 					justifyContent: "end",
 					background: "#F7FAFC",
-					padding: "20px",
+					padding: "12px",
 				}}
 			>
 				<CircleDismissIcon onClick={handleCancel} />

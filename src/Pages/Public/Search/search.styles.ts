@@ -17,7 +17,7 @@ export const Wrapper = styled.div`
 	width: 100%;
 	display: flex;
 	flex-direction: row;
-	gap: 20px;
+	gap: 12px;
 `;
 
 export const Sidebar = styled.div``;
@@ -26,7 +26,7 @@ export const MainView = styled.div`
 	width: 100%;
 	.view {
 		width: 100%;
-		margin: 20px 0;
+		margin: 12px 0;
 	}
 `;
 
@@ -69,7 +69,7 @@ export const Filters = styled.div`
 	flex-direction: row;
 	align-items: center;
 	gap: 10px;
-	margin-top: 20px;
+	margin-top: 12px;
 	.clear {
 		color: #fa3434;
 		cursor: pointer;

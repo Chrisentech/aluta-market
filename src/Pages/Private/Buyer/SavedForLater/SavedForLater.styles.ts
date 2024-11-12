@@ -62,7 +62,7 @@ export const GridWrapper = styled.div`
 		}
 		.svg {
 			position: absolute;
-			right: 20px;
+			right: 12px;
 			top: 16px;
 			color: #ccc;
 			@media (max-width: 480px) {
@@ -106,7 +106,7 @@ export const Container = styled.div`
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-		gap: 20px;
+		gap: 12px;
 
 		.button {
 			text-align: center;

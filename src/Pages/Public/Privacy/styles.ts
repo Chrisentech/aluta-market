@@ -34,7 +34,7 @@ export const Wrapper = styled.div`
 		width: 80%;
 		margin: 0 auto;
 		p {
-			margin: 20px 0;
+			margin: 12px 0;
 			font-family: Inter;
 			font-size: 18px;
 		}

@@ -82,7 +82,7 @@ export const LeftPanel = styled.div`
 		align-items: center;
 		display: flex;
 		margin: 30px 0 35px 0;
-		gap: 20px;
+		gap: 12px;
 		p {
 			color: var(--gray-500, #8b96a5);
 			text-align: center;
@@ -165,10 +165,10 @@ export const FormControl = styled.div`
 	flex-direction: column;
 	gap: 10px;
 	position: relative;
-	margin-bottom: 20px;
+	margin-bottom: 12px;
 	svg {
 		position: absolute;
-		right: 20px;
+		right: 12px;
 		top: 56px;
 		cursor: pointer;
 		transition: 0.5s ease;
@@ -208,8 +208,8 @@ export const CustomCheckbox = styled.input.attrs({ type: "checkbox" }) <{
 	~ .custom {
 		display: inline-block;
 		box-sizing: border-box;
-		height: 20px;
-		width: 20px;
+		height: 12px;
+		width: 12px;
 		background-color: #fff;
 		border: 1px solid #bdbdbd;
 		border-radius: 4px;
@@ -231,7 +231,7 @@ export const Input = styled(Field) <{
 }>`
 	width: ${(props: any) =>
 		props.type === "checkbox" ? "unset" : "calc(100% -  40px)"};
-	padding: 20px;
+	padding: 12px;
 	border-radius: 10px;
 	color: ${(props: any) =>
 		props.readOnly ? `${AppColors.brandColor}` : "inherit"};
@@ -253,7 +253,7 @@ export const Input = styled(Field) <{
 `;
 export const Select = styled.select<{ error: boolean; type: string }>`
   width: ${(props: any) => (props.type === "checkbox" ? "unset" : "100%")};
-  padding: 20px;
+  padding: 12px;
   cursor: pointer;
   border-radius: 10px;
   background: #fff;
@@ -296,7 +296,7 @@ export const SubmitButton = styled.button<{
 }>`
 	// background-color: #007bff;
 	// color: #fff;
-	padding: ${(props) => (props.loading ? "7px" : "20px")};
+	padding: ${(props) => (props.loading ? "7px" : "12px")};
 	border: none;
 	cursor: pointer;
 	width: 100%;
@@ -316,7 +316,7 @@ export const SubmitButton = styled.button<{
 	line-height: normal;
 	@media (${BreakPoints.xs}) {
 		width: 111%;
-		padding: 15px 20px;
+		padding: 15px 12px;
 	}
 `;
 

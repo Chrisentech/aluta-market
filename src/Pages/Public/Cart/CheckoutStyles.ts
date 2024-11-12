@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
 	margin: 0 auto;
 	margin-top: 40px;
 	position: relative;
-	@media (max-width: 1220px) {
+	@media (max-width: 1212px) {
 		width: 90%;
 	}
 	.content {
@@ -34,8 +34,8 @@ export const Wrapper = styled.div`
 		/* Create a custom radio button */
 		.checkmark {
 			position: relative;
-			height: 20px;
-			width: 20px;
+			height: 12px;
+			width: 12px;
 			cursor: pointer;
 			background-color: #eee;
 			border: 1px #eee;
@@ -74,7 +74,7 @@ export const Wrapper = styled.div`
 	.flex {
 		display: flex;
 		align-items: start;
-		gap: 20px;
+		gap: 12px;
 		.section {
 			&:nth-child(1) {
 				flex: 0.7;
@@ -84,7 +84,7 @@ export const Wrapper = styled.div`
 						padding: 10px;
 						font-family: Inter;
 						font-weight: 600;
-						font-size: 20px;
+						font-size: 12px;
 					}
 				}
 			}
@@ -93,7 +93,7 @@ export const Wrapper = styled.div`
 				.card {
 					box-sizing: border-box;
 					max-height: 329px;
-					padding: 20px;
+					padding: 12px;
 					background: #fff;
 					border-radius: 6px;
 					font-size: 16px;
@@ -117,12 +117,12 @@ export const Wrapper = styled.div`
 					.bottom {
 						border-top: 1px solid #e4e4e4;
 						margin-top: 10px;
-						padding: 20px 0;
+						padding: 12px 0;
 						.total {
 							span {
 								font-weight: 600;
 								&:last-child {
-									font-size: 20px;
+									font-size: 12px;
 								}
 							}
 						}
@@ -143,7 +143,7 @@ export const Wrapper = styled.div`
 				border-radius: 6px;
 				background: #fff;
 				min-height: 200px;
-				margin-bottom: 20px;
+				margin-bottom: 12px;
 
 				.section2 {
 					display: flex;
@@ -151,9 +151,9 @@ export const Wrapper = styled.div`
 					.img_container {
 						background: #e0e0e04d;
 						border-radius: 6px;
-						width: 120px;
-						height: 120px;
-						margin: 20px;
+						width: 112px;
+						height: 112px;
+						margin: 12px;
 						display: flex;
 						justify-content: center;
 						align-items: center;
@@ -164,7 +164,7 @@ export const Wrapper = styled.div`
 						}
 					}
 					.details {
-						margin: 20px 0;
+						margin: 12px 0;
 						h2 {
 							font-family: Inter;
 							font-weight: 500;

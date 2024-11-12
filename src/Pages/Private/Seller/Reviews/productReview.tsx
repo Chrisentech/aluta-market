@@ -20,16 +20,14 @@ const Screen: React.FC = () => {
 		(arr) => arr.length > 0
 	);
 	const repeatCount = nonEmptyArrays.length;
-	console.log(reviews.filter(
-											(review: any) => Math.round(review.rating) 
-										))
+	console.log(reviews.filter((review: any) => Math.round(review.rating)));
 	return (
 		<Wrapper>
 			<Card
 				width="100%"
 				padding=""
 				height="600px"
-				borderRadius="20px"
+				borderRadius="12px"
 				onHover={false}
 				className="review_card"
 			>
@@ -45,54 +43,67 @@ const Screen: React.FC = () => {
 								<span>5</span>
 								<BsStarFill color="rgba(255, 144, 23, 1)" />
 								<span>
-									({
+									(
+									{
 										reviews.filter(
 											(review: any) => Math.round(review.rating) === 5
 										)?.length
-									})
+									}
+									)
 								</span>
 							</p>
 							<p>
 								<span>4</span>
 								<BsStarFill color="rgba(255, 144, 23, 1)" />
 								<span>
-									
-									({
+									(
+									{
 										reviews.filter(
 											(review: any) => Math.round(review.rating) === 4
 										)?.length
-									})
+									}
+									)
 								</span>
 							</p>
 							<p>
 								<span>3</span>
 								<BsStarFill color="rgba(255, 144, 23, 1)" />
 								<span>
-									
-									({
+									(
+									{
 										reviews.filter(
 											(review: any) => Math.round(review.rating) === 3
 										)?.length
-									})
+									}
+									)
 								</span>
 							</p>
 							<p>
 								<span>2</span>
 								<BsStarFill color="rgba(255, 144, 23, 1)" />
-								<span>( {
+								<span>
+									({" "}
+									{
 										reviews.filter(
 											(review: any) => Math.round(review.rating) === 2
 										)?.length
-									})</span>
+									}
+									)
+								</span>
 							</p>
 							<p>
 								<span>1</span>
 								<BsStarFill color="rgba(255, 144, 23, 1)" />
-								<span> ({
+								<span>
+									{" "}
+									(
+									{
 										reviews.filter(
 											(review: any) => Math.round(review.rating) === 1
 										)?.length
-									})</span>
+									}
+									)
+								</span>
 							</p>
 						</div>
 					</div>

@@ -16,7 +16,7 @@ export const Container = styled.div`
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-		gap: 20px;
+		gap: 12px;
 
 		.button {
 			text-align: center;

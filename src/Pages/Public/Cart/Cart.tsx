@@ -151,7 +151,7 @@ const Screen: React.FC = () => {
 									hasBoxShadow={false}
 									width="auto"
 									height="136px"
-									padding="20px 0"
+									padding="12px 0"
 									onHover={false}
 									className="card"
 								>
@@ -383,7 +383,7 @@ const Screen: React.FC = () => {
 								justifyContent: "center",
 								height: "300px",
 								width: "100%",
-								padding: "20px",
+								padding: "12px",
 								textAlign: "center",
 								color: "#777",
 							}}
@@ -419,7 +419,7 @@ const Screen: React.FC = () => {
 								justifyContent: "center",
 								height: "300px",
 								width: "100%",
-								padding: "20px",
+								padding: "12px",
 								textAlign: "center",
 								color: "#777",
 							}}

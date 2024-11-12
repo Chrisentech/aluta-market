@@ -125,9 +125,10 @@ const Screen: React.FC = () => {
 	}, [maintenanceMode]);
 
 	const handleMaintenanceMode = async () => {
+		// alert("hi");
 		try {
 			setLoading(true);
-			await updateStore({ id: store?.id, status: false });
+			await updateStore({ id: store?.id, status: true });
 			dispatch(alertSuccess("Update successful."));
 			setActive(true);
 		} catch (error: any) {
@@ -384,7 +385,7 @@ const Screen: React.FC = () => {
 							>
 								<div className="top-card">
 									<p className="top-text">Maintenance Mode</p>
-									{store?.status ? (
+									{!store?.status ? (
 										!loading ? (
 											<MdToggleOn
 												size="55px"

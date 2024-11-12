@@ -29,7 +29,7 @@ export const Wrapper = styled.div`
     .apply {
         font-family: inter;
         font-weight: 500;
-        margin: 20px auto;
+        margin: 12px auto;
     }
 `;
 
@@ -39,14 +39,14 @@ export const InputContainer = styled.div`
     flex-direction: row;
     gap: 10px;
     label {
-        margin-top: 20px;
+        margin-top: 12px;
         width: 110px;
         display: flex;
         flex-direction: column;
         gap: 5px;
         input {
             border: 1px solid #dee2e7;
-            height: 20px;
+            height: 12px;
             border-radius: 6px;
             padding: 10px
         }

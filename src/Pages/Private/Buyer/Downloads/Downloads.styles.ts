@@ -20,7 +20,7 @@ width: 100px;
 		justify-content: center;
 }
 		.info {
-			font-size: 20px;
+			font-size: 12px;
 			line-height: 28px;
 			margin-bottom:10px;color:#505050
 		}
@@ -50,9 +50,9 @@ width: 100px;
 	}
 
 	.main {
-		margin-top: 20px;
+		margin-top: 12px;
 		min-height: 600px;
-		border-radius: 20px;
+		border-radius: 12px;
 		background: #fff;
         .grid{
         display:flex;
@@ -66,10 +66,10 @@ width: 100px;
         }
         .first {
     display: flex;
-    gap: 20px;
+    gap: 12px;
     height: 100%; /* Set explicit height here */
     .content{
-    // margin-top:20px;
+    // margin-top:12px;
     display:flex;
     flex-direction:column;
     	h2,
@@ -79,7 +79,7 @@ width: 100px;
 		margin-bottom: 8px;
 		font-feature-settings: "clig" off, "liga" off;
 		font-family: Inter;
-		font-size: 20px;
+		font-size: 12px;
 		font-style: normal;
 		font-weight: 600;
 		line-height: 28px; /* 140% */

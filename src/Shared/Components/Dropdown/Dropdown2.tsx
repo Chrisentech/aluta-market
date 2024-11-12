@@ -12,13 +12,13 @@ export const DropdownContainer = styled.button<{
 }>`
   position: relative;
   padding: ${({ padding }) => (padding ? padding : "10px 0px")};
-  margin: ${({ margin }) => (margin ? margin : "20px 5px 20px 20px")};
+  margin: ${({ margin }) => (margin ? margin : "12px 5px 12px 12px")};
   width: ${({ width }) => (width ? width : "calc(100% - 40px)")};
   border-radius: 6px;
   outline: none;
   border: none;
   cursor: pointer;
-  min-height: 20px;
+  min-height: 12px;
   color: #505050;
   font-family: Inter;
   font-size: 16px;

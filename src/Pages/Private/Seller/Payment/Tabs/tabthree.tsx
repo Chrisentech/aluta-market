@@ -106,7 +106,7 @@ const InvoiceTab: React.FC = () => {
 			width="unset"
 			padding="40px 80px"
 			height="500px"
-			borderRadius="20px"
+			borderRadius="12px"
 			onHover={false}
 			className="card3"
 		>

@@ -511,7 +511,7 @@ const LoginPage = () => {
 					ModalContent
 				)
 			}
-			modalPadding={"20px 12px"}
+			modalPadding={"12px 12px"}
 			showModal={activeModal}
 			layout={"blank"}
 			component={() => <Screen />}

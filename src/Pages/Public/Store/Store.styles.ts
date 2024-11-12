@@ -4,7 +4,7 @@ export const Page = styled.div`
 	min-height: 50vh;
 	width: 100%;
 
-	margin: 20px auto;
+	margin: 12px auto;
 	background: #f7fafc;
 
 	
@@ -36,7 +36,7 @@ export const Container = styled.div`
         display: flex;
         flex-direction: row;
         gap: 10px;
-        margin-top: 20px;
+        margin-top: 12px;
         .button {
             font-family: inter;
             font-weight: 600;
@@ -90,7 +90,7 @@ export const ShopInfo = styled.div`
 			color: #000;
 		}
 		p {
-			line-height: 20px;
+			line-height: 12px;
 			letter-spacing: -0.2px;
 			color: #505050;
 		}
@@ -103,14 +103,14 @@ export const ShopInfo = styled.div`
 			width: 250px;
 			h2 {
 				color: #1c1c1c;
-				font-side: 20px;
+				font-side: 12px;
 				font-weight: 600;
 				line-height: 32px;
 				letter-spacing: -0.2px;
 				margin-bottom: 5px;
 			}
 			p {
-				line-height: 20px;
+				line-height: 12px;
 				letter-spacing: -0.2px;
 				color: #505050;
 			}
@@ -119,7 +119,7 @@ export const ShopInfo = styled.div`
 `;
 
 export const BackgroundPhoto = styled.div<{ background: string }>`
-	height: 320px;
+	height: 312px;
 	width: 100%;
 	background: ${({ background }) => background && "url(" + background + ")"};
 	background-size: cover;
@@ -131,7 +131,7 @@ export const MainSection = styled.div`
 	width: 100%;
 	height: 800px;
 	background: #ffffff;
-	border-radius: 20px;
+	border-radius: 12px;
 	border: 1px solid #eff2f4;
 	margin-top: 10px;
 	margin-bottom: 50px;
@@ -147,7 +147,7 @@ export const MainSection = styled.div`
 		cursor: pointer;
 		flex: 0.8;
 		img {
-			// width: 220px;
+			// width: 212px;
 			@media (max-width: 790px) {
 				width: 67%;
 			}
@@ -158,7 +158,7 @@ export const MainSection = styled.div`
 export const Top = styled.div`
 	box-sizing: border-box;
 	height: 95px;
-	padding: 20px 40px;
+	padding: 12px 40px;
 	border-bottom: 1px solid #eff2f4;
 	margin-bottom: 40px;
 	display: flex;
@@ -216,7 +216,7 @@ export const SearchTab = styled.div`
 export const ProductSection = styled.div`
     box-sizing: border-box;
     padding: 10px;
-    border-radius: 20px;
+    border-radius: 12px;
     margin: auto;
     overflow-y: scroll;
     height: 77%;

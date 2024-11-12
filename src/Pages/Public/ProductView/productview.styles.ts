@@ -28,16 +28,16 @@ export const OrderDetail = styled.div`
 	border: 1px solid #dee2e7;
 	background: #fff;
 	border-radius: 6px;
-	padding: 20px;
+	padding: 12px;
 	margin-top: 84px;
 	//   display: flex;
-	gap: 20px;
+	gap: 12px;
 	display: grid;
 	grid-template-columns: repeat(3, 3fr);
 	flex-direction: row;
 	//   justify-content: space-between;
 	align-items: flex-start;
-	@media (max-width: 1520px) {
+	@media (max-width: 1512px) {
 		grid-template-columns: repeat(2, 3fr);
 	}
 	@media (max-width: 978px) {
@@ -99,7 +99,7 @@ export const ProductName = styled.div`
 			display: block;
 		}
 		h2 {
-			font-size: 20px;
+			font-size: 12px;
 			color: #1c1c1c;
 			font-weight: 600;
 			line-height: 28px;
@@ -139,7 +139,7 @@ export const Variations = styled.div`
 			flex-direction: row;
 			gap: 10px;
 			margin-top: 10px;
-			margin-bottom: 20px;
+			margin-bottom: 12px;
 			@media (max-width: 780px) {
 				flex-wrap: wrap;
 			}
@@ -157,16 +157,16 @@ export const DeliveryInfo = styled.div`
 	box-shadow: 0px 1px 2px 0px rgba(56, 56, 56, 0.08);
 	padding: 16px;
 	color: #1c1c1c;
-	@media (max-width: 1520px) {
+	@media (max-width: 1512px) {
 		display: none;
 	}
 	.store {
-		height: 120px;
+		height: 112px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: flex-start;
-		gap: 20px;
+		gap: 12px;
 		border-bottom: 1px solid #e0e0e0;
 		.button {
 			margin-top: -5px;
@@ -175,7 +175,7 @@ export const DeliveryInfo = styled.div`
 	.delivery-details {
 		display: flex;
 		flex-direction: column;
-		padding: 20px 0px;
+		padding: 12px 0px;
 		justify-content: space-between;
 		gap: 10px;
 	}
@@ -297,12 +297,12 @@ export const Description = styled.div`
 	border: 1px solid #dee2e7;
 	border-radius: 6px;
 	box-shadow: 0px 1px 3px rgba(56, 56, 56, 0.1);
-	padding: 20px;
+	padding: 12px;
 	font-family: inter;
 	max-height: 500px;
 	overflow: auto;
 	.title {
-		font-size: 20px;
+		font-size: 12px;
 		font-weight: 600;
 		line-height: 28px;
 		letter-spacing: -0.2px;
@@ -314,7 +314,7 @@ export const Description = styled.div`
 		line-height: 24px;
 		letter-spacing: -0.2px;
 		color: #505050;
-		margin: 20px auto;
+		margin: 12px auto;
 		text-align: justify;
 	}
 `;
@@ -365,7 +365,7 @@ export const SuggestionsWrapper = styled.div`
 	font-family: inter;
 	font-size: 16px;
 	display: flex;
-	padding: 20px 0px;
+	padding: 12px 0px;
 	flex-direction: column;
 	align-items: center;
 	gap: 15px;
@@ -409,10 +409,10 @@ export const RelatedWrapper = styled.div`
 	margin-bottom: 30px;
 	display: flex;
 	flex-direction: column;
-	padding: 20px;
+	padding: 12px;
 	// align-items: center;
 	.grid-wrapper {
-		margin-top: 20px;
+		margin-top: 12px;
 		overflow: auto;
 		@media (max-width: 800px) {
 			scrollbar-width: none; /* Firefox */
@@ -424,12 +424,12 @@ export const RelatedWrapper = styled.div`
 	}
 	.title {
 		font-family: inter;
-		font-size: 20px;
+		font-size: 12px;
 		font-weight: 600;
 		line-height: 28px;
 		letter-spacing: -0.2px;
 		color: #1c1c1c;
-		margin-top: 20px;
+		margin-top: 12px;
 		align-self: flex-start;
 		// margin-left: 25px;
 	}
@@ -444,7 +444,7 @@ export const DiscountBanner = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 20px;
+	padding: 12px;
 	color: #fff;
 	p {
 		font-size: 24px;

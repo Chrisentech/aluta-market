@@ -99,7 +99,7 @@ const Screen: React.FC = () => {
 					<h3>Rate this Product</h3>
 				</head>
 				<div className="flex">
-					<ImageCard src={phone} width="120px" />
+					<ImageCard src={phone} width="112px" />
 					<div>
 						<h3>Samsung Phone</h3>
 						<Rating numberOfRates={rating} />

@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
 	width: 85%;
 	min-height: 72vh;
 	margin: 40px auto;
-	// padding: 20px;
+	// padding: 12px;
 	top: 0px;
 	overflow: hidden;
 	border-radius: 4px;
@@ -17,10 +17,10 @@ export const Sidebar = styled.div`
 	background: #fff;
 	flex: 0.25;
 	h2 {
-		font-size: 20px;
+		font-size: 12px;
 		font-weight: 600;
 		line-height: 25px;
-		padding: 15px 20px;
+		padding: 15px 12px;
 		border-bottom: 3px solid #ccc;
 		border-right: 3px solid #ccc;
 	}
@@ -35,7 +35,7 @@ export const Sidebar = styled.div`
 	}
 
 	.list_container {
-		padding: 15px 20px;
+		padding: 15px 12px;
 		height: 596px;
 		overflow-y: auto;
 		.child {
@@ -104,8 +104,8 @@ export const Sidebar = styled.div`
 				justify-content: center;
 				align-items: center;
 				border-radius: 50%;
-				width: 20px;
-				height: 20px;
+				width: 12px;
+				height: 12px;
 				float: inline-end;
 			}
 			p {
@@ -119,7 +119,7 @@ export const Sidebar = styled.div`
 		overflow: hidden;
 		text-overflow: ellipsis;
 		@media (min-width: 768px) {
-			width: 220px;
+			width: 212px;
 		}
 	}
 `;
@@ -171,7 +171,7 @@ export const MessageBody = styled.div`
 		align-items: center;
 		display: flex;
 		margin: 30px auto 35px auto;
-		gap: 20px;
+		gap: 12px;
 		p {
 			color: var(--gray-500, #8b96a5);
 			text-align: center;
@@ -191,8 +191,8 @@ export const MessageBody = styled.div`
 	form {
 		position: absolute;
         bottom:0px;
-		// left: 20px;
-        padding:10px 20px;
+		// left: 12px;
+        padding:10px 12px;
 		width: calc(100% - 40px);
 		z-index: 1000;
         background:#888888b0;
@@ -212,12 +212,12 @@ export const MessageBody = styled.div`
 	 .picture{
         right:160px;
 		position: absolute;    
-        top:20px;
+        top:12px;
     }
 		.send{
         right:50px;
 		position: absolute;    
-        top:20px;
+        top:12px;
     }
 	}
 		input {
@@ -234,7 +234,7 @@ export const MessageBody = styled.div`
 		.content{
 			height :480px;
 			overflow-y: scroll;
-			padding-bottom: 120px;
+			padding-bottom: 112px;
 	overflow-y: scroll;
 	scrollbar-width: none;
 	transition: 0.3s ease all;
@@ -267,7 +267,7 @@ export const MessageBody = styled.div`
 		.self{
 			margin-left:auto;
 			background: #ff001f;
-			margin-right:20px;
+			margin-right:12px;
             color:#fff;
 			p{
 				float:inline-end

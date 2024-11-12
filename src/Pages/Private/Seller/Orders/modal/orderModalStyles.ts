@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
 		align-items: center;
 		justify-content: center;
 		width: 90%;
-		margin: 20px auto;
+		margin: 12px auto;
 	}
 	h2 {
 		font-size: 32px;

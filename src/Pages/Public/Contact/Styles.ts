@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-	margin-top: 120px;
+	margin-top: 112px;
 	min-height: 70vh;
 	padding: 30px;
 	@media (max-width: 480px) {
@@ -18,7 +18,7 @@ export const Wrapper = styled.div`
 			font-weight: 600;
 			font-size: 24px;
 			@media (max-width: 480px) {
-				font-size: 20px;
+				font-size: 12px;
 			}
 		}
 	}
@@ -27,7 +27,7 @@ export const Wrapper = styled.div`
 		margin: 30px auto;
 		background: #fff;
 		border-radius: 10px;
-		padding: 20px;
+		padding: 12px;
 		min-height: 500px;
 		display: flex;
 
@@ -75,7 +75,7 @@ export const Wrapper = styled.div`
 			display: flex;
 			flex-direction: column;
 			margin: 0 auto;
-			padding: 20px 140px;
+			padding: 12px 140px;
 			@media (max-width: 900px) {
 				padding: 10px;
 			}
@@ -90,7 +90,7 @@ export const Wrapper = styled.div`
 				background: #f7fafc;
 				border-radius: 10px;
 				padding: 15px;
-				margin: 20px 0;
+				margin: 12px 0;
 				width: calc(100% - 30px);
 				outline: none;
 
@@ -113,7 +113,7 @@ export const Wrapper = styled.div`
 			}
 		}
 		p {
-			margin: 20px 0;
+			margin: 12px 0;
 			font-family: Inter;
 			font-size: 18px;
 		}

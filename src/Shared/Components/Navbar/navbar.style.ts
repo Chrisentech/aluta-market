@@ -38,7 +38,7 @@ export const SecondWrapper = styled.nav`
 
 export const Flex = styled.div`
 	display: flex;
-	gap: 20px;
+	gap: 12px;
 	align-items: center;
 	svg {
 		cursor: pointer;
@@ -166,7 +166,7 @@ export const IconWrapper = styled.a`
 	svg {
 		cursor: pointer;
 		transition: 0.3s ease-in-out;
-		font-size: 20px;
+		font-size: 12px;
 	}
 	label {
 		transition: 0.3s ease-in-out;
@@ -208,7 +208,7 @@ export const Sidebar = styled.div<{ show: boolean }>`
 	}
 	.title {
 		background: ${AppColors.brandGray};
-		padding: 20px;
+		padding: 12px;
 		div {
 			display: flex;
 			flex-direction: column;
@@ -263,7 +263,7 @@ export const SearchSuggestions = styled.div<{ show: boolean }>`
 	top: 95%;
 	max-height: 300px;
 	overflow: auto;
-	padding-bottom: 20px;
+	padding-bottom: 12px;
 	border-radius: 0 0 12px 12px;
 `;
 
@@ -286,7 +286,7 @@ export const Suggestion = styled.div`
 
 export const HomeNavbar = styled.div<{ show: boolean }>`
 header{
-	width:calc(100vw - 20px);
+	width:calc(100vw - 12px);
 	top:0;
 	padding:10px ;
 	margin-bottom:10px;
@@ -346,8 +346,8 @@ header{
 				top:12px !important;
 			}
 			img{
-				width:20px !important;
-				height:20px !important;
+				width:12px !important;
+				height:12px !important;
 			}
 			li{
 				align-items:unset !important;

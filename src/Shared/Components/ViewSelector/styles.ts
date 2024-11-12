@@ -50,8 +50,8 @@ export const ProductCard = styled.div<{
 		}
 	}
 	.image {
-		height: 120px;
-		padding: 20px;
+		height: 112px;
+		padding: 12px;
 		flex-grow: 1;
 		display: flex;
 		align-items: center;
@@ -96,7 +96,7 @@ export const ProductDetails = styled.div<{ view?: string; type?: string }>`
 		margin: 8px 0;
 		font-feature-settings: "clig" off, "liga" off;
 		font-family: Inter;
-		font-size: ${({ view }) => (view === "grid" ? "18px" : "20px")};
+		font-size: ${({ view }) => (view === "grid" ? "18px" : "12px")};
 		font-style: normal;
 		font-weight: 600;
 		line-height: 28px; /* 140% */
@@ -113,7 +113,7 @@ export const ProductDetails = styled.div<{ view?: string; type?: string }>`
 `;
 export const ProductFlex = styled.div`
 	display: flex;
-	//   gap: 20px;
+	//   gap: 12px;
 	align-items: center;
 	span {
 		font-feature-settings: "clig" off, "liga" off;
@@ -156,8 +156,8 @@ export const ViewButton = styled(NavLink)`
 
 export const WishCard = styled.div`
 	padding: 10px;
-	height: 20px;
-	width: 20px;
+	height: 12px;
+	width: 12px;
 	border-radius: 6px;
 	display: flex;
 	justify-content: center;
@@ -165,7 +165,7 @@ export const WishCard = styled.div`
 	box-shadow: rgba(0, 0, 0, 0.14) 0px 3px 8px;
 	cursor: pointer;
 	position: absolute;
-	right: 20px;
+	right: 12px;
 `;
 
 export const GridWrapper = styled.div<{
@@ -192,12 +192,12 @@ export const StatusBadge = styled.div<{ status: string }>`
 		status === "pending"
 			? "#ff76121a"
 			: status === "processing"
-			? "#FF001F1A"
-			: "#00B5171A"};
+				? "#FF001F1A"
+				: "#00B5171A"};
 	color: ${({ status }) =>
 		status === "pending"
 			? "#ff7612"
 			: status === "processing"
-			? "#FF001F"
-			: "#00B517"};
+				? "#FF001F"
+				: "#00B517"};
 `;

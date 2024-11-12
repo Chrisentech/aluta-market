@@ -7,14 +7,14 @@ export const PaginationContainer = styled.div`
 	//   justify-content: flex-end;
 	flex-direction: row-reverse;
 	gap: 30px;
-	margin-bottom: 20px;
+	margin-bottom: 12px;
 `;
 
 export const PaginationWrapper = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
-	margin-top: 20px;
+	margin-top: 12px;
 	background: #dee2e7;
 	padding: 0;
 	border-radius: 8px;
@@ -23,7 +23,7 @@ export const PaginationWrapper = styled.div`
 `;
 export const PageButton = styled.button<{ active?: boolean }>`
 	font-size: 16px;
-	padding: 10px 20px;
+	padding: 10px 12px;
 	margin: 0 1px;
 	//   border-radius: 6px;
 	height: 40px;
@@ -61,10 +61,10 @@ export const Dots = styled.span`
 
 export const Select = styled.select`
 	height: 40px;
-	margin-top: 20px;
+	margin-top: 12px;
 	border-radius: 8px;
 	background: #fff;
-	padding: 0 20px;
+	padding: 0 12px;
 	width: 125px;
 	color: var(--dark, #1c1c1c);
 	font-family: Inter;

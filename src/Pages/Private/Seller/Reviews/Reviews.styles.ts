@@ -4,7 +4,7 @@ export const Wrapper = styled.div`
 	box-sizing: border-box;
 	//   height: 200px;
 	width: 100%;
-	padding: 20px;
+	padding: 12px;
 	margin-top: 10px;
 	overflow-x: hidden;
 	.icon {
@@ -14,7 +14,7 @@ export const Wrapper = styled.div`
 		justify-content: center;
 		flex-direction: column;
 		align-items: center;
-		margin-top: 20px;
+		margin-top: 12px;
 		text-align: center;
 	}
 
@@ -36,7 +36,7 @@ export const Wrapper = styled.div`
 			background: #f7fafc;
 			box-shadow: none;
 			border-radius: 8px;
-			padding: 15px 20px;
+			padding: 15px 12px;
 		}
 	}
 	.grid_container {
@@ -54,7 +54,7 @@ export const Wrapper = styled.div`
 		}
 		section {
 			position: absolute;
-			left: 20px;
+			left: 12px;
 			bottom: 10px;
 		}
 		.good {
@@ -76,7 +76,7 @@ export const Wrapper = styled.div`
 		.good,
 		.bad,
 		.fair {
-			padding: 10px 20px;
+			padding: 10px 12px;
 			height: 200px;
 			border-radius: 5px;
 			position: relative;
@@ -98,7 +98,7 @@ export const Wrapper = styled.div`
 export const Top = styled.div`
 	box-sizing: border-box;
 	height: 95px;
-	padding: 20px 40px;
+	padding: 12px 40px;
 	border-bottom: 1px solid #eff2f4;
 	margin-bottom: 40px;
 	display: flex;

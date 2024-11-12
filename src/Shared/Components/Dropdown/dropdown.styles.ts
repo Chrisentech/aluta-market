@@ -10,12 +10,12 @@ export const DropdownWrapper = styled.button<{
 }>`
   position: relative;
   padding: ${({ padding }) => (padding ? padding : "10px 0px")};
-  margin: ${({ margin }) => (margin ? margin : "20px 5px 20px 20px")};
+  margin: ${({ margin }) => (margin ? margin : "12px 5px 12px 12px")};
   width: ${({ width }) => (width ? width : "calc(100% - 40px)")};
   border-radius: 6px;
   outline: 0;
   cursor: pointer;
-  min-height: 20px;
+  min-height: 12px;
   color: #002 !important;
   display: flex;
   flex-direction: column;
@@ -32,7 +32,7 @@ export const DropdownWrapper = styled.button<{
     position: absolute;
     right: 10px;
     top: ${({ offset }) =>
-    offset ? offset + " !important" : "20px !important"};
+    offset ? offset + " !important" : "12px !important"};
     transition: 0.6s ease;
   }
   &:hover {

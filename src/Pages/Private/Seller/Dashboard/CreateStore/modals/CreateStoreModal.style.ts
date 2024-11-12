@@ -49,7 +49,7 @@ export const InputField = styled.input`
 	box-sizing: border-box;
 	width: 100%;
 	height: 50px;
-	padding: 20px;
+	padding: 12px;
 	margin-top: 4px;
 	border: 1px solid #ccc;
 	border-radius: 10px;
@@ -62,7 +62,7 @@ export const TextArea = styled.textarea`
 	box-sizing: border-box;
 	height: 75px;
 	width: 100%;
-	padding: 20px;
+	padding: 12px;
 	margin-top: 4px;
 	border: 1px solid #ccc;
 	border-radius: 10px;
@@ -120,8 +120,8 @@ export const CheckBox = styled.label<{ small?: boolean }>`
 		top: 5px;
 		display: inline-block;
 		box-sizing: border-box;
-		height: 20px;
-		width: 20px;
+		height: 12px;
+		width: 12px;
 		background-color: #fff;
 		border: 1px solid #bdbdbd;
 		border-radius: 4px;

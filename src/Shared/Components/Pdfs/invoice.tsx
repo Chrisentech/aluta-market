@@ -77,7 +77,7 @@
 
 // // Styled component for the button
 // const StyledButton = styled.div`
-// 	margin-top: 20px;
+// 	margin-top: 12px;
 // 	padding: 10px;
 // 	background-color: #ff7612;
 // 	color: white;

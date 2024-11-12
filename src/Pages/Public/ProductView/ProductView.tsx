@@ -234,14 +234,14 @@ const Screen: React.FC = () => {
 									<Rating numberOfRates={parseInt(averageRating.toFixed(1))} />{" "}
 									{averageRating.toFixed(1)}
 								</div>
-								<RxDotFilled size="20px" color="#DBDBDB" />
+								<RxDotFilled size="12px" color="#DBDBDB" />
 								<div className="item">
-									<MdOutlineMessage size="20px" /> {product?.review?.length}{" "}
+									<MdOutlineMessage size="12px" /> {product?.review?.length}{" "}
 									reviews
 								</div>
-								<RxDotFilled size="20px" color="#DBDBDB" />
+								<RxDotFilled size="12px" color="#DBDBDB" />
 								<div className="item">
-									<MdOutlineShoppingBasket size="20px" /> 154 sold
+									<MdOutlineShoppingBasket size="12px" /> 154 sold
 								</div>
 							</div>
 						</ProductName>
@@ -455,7 +455,7 @@ const Screen: React.FC = () => {
 								<div className="grid-wrapper">
 									<GridView
 										gridItems={filteredProducts}
-										gap="20px"
+										gap="12px"
 										itempergrid={8}
 										type="productGrid"
 										cardType="type2"
@@ -509,7 +509,7 @@ const Screen: React.FC = () => {
 						<small>Have you ever finally just lorem ipsum</small>
 					</div>
 					<Button
-						width="120px"
+						width="112px"
 						height={40}
 						padding={16}
 						gap={10}

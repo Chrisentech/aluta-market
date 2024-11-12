@@ -10,8 +10,8 @@ export const Container = styled.div<IProductGridProps>`
 		column ? "repeat(" + column + ", 1fr)" : "repeat(5, 1fr)"};
 	grid-template-rows: ${({ row }) =>
 		row ? "repeat(" + row + ", 1fr)" : "repeat(2, 1fr)"};
-	grid-row-gap: 20px;
-	margin: 20px auto;
+	grid-row-gap: 12px;
+	margin: 12px auto;
 	gap: 10px;
 	@media (max-width: 800px) {
 		// grid-template-columns: repeat(1, 1fr);
@@ -37,7 +37,7 @@ export const Container = styled.div<IProductGridProps>`
 			justify-content: center;
 			align-items: center;
 
-			margin: 0 0 20px 0;
+			margin: 0 0 12px 0;
 		}
 		.detail {
 			font-family: inter;

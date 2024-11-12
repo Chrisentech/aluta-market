@@ -11,7 +11,7 @@ import axios from "axios";
 const ModalContainer = styled.div`
 	background: #cccccc91;
 	border-radius: 8px;
-	padding: 20px;
+	padding: 12px;
 	width: calc(100% - 40px);
 	height: 100%;
 	max-width: 500px;
@@ -24,11 +24,11 @@ const ModalContainer = styled.div`
 `;
 
 const ModalHeader = styled.h2`
-	margin: 0 0 20px;
+	margin: 0 0 12px;
 `;
 
 const UploadInput = styled.input`
-	margin: 20px 0;
+	margin: 12px 0;
 	display: none;
 	width: 100%;
 	text-align: center;

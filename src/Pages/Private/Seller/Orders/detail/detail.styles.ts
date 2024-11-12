@@ -26,9 +26,9 @@ export const Wrapper = styled.div`
 		box-sizing: border-box;
 		margin-top: 40px;
 		height: auto;
-		padding: 20px 45px;
+		padding: 12px 45px;
 		padding-bottom: 130px;
-		border-radius: 20px;
+		border-radius: 12px;
 		background: #fff;
 		overflow: hidden;
 		cursor: auto !important;
@@ -36,11 +36,11 @@ export const Wrapper = styled.div`
 		h3 {
 			color: #1c1c1c;
 			font-family: Inter;
-			font-size: 20px;
+			font-size: 12px;
 			font-weight: 600;
 			line-height: 28px;
 			letter-spacing: -0.2px;
-			padding: 20px 0;
+			padding: 12px 0;
 			border-bottom: 2px solid #dee2e7;
 		}
 
@@ -54,10 +54,10 @@ export const Wrapper = styled.div`
 				justify-content: flex-end;
 				align-items: center;
 				gap: 75px;
-				padding: 20px 70px;
+				padding: 12px 70px;
 				height: 75px;
 
-				font-size: 20px;
+				font-size: 12px;
 				font-family: Inter;
 				letter-spacing: -0.2px;
 
@@ -79,8 +79,8 @@ export const Wrapper = styled.div`
 
 export const OrderStatus = styled.div`
 	border-bottom: 1px solid #dee2e7;
-	margin-bottom: 20px;
-	padding: 20px 0;
+	margin-bottom: 12px;
+	padding: 12px 0;
 
 	.info {
 		display: flex;
@@ -135,7 +135,7 @@ export const CustomerDetails = styled.div`
 	font-family: Inter;
 
 	.bottom {
-		padding: 20px 0;
+		padding: 12px 0;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
@@ -165,7 +165,7 @@ export const CustomerDetails = styled.div`
 			.name {
 				font-size: 18px;
 				font-weight: 600;
-				line-height: 20px;
+				line-height: 12px;
 			}
 			.number {
 				font-size: 16px;

@@ -151,7 +151,7 @@ export const generateOrderNumber = (): string => {
 	const randomDigits = Math.floor(Math.random() * 1000)
 		.toString()
 		.padStart(3, "0");
-	return `Am${timestamp}${randomDigits}`;
+	return `Am-${timestamp}${randomDigits}`;
 };
 
 export const truncateText = (text: string, maxLength: number): string => {
