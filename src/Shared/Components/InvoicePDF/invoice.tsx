@@ -269,7 +269,7 @@ export const Invoice: React.FC<any> = ({ data }) => {
 					</CallToActionButton>
 				</div>
 				{/* Print / Download Button */}
-				<PrintButton onClick={reactToPrintFn}>
+				<PrintButton onClick={() => reactToPrintFn()}>
 					Print / Download Invoice
 				</PrintButton>
 			</InvoiceContainer>
