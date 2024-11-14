@@ -32,6 +32,7 @@ import {
 } from "../../../../Features/alert/alertSlice";
 import axios from "axios";
 import { selectLoadingState } from "../../../../Features/loading/loadingSlice";
+import { fetchMe } from "../../../../Features/user/userSlice";
 import MaintenanceMode from "./modals/MaintenanceMode";
 import { Loader } from "../../../../Shared/Components/Button/Button.styles";
 import DeleteAccountModal from "../Profile/modals/DeleteAccountModal";
@@ -41,6 +42,7 @@ const Screen: React.FC = () => {
 	const [activeTab, setActiveTab] = useState<1 | 2 | 3>(1);
 	const { maintenanceMode, updateStore } = useStore();
 	const store = useSelector(selectStore);
+	const me = useSelector(fetchMe);
 	// alert(JSON.stringify(store));
 	const thumbnailInputRef = useRef<HTMLInputElement>(null);
 	const profileImgInputRef = useRef<HTMLInputElement>(null);
@@ -128,7 +130,7 @@ const Screen: React.FC = () => {
 		// alert("hi");
 		try {
 			setLoading(true);
-			await updateStore({ id: store?.id, status: true });
+			await updateStore({ id: store?.id, status: true, user: me?.id });
 			dispatch(alertSuccess("Update successful."));
 			setActive(true);
 		} catch (error: any) {
