@@ -160,113 +160,6 @@ const Screen: React.FC = () => {
 		}
 	};
 
-	if (!sellerStore?.status)
-		return (
-			<Page>
-				<BackgroundPhoto
-					background={
-						sellerStore?.background ||
-						"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQLbvWGTFQh6OGWPfkLx2xBS_OP3oZJzQubA&s"
-					}
-				/>
-				<Container>
-					<div className="profile-image">
-						{getCapitalizedFirstLetter(sellerStore?.name) || "A"}
-					</div>
-					<ShopInfo>
-						<div className="title">
-							<h1>{sellerStore?.name?.toUpperCase()}</h1>
-							<p>{sellerStore?.description}</p>
-							<div className="buttons">
-								<Button
-									className="button"
-									width={117}
-									border="1px solid #FA3434 "
-									color="#FA3434"
-									disabled={loading === "follow"}
-									loading={loading === "follow"}
-									onClick={() =>
-										handleFollowStore(
-											sellerStore?.followers?.some(
-												(f: any) => f.follower_id == me?.id
-											)
-												? "unfollow"
-												: "follow"
-										)
-									}
-								>
-									{loading === "follow" ? (
-										<span>Loading...</span>
-									) : sellerStore?.followers?.some(
-											(f: any) => f.follower_id == me?.id
-									  ) ? (
-										"Unfollow"
-									) : (
-										"Follow"
-									)}
-								</Button>
-								<Button
-									className="button"
-									width={117}
-									disabled={loading === "message"}
-									loading={loading === "message"}
-									onClick={handleMessage}
-								>
-									{loading === "message" ? (
-										<span>Loading...</span>
-									) : (
-										<img src={message} />
-									)}
-									Message
-								</Button>
-								<Button
-									className="button"
-									width={117}
-									background="linear-gradient(180deg, #FF7612 0%, #FF001F 100%)"
-									color="#FFFFFF"
-								>
-									<ReportIcon />
-									Report
-								</Button>
-							</div>
-						</div>
-						<div className="contact-info">
-							<div className="contact">
-								<h2>Contact</h2>
-								<p>{sellerStore?.phone}</p>
-								<p>{sellerStore?.email}</p>
-							</div>
-							<div className="address">
-								<h2>Address</h2>
-								<p>{sellerStore?.address}</p>
-							</div>
-						</div>
-					</ShopInfo>
-					<MaintenanceMessage
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						transition={{ duration: 0.5 }}
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							strokeWidth={1.5}
-							stroke="currentColor"
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								d="M12 4.5V3m0 0a9 9 0 11-9 9h1.5a7.5 7.5 0 107.5-7.5zm0 0a9 9 0 119 9h-1.5a7.5 7.5 0 00-7.5-7.5z"
-							/>
-						</svg>
-						<h2>Store is Currently in Maintenance Mode</h2>
-						<p>Please check back later.</p>
-					</MaintenanceMessage>
-				</Container>
-			</Page>
-		);
-
 	return (
 		<Page>
 			<BackgroundPhoto
@@ -441,7 +334,7 @@ const LiveView = () => {
 			isLoading={!sellerStore}
 			showModal={activeModal}
 			modalWidth={500}
-			popUpContent={ModalContent}
+			popUpContent={sellerStore?.status ? <div>Hey</div> : ModalContent}
 			navMode="noSearch"
 		/>
 	);

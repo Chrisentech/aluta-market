@@ -1,5 +1,9 @@
 import React, { useEffect } from "react";
-import { CircleDismissIcon, MoneyIcon, ThankYouIcon } from "../../../../assets";
+import {
+	CircleDismissIcon,
+	CircleMark,
+	ThankYouIcon,
+} from "../../../../assets";
 import { useDispatch } from "react-redux";
 import { closeModal, showModal } from "../../../../Features/modal/modalSlice";
 import { Button } from "../../../../Shared/Components";
@@ -27,7 +31,7 @@ const Modal: React.FC<{ data?: any }> = () => {
 				<CircleDismissIcon onClick={handleCancel} />
 			</div>
 			<Img>
-				<MoneyIcon />
+				<CircleMark />
 			</Img>
 			<h2>Thank you for your Purchase🎉</h2>
 
