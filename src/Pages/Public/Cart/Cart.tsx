@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../../Layouts";
+import { useLocation } from "react-router-dom";
+import Modal from "./modal/modal.tsx";
 import {
 	Container,
 	Empty,
@@ -443,27 +445,37 @@ const Screen: React.FC = () => {
 };
 
 const Cart = () => {
+	const location = useLocation();
+	const queryParams = new URLSearchParams(location.search);
+	const txRef = queryParams.get("tx_ref") || queryParams.get("reference");
+
 	const activeModal = useSelector(selectActiveModal);
 	const { cart } = useCart();
 	const costOfDelivery = 200;
 	const discount = 0;
-	console.log(cart);
+
 	const payload = {
 		...cart,
 		total: costOfDelivery + (cart?.total ?? 0 + discount),
 	};
 	const loading = useSelector(selectLoadingState);
+
 	return (
 		<Layout
 			layout={"full"}
 			component={Screen}
-			popUpContent={<PaymentModal data={payload} />}
+			popUpContent={
+				activeModal === "thank-you" || txRef ? (
+					<Modal />
+				) : (
+					<PaymentModal data={payload} />
+				)
+			}
 			showModal={activeModal}
 			isLoading={!cart || loading}
 			navMode="noSearch"
-			modalWidth={560}
+			modalWidth={500}
 		/>
 	);
 };
-
 export default Cart;
