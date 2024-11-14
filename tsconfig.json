@@ -8,6 +8,8 @@
 		"esModuleInterop": true,
 		"outDir": "./dist",
 		"rootDir": "./src",
+		"noEmitOnError": false
+
 
 		/* Bundler mode */
 		"moduleResolution": "bundler",
