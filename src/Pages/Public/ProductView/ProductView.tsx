@@ -384,7 +384,7 @@ const Screen: React.FC = () => {
 										<span>{homeAddress?.address ? "N7,890" : "N0.00"}</span>
 									</p>
 									<p className="detail">
-										{homeAddress?.address}
+										{homeAddress?.address} <br />
 										<span>Delivery within 24 hours</span>
 									</p>
 									<p
@@ -416,9 +416,9 @@ const Screen: React.FC = () => {
 								</CardIcon>
 								<div className="card-info">
 									<p className="header">Return Policy</p>
-									<p className="fee">
+									{/* <p className="fee">
 										Fee: <span>N700</span>
-									</p>
+									</p> */}
 									<p className="detail">
 										Kindly return any bad or wrong product to our station within
 										24 hours of delivery for refund.

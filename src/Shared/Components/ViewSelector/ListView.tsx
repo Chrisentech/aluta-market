@@ -64,9 +64,11 @@ const ListView: React.FC<{
 									/>
 									<ProductDetails>
 										<h1>
-											{`${item?.products[0].name} and ${
-												item?.products?.length - 1
-											} other item(s)`}
+											{item?.products?.length > 1
+												? `${item?.products[0].name} and ${
+														item?.products?.length - 1
+												  } other item(s)`
+												: item?.products[0].name}
 										</h1>
 										<div className="price">
 											<span>

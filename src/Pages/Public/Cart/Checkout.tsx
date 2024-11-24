@@ -35,11 +35,17 @@ const Screen: React.FC<{
 	const homeAddress = useSelector(selectHomeDelivery) || me?.paymnetDetails;
 
 	const handlePaymentModal = () => {
+		console.log({ address, homeAddress });
 		if (!address) {
-			dispatch(alertError("Select one of the delivery addresses"));
+			dispatch(alertError("Select one of the delivery routes"));
 			return;
+		} else if (!homeAddress.address) {
+			dispatch(alertError("You have to set up a home/delivery address"));
+			dispatch(showModal("changeAddress"));
+			return;
+		} else {
+			dispatch(showModal("payment"));
 		}
-		dispatch(showModal("payment"));
 	};
 	const pickUpLocation = useSelector(selectPickupStation);
 	const handleRadioSelection = async (value: any) => {

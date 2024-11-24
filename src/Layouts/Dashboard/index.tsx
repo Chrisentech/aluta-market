@@ -65,11 +65,7 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 	const options = ["+ Create a new Store"];
 	const [active, setActive] = useState("");
 	const [selectedOption, setSelectedOption] = useState("null");
-	useEffect(() => {
-		if (!mode) {
-			setMode(me?.usertype);
-		}
-	}, [me]);
+
 	// useEffect(() => {
 	// // 	mode == "seller" && getMyStores({ user: me?.id, limit: 100, offset: 0 });
 	// // }, [mode]);
@@ -153,6 +149,22 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 			setActive(""); // Set default active state here
 		}
 	}, [currentPath]);
+
+	useEffect(() => {
+		const buyerRoutes = [
+			ROUTE.BUYER_ORDER,
+			ROUTE.BUYER_SAVED_ORDER,
+			ROUTE.BUYER_DOWNLOAD,
+			ROUTE.BUYER_PRODUCT_REVIEW,
+			ROUTE.BUYER_PROFILE,
+			ROUTE.BUYER_STORES_FOLLOWED,
+		];
+		if (buyerRoutes.some((route) => currentPath.includes(route))) {
+			setMode("buyer");
+		} else {
+			setMode("seller");
+		}
+	}, [me, currentPath]);
 	return (
 		<Wrapper>
 			{mode == "seller" ? (
