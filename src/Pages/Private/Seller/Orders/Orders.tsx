@@ -16,7 +16,10 @@ import {
 	selectStore,
 	selectStores,
 } from "../../../../Features/store/storeSlice";
-import { selectActiveModal } from "../../../../Features/modal/modalSlice";
+import {
+	selectActiveModal,
+	showModal,
+} from "../../../../Features/modal/modalSlice";
 import {
 	GridItem,
 	OrderCard,
@@ -28,7 +31,10 @@ import {
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { AppColors, ROUTE } from "../../../../Shared/Constants";
 import { FaCheck } from "react-icons/fa";
-import { alertSuccess } from "../../../../Features/alert/alertSlice";
+import {
+	alertError,
+	alertSuccess,
+} from "../../../../Features/alert/alertSlice";
 import {
 	calculateTotalPrice,
 	formatCurrency,
@@ -37,9 +43,11 @@ import {
 } from "../../../../Shared/Utils/helperFunctions";
 import { Puff } from "react-loading-icons";
 import OrderModal from "./modal/orderModal";
+import useStore from "../../../../Features/store/storeAction";
 
 const Screen: React.FC = () => {
 	const dispatch = useDispatch();
+	const { updateOrders } = useStore();
 	const [activeTab, setActiveTab] = useState<string>("pending");
 	const [copied, setCopied] = useState<boolean>(false);
 	const nav = useNavigate();
@@ -64,6 +72,7 @@ const Screen: React.FC = () => {
 	const store = useSelector(selectStore);
 
 	const [myOrders, setMyOrders] = useState(store?.orders);
+	console.log(store);
 	useEffect(() => {
 		setMyOrders(store?.orders);
 	}, [store]);
@@ -77,29 +86,29 @@ const Screen: React.FC = () => {
 
 			if (ok) {
 				setLoading(num);
-				// try {
-				// 	await updateOrders({ id, status, store_id: store?.id });
-				// 	setChecked(id);
+				try {
+					await updateOrders({ id, status, store_id: store?.id });
+					setChecked(id);
 
-				// 	const newOrder = myOrders.find((order: any) => order.uuid === id);
-				// 	let filteredOrder = myOrders.filter(
-				// 		(order: any) => order.uuid !== id
-				// 	);
-				// 	filteredOrder = [...filteredOrder, newOrder];
-				// 	console.log(filteredOrder);
-				// 	setMyOrders(filteredOrder);
+					const newOrder = myOrders.find((order: any) => order.uuid === id);
+					let filteredOrder = myOrders.filter(
+						(order: any) => order.uuid !== id
+					);
+					filteredOrder = [...filteredOrder, newOrder];
+					console.log(filteredOrder);
+					setMyOrders(filteredOrder);
 
-				// 	if (status === "canceled") {
-				// 		dispatch(showModal("canceled_order_modal"));
-				// 	} else {
-				// 		dispatch(showModal("processing_order_modal"));
-				// 	}
-				// } catch (error: any) {
-				// 	console.error("Failed to update order status:", error);
-				// 	dispatch(alertError(error?.message));
-				// } finally {
-				// 	setLoading(null);
-				// }
+					if (status === "canceled") {
+						dispatch(showModal("canceled_order_modal"));
+					} else {
+						dispatch(showModal("processing_order_modal"));
+					}
+				} catch (error: any) {
+					console.error("Failed to update order status:", error);
+					dispatch(alertError(error?.message));
+				} finally {
+					setLoading(null);
+				}
 			}
 		}
 	};

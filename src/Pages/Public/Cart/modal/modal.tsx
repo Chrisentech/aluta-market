@@ -9,6 +9,7 @@ import { closeModal, showModal } from "../../../../Features/modal/modalSlice";
 import { Button } from "../../../../Shared/Components";
 
 import { Container, Img } from "./modal";
+import { ROUTE } from "../../../../Shared/Constants";
 
 const Modal: React.FC<{ data?: any }> = () => {
 	const dispatch = useDispatch();
@@ -39,16 +40,17 @@ const Modal: React.FC<{ data?: any }> = () => {
 				Your order is set, keep an eye on your email for updates. Our swift
 				delivery squad will be in touch shortly. 🚀
 			</p>
-
-			<Button
-				className="btn"
-				width="60%"
-				type="submit"
-				color="white"
-				background="linear-gradient(180deg, #FF7612 0%, #FF001F 100%);"
-			>
-				Set Address
-			</Button>
+			<a href={`${window.location.origin}/${ROUTE.BUYER_ORDER}`}>
+				<Button
+					className="btn"
+					width="60%"
+					type="submit"
+					color="white"
+					background="linear-gradient(180deg, #FF7612 0%, #FF001F 100%);"
+				>
+					Go to my Order
+				</Button>
+			</a>
 		</Container>
 	);
 };

@@ -8,7 +8,7 @@ export const ws = new WebSocket("wss://aluta-market-api.onrender.com/ws?token=" 
 
 
 const httpLink = new HttpLink({
-	//uri: "https://api.thealutamarket.com/graphql", //Production
+	// uri: "https://api.thealutamarket.com/graphql", //Production
 	uri: BE_URI + "/graphql", //Production
 	// uri: "http://localhost:8082/graphql", //Development
 	headers: {

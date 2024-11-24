@@ -67,14 +67,16 @@ const Screen: React.FC = () => {
 								)}
 							</div>
 
-							<Button
-								background="transparent"
-								padding={"10px !important"}
-								color="#002"
-								hasBoxShadow={false}
-							>
-								Finish Payment
-							</Button>
+							{state.transStatus === "not paid" && (
+								<Button
+									background="transparent"
+									padding={"10px !important"}
+									color="#002"
+									hasBoxShadow={false}
+								>
+									Finish Payment
+								</Button>
+							)}
 						</div>
 					</div>
 				</OrderStatus>

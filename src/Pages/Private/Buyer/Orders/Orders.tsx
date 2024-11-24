@@ -62,13 +62,14 @@ const Screen: React.FC = () => {
 	};
 
 	useEffect(() => {
-		console.log(purchasedOrders);
 		const fetchData = async () => {
 			await getPurchasedData(me?.id ?? 0);
 		};
+
 		if (me?.id && !purchasedOrders) {
 			fetchData();
 		}
+		console.log(purchasedOrders);
 	}, [me]);
 
 	const isArrayEmpty = () => {

@@ -9,7 +9,7 @@ import {
 	ViewButton,
 	StatusBadge,
 } from "./styles.ts";
-import {  Card, ImageCard, Pagination, Rating } from "../index.ts";
+import { Card, ImageCard, Pagination, Rating } from "../index.ts";
 import { PiDotOutlineFill } from "react-icons/pi";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { AppColors, ROUTE } from "../../Constants/index.ts";
@@ -63,7 +63,11 @@ const ListView: React.FC<{
 										src={item?.products[0].thumbnail}
 									/>
 									<ProductDetails>
-										<h1>{item?.products[0].name}</h1>
+										<h1>
+											{`${item?.products[0].name} and ${
+												item?.products?.length - 1
+											} other item(s)`}
+										</h1>
 										<div className="price">
 											<span>
 												&#8358;{" "}

@@ -42,7 +42,7 @@ export default function useStore() {
 			dispatch(actions.setStores(response.data.Stores.data));
 			dispatch(setNotLoading());
 		} catch (error: any) {
-			let parsedErr = JSON.parse(error.message);
+			let parsedErr = JSON?.parse(error?.message);
 			dispatch(
 				alertError({ message: parsedErr?.message, code: parsedErr?.code })
 			);

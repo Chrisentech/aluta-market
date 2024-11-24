@@ -47,6 +47,7 @@ const STORE_FIELDS = gql`
 		orders {
 			store_id
 			status
+			trtRef
 			customer {
 				name
 				phone
