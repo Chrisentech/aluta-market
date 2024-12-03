@@ -40,7 +40,7 @@ import { ROUTE } from "../../../../Shared/Constants";
 import { OrderCard } from "../Orders/orders.styles";
 import { selectMyProducts } from "../../../../Features/products/productSlice";
 import useProducts from "../../../../Features/products/productActions";
-import { fetchMe, selectMode } from "../../../../Features/user/userSlice";
+import { fetchMe } from "../../../../Features/user/userSlice";
 import useUsers from "../../../../Features/user/userActions";
 import { alertSuccess } from "../../../../Features/alert/alertSlice";
 import { FaCheck } from "react-icons/fa";
@@ -49,7 +49,6 @@ import {
 	formatCurrency,
 	truncateText,
 } from "../../../../Shared/Utils/helperFunctions";
-import { MdToggleOff, MdToggleOn } from "react-icons/md";
 const { Charts, Pie } = Visuals;
 
 const Screen: React.FC = () => {
@@ -58,19 +57,9 @@ const Screen: React.FC = () => {
 	const nav = useNavigate();
 	const products = useSelector(selectMyProducts);
 	const { getProducts } = useProducts();
-	const { getDva, setMode } = useUsers();
+	const { getDva } = useUsers();
 	let isMobile: any = localStorage.getItem("isMobile") ?? "";
 	const [copied, setCopied] = useState<boolean>(false);
-	const mode = useSelector(selectMode);
-	const handleToggleStatus = () => {
-		if (mode === "seller") {
-			setMode("buyer");
-			nav(ROUTE.BUYER_ORDER);
-		} else {
-			setMode("seller");
-			nav(ROUTE.SELLER_DASHBOARD);
-		}
-	};
 
 	const dispatch = useDispatch();
 	const handleCopy = async (text: string) => {
@@ -203,30 +192,6 @@ const Screen: React.FC = () => {
 				}}
 			>
 				<h2>Seller Dashboard</h2>
-				{me?.usertype === "seller" && (
-					<>
-						{mode === "buyer" ? (
-							<MdToggleOn
-								size="55px"
-								color={"rgb(255 21 18 / 91%)"}
-								title="switch to buyer dashboard"
-								style={{
-									cursor: "pointer",
-								}}
-								onClick={handleToggleStatus}
-							/>
-						) : (
-							<MdToggleOff
-								size="55px"
-								color={"rgb(255 21 18 / 91%)"}
-								style={{
-									cursor: "pointer",
-								}}
-								onClick={handleToggleStatus}
-							/>
-						)}
-					</>
-				)}
 			</div>
 			<View
 				mode="grid"

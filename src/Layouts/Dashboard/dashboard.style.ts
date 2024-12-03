@@ -12,6 +12,18 @@ export const Wrapper = styled.div`
 		padding: 30px;
 		margin: 60px auto 30px auto;
 		margin-left: 295.5px;
+		.switch{
+			margin-top: 30px;
+			display: flex;
+			margin-left: auto;
+			border: none;
+			background: transparent;
+			cursor: pointer;
+			color: #ff001f;
+			font-weight: 800;
+			font-size: medium;
+		}
+
 		@media (max-width: 1082px) {
 			width: 96%;
 			margin-left: auto;

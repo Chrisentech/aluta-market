@@ -165,6 +165,15 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 			setMode("seller");
 		}
 	}, [me, currentPath]);
+	const handelSwitch = () => {
+		if (mode === "seller") {
+			setMode("buyer");
+			navigate(ROUTE.BUYER_ORDER);
+		} else {
+			setMode("seller");
+			navigate(ROUTE.SELLER_DASHBOARD);
+		}
+	};
 	return (
 		<Wrapper>
 			{mode == "seller" ? (
@@ -427,7 +436,14 @@ const Screen: React.FC<IScreenProps> = ({ children }) => {
 				</Sidebar>
 			)}
 
-			<main>{children}</main>
+			<main>
+				{me?.usertype === "seller" && (
+					<button onClick={handelSwitch} className="switch">
+						Switch dashboard
+					</button>
+				)}
+				{children}
+			</main>
 		</Wrapper>
 	);
 };
