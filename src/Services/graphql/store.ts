@@ -35,14 +35,14 @@ const STORE_FIELDS = gql`
 			store
 			category
 			subcategory
-			review {
-				id
-				username
-				image
-				message
-				rating
-				product_id
-			}
+			# review {
+			# 	id
+			# 	username
+			# 	image
+			# 	message
+			# 	rating
+			# 	product_id
+			# }
 		}
 		orders {
 			store_id
@@ -161,14 +161,14 @@ const PAGINATION_DATA = gql`
 				store
 				category
 				subcategory
-				review {
-					id
-					username
-					image
-					message
-					rating
-					product_id
-				}
+				# review {
+				# 	id
+				# 	username
+				# 	image
+				# 	message
+				# 	rating
+				# 	product_id
+				# }
 			}
 			accounts{
 				bank_code

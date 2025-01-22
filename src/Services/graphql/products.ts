@@ -18,14 +18,14 @@ const PRODUCT_FIELDS = gql`
 		always_available
 		category
 		subcategory
-		review {
-			id
-			username
-			image
-			message
-			rating
-			product_id
-		}
+		# review {
+		# 	id
+		# 	username
+		# 	image
+		# 	message
+		# 	rating
+		# 	product_id
+		# }
 		# variant
 	}
 `;
@@ -57,14 +57,14 @@ const PAGINATION_DATA = gql`
 			store
 			category
 			subcategory
-			review {
-				id
-				username
-				image
-				message
-				rating
-				product_id
-			}
+			# review {
+			# 	id
+			# 	username
+			# 	image
+			# 	message
+			# 	rating
+			# 	product_id
+			# }
 		}
 		current_page
 		per_page
